@@ -1,3 +1,23 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [vinyasa](#vinyasa)
+	- [Whats New](#whats-new)
+			- [0.2.0](#020)
+			- [0.1.9](#019)
+			- [0.1.8](#018)
+	- [Installation](#installation)
+	- [Quickstart:](#quickstart)
+		- [pull](#pull)
+		- [lein](#lein)
+		- [reimport](#reimport)
+		- [inject](#inject)
+		- [inject - installation](#inject---installation)
+	- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # vinyasa
 
 [Give your clojure workflow more flow](http://z.caudate.me/give-your-clojure-workflow-more-flow/)
