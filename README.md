@@ -2,6 +2,26 @@
 
 [Give your clojure workflow more flow](http://z.caudate.me/give-your-clojure-workflow-more-flow/)
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [vinyasa](#vinyasa)
+	- [Whats New](#whats-new)
+			- [0.2.0](#020)
+			- [0.1.9](#019)
+			- [0.1.8](#018)
+	- [Installation](#installation)
+	- [Quickstart:](#quickstart)
+		- [pull](#pull)
+		- [lein](#lein)
+		- [reimport](#reimport)
+		- [inject](#inject)
+		- [inject - installation](#inject---installation)
+	- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Whats New
 
 #### 0.2.0
@@ -32,23 +52,23 @@ Breaking changes to `reimport`. Now reimport is used like this:
 ```clojure
 (reimport :all)  ;; compile import all symbols into namespace
 
-(reimport 'com.example.Util 
+(reimport 'com.example.Util
           '[net.example Hello World]
           false) ;; do not import symbols
 ```
 ## Installation
 
 Add `vinyasa` to your `profiles.clj` (located in `~/.lein/profiles.clj`) as well as your version of leiningen. Please note the issue with `vinyasa.lein` with light table as well as other libraries. You may need to disable `vinyasa.lein` and `leiningen` if there are problems.
- 
+
 ```clojure
-{:user {:plugins [...]   
+{:user {:plugins [...]
         :dependencies [....
                        [leiningen #=(leiningen.core.main/leiningen-version)]
                        [im.chit/vinyasa "0.2.0"]
                        ....]
         ....}
         :injections [...
-                     (require '[vinyasa.inject :as inj])            
+                     (require '[vinyasa.inject :as inj])
                      (inj/inject 'clojure.core '>
                        '[[vinyasa.inject inject]
                          [vinyasa.pull pull]
@@ -83,7 +103,7 @@ How many times have you forgotten a library dependency for `project.clj` and the
 
 > (require 'hiccup.core)
 > (pull 'hiccup)
-;; => {[org.clojure/clojure "1.2.1"] nil, 
+;; => {[org.clojure/clojure "1.2.1"] nil,
 ;;     [hiccup "1.0.4"] #{[org.clojure/clojure "1.2.1"]}}
 
 > (use 'hiccup.core)
@@ -91,7 +111,7 @@ How many times have you forgotten a library dependency for `project.clj` and the
 ;; => "<p>hello World</p>"
 
 > (pull 'hiccup "1.0.1")
-;; => {[org.clojure/clojure "1.2.1"] nil, 
+;; => {[org.clojure/clojure "1.2.1"] nil,
 ;;     [hiccup "1.0.1"] #{[org.clojure/clojure "1.2.1"]}}
 ```
 ### lein
@@ -115,7 +135,7 @@ Don't you wish that you had the power of leiningen within the repl itself? `lein
 
 > (lein uberjar)     ;; Create a jar-file
 
-> (lein push)        ;; Deploy on clojars (I am using lein-clojars plugin) 
+> (lein push)        ;; Deploy on clojars (I am using lein-clojars plugin)
 
 > (lein javac)       ;; Compile java classes (use vinyasa.reimport instead)
 
@@ -125,7 +145,7 @@ Don't you wish that you had the power of leiningen within the repl itself? `lein
 
 Don't you wish that you could make some changes to your java files and have them instantly loaded into your repl without restarting? Well now you can!
 
-For example, in project.clj, you have specified your `:java-source-paths` 
+For example, in project.clj, you have specified your `:java-source-paths`
 
 ```clojure
 (defproject .....
@@ -140,7 +160,7 @@ and you have a file `src/java/testing/Dog.java`
 ```java
 package testing;
 public class Dog{
-  public int legs = 3;  
+  public int legs = 3;
   public Dog(){};
 }
 ```
@@ -201,27 +221,27 @@ The best place to put all of these functions in in the `clojure.core` namespace
 ;;
 ;; ...
 ;; ...
-```    
+```
 
 `inject` can also work with multiple entries:
 
 ```clojure
 > (inject 'clojure.core '[[clojure.repl doc source]])
-;; => will create the var #'clojure.core/doc and #'clojure.core/source    
+;; => will create the var #'clojure.core/doc and #'clojure.core/source
 ```
 
 `inject` can also take a prefix:
 
 ```clojure
 > (inject 'clojure.core '>> '[[clojure.repl doc source]])
-;; => will create the var #'clojure.core/>>doc and #'clojure.core/>>source    
+;; => will create the var #'clojure.core/>>doc and #'clojure.core/>>source
 ```
 
 `inject` can use vector bindings to directly specify the name
 
 ```clojure
 > (inject 'clojure.core '>> '[[clojure.repl doc [source source]]])
-;; => will create the var #'clojure.core/>>doc and #'clojure.core/source    
+;; => will create the var #'clojure.core/>>doc and #'clojure.core/source
 ```
 
 ### inject - installation
@@ -245,21 +265,21 @@ The best place to put all of these functions in in the `clojure.core` namespace
                       (vinyasa.inject/inject 'clojure.core '>
                         '[[cemerick.pomegranate add-classpath get-classpath resources]
                           [clojure.tools.namespace.repl refresh]
-                          [clojure.repl apropos dir doc find-doc source pst 
+                          [clojure.repl apropos dir doc find-doc source pst
                                         [root-cause >cause]]
                           [clojure.pprint pprint]
                           [clojure.java.shell sh]])]}}
 ```
 I have now imported the following vars into clojure.core and they will stay with me as I am coding in emacs:
 
-   - from vinyasa:  
+   - from vinyasa:
      - `inject` as `#'clojure.core/inject`
      - `pull` as `#'clojure.core/pull`
      - `lein` as `#'clojure.core/lein`
      - `reimport` as `#'clojure.core/reimport`
    - from tools.namespace:
      - `refresh` as `#'clojure.core/refresh`
-   - from clojure.repl:   
+   - from clojure.repl:
      - `apropos` as `#'clojure.core/>apropos`
      - `dir` as `#'clojure.core/>dir`
      - `doc` as `#'clojure.core/>doc`
@@ -274,7 +294,7 @@ I have now imported the following vars into clojure.core and they will stay with
      - `add-classpath` as `#'clojure.core/>add-classpath`
      - `get-classpath` as `#'clojure.core/>get-classpath`
      - `resources` as `#'clojure.core/>resources`
-     
+
 
 ## License
 
