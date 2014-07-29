@@ -6,7 +6,7 @@
 (defn- prefixed-sym [prefix sym]
   (symbol (str prefix sym)))
 
-(defn- inject-single [ns sym f]
+(defn inject-single [ns sym f]
   (if-let [fvar (resolve f)]
     (clojure.core/intern
      ns
