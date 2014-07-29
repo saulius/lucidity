@@ -1,5 +1,5 @@
 (ns vinyasa.graft
-  (:require [iroh.core :refer [>ns]]
+  (:require [iroh.core :as iroh]
             [vinyasa.inject :as inject]
             [clojure.string :as string]))
 
@@ -9,21 +9,23 @@
 
 (defn graft-namespace [from to]
   (let [old-ns *ns*
-        all (keys (ns-publics from))]
-    (eval `(ns ~to))
-    (doseq [x all]
-      (inject/inject-single to x (symbol (str from "/" x)) ))
-    (in-ns (-> old-ns str symbol))))
+        all (keys (ns-publics from))
+        _   (eval `(ns ~to))
+        res (doall
+             (for [x all]
+               (inject/inject-single to x (symbol (str from "/" x)) )))]
+    (in-ns (-> old-ns str symbol))
+    res))
 
 (defn graft
   ([[from to]]
      (condp = (type from)
-       Class (eval `(>ns ~to ~(-> from (.getName) symbol)))
+       Class (eval `(iroh/>ns ~to ~(-> from (.getName) symbol)))
        clojure.lang.Symbol (cond (last-capitalized? from)
-                                 (eval `(>ns ~to ~from))
+                                 (eval `(iroh/>ns ~to ~from))
 
                                  :else
                                  (graft-namespace from to))))
   ([entry & more]
-     (graft entry)
-     (if more (apply graft more))))
+     (concat (graft entry)
+            (if more (apply graft more) []))))

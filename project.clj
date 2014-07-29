@@ -5,6 +5,5 @@
             :url "http://http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [com.cemerick/pomegranate "0.3.0"]
-                 [im.chit/iroh "0.1.11"]
-                 [im.chit/hara.namespace.import "2.1.0"]]
-  :profiles {:dev {:plugins [[lein-repack "0.1.2"]]}})
+                 [im.chit/iroh "0.1.11"]]
+  :profiles {:dev {:plugins [[lein-repack "0.1.4"]]}})
