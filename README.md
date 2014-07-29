@@ -211,7 +211,7 @@ Now the pain associated with mixed clojure/java development is gone!
 ### graft
 
 There are two uses for this particular function:
-   - Being able to explore a class as a namespace (see [iroh/>ns](https://github.com/zcaudate/iroh))
+   - Being able to explore a class as a namespace (see [iroh/>ns](https://github.com/zcaudate/iroh#ns---import-as-namespace))
    - Creating short namespaces accessible from everywhere
 
 This example shows the use case of grafting all the functions in `clojure.set` to `set` as well as all the functions in `java.lang.String` to `str`:
