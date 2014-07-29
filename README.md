@@ -16,6 +16,7 @@
 		- [pull](#pull)
 		- [lein](#lein)
 		- [reimport](#reimport)
+		- [graft](#graft)
 		- [inject](#inject)
 		- [inject - installation](#inject---installation)
 	- [License](#license)
@@ -24,21 +25,29 @@
 
 ## Whats New
 
+#### 0.2.1
+
+Added new `graft` functionality from [here](https://github.com/zcaudate/vinyasa/issues/8)
+
+```clojure
+[im.chit/vinyasa.graft "0.2.1"]
+```
+
 #### 0.2.0
 
 vinyasa has now been [repackaged](https://github.com/zcaudate/lein-repack). Functionality can now be accessed via seperate dependencies:
 
 ```clojure
-[im.chit/vinyasa.inject "0.2.0"]
-[im.chit/vinyasa.pull "0.2.0"]
-[im.chit/vinyasa.lein "0.2.0"]
-[im.chit/vinyasa.reimport "0.2.0"]
+[im.chit/vinyasa.inject "VERSION"]
+[im.chit/vinyasa.pull "VERSION"]
+[im.chit/vinyasa.lein "VERSION"]
+[im.chit/vinyasa.reimport "VERSION"]
 ```
 
 Or all of them together:
 
 ```clojure
-[im.chit/vinyasa "0.2.0"]
+[im.chit/vinyasa "VERSION"]
 ```
 
 #### 0.1.9
@@ -64,7 +73,7 @@ Add `vinyasa` to your `profiles.clj` (located in `~/.lein/profiles.clj`) as well
 {:user {:plugins [...]
         :dependencies [....
                        [leiningen #=(leiningen.core.main/leiningen-version)]
-                       [im.chit/vinyasa "0.2.0"]
+                       [im.chit/vinyasa "0.2.1"]
                        ....]
         ....}
         :injections [...
@@ -72,6 +81,7 @@ Add `vinyasa` to your `profiles.clj` (located in `~/.lein/profiles.clj`) as well
                      (inj/inject 'clojure.core '>
                        '[[vinyasa.inject inject]
                          [vinyasa.pull pull]
+                         [vinyasa.graft graft]
                          [vinyasa.lein lein]
                          [vinyasa.reimport reimport]])
                      ...]
@@ -198,6 +208,33 @@ If you have more files, ie. copy your Dog.java file to Cat.java and do a global 
 
 Now the pain associated with mixed clojure/java development is gone!
 
+### graft
+
+There are two uses for this particular function:
+   - Being able to explore a class as a namespace (see [iroh/>ns](https://github.com/zcaudate/iroh))
+   - Creating short namespaces accessible from everywhere
+
+This example shows the use case of grafting all the functions in `clojure.set` to `set` as well as all the functions in `java.lang.String` to `str`:
+
+```clojure
+(graft '[clojure.set set]
+       '[java.lang.String str])
+;;=> (#'set/union #'set/map-invert #'set/join #'set/select #'set/intersection #'set/superset? 
+;;    #'set/index #'set/subset? #'set/rename #'set/rename-keys ;;#'set/project #'set/difference 
+;;    #'str/CASE_INSENSITIVE_ORDER #'str/HASHING_SEED #'str/charAt #'str/checkBounds 
+;;    #'str/codePointAt #'str/codePointBefore   ......     #'str/value #'str/valueOf)
+``` 
+
+Now that all the functions are installed in their respective namespaces, they can be used from everywhere:
+
+```clojure
+
+(set/union #{1} #{1 2 3}) => #{1 2 3}
+
+(str/value "oeuoeu")
+;; => #<char[] [C@1a94720d>
+```
+
 ### inject
 
 I find that when I am debugging, there are additional functionality that is needed which is not included in clojure.core. The most commonly used function is `pprint` and it is much better if the function came with me when I was debugging.
@@ -254,12 +291,13 @@ The best place to put all of these functions in in the `clojure.core` namespace
                         [org.clojure/tools.namespace "0.2.4"]
                         [io.aviso/pretty "0.1.8"]
                         [leiningen "2.3.4"]
-                        [im.chit/vinyasa "0.2.0"]]
+                        [im.chit/vinyasa "0.2.1"]]
          :injections [(require 'spyscope.core)
                       (require 'vinyasa.inject)
                       (vinyasa.inject/inject 'clojure.core
                         '[[vinyasa.inject inject]
                           [vinyasa.pull pull]
+                          [vinyasa.graft graft]
                           [vinyasa.lein lein]
                           [vinyasa.reimport reimport]])
                       (vinyasa.inject/inject 'clojure.core '>
@@ -276,6 +314,7 @@ I have now imported the following vars into clojure.core and they will stay with
      - `inject` as `#'clojure.core/inject`
      - `pull` as `#'clojure.core/pull`
      - `lein` as `#'clojure.core/lein`
+     - `graft` as `#'clojure.core/graft`
      - `reimport` as `#'clojure.core/reimport`
    - from tools.namespace:
      - `refresh` as `#'clojure.core/refresh`
