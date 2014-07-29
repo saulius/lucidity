@@ -228,8 +228,8 @@ This example shows the use case of grafting all the functions in `clojure.set` t
 Now that all the functions are installed in their respective namespaces, they can be used from everywhere:
 
 ```clojure
-
-(set/union #{1} #{1 2 3}) => #{1 2 3}
+(set/union #{1} #{1 2 3}) 
+;; => #{1 2 3}
 
 (str/value "oeuoeu")
 ;; => #<char[] [C@1a94720d>
