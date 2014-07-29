@@ -8,9 +8,6 @@
 
 - [vinyasa](#vinyasa)
 	- [Whats New](#whats-new)
-			- [0.2.0](#020)
-			- [0.1.9](#019)
-			- [0.1.8](#018)
 	- [Installation](#installation)
 	- [Quickstart:](#quickstart)
 		- [pull](#pull)
@@ -97,6 +94,7 @@ Once `profiles.clj` is installed, run `lein repl`.
 ```clojure
 > (lein)    ;; => entry point to leiningen
 > (reimport) ;; => dynamically reloads *.java files
+> (graft [String str]) ;; => adds methods to `str` namespace
 > (pull 'hiccup) ;; => pull repositories from clojars
 > (inject 'clojure.core '[[hiccup.core html]]) ;; => injects new methods into clojure.core
 > (html [:p "Hello World"]) ;; => injected method
