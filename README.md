@@ -97,7 +97,7 @@ Here is an example of a typical `profiles.clj` configuration:
                [vinyasa.pull :all]      
 
                ;; same as [cemerick.pomegranate 
-                            :refer [add-classpath get-classpath resources]]
+               ;;           :refer [add-classpath get-classpath resources]]
                [cemerick.pomegranate add-classpath get-classpath resources] 
                
                ;; inject into clojure.core 
