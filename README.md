@@ -16,7 +16,7 @@
 		- [lein](#lein)
 		- [reimport](#reimport)
 		- [inject](#inject)
-		- [inject/in - installation](#inject-in--installation)
+		- [inject/in - installation](#injectin---installation)
 	- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -90,7 +90,6 @@ Once `profiles.clj` is installed, run `lein repl`.
 ```clojure
 > (lein)    ;; => entry point to leiningen
 > (reimport) ;; => dynamically reloads *.java files
-> (graft [String str]) ;; => adds methods to `str` namespace
 > (pull 'hiccup) ;; => pull repositories from clojars
 > (inject 'clojure.core '[[hiccup.core html]]) ;; => injects new methods into clojure.core
 > (html [:p "Hello World"]) ;; => injected method
@@ -252,13 +251,13 @@ The best place to put all of these functions in in the `clojure.core` namespace
 
 `inject` has been quite popular due this [article](http://dev.solita.fi/2014/03/18/pimp-my-repl.html) and for the fact that it can be used to create extra symbols in a particular namespace, namely `clojure.core`. It allows easy customisation of your namespace by allowing injecting of the functions that you have always wanted to have in your `profiles.clj` file.
 
-This however, may not be the best option due to the fact that `(in-ns <namespace>)` call will not automatically call (refer-clojure). See this issue [here](https://github.com/zcaudate/vinyasa/issues/9). 
+This however, may not be the best option due to the fact that `(in-ns <namespace>)` call will not automatically call `(refer-clojure)`. See this issue [here](https://github.com/zcaudate/vinyasa/issues/9). 
 
-As such, since version `0.2.2`, inject as undergone refinement. 
+As such, since version `0.2.2`, `inject` has undergone quite a bit of refinement. 
  
-- Firstly, instead of adding a prefix, it is suggested that a short namespace be used. Instead of typing `>pprint`, we type `>/pprint` or by default, `./pprint` (`.` is the suggested default namespace)
+- Firstly, it is suggested that a short namespace be used instead of adding a prefix. For example, instead of typing `>pprint`, we type `>/pprint` or by default, `./pprint` (`.` is the suggested default namespace).
     
-- Secondly, use less quoting and follow the `ns` macro in defining what to put in. There is a macro vinyasa.inject/in that enables declarations in a more dsl-like nature. 
+- Secondly, a macro should be defined such that the user can have less quoting as well as have familiar ways that are provided by the `ns` macro. `vinyasa.inject/in` enables declarations in a more dsl-like nature. 
   
 Here is an example of a typical `profiles.clj`.
 
