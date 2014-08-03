@@ -70,41 +70,44 @@ As such `inject` has undergone quite a bit of refinement since version `0.2.2`.
  
 - Firstly, it is suggested that a short namespace be used instead of adding a prefix. For example, instead of typing `>pprint`, we type `>/pprint` or by default, `./pprint` (the suggested default namespace is now "`.`").
     
-- Secondly, a macro should be defined such that the user can have less quoting as well as have familiar ways that are provided by the `ns` macro. `vinyasa.inject/in` enables declarations in a more dsl-like nature. 
+- Secondly, `vinyasa.inject/in` macro is used so that there is less quoting and is semantically similar to the `ns` macro. 
   
 Here is an example of a typical `profiles.clj` configuration:
 
 ```clojure
-{:user {:plugins [...]        
-         :dependencies [[spyscope "0.1.4"]
-                        [org.clojure/tools.namespace "0.2.4"]
-                        [leiningen #=(leiningen.core.main/leiningen-version)]
-                        [im.chit/iroh "0.1.11"]
-                        [io.aviso/pretty "0.1.8"]
-                        [im.chit/vinyasa "0.2.2"]]
-         :injections [(require 'spyscope.core)
-                      (require '[vinyasa.inject :as inject])
-                      (require 'io.aviso.repl)
-                      (inject/in ;; the default injected namespace is `.` 
+{:user 
+  {:plugins [...]        
+   :dependencies [[spyscope "0.1.4"]
+                  [org.clojure/tools.namespace "0.2.4"]
+                  [leiningen #=(leiningen.core.main/leiningen-version)]
+                  [im.chit/iroh "0.1.11"]
+                  [io.aviso/pretty "0.1.8"]
+                  [im.chit/vinyasa "0.2.2"]]
+   :injections 
+   [(require 'spyscope.core)
+    (require '[vinyasa.inject :as inject])
+    (require 'io.aviso.repl)
+    (inject/in ;; the default injected namespace is `.` 
 
-                                 ;; note that `:refer, :all and :exclude can be used
-                                 [vinyasa.inject :refer [inject [in inject-in]]]  
-                                 [vinyasa.lein :exclude [*project*]]  
+               ;; note that `:refer, :all and :exclude can be used
+               [vinyasa.inject :refer [inject [in inject-in]]]  
+               [vinyasa.lein :exclude [*project*]]  
 
-                                 ;; imports all functions in vinyasa.pull
-                                 [vinyasa.pull :all]      
+               ;; imports all functions in vinyasa.pull
+               [vinyasa.pull :all]      
 
-                                 ;; same as [cemerick.pomegranate :refer [add-classpath get-classpath resources]]
-                                 [cemerick.pomegranate add-classpath get-classpath resources] 
-                                 
-                                 ;; inject into clojure.core 
-                                 clojure.core
-                                 [iroh.core .> .? .* .% .%>]
-                                 
-                                 ;; inject into clojure.core with prefix
-                                 clojure.core >
-                                 [clojure.pprint pprint]
-                                 [clojure.java.shell sh])}}
+               ;; same as [cemerick.pomegranate 
+                            :refer [add-classpath get-classpath resources]]
+               [cemerick.pomegranate add-classpath get-classpath resources] 
+               
+               ;; inject into clojure.core 
+               clojure.core
+               [iroh.core .> .? .* .% .%>]
+               
+               ;; inject into clojure.core with prefix
+               clojure.core >
+               [clojure.pprint pprint]
+               [clojure.java.shell sh])}}
 ```
 
 The following vars will now be created under the `.` namespace:
