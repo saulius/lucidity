@@ -25,7 +25,7 @@
 
 #### 0.2.2
 - breaking changes to `vinyasa.inject/inject`, see [example](#inject)
-- a new helper macro `vinyasa.inject/in` for prettier imports, see [example](#installation)
+- a new helper macro `vinyasa.inject/in` for prettier imports, see [example](#injectin---installation)
 
 #### 0.2.0
 
