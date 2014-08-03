@@ -1,43 +1,95 @@
 (ns vinyasa.inject)
 
-(defn- namespaced-sym [ns sym]
-  (symbol (str ns "/" sym)))
+(defn inject-single [to-ns sym svar]
+  (intern to-ns
+          (with-meta sym
+            (select-keys (meta svar)
+                         [:doc :macro :arglists]))
+          (deref svar)))
 
-(defn- prefixed-sym [prefix sym]
-  (symbol (str prefix sym)))
+(defn inject-process-coll [[ns & [arg & rest :as args]]]
+  (let [[op arr] (cond (or (symbol? arg) (vector? arg))
+                       [:refer args]
 
-(defn inject-single [ns sym f]
-  (if-let [fvar (resolve f)]
-    (clojure.core/intern
-     ns
-     (with-meta sym
-       (select-keys (meta fvar)
-                    [:doc :macro :arglists]))
-     (deref fvar))
-    (throw (Exception. (str "No function or macro found: " f)))))
+                       (= :refer arg)
+                       [:refer (first rest)]
 
-(defn- inject-row
-  ([to-ns prefix [from-ns & eles]]
-     (require from-ns)
-     (inject-row to-ns from-ns prefix eles))
-  ([to-ns from-ns prefix [ele & eles]]
-     (when-not (nil? ele)
-       (cond (vector? ele)
-             (inject-single to-ns
-                            (second ele)
-                            (namespaced-sym from-ns (first ele)))
+                       (or (nil? arg) (= :all arg))
+                       [:exclude ()]
 
-             (symbol? ele)
-             (inject-single to-ns
-                            (prefixed-sym prefix ele)
-                            (namespaced-sym from-ns ele)))
-       (recur to-ns from-ns prefix eles))))
+                       (= :exclude arg)
+                       [:exclude (first rest)]
 
-(defn inject
-  ([to-ns rows]
-     (inject to-ns nil rows))
-  ([to-ns prefix [row & more]]
-     (when-not (nil? row)
-       (inject-row to-ns prefix row)
-       (refer-clojure)
-       (recur to-ns prefix more))))
+                       :else
+                       (throw (Exception. "Cannot process input: " arg)))]
+    {:ns ns
+     :op op
+     :arr arr}))
+
+(defn inject-split-args [args]
+  (let [{:keys [all current]}
+        (reduce (fn [{:keys [last current all] :as m} arg]
+                  (let [new-current (cond (symbol? arg)
+                                           (cond (symbol? last)
+                                                 (assoc current :prefix arg)
+
+                                                 (nil? last)
+                                                 (assoc current :ns arg)
+
+                                                 (coll? last)
+                                                 {:ns arg :imports []})
+
+                                           (coll? arg)
+                                           (update-in current [:imports]
+                                                      conj (inject-process-coll arg))
+                                           :else
+                                           (throw (Exception. (str arg " is not valid"))))
+                         new-all    (if (and (symbol? arg) (coll? last))
+                                      (conj all current)
+                                      all)]
+                     {:last arg :all new-all :current new-current}))
+                 {:last nil :current {:ns '. :imports []} :all []}
+                 args)]
+    (conj all current)))
+
+(defn inject-row-entry [to-ns prefix {:keys [op arr] from-ns :ns}]
+  (require from-ns)
+  (cond (= op :refer)
+        (->> arr
+             (map (fn [e]
+                    (let [[from-sym to-sym]
+                          (cond (vector? e) e
+
+                                (symbol? e)
+                                [(symbol (str prefix e)) e]
+
+                                :else (throw (Exception. (str e " has to be either a symbol or a vector."))))
+                          from-full (symbol (str from-ns "/" from-sym))
+                          from-var  (resolve from-full)]
+                      (if from-var
+                        [to-sym from-var]
+                        (println "Warning: " from-full " cannot be resolved and will be ignored")))))
+             (filter identity)
+             (mapv #(apply inject-single to-ns %)))
+
+        (= op :exclude)
+        (mapv (fn [[sym svar]]
+                (inject-single to-ns sym svar))
+              (apply dissoc (ns-publics from-ns) arr))))
+
+(defn inject-row [{:keys [imports prefix] to-ns :ns}]
+  (create-ns to-ns)
+  (mapcat #(inject-row-entry to-ns prefix %) imports)
+  (if (= to-ns 'clojure.core)
+    (refer-clojure)))
+
+(defn inject [& args]
+  (->> args
+       (mapcat inject-split-args)
+       (mapcat inject-row)
+       vec))
+
+(defmacro in [& args]
+  (cons 'vector
+        (mapcat inject-row
+                (inject-split-args args))))

@@ -2,6 +2,8 @@
 
 [Give your clojure workflow more flow](http://z.caudate.me/give-your-clojure-workflow-more-flow/)
 
+[![Build Status](https://travis-ci.org/zcaudate/vinyasa.svg?branch=master)](https://travis-ci.org/zcaudate/vinyasa)
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents** [[doctoc](https://github.com/thlorenz/doctoc)]
@@ -13,22 +15,17 @@
 		- [pull](#pull)
 		- [lein](#lein)
 		- [reimport](#reimport)
-		- [graft](#graft)
 		- [inject](#inject)
-		- [inject - installation](#inject---installation)
+		- [inject/in - installation](#inject-in--installation)
 	- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Whats New
 
-#### 0.2.1
-
-Added new `graft` functionality from [here](https://github.com/zcaudate/vinyasa/issues/8)
-
-```clojure
-[im.chit/vinyasa.graft "0.2.1"]
-```
+#### 0.2.2
+- breaking changes to `vinyasa.inject/inject`, see [example](#inject)
+- a new helper macro `vinyasa.inject/in` for prettier imports, see [example](#installation)
 
 #### 0.2.0
 
@@ -70,17 +67,16 @@ Add `vinyasa` to your `profiles.clj` (located in `~/.lein/profiles.clj`) as well
 {:user {:plugins [...]
         :dependencies [....
                        [leiningen #=(leiningen.core.main/leiningen-version)]
-                       [im.chit/vinyasa "0.2.1"]
+                       [im.chit/vinyasa "0.2.2"]
                        ....]
         ....}
         :injections [...
-                     (require '[vinyasa.inject :as inj])
-                     (inj/inject 'clojure.core '>
-                       '[[vinyasa.inject inject]
-                         [vinyasa.pull pull]
-                         [vinyasa.graft graft]
-                         [vinyasa.lein lein]
-                         [vinyasa.reimport reimport]])
+                     (require '[vinyasa.inject :as inject])
+                     (inject/in clojure.core
+                                [vinyasa.inject inject]
+                                [vinyasa.pull pull]
+                                [vinyasa.lein lein]
+                                [vinyasa.reimport reimport])
                      ...]
       }
 ```
@@ -206,33 +202,6 @@ If you have more files, ie. copy your Dog.java file to Cat.java and do a global 
 
 Now the pain associated with mixed clojure/java development is gone!
 
-### graft
-
-There are two uses for this particular function:
-   - Being able to explore a class as a namespace (see [iroh/>ns](https://github.com/zcaudate/iroh#ns---import-as-namespace))
-   - Creating short namespaces accessible from everywhere
-
-This example shows the use case of grafting all the functions in `clojure.set` to `set` as well as all the functions in `java.lang.String` to `str`:
-
-```clojure
-(graft '[clojure.set set]
-       '[java.lang.String str])
-;;=> (#'set/union #'set/map-invert #'set/join #'set/select #'set/intersection #'set/superset? 
-;;    #'set/index #'set/subset? #'set/rename #'set/rename-keys ;;#'set/project #'set/difference 
-;;    #'str/CASE_INSENSITIVE_ORDER #'str/HASHING_SEED #'str/charAt #'str/checkBounds 
-;;    #'str/codePointAt #'str/codePointBefore   ......     #'str/value #'str/valueOf)
-``` 
-
-Now that all the functions are installed in their respective namespaces, they can be used from everywhere:
-
-```clojure
-(set/union #{1} #{1 2 3}) 
-;; => #{1 2 3}
-
-(str/value "oeuoeu")
-;; => #<char[] [C@1a94720d>
-```
-
 ### inject
 
 I find that when I am debugging, there are additional functionality that is needed which is not included in clojure.core. The most commonly used function is `pprint` and it is much better if the function came with me when I was debugging.
@@ -241,7 +210,7 @@ The best place to put all of these functions in in the `clojure.core` namespace
 `inject` is used to add additional functionality to namespaces so that the functions are there right when I need them. Inject also works with macros and functions (unlike `intern` which only works with functions):
 
 ```clojure
-> (inject 'clojure.core '[[clojure.repl dir]])
+> (inject '[clojure.core [clojure.repl dir]])
 ;; => will intern #'clojure.repl/dir to #'clojure.core/dir
 
 > (clojure.core/dir clojure.core)
@@ -261,77 +230,92 @@ The best place to put all of these functions in in the `clojure.core` namespace
 `inject` can also work with multiple entries:
 
 ```clojure
-> (inject 'clojure.core '[[clojure.repl doc source]])
+> (inject '[clojure.core [clojure.repl doc source]])
 ;; => will create the var #'clojure.core/doc and #'clojure.core/source
 ```
 
 `inject` can also take a prefix:
 
 ```clojure
-> (inject 'clojure.core '>> '[[clojure.repl doc source]])
+> (inject '[clojure.core >> [clojure.repl doc source]])
 ;; => will create the var #'clojure.core/>>doc and #'clojure.core/>>source
 ```
 
 `inject` can use vector bindings to directly specify the name
 
 ```clojure
-> (inject 'clojure.core '>> '[[clojure.repl doc [source source]]])
+> (inject '[clojure.core >> [clojure.repl doc [source source]])
 ;; => will create the var #'clojure.core/>>doc and #'clojure.core/source
 ```
 
-### inject - installation
+### inject/in - installation
 
-`inject` allows easy customisation of your clojure.core namespace by allowing injecting of the functions that you have always wanted to have in your `profiles.clj` file. Here is an example taken from my `profiles.clj`.
+`inject` has been quite popular due this [article](http://dev.solita.fi/2014/03/18/pimp-my-repl.html) and for the fact that it can be used to create extra symbols in a particular namespace, namely `clojure.core`. It allows easy customisation of your namespace by allowing injecting of the functions that you have always wanted to have in your `profiles.clj` file.
+
+This however, may not be the best option due to the fact that `(in-ns <namespace>)` call will not automatically call (refer-clojure). See this issue [here](https://github.com/zcaudate/vinyasa/issues/9). 
+
+As such, since version `0.2.2`, inject as undergone refinement. 
+ 
+- Firstly, instead of adding a prefix, it is suggested that a short namespace be used. Instead of typing `>pprint`, we type `>/pprint` or by default, `./pprint` (`.` is the suggested default namespace)
+    
+- Secondly, use less quoting and follow the `ns` macro in defining what to put in. There is a macro vinyasa.inject/in that enables declarations in a more dsl-like nature. 
+  
+Here is an example of a typical `profiles.clj`.
 
 ```clojure
-{:user {:plugins [...]
+{:user {:plugins [...]        
          :dependencies [[spyscope "0.1.4"]
                         [org.clojure/tools.namespace "0.2.4"]
+                        [im.chit/iroh "0.1.11"]
                         [io.aviso/pretty "0.1.8"]
-                        [leiningen "2.3.4"]
-                        [im.chit/vinyasa "0.2.1"]]
+                        [im.chit/vinyasa "0.2.2"]]
          :injections [(require 'spyscope.core)
-                      (require 'vinyasa.inject)
-                      (vinyasa.inject/inject 'clojure.core
-                        '[[vinyasa.inject inject]
-                          [vinyasa.pull pull]
-                          [vinyasa.graft graft]
-                          [vinyasa.lein lein]
-                          [vinyasa.reimport reimport]])
-                      (vinyasa.inject/inject 'clojure.core '>
-                        '[[cemerick.pomegranate add-classpath get-classpath resources]
-                          [clojure.tools.namespace.repl refresh]
-                          [clojure.repl apropos dir doc find-doc source pst
-                                        [root-cause >cause]]
-                          [clojure.pprint pprint]
-                          [clojure.java.shell sh]])]}}
+                      (require '[vinyasa.inject :as inject])
+                      (require 'io.aviso.repl)
+                      (inject/in ;; the default injected namespace is `.` 
+
+                                 ;; note that `:refer, :all and :exclude can be used
+                                 [vinyasa.inject :refer [inject [in inject-in]]]  
+                                 [vinyasa.lein :exclude [*project*]]  
+
+                                 ;; imports all functions in vinyasa.pull
+                                 [vinyasa.pull :all]      
+
+                                 ;; same as [cemerick.pomegranate :refer [add-classpath get-classpath resources]]
+                                 [cemerick.pomegranate add-classpath get-classpath resources] 
+                                 
+                                 ;; inject into clojure.core 
+                                 clojure.core
+                                 [iroh.core .> .? .* .% .%>]
+                                 
+                                 ;; inject into clojure.core with prefix
+                                 clojure.core >
+                                 [clojure.pprint pprint]
+                                 [clojure.java.shell sh])}}
 ```
-I have now imported the following vars into clojure.core and they will stay with me as I am coding in emacs:
 
-   - from vinyasa:
-     - `inject` as `#'clojure.core/inject`
-     - `pull` as `#'clojure.core/pull`
-     - `lein` as `#'clojure.core/lein`
-     - `graft` as `#'clojure.core/graft`
-     - `reimport` as `#'clojure.core/reimport`
-   - from tools.namespace:
-     - `refresh` as `#'clojure.core/refresh`
-   - from clojure.repl:
-     - `apropos` as `#'clojure.core/>apropos`
-     - `dir` as `#'clojure.core/>dir`
-     - `doc` as `#'clojure.core/>doc`
-     - `find-doc` as `#'clojure.core/>find-doc`
-     - `root-cause` as `#'clojure.core/>cause``
-     - `pst` as `#'clojure.core/>pst`
-   - from clojure.pprint:
-     - `pprint` as `#'clojure.core/>pprint`
-   - from clojure.java.shell:
-     - `sh` as `#'clojure.core/>sh`
-   - from cemerick.pomegranate:
-     - `add-classpath` as `#'clojure.core/>add-classpath`
-     - `get-classpath` as `#'clojure.core/>get-classpath`
-     - `resources` as `#'clojure.core/>resources`
+The following vars will now be created under the `.` namespace:
 
+```clojure
+user=> ./
+./>ns             ./>var            ./add-classpath   ./apropos         ./dir             ./doc
+./find-doc        ./get-classpath   ./inject          ./inject-in       ./pprint          ./pst
+./pull            ./refresh         ./resources       ./root-cause      ./sh              ./source
+```
+
+Reflection macros: `.>` `.?` `.*` `.%` `.%>` will be created in `clojure.core`
+
+```clojure
+user=> (.? "" :name)
+("CASE_INSENSITIVE_ORDER" "HASHING_SEED" "charAt" "checkBounds" "codePointAt" "codePointBefore" "codePointCount" "compareTo" "compareToIgnoreCase" "concat" "contains" "contentEquals" "copyValueOf" "endsWith" "equals" "equalsIgnoreCase" "format" "getBytes" "getChars" "hash" "hash32" "hashCode" "indexOf" "indexOfSupplementary" "intern" "isEmpty" "lastIndexOf" "lastIndexOfSupplementary" "length" "matches" "new" "offsetByCodePoints" "regionMatches" "replace" "replaceAll" "replaceFirst" "serialPersistentFields" "serialVersionUID" "split" "startsWith" "subSequence" "substring" "toCharArray" "toLowerCase" "toString" "toUpperCase" "trim" "value" "valueOf")
+```
+
+Prefixed vars `>pprint` and `>sh` will be created in `clojure.core`
+
+```clojure
+user=> >
+>    >=   >pprint   >sh
+```
 
 ## License
 
