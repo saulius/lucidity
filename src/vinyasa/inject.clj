@@ -61,7 +61,7 @@
                           (cond (vector? e) e
 
                                 (symbol? e)
-                                [(symbol (str prefix e)) e]
+                                [e (symbol (str prefix e))]
 
                                 :else (throw (Exception. (str e " has to be either a symbol or a vector."))))
                           from-full (symbol (str from-ns "/" from-sym))
