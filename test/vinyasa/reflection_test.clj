@@ -31,7 +31,7 @@
   (let [a   "hello"
         >a  (.& a)]
 
-    (keys >a) => (contains [:hash :value] :in-any-order)
+    (keys >a) => (contains [:hash])
 
     (seq (>a :value)) => [\h \e \l \l \o]
 
