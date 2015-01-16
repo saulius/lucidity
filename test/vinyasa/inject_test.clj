@@ -8,7 +8,7 @@
     (clojure.pprint pprint)
 
     clojure.core
-    (iroh.core    .> .? .* .% .%>)
+    (vinyasa.reflection    .> .? .* .% .%>)
     .
     (clojure.repl apropos source doc find-doc
                   dir pst root-cause)
@@ -22,7 +22,7 @@
        :imports [{:ns clojure.pprint, :op :refer,
                   :arr (pprint)}]}
       {:ns clojure.core,
-       :imports [{:ns iroh.core, :op :refer,
+       :imports [{:ns vinyasa.reflection, :op :refer,
                   :arr (.> .? .* .% .%>)}]}
       {:ns .,
        :imports [{:ns clojure.repl, :op :refer,
