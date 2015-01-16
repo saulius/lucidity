@@ -16,11 +16,15 @@
 		- [lein](#lein)
 		- [reimport](#reimport)
 		- [inject](#inject)
+		- [reflection](#reflection)
 	- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Whats New
+
+#### 0.3.0
+- merged functionality [iroh](https://github.com/zcaudate/iroh) into `vinyasa.reflection`
 
 #### 0.2.2
 - breaking changes to `vinyasa.inject/inject`, see [example](#inject)
@@ -28,20 +32,8 @@
 
 #### 0.2.0
 
-vinyasa has now been [repackaged](https://github.com/zcaudate/lein-repack). Functionality can now be accessed via seperate dependencies:
+- vinyasa has now been [repackaged](https://github.com/zcaudate/lein-repack)
 
-```clojure
-[im.chit/vinyasa.inject "VERSION"]
-[im.chit/vinyasa.pull "VERSION"]
-[im.chit/vinyasa.lein "VERSION"]
-[im.chit/vinyasa.reimport "VERSION"]
-```
-
-Or all of them together:
-
-```clojure
-[im.chit/vinyasa "VERSION"]
-```
 
 #### 0.1.9
 Changed `vinyasa.lein` according to [comments](http://z.caudate.me/clojure-dynamic-languages-creativity-and-simplicity/) on blog.
@@ -80,9 +72,8 @@ Here is an example of a typical `profiles.clj` configuration:
    :dependencies [[spyscope "0.1.4"]
                   [org.clojure/tools.namespace "0.2.4"]
                   [leiningen #=(leiningen.core.main/leiningen-version)]
-                  [im.chit/iroh "0.1.11"]
                   [io.aviso/pretty "0.1.8"]
-                  [im.chit/vinyasa "0.2.2"]]
+                  [im.chit/vinyasa "0.3.0"]]
    :injections 
    [(require 'spyscope.core)
     (require '[vinyasa.inject :as inject])
@@ -102,7 +93,7 @@ Here is an example of a typical `profiles.clj` configuration:
                
                ;; inject into clojure.core 
                clojure.core
-               [iroh.core .> .? .* .% .%>]
+               [vinyasa.reflection .> .? .* .% .%> .& .>ns .>var]
                
                ;; inject into clojure.core with prefix
                clojure.core >
@@ -119,7 +110,7 @@ user=> ./
 ./pull            ./refresh         ./resources       ./root-cause      ./sh              ./source
 ```
 
-Reflection macros: `.>` `.?` `.*` `.%` `.%>` will be created in `clojure.core`
+Reflection macros: `.>` `.?` `.*` `.%` `.%>` `.&` `.>ns` `.>var` will be created in `clojure.core`
 
 ```clojure
 user=> (.? "" :name)
@@ -299,8 +290,312 @@ The best place to put all of these functions in in the `clojure.core` namespace
 ;; => will create the var #'clojure.core/>>doc and #'clojure.core/source
 ```
 
+### reflection
+
+Although private and protected keywords have their uses in java, they are complete hinderences when I am trying to do something to the code base that the previous author had not intended for the user to do - one of them being to understand what is going on underneath. If the previous author had taken shortcuts in design, those private keywords turn one of those over-protective parents that get in the way of the growth of their children. Taking inspiration from clj-wallhack, here are some primary use cases for the library:   
+
+- To explore the members of classes as well as all instances within the repl
+- To be able to test methods and functions that are usually not testable, or very hard to test:
+  - Make hidden class members visible by providing access to private methods and fields 
+  - Make immutable class members flexible by providing ability to change final members (So that initial states can be set up easily)
+- Extract out class members into documented and executable functions (including multi-argument functions)
+- Better understand jvm security and how to dodge it if needed
+- Better understand the java type system as well as clojure's own interface definitions
+- To make working with java fun again
+
+Main functionality is accessed through:
+
+```clojure
+(use 'vinyasa.reflection)
+```
+
+The api consists of the following macros:
+
+```clojure
+  .& - for transparency into objects
+  .% - for showing class properties
+  .%> - for showing type hierarchy
+  .? - for showing class elements
+  .* - for showing instance elements
+  .> - threading macro for reflective invocation of objects
+  >ns - for importing object elements into a namespace
+  >var - for importing elements into current namespace
+```
+
+#### `.&` - Transparent Bean 
+
+`.&` does what bean does but it actually allows transparent field access to the underlying object. This way, one can set and get values from any object, regardless of permission model (private, protected, etc...):
+
+```clojure
+(def a "hello")
+a  ;;=> "hello" 
+
+(def >a (.& a))
+>a ;;=> <java.lang.String@99162322 {:hash 99162322, :hash32 0, :value #<char[] [C@202cf33f>}>
+
+@>a          ;;=> {:hash 99162322, :hash32 0, :value #<char[] [C@202cf33f>}
+(keys >a)    ;;=> (:value :hash :hash32)
+(>a :hash)   ;;=> 99162322
+(:hash32 >a) ;;=> 0  
+(>a :value (char-array "world")) ;;=> "world"
+
+a ;;=> "world" (But I thought strings where immutable!)
+```
+
+#### `.%` - Type Info
+
+`.%` shows the infomation about a particular class or class instance:
+
+(.% "abc")  ;; or (.% String)
+=> (contains {:name "java.lang.String"
+              :tag :class
+              :hash anything
+              :container nil
+              :modifiers #{:instance :class :public :final}
+              :static false
+              :delegate java.lang.String})
+
+#### `.%>` - Type Hierarchy
+
+`.%>` shows the class hierarchy for a particular class or class instance:
+
+```clojure
+(.%> 1)
+;;=> [java.lang.Long
+;;    [java.lang.Number #{java.lang.Comparable}]
+;;    [java.lang.Object #{java.io.Serializable}]]
+
+(.%> "hello")
+;;=> [java.lang.String
+;;    [java.lang.Object #{java.lang.CharSequence
+;;                        java.io.Serializable
+;;                        java.lang.Comparable}]]
+
+(.%> {})
+;;=> [clojure.lang.PersistentArrayMap
+;;    [clojure.lang.APersistentMap #{clojure.lang.IObj
+;;                                   clojure.lang.IEditableCollection}]
+;;    [clojure.lang.AFn #{clojure.lang.MapEquivalence
+;;                        clojure.lang.IHashEq
+;;                        java.io.Serializable
+;;                        clojure.lang.IPersistentMap
+;;                        java.util.Map
+;;                        java.lang.Iterable}]
+;;    [java.lang.Object #{clojure.lang.IFn}]]
+```
+
+#### `.?` and `.*` - Exploration
+
+`.?` and `.*` have the same listing and filtering mechanisms but they do things a little differently. `.?` holds the java view of the Class declaration, staying true to the class and its members. `.*` holds the runtime view of Objects and what methods could be applied to that instance. `.*` will also look up the inheritance tree to fill in additional functionality. 
+
+Below shows three examples. All the method asks for members of String beginning with `c`.:
+
+```clojure
+(.? String  #"^c" :name)
+;;=> ["charAt" "checkBounds" "codePointAt" "codePointBefore"
+;;    "codePointCount" "compareTo" "compareToIgnoreCase"
+;;    "concat" "contains" "contentEquals" "copyValueOf"]
+
+(.* String #"^c" :name)
+;;=> ["cachedConstructor" "cannotCastMsg" "cast" "checkBounds" 
+;;    "checkMemberAccess" "classRedefinedCount" "classValueMap" 
+;;    "clearCachesOnClassRedefinition" "clone" "copyValueOf"]
+
+(.* (String.) #"^c" :name)
+;;=> ["charAt" "clone" "codePointAt" "codePointBefore" 
+;;    "codePointCount" "compareTo" "compareToIgnoreCase" 
+;;    "concat" "contains" "contentEquals"]
+
+`.?` lists is what we expect. `.*` lists all static methods and fields as well as Class methods of `String`, whilst for instances of `String`, it will list all the instance methods from the entire class hierachy.
+```
+
+There are many filters that can be used with `.?` ande `.*`:
+
+  - regexes and strings for filtering of element names
+  - symbols and classes for filtering of return type
+  - vectors for filtering of input types
+  - longs for filtering of input argment count
+  - keywords for filtering of element modifiers
+  - keywords for customization of return types
+
+Below are examples of results All the private element names in String beginning with `c`:
+
+```clojure
+(.? String  #"^c" :name :private)
+;;=> ["checkBounds"]
+```
+
+All the private field names in String:
+
+```clojure
+(.? String :name :private :field)
+;;=> ["HASHING_SEED" "hash" "hash32" "serialPersistentFields"
+;;    "serialVersionUID" "value"]
+```
+
+All the private static field names in String:
+
+```clojure
+(.? String :name :private :field :static)
+;;=> ["HASHING_SEED" "serialPersistentFields" "serialVersionUID"]
+```
+
+All the private non-static field names in String:
+
+```clojure
+(.? String :name :private :field :instance)
+;;=> ["hash" "hash32" "value"]
+```
+
+##### Example
+In the following example, We can assign functions to var `char-at`:
+
+```clojure
+(def char-at (first (.? String "charAt" :#)))
+
+    or
+
+(def char-at (.? String "charAt" :#))
+```
+
+`char-at` is an method element. It can be turned into a string:
+
+```clojure
+(str char-at)
+;;=> "#[charAt :: (java.lang.String, int) -> char]"
+```
+
+From the string, it hints that `char-at` is invokable. The element takes in a `String` and an `int`, returning a `char`. It can be used like any other clojure function.
+
+```clojure
+(char-at "hello" 0) => \h
+
+(mapv #(char-at "hello" %) (range 5))  => [\h \e \l \l \o]
+```
+
+Data for char-at is accessed using keyword lookups:
+
+```clojure
+(:params char-at) => [java.lang.String Integer/TYPE]
+
+(:modifiers char-at) => #{:instance :method :public}
+
+(:type char-at)  => Character/TYPE
+
+(:all char-at)
+=> (just {:tag :method
+          :name "charAt"
+          :modifiers #{:instance :method :public},
+          :origins [CharSequence String]
+          :hash number?
+          :container String
+          :static false
+          :params [String Integer/TYPE]
+          :type Character/TYPE
+          :delegate fn?})
+```
+
+
+Private class members and fields can be exposed as easily as public ones. First, a list of private methods defined in Integers are listed:
+
+```clojure
+(.? Integer :private :method :name)
+=> ["toUnsignedString"]
+```
+
+Since there is only toUnsignedString, it will be extracted:
+
+
+```clojure
+(def unsigned-str (.? Integer "toUnsignedString" :#))
+```
+
+As can be seen by its modifiers, unsigned-str is private static method:
+
+
+```clojure
+(:modifiers unsigned-str)
+;;=> #{:method :private :static}
+```
+
+The string representation shows that it takes two ints and returns a String:
+
+
+```clojure
+(str unsigned-str)
+;;=> "#[toUnsignedString :: (int, int) -> java.lang.String]"
+```
+
+The element can now be used, just like a normal function:
+
+```clojure
+(unsigned-str 10 1)
+;;=> "1010"
+
+(mapv #(unsigned-str 32 (inc %)) (range 6))
+;;=> ["100000" "200" "40" "20" "10" "w"]
+```
+
+### `.>` - Threading
+`.>` is a convenience macro for accessing the innards of an object. It is akin to the threading `->` macro except that now private fields can also be accessed:
+
+```clojure
+(def a "hello")
+(.> a :value) ;=> #<char[] [C@753f827a>
+(.> a (:value (char-array "world")))
+a ;;=> "world"
+```
+
+
+### `>var` - Import as Var
+
+We can extract methods from a Class or interface with `>var`
+
+```clojure
+(>var hash-without [clojure.lang.IPersistentMap without]
+      hash-assoc [clojure.lang.IPersistentMap assoc])
+
+(clojure.repl/doc hash-without)
+;;=> -------------------------
+;;   midje-doc.iroh-walkthrough/hash-without
+;;   ([clojure.lang.PersistentArrayMap java.lang.Object])
+;;   ------------------
+;;
+;;   member: clojure.lang.PersistentArrayMap/without
+;;   type: clojure.lang.IPersistentMap
+;;   modifiers: instance, method, public
+
+(str hash-without)
+;; => "#[without :: (clojure.lang.PersistentArrayMap, java.lang.Object) -> clojure.lang.IPersistentMap]"
+
+(hash-without {:a 1 :b 2} :a)
+;; => {:b 2}
+
+(str hash-assoc)
+=> "#[assoc :: (clojure.lang.IPersistentMap, java.lang.Object, java.lang.Object) -> clojure.lang.IPersistentMap]"
+
+(hash-assoc {:a 1 :b 2} :c 3)
+;; => {:a 1 :b 2 :c 3}
+```
+
+### `>ns` - Import as Namespace
+We can extract an entire class into a namespace. These are modifiable by selectors, explained later:
+
+```clojure
+(>ns test.string String :private)
+;; => [#'test.string/HASHING_SEED #'test.string/checkBounds
+;;     #'test.string/hash #'test.string/hash32
+;;     #'test.string/indexOfSupplementary
+;;     #'test.string/lastIndexOfSupplementary
+;;     #'test.string/serialPersistentFields #'test.string/serialVersionUID
+;;     #'test.string/value]
+
+(seq (test.string/value "hello"))
+;;=> (\h \e \l \l \o)
+```
+
 ## License
 
-Copyright © 2014 Chris Zheng
+Copyright © 2015 Chris Zheng
 
 Distributed under the MIT License
