@@ -1,4 +1,4 @@
-(defproject im.chit/vinyasa "0.3.2"
+(defproject im.chit/vinyasa "0.3.3-SNAPSHOT"
   :description "Utilities to make the development process smoother"
   :url "http://www.github.com/zcaudate/vinyasa"
   :license {:name "The MIT License"
@@ -10,5 +10,5 @@
   :profiles {:dev {:dependencies [[midje "1.6.3"]
                                   [leiningen #=(leiningen.core.main/leiningen-version)]
                                   [com.jcraft/jsch "0.1.51"]]
-                   :plugins [[lein-repack "0.2.8"]
+                   :plugins [;;[lein-repack "0.2.8"]
                              [lein-midje "3.1.3"]]}})
