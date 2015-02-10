@@ -17,11 +17,16 @@
 		- [reimport](#reimport)
 		- [inject](#inject)
 		- [reflection](#reflection)
+		- [classloader](#classloader)
+		- [maven](#maven)
 	- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Whats New
+
+#### 0.3.2
+- merged functionality [korra](https://github.com/zcaudate/korra) into `vinyasa.maven` and `vinyasa.classloader`
 
 #### 0.3.0
 - merged functionality [iroh](https://github.com/zcaudate/iroh) into `vinyasa.reflection`
@@ -536,7 +541,7 @@ The element can now be used, just like a normal function:
 ;;=> ["100000" "200" "40" "20" "10" "w"]
 ```
 
-### `.>` - Threading
+#### `.>` - Threading
 `.>` is a convenience macro for accessing the innards of an object. It is akin to the threading `->` macro except that now private fields can also be accessed:
 
 ```clojure
@@ -547,7 +552,7 @@ a ;;=> "world"
 ```
 
 
-### `>var` - Import as Var
+#### `>var` - Import as Var
 
 We can extract methods from a Class or interface with `>var`
 
@@ -578,7 +583,7 @@ We can extract methods from a Class or interface with `>var`
 ;; => {:a 1 :b 2 :c 3}
 ```
 
-### `>ns` - Import as Namespace
+#### `>ns` - Import as Namespace
 We can extract an entire class into a namespace. These are modifiable by selectors, explained later:
 
 ```clojure
@@ -593,6 +598,163 @@ We can extract an entire class into a namespace. These are modifiable by selecto
 (seq (test.string/value "hello"))
 ;;=> (\h \e \l \l \o)
 ```
+
+### classloader
+
+`vinyasa.classloader` provides a straight-forward method of loading a class from a file on the filesystem.
+
+(use 'hara.classloader)
+
+(load-class ["path/to/java_file.class"])
+(load-class ["path/to/package.jar" "path/within/package.class"])
+
+### maven
+
+`vinyasa.maven` is a library for introspection of maven packages. The library provides mappings between different representations of the same jvm concept. 
+
+- maven coordinate and the jar file 
+- a 'resource' and its related jar and jar entry under a given context
+    - the resource can be:
+        - a symbol representing a clojure namespace
+        - a path to a resource
+        - a java class
+    - the context can be:
+        - the jvm classloader classpath
+        - a single jar
+        - a list of jars
+        - a maven coordinate
+        - a list of maven coordinates
+        - the entire maven local-repo.
+		
+#### representational mapping
+
+There is a reversible mapping between the maven jar file and the coordinate. We use `maven-file` and `maven-coordinate` to transition from one to the other:
+
+```clojure
+(use 'vinyasa.maven.jar)
+
+(maven-file '[org.clojure/clojure "1.6.0"])
+;; => "/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar"
+
+
+(use 'vinyasa.maven)
+
+(maven-coordinate "/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar")
+;; => [org.clojure/clojure "1.6.0"]
+```
+
+There is also a mapping between a clojure namespace, a java class and the their location in a jar.
+
+```clojure
+(jar-entry "/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar"
+             'clojure.core)
+;; => #<JarFileEntry clojure/core.clj>
+```
+
+#### resolve-jar
+
+The main work-horse is for korra is `resolve-jar`. It resolves a `resource` and a `context`. The default context is the current jvm classpath:
+
+```clojure
+(resolve-jar 'clojure.core)
+;; => ["/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar" "clojure/core.clj"]
+```
+
+It will resolve classes:
+
+```clojure
+(resolve-jar java.lang.Object)
+;;=> ["/Library/Java/JavaVirtualMachines/jdk1.7.0_60.jdk/Contents/Home/jre/lib/rt.jar" "java/lang/Object.class"]
+```
+
+It will also resolve strings:
+
+```clojure
+(resolve-jar "clojure/core.clj")
+;;=> ["/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar" "clojure/core.clj"]
+```
+
+Symbols with the last section capitalized will default to java classes instead of clojure files:
+
+```clojure
+(resolve-jar 'clojure.lang.IProxy)
+;;=> ["/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar" "clojure/lang/IProxy.class"]
+```
+
+It will return nil if the resource cannot be found:
+
+```clojure
+(resolve-jar 'does.not.exist)
+;; => nil
+```
+
+#### search contexts
+
+Apart from searching via the current jvm classpath, other search contexts can be set, the most simple being a string representation of the jar path:
+
+```clojure
+(resolve-jar 'clojure.core "/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar")
+;; => ["/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar" "clojure/core.clj"]
+```
+
+If the entry cannot be found, nil will be returned:
+
+```clojure
+(resolve-jar 'clojure.core "/Users/zhengc/.m2/repository/dynapath/dynapath/0.2.0/dynapath-0.2.0.jar")
+;; => nil
+```
+
+In addition to the jar, one can use as the contexte a vector of jar-files:
+
+```clojure
+(resolve-jar 'clojure.core ["/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar"])
+;; => ["/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar" "clojure/core.clj"]
+```
+
+or a coordinate:
+
+```clojure
+(resolve-jar 'clojure.core '[org.clojure/clojure "1.6.0"])
+;; => ["/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar" "clojure/core.clj"]
+```
+
+or a vector of coordinates:
+
+```clojure
+(resolve-jar 'clojure.core '[[org.clojure/clojure "1.6.0"]])
+;; => ["/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar" "clojure/core.clj"]
+```
+
+or if you simply just want to explore, the context can be an entire maven local repository:
+
+```clojure
+(resolve-jar 'clojure.core :repository)
+;; => ["/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar" "clojure/core.clj"]
+```
+
+### resolve-coordinates and resolve-with-deps
+
+Once a mapping between the `resource` (path, class or namespace) and the actual jar and jar-entry on the file system, other very helpful functions can be built around `resolve-jar`: 
+
+`resolve-coordinates` works similarly to `resolve-jar` but will return the actual maven-style coordinates
+
+```clojure 
+(resolve-coordinates 'version-clj.core)
+;; => '[version-clj/version-clj "0.1.2"]
+
+(resolve-coordinates 'clojure.core :repository)
+;; => '[org.clojure/clojure "1.6.0"]
+```
+
+`resolve-with-deps` will recursively search all child dependencies until it finds
+
+```clojure
+(resolve-with-deps
+       'clojure.core
+       '[vinyasa.maven "0.3.2"])
+;;=> ["/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar" "clojure/core.clj"]
+```
+
 
 ## License
 
