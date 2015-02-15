@@ -25,6 +25,9 @@
 
 ## Whats New
 
+#### 0.3.3
+- upgraded to use [hara.reflect](https://github.com/zcaudate/hara) 2.1.10
+
 #### 0.3.2
 - merged functionality [korra](https://github.com/zcaudate/korra) into `vinyasa.maven` and `vinyasa.classloader`
 
