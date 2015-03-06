@@ -25,8 +25,8 @@
 
 ## Whats New
 
-#### 0.3.3
-- upgraded to use [hara.reflect](https://github.com/zcaudate/hara) 2.1.10
+#### 0.3.4
+- upgraded to use [hara.reflect](https://github.com/zcaudate/hara) 2.1.11
 
 #### 0.3.2
 - merged functionality [korra](https://github.com/zcaudate/korra) into `vinyasa.maven` and `vinyasa.classloader`
@@ -81,7 +81,7 @@ Here is an example of a typical `profiles.clj` configuration:
                   [org.clojure/tools.namespace "0.2.4"]
                   [leiningen #=(leiningen.core.main/leiningen-version)]
                   [io.aviso/pretty "0.1.8"]
-                  [im.chit/vinyasa "0.3.0"]]
+                  [im.chit/vinyasa "0.3.4"]]
    :injections 
    [(require 'spyscope.core)
     (require '[vinyasa.inject :as inject])
