@@ -11,6 +11,12 @@
 
 (def ^:dynamic *import-to-namespace* true)
 
+(defn regex-compatible-file-separator []
+  (let [file-separator java.io.File/separator]
+    (if (= "\\" file-separator) ; are we on Windows?
+      "\\\\"
+      file-separator)))
+
 (defn- run-javac
   [project args]
   (let [compile-path (:compile-path project)
@@ -53,7 +59,7 @@
   (let [classname (->> (clojure.string/split
                         (-> (re-find #"(.*).class" path)
                             second)
-                        (re-pattern java.io.File/separator))
+                        (re-pattern (regex-compatible-file-separator)))
                        (clojure.string/join "."))
         f (io/file (str dir java.io.File/separator path))]
     (reimport-from-file classname f)))
