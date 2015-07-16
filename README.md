@@ -106,7 +106,7 @@ Here is an example of a typical `profiles.clj` configuration:
                ;; inject into clojure.core with prefix
                clojure.core >
                [clojure.pprint pprint]
-               [clojure.java.shell sh])}}
+               [clojure.java.shell sh])]}}
 ```
 
 The following vars will now be created under the `.` namespace:
