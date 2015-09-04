@@ -12,7 +12,6 @@
 	- [Whats New](#whats-new)
 	- [Installation](#installation)
 	- [Quickstart:](#quickstart)
-		- [pull](#pull)
 		- [lein](#lein)
 		- [reimport](#reimport)
 		- [inject](#inject)
@@ -24,6 +23,10 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Whats New
+
+#### 0.4.1
+- upgraded to use [hara.reflect](https://github.com/zcaudate/hara) 2.2.11
+- got rid of vinyasa.pull in favor of [alembic](https://github.com/pallet/alembic)
 
 #### 0.3.4
 - upgraded to use [hara.reflect](https://github.com/zcaudate/hara) 2.1.11
@@ -64,45 +67,41 @@ Add `vinyasa` to your `profiles.clj` (located in `~/.lein/profiles.clj`) as well
 
 `inject` has been quite popular due this [article](http://dev.solita.fi/2014/03/18/pimp-my-repl.html). It's main use is to create extra symbols in a particular namespace, namely `clojure.core`. Customisation of your namespace can be done by injecting functions in seperate namespaces into either `clojure.core` or another namespace. This is typically done through the `:injections` value in your `~/.lein/profiles.clj` file.
 
-Previously, injecting functions into `clojure.core` with a prefix was the way to avoid clashing names. This is still a good option but it may not be the best option going forward. One [issue](https://github.com/zcaudate/vinyasa/issues/9) noted that `(in-ns <namespace>)` call will not automatically call `(refer-clojure)` and so will not import methods from `clojure.core`. 
+Previously, injecting functions into `clojure.core` with a prefix was the way to avoid clashing names. This is still a good option but it may not be the best option going forward. One [issue](https://github.com/zcaudate/vinyasa/issues/9) noted that `(in-ns <namespace>)` call will not automatically call `(refer-clojure)` and so will not import methods from `clojure.core`.
 
-As such `inject` has undergone quite a bit of refinement since version `0.2.2`. 
- 
+As such `inject` has undergone quite a bit of refinement since version `0.2.2`.
+
 - Firstly, it is suggested that a short namespace be used instead of adding a prefix. For example, instead of typing `>pprint`, we type `>/pprint` or by default, `./pprint` (the suggested default namespace is now "`.`").
-    
-- Secondly, `vinyasa.inject/in` macro is used so that there is less quoting and is semantically similar to the `ns` macro. 
-  
+
+- Secondly, `vinyasa.inject/in` macro is used so that there is less quoting and is semantically similar to the `ns` macro.
+
 Here is an example of a typical `profiles.clj` configuration:
 
 ```clojure
-{:user 
+{:user
   {:plugins [...]        
    :dependencies [[spyscope "0.1.4"]
                   [org.clojure/tools.namespace "0.2.4"]
                   [leiningen #=(leiningen.core.main/leiningen-version)]
                   [io.aviso/pretty "0.1.8"]
                   [im.chit/vinyasa "0.3.4"]]
-   :injections 
+   :injections
    [(require 'spyscope.core)
     (require '[vinyasa.inject :as inject])
     (require 'io.aviso.repl)
-    (inject/in ;; the default injected namespace is `.` 
+    (inject/in ;; the default injected namespace is `.`
 
                ;; note that `:refer, :all and :exclude can be used
                [vinyasa.inject :refer [inject [in inject-in]]]  
                [vinyasa.lein :exclude [*project*]]  
 
                ;; imports all functions in vinyasa.pull
-               [vinyasa.pull :all]      
+               [alembic.still [distill pull]]
 
-               ;; same as [cemerick.pomegranate 
-               ;;           :refer [add-classpath get-classpath resources]]
-               [cemerick.pomegranate add-classpath get-classpath resources] 
-               
-               ;; inject into clojure.core 
+               ;; inject into clojure.core
                clojure.core
                [vinyasa.reflection .> .? .* .% .%> .& .>ns .>var]
-               
+
                ;; inject into clojure.core with prefix
                clojure.core >
                [clojure.pprint pprint]
@@ -304,7 +303,7 @@ Although private and protected keywords have their uses in java, they are comple
 
 - To explore the members of classes as well as all instances within the repl
 - To be able to test methods and functions that are usually not testable, or very hard to test:
-  - Make hidden class members visible by providing access to private methods and fields 
+  - Make hidden class members visible by providing access to private methods and fields
   - Make immutable class members flexible by providing ability to change final members (So that initial states can be set up easily)
 - Extract out class members into documented and executable functions (including multi-argument functions)
 - Better understand jvm security and how to dodge it if needed
@@ -330,13 +329,13 @@ The api consists of the following macros:
   >var - for importing elements into current namespace
 ```
 
-#### `.&` - Transparent Bean 
+#### `.&` - Transparent Bean
 
 `.&` does what bean does but it actually allows transparent field access to the underlying object. This way, one can set and get values from any object, regardless of permission model (private, protected, etc...):
 
 ```clojure
 (def a "hello")
-a  ;;=> "hello" 
+a  ;;=> "hello"
 
 (def >a (.& a))
 >a ;;=> <java.lang.String@99162322 {:hash 99162322, :hash32 0, :value #<char[] [C@202cf33f>}>
@@ -394,7 +393,7 @@ a ;;=> "world" (But I thought strings where immutable!)
 
 #### `.?` and `.*` - Exploration
 
-`.?` and `.*` have the same listing and filtering mechanisms but they do things a little differently. `.?` holds the java view of the Class declaration, staying true to the class and its members. `.*` holds the runtime view of Objects and what methods could be applied to that instance. `.*` will also look up the inheritance tree to fill in additional functionality. 
+`.?` and `.*` have the same listing and filtering mechanisms but they do things a little differently. `.?` holds the java view of the Class declaration, staying true to the class and its members. `.*` holds the runtime view of Objects and what methods could be applied to that instance. `.*` will also look up the inheritance tree to fill in additional functionality.
 
 Below shows three examples. All the method asks for members of String beginning with `c`.:
 
@@ -405,13 +404,13 @@ Below shows three examples. All the method asks for members of String beginning 
 ;;    "concat" "contains" "contentEquals" "copyValueOf"]
 
 (.* String #"^c" :name)
-;;=> ["cachedConstructor" "cannotCastMsg" "cast" "checkBounds" 
-;;    "checkMemberAccess" "classRedefinedCount" "classValueMap" 
+;;=> ["cachedConstructor" "cannotCastMsg" "cast" "checkBounds"
+;;    "checkMemberAccess" "classRedefinedCount" "classValueMap"
 ;;    "clearCachesOnClassRedefinition" "clone" "copyValueOf"]
 
 (.* (String.) #"^c" :name)
-;;=> ["charAt" "clone" "codePointAt" "codePointBefore" 
-;;    "codePointCount" "compareTo" "compareToIgnoreCase" 
+;;=> ["charAt" "clone" "codePointAt" "codePointBefore"
+;;    "codePointCount" "compareTo" "compareToIgnoreCase"
 ;;    "concat" "contains" "contentEquals"]
 
 `.?` lists is what we expect. `.*` lists all static methods and fields as well as Class methods of `String`, whilst for instances of `String`, it will list all the instance methods from the entire class hierachy.
@@ -613,9 +612,9 @@ We can extract an entire class into a namespace. These are modifiable by selecto
 
 ### maven
 
-`vinyasa.maven` is a library for introspection of maven packages. The library provides mappings between different representations of the same jvm concept. 
+`vinyasa.maven` is a library for introspection of maven packages. The library provides mappings between different representations of the same jvm concept.
 
-- maven coordinate and the jar file 
+- maven coordinate and the jar file
 - a 'resource' and its related jar and jar entry under a given context
     - the resource can be:
         - a symbol representing a clojure namespace
@@ -628,7 +627,7 @@ We can extract an entire class into a namespace. These are modifiable by selecto
         - a maven coordinate
         - a list of maven coordinates
         - the entire maven local-repo.
-		
+
 #### representational mapping
 
 There is a reversible mapping between the maven jar file and the coordinate. We use `maven-file` and `maven-coordinate` to transition from one to the other:
@@ -737,11 +736,11 @@ or if you simply just want to explore, the context can be an entire maven local 
 
 ### resolve-coordinates and resolve-with-deps
 
-Once a mapping between the `resource` (path, class or namespace) and the actual jar and jar-entry on the file system, other very helpful functions can be built around `resolve-jar`: 
+Once a mapping between the `resource` (path, class or namespace) and the actual jar and jar-entry on the file system, other very helpful functions can be built around `resolve-jar`:
 
 `resolve-coordinates` works similarly to `resolve-jar` but will return the actual maven-style coordinates
 
-```clojure 
+```clojure
 (resolve-coordinates 'version-clj.core)
 ;; => '[version-clj/version-clj "0.1.2"]
 

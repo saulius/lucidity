@@ -1,19 +1,15 @@
 (ns vinyasa.reflection-test
-  (:require [midje.sweet :refer :all]
-            [vinyasa.reflection :refer :all]))
+  (:use midje.sweet)
+  (:require [vinyasa.reflection :refer :all]))
 
 (refer-clojure :exclude '[.% .%> .? .* .& .> .>ns .>var])
 
 ^{:refer vinyasa.reflection/.% :added "2.1"}
 (fact "Lists class information"
   (.% String)
-  => (contains {:name "java.lang.String"
-                :tag :class
-                :hash anything
-                :container nil
-                :modifiers #{:instance :class :public :final}
-                :static false
-                :delegate java.lang.String}))
+  => (contains {:modifiers #{:instance :public :final :class},
+                :hash number?
+                :name "java.lang.String"}))
 
 ^{:refer vinyasa.reflection/.%> :added "2.1"}
 (fact "Lists the class and interface hierarchy for the class"
