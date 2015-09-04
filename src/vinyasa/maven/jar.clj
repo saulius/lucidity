@@ -5,7 +5,7 @@
             [version-clj.core :as version])
   (:import [clojure.lang Symbol]))
 
-(def ^:dynamic *local-repo*
+(defonce ^:dynamic *local-repo*
   (string/join file/*sep* [(System/getProperty "user.home") ".m2" "repository"]))
 
 (defn jar-entry [jar-path entry]

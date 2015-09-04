@@ -15,10 +15,10 @@
   (to-bytes (io/input-stream path)))
 
 
-(def ^:dynamic *class-cache*
+(defonce ^:dynamic *class-cache*
   (reflect/apply-element clojure.lang.DynamicClassLoader "classCache" []))
 
-(def ^:dynamic *rq*
+(defonce ^:dynamic *rq*
   (reflect/apply-element clojure.lang.DynamicClassLoader "rq" []))
 
 (def class-0

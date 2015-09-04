@@ -3,19 +3,19 @@
             [clojure.java.io :as io])
   (:import [clojure.lang Symbol]))
 
-(def ^:dynamic *sep* (System/getProperty "file.separator"))
+(defonce ^:dynamic *sep* (System/getProperty "file.separator"))
 
-(def ^:dynamic *clojure-loader*
+(defonce ^:dynamic *clojure-loader*
   (or (.getClassLoader clojure.lang.RT)
       (.getContextClassLoader (Thread/currentThread))))
 
-(def ^:dynamic *java-class-path*
+(defonce ^:dynamic *java-class-path*
   (->> (string/split (System/getProperty "java.class.path") #":")
        (filter (fn [x] (.endsWith x ".jar")))))
 
-(def ^:dynamic *java-home* (System/getProperty "java.home"))
+(defonce ^:dynamic *java-home* (System/getProperty "java.home"))
 
-(def ^:dynamic *java-runtime-jar* (str *java-home* "/lib/rt.jar"))
+(defonce ^:dynamic *java-runtime-jar* (str *java-home* "/lib/rt.jar"))
 
 (defn resource-symbol-path [sym]
   (let [sym-str (-> (str sym)
