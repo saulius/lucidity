@@ -9,5 +9,5 @@
   :profiles {:dev {:dependencies [[midje "1.6.3"]
                                   [leiningen #=(leiningen.core.main/leiningen-version)]
                                   [com.jcraft/jsch "0.1.51"]]
-                   :plugins [[lein-repack "0.2.10"]
+                   :plugins [;;[lein-repack "0.2.10"]
                              [lein-midje "3.1.3"]]}})
