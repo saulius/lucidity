@@ -86,18 +86,32 @@
            "reload")))
 
 (defn reimport-compile [project args]
-  (let [reload-path (make-reload-path project)
-        compile-path (:compile-path project)]
-    (try (sh/sh "rm" "-f" compile-path)
-         (if (.exists (io/file reload-path))
-           (sh/sh "mv" reload-path compile-path))
-         (run-javac project args)
-         reload-path
-         (catch Exception e
-           (println "Failed: Java files did not properly compile:"
-                    (pr-str (vec (:java-source-paths project )))))
-         (finally
-           (sh/sh "mv" compile-path reload-path)))))
+  (if (and (System/getProperty "os.name") 
+           (.startsWith (System/getProperty "os.name") "Windows"))
+      (let [reload-path (make-reload-path project)
+            compile-path (:compile-path project)]
+        (try (sh/sh "cmd.exe" "/c" "rmdir" "/S" "/Q" compile-path)
+             (if (.exists (io/file reload-path))
+               (sh/sh "cmd.exe" "/c" "move" reload-path compile-path))
+             (run-javac project args)
+             reload-path
+             (catch Exception e
+               (println "Failed: Java files did not properly compile:"
+                        (pr-str (vec (:java-source-paths project )))))
+             (finally
+               (sh/sh "cmd.exe" "/c" "move" compile-path reload-path))))
+      (let [reload-path (make-reload-path project)
+            compile-path (:compile-path project)]
+        (try (sh/sh "rm" "-f" compile-path)
+             (if (.exists (io/file reload-path))
+               (sh/sh "mv" reload-path compile-path))
+             (run-javac project args)
+             reload-path
+             (catch Exception e
+               (println "Failed: Java files did not properly compile:"
+                        (pr-str (vec (:java-source-paths project )))))
+             (finally
+               (sh/sh "mv" compile-path reload-path))))))
 
 (defn reimport-selected-list [args]
   (mapcat (fn [x]
