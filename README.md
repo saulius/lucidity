@@ -24,9 +24,10 @@
 
 ## Whats New
 
-#### 0.4.1
+#### 0.4.2
 - upgraded to use [hara.reflect](https://github.com/zcaudate/hara) 2.2.11
 - got rid of vinyasa.pull in favor of [alembic](https://github.com/pallet/alembic)
+- fix for reimport on windows 10
 
 #### 0.3.4
 - upgraded to use [hara.reflect](https://github.com/zcaudate/hara) 2.1.11
@@ -84,7 +85,7 @@ Here is an example of a typical `profiles.clj` configuration:
                   [org.clojure/tools.namespace "0.2.4"]
                   [leiningen #=(leiningen.core.main/leiningen-version)]
                   [io.aviso/pretty "0.1.8"]
-                  [im.chit/vinyasa "0.3.4"]]
+                  [im.chit/vinyasa "0.4.2"]]
    :injections
    [(require 'spyscope.core)
     (require '[vinyasa.inject :as inject])
