@@ -149,7 +149,7 @@ Once `profiles.clj` is installed, run `lein repl`.
 
 ### pull
 
-How many times have you forgotten a library dependency for `project.clj` and then had to restart your nrepl? `pull` is a convienient wrapper around the `pomegranate` library:
+How many times have you forgotten a library dependency for `project.clj` and then had to restart your nrepl? `pull` is a convenient wrapper around the `pomegranate` library:
 
 ```clojure
 > (require 'hiccup.core)
