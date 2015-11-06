@@ -85,6 +85,7 @@ Here is an example of a typical `profiles.clj` configuration:
                   [org.clojure/tools.namespace "0.2.4"]
                   [leiningen #=(leiningen.core.main/leiningen-version)]
                   [io.aviso/pretty "0.1.8"]
+                  [alembic "0.3.2"]
                   [im.chit/vinyasa "0.4.2"]]
    :injections
    [(require 'spyscope.core)
