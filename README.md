@@ -353,6 +353,7 @@ a ;;=> "world" (But I thought strings where immutable!)
 
 #### `.%` - Type Info
 
+```
 `.%` shows the infomation about a particular class or class instance:
 
 (.% "abc")  ;; or (.% String)
@@ -363,6 +364,7 @@ a ;;=> "world" (But I thought strings where immutable!)
               :modifiers #{:instance :class :public :final}
               :static false
               :delegate java.lang.String})
+```
 
 #### `.%>` - Type Hierarchy
 
@@ -607,10 +609,12 @@ We can extract an entire class into a namespace. These are modifiable by selecto
 
 `vinyasa.classloader` provides a straight-forward method of loading a class from a file on the filesystem.
 
+```
 (use 'hara.classloader)
 
 (load-class ["path/to/java_file.class"])
 (load-class ["path/to/package.jar" "path/within/package.class"])
+```
 
 ### maven
 
@@ -758,7 +762,6 @@ Once a mapping between the `resource` (path, class or namespace) and the actual 
        '[vinyasa.maven "0.3.2"])
 ;;=> ["/Users/zhengc/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar" "clojure/core.clj"]
 ```
-
 
 ## License
 
