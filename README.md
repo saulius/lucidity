@@ -24,6 +24,9 @@
 
 ## Whats New
 
+#### 0.4.3
+- superficial upgrade to [hara.reflect] 2.2.17
+
 #### 0.4.2
 - upgraded to use [hara.reflect](https://github.com/zcaudate/hara) 2.2.11
 - got rid of vinyasa.pull in favor of [alembic](https://github.com/pallet/alembic)
@@ -86,7 +89,7 @@ Here is an example of a typical `profiles.clj` configuration:
                   [leiningen #=(leiningen.core.main/leiningen-version)]
                   [io.aviso/pretty "0.1.8"]
                   [alembic "0.3.2"]
-                  [im.chit/vinyasa "0.4.2"]]
+                  [im.chit/vinyasa "0.4.3"]]
    :injections
    [(require 'spyscope.core)
     (require '[vinyasa.inject :as inject])
