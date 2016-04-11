@@ -26,7 +26,6 @@
   
   (def a "hello")
   (def >a (.& a))
-
   (keys >a) => (contains [:hash])
 
   (do (>a :value (char-array "world"))
@@ -68,16 +67,16 @@
 
   (.>var hash-without [clojure.lang.IPersistentMap without])
 
-  #_(with-out-str (eval '(clojure.repl/doc hash-without)))
-  #_=> #_(string/join
-      "\n"
-      ["-------------------------"
+  (-> (eval '(clojure.repl/doc hash-without))
+      with-out-str
+      string/split-lines)
+  =>  ["-------------------------"
        "vinyasa.reflection-test/hash-without"
        "[[clojure.lang.IPersistentMap java.lang.Object]]"
        "  "
        "member: clojure.lang.IPersistentMap/without"
        "type: clojure.lang.IPersistentMap"
-       "modifiers: instance, method, public, abstract"])
+       "modifiers: instance, method, public, abstract"]
 
   (eval '(hash-without {:a 1 :b 2} :a))
   => {:b 2})
