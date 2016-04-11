@@ -768,6 +768,6 @@ Once a mapping between the `resource` (path, class or namespace) and the actual 
 
 ## License
 
-Copyright © 2015 Chris Zheng
+Copyright © 2016 Chris Zheng
 
 Distributed under the MIT License

@@ -5,16 +5,25 @@
 
 (fact "coordinate-dependecies"
   (coordinate-dependencies '[[midje "1.6.3"]])
-  => (just '[[midje "0.9.3"] [ordered "1.2.0"] [colorize "0.1.1"]
-             [org.clojure/core.unify "0.5.2"] [utilize "0.2.3"]
-             [net.cgrand/regex "1.1.0"] [gui-diff "0.5.0"]
-             [joda-time "2.0"] [clj-time "0.6.0"]
+  => (just '[[ordered "1.2.0"]
+             [colorize "0.1.1"]
+             [org.clojure/tools.macro "0.1.5"]
+             [org.clojure/core.unify "0.5.2"]
+             [utilize "0.2.3"]
+             [net.cgrand/regex "1.1.0"]
+             [gui-diff "0.5.0"]
+             [joda-time "2.0"]
+             [clj-time "0.6.0"]
              [org.clojars.trptcolin/sjacket "0.1.3"]
-             [commons-codec "1.6"] [slingshot "0.10.3"]
-             [net.cgrand/parsley "0.9.1"] [dynapath "0.2.0"]
-             [org.clojure/tools.namespace "0.2.4"] [org.clojure/clojure "1.4.0"]
+             [midje "1.6.3"]
+             [slingshot "0.10.3"]
+             [net.cgrand/parsley "0.9.1"]
+             [dynapath "0.2.0"]
+             [org.clojure/tools.namespace "0.2.4"]
+             [org.clojure/clojure "1.4.0"]
              [org.clojure/math.combinatorics "0.0.7"]
-             [org.clojure/tools.macro "0.1.1"] [swiss-arrows "1.0.0"]] :in-any-order))
+             [commons-codec "1.9"]
+             [swiss-arrows "1.0.0"]]))
 
 (fact "resolve-jar"
   (-> (resolve-jar "clojure/core.clj") second)
@@ -34,7 +43,7 @@
 
 (fact "resolve-coordinates"
   (resolve-coordinates "clojure/core.clj")
-  => '[org.clojure/clojure "1.6.0"]
+  => '[org.clojure/clojure "1.8.0"]
 
   (resolve-coordinates 'com.jcraft.jsch.Channel)
   => '[com.jcraft/jsch "0.1.51"]
@@ -44,7 +53,7 @@
 
 (fact "resolve-with-deps"
   (resolve-with-deps 'clojure.core)
-  => [(str jar/*local-repo* "/org/clojure/clojure/1.6.0/clojure-1.6.0.jar")
+  => [(str jar/*local-repo* "/org/clojure/clojure/1.8.0/clojure-1.8.0.jar")
       "clojure/core.clj"]
 
   (resolve-with-deps 'version-clj.core)

@@ -6,7 +6,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [im.chit/hara.reflect "2.2.17"]
                  [version-clj/version-clj "0.1.2"]]
-  :profiles {:dev {:dependencies [[lucid "0.9.4"]
+  :profiles {:dev {:dependencies [[im.chit/lucid "0.9.7"]
                                   [leiningen #=(leiningen.core.main/leiningen-version)]
                                   [com.jcraft/jsch "0.1.51"]]
                    :plugins [[lein-repack "0.2.10"]]}})
