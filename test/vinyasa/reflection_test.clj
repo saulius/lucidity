@@ -1,6 +1,7 @@
 (ns vinyasa.reflection-test
   (:use lucid.sweet)
   (:require [vinyasa.reflection :refer :all]
+            [clojure.repl :as repl]
             [clojure.string :as string]))
 
 (refer-clojure :exclude '[.% .%> .? .* .& .> .>ns .>var])
@@ -67,12 +68,11 @@
 
   (.>var hash-without [clojure.lang.IPersistentMap without])
 
-  (-> (eval '(clojure.repl/doc hash-without))
-      with-out-str
-      string/split-lines
-      rest)
-  =>  ["vinyasa.reflection-test/hash-without"
-       "[[clojure.lang.IPersistentMap java.lang.Object]]"
+  (->> (eval '(clojure.repl/doc hash-without))
+       with-out-str
+       string/split-lines
+       (drop 2))
+  =>  ["[[clojure.lang.IPersistentMap java.lang.Object]]"
        "  "
        "member: clojure.lang.IPersistentMap/without"
        "type: clojure.lang.IPersistentMap"
