@@ -69,9 +69,9 @@
 
   (-> (eval '(clojure.repl/doc hash-without))
       with-out-str
-      string/split-lines)
-  =>  ["-------------------------"
-       "vinyasa.reflection-test/hash-without"
+      string/split-lines
+      rest)
+  =>  ["vinyasa.reflection-test/hash-without"
        "[[clojure.lang.IPersistentMap java.lang.Object]]"
        "  "
        "member: clojure.lang.IPersistentMap/without"
