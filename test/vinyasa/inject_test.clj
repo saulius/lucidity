@@ -1,5 +1,5 @@
 (ns vinyasa.inject-test
-  (:use fudje.sweet)
+  (:use lucid.sweet)
   (:require [vinyasa.inject :refer :all]))
 
 (fact "inject-split args"

@@ -1,5 +1,5 @@
 (ns vinyasa.reflection-test
-  (:use fudje.sweet)
+  (:use lucid.sweet)
   (:require [vinyasa.reflection :refer :all]))
 
 (refer-clojure :exclude '[.% .%> .? .* .& .> .>ns .>var])
@@ -23,16 +23,17 @@
 
 ^{:refer vinyasa.reflection/.& :added "2.1"}
 (fact "Allow transparent field access and manipulation to the underlying object."
+  
+  (def a "hello")
+  (def >a (.& a))
 
-  (let [a   "hello"
-        >a  (.& a)]
+  (keys >a) => (contains [:hash])
+  (seq (>a :value)) => [\h \e \l \l \o]
 
-    (keys >a) => (contains [:hash])
 
-    (seq (>a :value)) => [\h \e \l \l \o]
-
-    (>a :value (char-array "world"))
-    a => "world"))
+  (do (>a :value (char-array "world"))
+      a)
+  => "world")
 
 ^{:refer vinyasa.reflection/.? :added "2.1"}
 (fact "queries the java view of the class declaration"

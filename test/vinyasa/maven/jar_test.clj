@@ -1,5 +1,5 @@
 (ns vinyasa.maven.jar-test
-  (:use fudje.sweet)
+  (:use lucid.sweet)
   (:require [vinyasa.maven.jar :refer :all]
             [vinyasa.maven.file :as file]))
 
