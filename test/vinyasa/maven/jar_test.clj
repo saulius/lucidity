@@ -1,7 +1,7 @@
 (ns vinyasa.maven.jar-test
+  (:use fudje.sweet)
   (:require [vinyasa.maven.jar :refer :all]
-            [vinyasa.maven.file :as file]
-            [midje.sweet :refer :all]))
+            [vinyasa.maven.file :as file]))
 
 (fact "maven-file"
   (maven-file '[org.clojure/clojure "1.5.1"])

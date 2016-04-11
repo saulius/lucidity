@@ -1,5 +1,5 @@
 (ns vinyasa.reflection-test
-  (:use midje.sweet)
+  (:use fudje.sweet)
   (:require [vinyasa.reflection :refer :all]))
 
 (refer-clojure :exclude '[.% .%> .? .* .& .> .>ns .>var])

@@ -571,7 +571,7 @@ We can extract methods from a Class or interface with `>var`
 
 (clojure.repl/doc hash-without)
 ;;=> -------------------------
-;;   midje-doc.iroh-walkthrough/hash-without
+;;   fudje-doc.iroh-walkthrough/hash-without
 ;;   ([clojure.lang.PersistentArrayMap java.lang.Object])
 ;;   ------------------
 ;;

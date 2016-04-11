@@ -1,11 +1,11 @@
 (ns vinyasa.maven-test
-  (:use midje.sweet)
+  (:use fudje.sweet)
   (:require [vinyasa.maven :refer :all]
             [vinyasa.maven.jar :as jar]))
 
 (fact "coordinate-dependecies"
-  (coordinate-dependencies '[[midje "1.6.1"]])
-  => (just '[[midje "1.6.1"] [ordered "1.2.0"] [colorize "0.1.1"]
+  (coordinate-dependencies '[[fudje "1.6.1"]])
+  => (just '[[fudje "1.6.1"] [ordered "1.2.0"] [colorize "0.1.1"]
              [org.clojure/core.unify "0.5.2"] [utilize "0.2.3"]
              [net.cgrand/regex "1.1.0"] [gui-diff "0.5.0"]
              [joda-time "2.0"] [clj-time "0.6.0"]
@@ -51,14 +51,14 @@
   => [(str jar/*local-repo* "/version-clj/version-clj/0.1.2/version-clj-0.1.2.jar")
       "version_clj/core.clj"]
 
-  (resolve-with-deps 'dynapath.util ['midje "1.6.1"])
+  (resolve-with-deps 'dynapath.util ['fudje "1.6.1"])
   => [(str jar/*local-repo* "/dynapath/dynapath/0.2.0/dynapath-0.2.0.jar")
       "dynapath/util.clj"]
 
-  (resolve-with-deps 'dynapath.util (str jar/*local-repo* "/midje/midje/1.6.1/midje-1.6.1.jar"))
+  (resolve-with-deps 'dynapath.util (str jar/*local-repo* "/fudje/fudje/1.6.1/fudje-1.6.1.jar"))
   => [(str jar/*local-repo* "/dynapath/dynapath/0.2.0/dynapath-0.2.0.jar")
       "dynapath/util.clj"]
 
-  (resolve-with-deps 'midje.sweet ['midje "1.6.1"])
-  => [(str jar/*local-repo* "/midje/midje/1.6.1/midje-1.6.1.jar")
-      "midje/sweet.clj"])
+  (resolve-with-deps 'fudje.sweet ['fudje "1.6.1"])
+  => [(str jar/*local-repo* "/fudje/fudje/1.6.1/fudje-1.6.1.jar")
+      "fudje/sweet.clj"])
