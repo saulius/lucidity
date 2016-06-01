@@ -1,8 +1,9 @@
 (ns vinyasa.maven
   (:require [clojure.string :as string]
+            [hara.reflect :as reflect]
             [vinyasa.maven.jar :as jar]
             [vinyasa.maven.file :as file]
-            [cemerick.pomegranate.aether :as aether])
+            [wu.kong :as aether])
   (:import [clojure.lang Symbol PersistentVector]))
 
  (defn maven-coordinate [path & [suffix local-repo]]
@@ -20,13 +21,12 @@
      (throw (Exception. (str "The path " path " does not conform to a valid maven repo jar")))))
 
 (defn coordinate-dependencies [coordinates & [repos]]
-  (->> (aether/resolve-dependencies
-        :coordinates coordinates
-        :repositories (merge {"clojars" "http://clojars.org/repo"
-                              "central" "http://repo1.maven.org/maven2/"}
-                             repos))
-       (map #(take 2 (first %)))
-       (mapv vec)))
+  (mapv (fn [coord]
+          (->> (aether/resolve-dependencies coord)
+               (aether/flatten-values)
+               (map #(take 2 (first %)))
+               (mapv vec)))
+        coordinates))
 
 (defn resolve-jar
   ([x] (jar/resolve-jar x nil))
@@ -70,3 +70,13 @@
               PersistentVector
               (jar/resolve-jar x :coordinates
                                (coordinate-dependencies context repositories))))))
+
+(def add-url
+  (reflect/query-class java.net.URLClassLoader ["addURL" :#]))
+
+(defn pull [coord]
+  (let [deps (-> (aether/resolve-dependencies coord)
+                 (aether/flatten-values))]
+    (doseq [dep deps]
+      (add-url (.getClassLoader clojure.lang.RT)
+               (java.net.URL. (str "file:" (jar/maven-file dep)))))))
