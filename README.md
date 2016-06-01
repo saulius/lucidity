@@ -24,6 +24,10 @@
 
 ## Whats New
 
+#### 0.4.5
+- added vinyasa.maven/pull
+- removed dependency on [pomegranate](https://github.com/cemerick/pomegranate) - using [wu.kong](https://github.com/zcaudate/wu.kong) instead.
+
 #### 0.4.3
 - superficial upgrade to [hara.reflect] 2.2.17
 
@@ -86,10 +90,8 @@ Here is an example of a typical `profiles.clj` configuration:
   {:plugins [...]        
    :dependencies [[spyscope "0.1.4"]
                   [org.clojure/tools.namespace "0.2.4"]
-                  [leiningen #=(leiningen.core.main/leiningen-version)]
                   [io.aviso/pretty "0.1.8"]
-                  [alembic "0.3.2"]
-                  [im.chit/vinyasa "0.4.3"]]
+                  [im.chit/vinyasa "0.4.4"]]
    :injections
    [(require 'spyscope.core)
     (require '[vinyasa.inject :as inject])
@@ -97,11 +99,10 @@ Here is an example of a typical `profiles.clj` configuration:
     (inject/in ;; the default injected namespace is `.`
 
                ;; note that `:refer, :all and :exclude can be used
-               [vinyasa.inject :refer [inject [in inject-in]]]  
-               [vinyasa.lein :exclude [*project*]]  
+               [vinyasa.inject :refer [inject [in inject-in]]]
 
                ;; imports all functions in vinyasa.pull
-               [alembic.still [distill pull]]
+							 [vinyasa.maven pull]
 
                ;; inject into clojure.core
                clojure.core
@@ -153,24 +154,19 @@ Once `profiles.clj` is installed, run `lein repl`.
 
 ### pull
 
-How many times have you forgotten a library dependency for `project.clj` and then had to restart your nrepl? `pull` is a convenient wrapper around the `pomegranate` library:
+How many times have you forgotten a library dependency for `project.clj` and then had to restart your nrepl? `pull` is a convenient wrapper around the `wu.kong` library:
 
 ```clojure
 > (require 'hiccup.core)
 ;; => java.io.FileNotFoundException: Could not locate hiccup/core__init.class or hiccup/core.clj on classpath:
 
 > (require 'hiccup.core)
-> (pull 'hiccup)
-;; => {[org.clojure/clojure "1.2.1"] nil,
-;;     [hiccup "1.0.4"] #{[org.clojure/clojure "1.2.1"]}}
+> (./pull '[hiccup "1.0.5"])
+;; => [hiccup "1.0.5"]
 
 > (use 'hiccup.core)
 > (html [:p "hello World"])
 ;; => "<p>hello World</p>"
-
-> (pull 'hiccup "1.0.1")
-;; => {[org.clojure/clojure "1.2.1"] nil,
-;;     [hiccup "1.0.1"] #{[org.clojure/clojure "1.2.1"]}}
 ```
 ### lein
 

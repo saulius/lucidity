@@ -79,3 +79,5 @@
     (doseq [dep deps]
       (add-url (.getClassLoader clojure.lang.RT)
                (java.net.URL. (str "file:" (jar/maven-file dep)))))))
+
+
