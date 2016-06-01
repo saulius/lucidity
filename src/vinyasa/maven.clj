@@ -21,12 +21,11 @@
      (throw (Exception. (str "The path " path " does not conform to a valid maven repo jar")))))
 
 (defn coordinate-dependencies [coordinates & [repos]]
-  (mapv (fn [coord]
-          (->> (aether/resolve-dependencies coord)
-               (aether/flatten-values)
-               (map #(take 2 (first %)))
-               (mapv vec)))
-        coordinates))
+  (->> coordinates
+       (mapcat (fn [coord]
+                 (->> (aether/resolve-dependencies coord)
+                      (aether/flatten-values))))
+       vec))
 
 (defn resolve-jar
   ([x] (jar/resolve-jar x nil))

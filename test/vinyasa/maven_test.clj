@@ -1,29 +1,35 @@
 (ns vinyasa.maven-test
   (:use lucid.sweet)
   (:require [vinyasa.maven :refer :all]
-            [vinyasa.maven.jar :as jar]))
+            [vinyasa.maven.jar :as jar]
+            [wu.kong :as aether]))
 
 (fact "coordinate-dependecies"
   (coordinate-dependencies '[[midje "1.6.3"]])
-  => (just '[[ordered "1.2.0"]
-             [colorize "0.1.1"]
-             [org.clojure/tools.macro "0.1.5"]
-             [org.clojure/core.unify "0.5.2"]
-             [utilize "0.2.3"]
-             [net.cgrand/regex "1.1.0"]
-             [gui-diff "0.5.0"]
-             [joda-time "2.0"]
-             [clj-time "0.6.0"]
-             [org.clojars.trptcolin/sjacket "0.1.3"]
-             [midje "1.6.3"]
-             [slingshot "0.10.3"]
-             [net.cgrand/parsley "0.9.1"]
-             [dynapath "0.2.0"]
-             [org.clojure/tools.namespace "0.2.4"]
-             [org.clojure/clojure "1.4.0"]
+  => (just '[[midje/midje "1.6.3"]
+             [ordered/ordered "1.2.0"]
              [org.clojure/math.combinatorics "0.0.7"]
-             [commons-codec "1.9"]
-             [swiss-arrows "1.0.0"]]))
+             [org.clojure/core.unify "0.5.2"]
+             [utilize/utilize "0.2.3"]
+             [org.clojure/tools.macro "0.1.1"]
+             [joda-time/joda-time "2.0"]
+             [ordered/ordered "1.0.0"]
+             [colorize/colorize "0.1.1"]
+             [org.clojure/tools.macro "0.1.5"]
+             [dynapath/dynapath "0.2.0"]
+             [swiss-arrows/swiss-arrows "1.0.0"]
+             [org.clojure/tools.namespace "0.2.4"]
+             [slingshot/slingshot "0.10.3"]
+             [commons-codec/commons-codec "1.9"]
+             [gui-diff/gui-diff "0.5.0"]
+             [org.clojars.trptcolin/sjacket "0.1.3"]
+             [net.cgrand/regex "1.1.0"]
+             [net.cgrand/parsley "0.9.1"]
+             [net.cgrand/regex "1.1.0"]
+             [ordered/ordered "1.2.0"]
+             [clj-time/clj-time "0.6.0"]
+             [joda-time/joda-time "2.2"]]
+           :in-any-order)) 
 
 (fact "resolve-jar"
   (-> (resolve-jar "clojure/core.clj") second)
