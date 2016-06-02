@@ -78,6 +78,5 @@
                  (aether/flatten-values))]
     (doseq [dep deps]
       (add-url (.getClassLoader clojure.lang.RT)
-               (java.net.URL. (str "file:" (jar/maven-file dep)))))))
-
-
+               (java.net.URL. (str "file:" (jar/maven-file dep)))))
+    deps))
