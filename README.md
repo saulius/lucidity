@@ -24,7 +24,8 @@
 
 ## Whats New
 
-#### 0.4.5
+#### 0.4.7
+- added vinyasa.debug
 - added vinyasa.maven/pull
 - removed dependency on [pomegranate](https://github.com/cemerick/pomegranate) - using [wu.kong](https://github.com/zcaudate/wu.kong) instead.
 

@@ -1,18 +1,29 @@
 (ns vinyasa.debug)
 
-(defn wrap-print [f]
+(defn wrap-print [f expr arrow]
   (fn [& args]
-    (print " ->" (second (re-find #"\$(.*)@" (str f))) args)
-    (apply f args)))
+    (let [result (apply f args)]
+      (println arrow expr "::" result)
+      result)))
 
-(-> 3 ((wrap-print inc)) ((wrap-print dec)))
-;; =>       "-> inc (3) -> dec (4)"
+(defn dbg-helper [form arrow]
+  (cond (list? form)
+        `((wrap-print ~(first form)
+                      (quote ~form)
+                      (quote ~arrow))
+          ~@(rest form))
+
+        :else
+        `((wrap-print ~form (quote ~form) (quote ~arrow)))))
 
 (defmacro dbg-> [n & funcs]
-  (println "")
-  (print n)
-  (let [wfncs (map #(list (list wrap-print %)) funcs)]
-     `(-> ~n ~@wfncs )))
+  (let [wfncs (map #(dbg-helper % '->) funcs)]
+    `(do (println "\n")
+         (println ~n)
+         (-> ~n ~@wfncs))))
 
-(dbg-> 3 inc dec)
-;; =>      "3 -> inc (3) -> dec (4)"
+(defmacro dbg->> [n & funcs]
+  (let [wfncs (map #(dbg-helper % '->>) funcs)]
+    `(do (println "\n")
+         (println ~n)
+         (->> ~n ~@wfncs))))
