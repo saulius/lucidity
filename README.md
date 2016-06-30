@@ -92,7 +92,7 @@ Here is an example of a typical `profiles.clj` configuration:
    :dependencies [[spyscope "0.1.4"]
                   [org.clojure/tools.namespace "0.2.4"]
                   [io.aviso/pretty "0.1.8"]
-                  [im.chit/vinyasa "0.4.4"]]
+                  [im.chit/vinyasa "0.4.7"]]
    :injections
    [(require 'spyscope.core)
     (require '[vinyasa.inject :as inject])
@@ -103,7 +103,7 @@ Here is an example of a typical `profiles.clj` configuration:
                [vinyasa.inject :refer [inject [in inject-in]]]
 
                ;; imports all functions in vinyasa.pull
-							 [vinyasa.maven pull]
+	       [vinyasa.maven pull]
 
                ;; inject into clojure.core
                clojure.core
