@@ -1,4 +1,4 @@
-(ns lucidity.tools.inject)
+(ns lucid.flight.inject)
 
 (defn inject-single [to-ns sym svar]
   (intern to-ns
@@ -30,26 +30,26 @@
   (let [{:keys [all current]}
         (reduce (fn [{:keys [last current all] :as m} arg]
                   (let [new-current (cond (symbol? arg)
-                                           (cond (symbol? last)
-                                                 (assoc current :prefix arg)
+                                          (cond (symbol? last)
+                                                (assoc current :prefix arg)
 
-                                                 (nil? last)
-                                                 (assoc current :ns arg)
+                                                (nil? last)
+                                                (assoc current :ns arg)
 
-                                                 (coll? last)
-                                                 {:ns arg :imports []})
+                                                (coll? last)
+                                                {:ns arg :imports []})
 
-                                           (coll? arg)
-                                           (update-in current [:imports]
-                                                      conj (inject-process-coll arg))
-                                           :else
+                                          (coll? arg)
+                                          (update-in current [:imports]
+                                                     conj (inject-process-coll arg))
+                                          :else
                                            (throw (Exception. (str arg " is not valid"))))
                          new-all    (if (and (symbol? arg) (coll? last))
                                       (conj all current)
                                       all)]
                      {:last arg :all new-all :current new-current}))
-                 {:last nil :current {:ns '. :imports []} :all []}
-                 args)]
+                {:last nil :current {:ns '. :imports []} :all []}
+                args)]
     (conj all current)))
 
 (defn inject-row-entry [to-ns prefix {:keys [op arr] from-ns :ns}]
