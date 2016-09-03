@@ -25,4 +25,5 @@
                  [rewrite-clj/rewrite-clj "0.5.1"]
                  [markdown-clj/markdown-clj "0.9.89"]
                  [hiccup/hiccup "1.0.5"]]
-  :profiles {:dev {:dependencies [[im.chit/hara.test "2.4.0"]]}})
+  :profiles {:dev {:dependencies [[im.chit/hara.test "2.4.0"]]
+                   :plugins [[lein-hydrox "0.1.17"]]}})

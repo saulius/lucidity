@@ -1,13 +1,30 @@
 (ns lucid.flight.inject)
 
-(defn inject-single [to-ns sym svar]
+(defn inject-single
+  "copies the var into a namespace with given symbol name
+   (inject-single 'user 'assoc2 #'clojure.core/assoc)
+   => #'user/assoc2"
+  {:added "0.1"} 
+  [to-ns sym svar]
   (intern to-ns
           (with-meta sym
             (select-keys (meta svar)
                          [:doc :macro :arglists]))
           (deref svar)))
 
-(defn inject-process-coll [[ns & [arg & rest :as args]]]
+(defn inject-process-coll
+  "takes a vector and formats it into a datastructure
+    (inject-process-coll '[clojure.core :refer :all])
+    => '{:ns  clojure.core
+         :op  :refer
+         :arr :all}
+    
+   (inject-process-coll '[clojure.core :exclude [assoc]])
+   => '{:ns  clojure.core
+        :op  :exclude
+        :arr [assoc]}"
+  {:added "0.1"} 
+  [[ns & [arg & rest :as args]]]
   (let [[op arr] (cond (or (symbol? arg) (vector? arg))
                        [:refer args]
 
@@ -26,7 +43,42 @@
      :op op
      :arr arr}))
 
-(defn inject-split-args [args]
+(defn inject-split-args
+  "splits args for the inject namespace
+   (inject-split-args
+   '[clojure.core >
+     (clojure.pprint pprint)
+ 
+     clojure.core
+     (lucid.flight.reflection    .> .? .* .% .%>)
+ 
+    a
+     (clojure.repl apropos source doc find-doc
+                   dir pst root-cause)
+     (lucid.flight.reflection [>ns ns] [>var var])
+     (clojure.java.shell :refer [sh])
+     (lucid.flight.inject :exclude [inject-single])
+     (lucid.flight.maven :all)
+     (lucid.flight.debug)])
+   => '[{:ns clojure.core, :prefix >,
+        :imports [{:ns clojure.pprint, :op :refer,
+                   :arr (pprint)}]}
+       {:ns clojure.core,
+        :imports [{:ns lucid.flight.reflection, :op :refer,
+                   :arr (.> .? .* .% .%>)}]}
+       {:ns a,
+        :imports [{:ns clojure.repl, :op :refer,
+                   :arr (apropos source doc find-doc dir pst root-cause)}
+                  {:ns lucid.flight.reflection, :op :refer,
+                   :arr ([>ns ns] [>var var])}
+                  {:ns clojure.java.shell, :op :refer,
+                   :arr [sh]}
+                  {:ns lucid.flight.inject, :op :exclude,
+                   :arr [inject-single]}
+                  {:ns lucid.flight.maven, :op :exclude, :arr ()}
+                  {:ns lucid.flight.debug, :op :exclude, :arr ()}]}]"
+  {:added "2.1"} 
+  [args]
   (let [{:keys [all current]}
         (reduce (fn [{:keys [last current all] :as m} arg]
                   (let [new-current (cond (symbol? arg)
@@ -52,7 +104,15 @@
                 args)]
     (conj all current)))
 
-(defn inject-row-entry [to-ns prefix {:keys [op arr] from-ns :ns}]
+(defn inject-row-entry
+  "takes an entry and injects into a given namespace
+   (inject-row-entry 'user
+                     '-
+                     '{:ns clojure.java.shell, :op :refer,
+                       :arr [sh]})
+   => [#'user/-sh]"
+  {:added "2.1"} 
+  [to-ns prefix {:keys [op arr] from-ns :ns}]
   (require from-ns)
   (cond (= op :refer)
         (->> arr
@@ -77,19 +137,45 @@
                 (inject-single to-ns sym svar))
               (apply dissoc (ns-publics from-ns) arr))))
 
-(defn inject-row [{:keys [imports prefix] to-ns :ns}]
-  (create-ns to-ns)
-  (mapcat #(inject-row-entry to-ns prefix %) imports)
-  (if (= to-ns 'clojure.core)
-    (refer-clojure)))
+(defn inject-row
+  "takes an entry and injects into a given namespace
+   (inject-row '{:ns a
+                 :imports
+                 [{:ns clojure.repl, :op :refer,
+                   :arr [apropos source doc]}]})
+   => [#'a/apropos #'a/source #'a/doc]"
+  {:added "2.1"} 
+  [{:keys [imports prefix] to-ns :ns}]
+  (let [_ (create-ns to-ns)
+        out (mapcat #(inject-row-entry to-ns prefix %) imports)
+        _   (if (= to-ns 'clojure.core)
+              (refer-clojure))]
+    out))
 
-(defn inject [& args]
+(defn inject
+  "takes a list of injections and output the created vars
+   (inject '[(clojure.repl apropos source doc)
+ 
+             b
+             (clojure.repl apropos source doc)])
+   => [#'./apropos #'./source #'./doc #'b/apropos #'b/source #'b/doc]"
+  {:added "2.1"} 
+  [& args]
   (->> args
        (mapcat inject-split-args)
        (mapcat inject-row)
        vec))
 
-(defmacro in [& args]
+(defmacro in
+  "takes a list of injections and output the created vars
+   (in c (clojure.repl apropos source doc)
+       d (clojure.repl apropos source doc)
+       e (clojure.repl apropos source doc))
+   => [#'c/apropos #'c/source #'c/doc
+       #'d/apropos #'d/source #'d/doc
+       #'e/apropos #'e/source #'e/doc]"
+  {:added "2.1"} 
+  [& args]
   (cons 'vector
         (mapcat inject-row
                 (inject-split-args args))))
