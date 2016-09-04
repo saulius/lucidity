@@ -3,7 +3,7 @@
   (:require [lucid.flight.reflection :refer :all]
             [clojure.repl :as repl]
             [clojure.string :as string])
-  (:refer-clojure :exclude '[.% .%> .? .* .& .> .>ns .>var]))
+  (:refer-clojure :exclude [.% .%> .? .* .& .> .>ns .>var]))
 
 ^{:refer lucid.flight.reflection/.% :added "2.1"}
 (fact "Lists class information"

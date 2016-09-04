@@ -5,7 +5,7 @@
             [hara.io.file :as fs]
             [clojure.java.io :as io]))
 
-(def ^:dynamic *hara-version* "2.4.1")
+(def ^:dynamic *hara-version* "2.4.0")
 
 (def ^:dynamic *hara-test-path*
   (fs/path (str "~/.m2/repository/im/chit/hara.test/"
