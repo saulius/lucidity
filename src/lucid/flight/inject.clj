@@ -4,7 +4,7 @@
   "copies the var into a namespace with given symbol name
    (inject-single 'user 'assoc2 #'clojure.core/assoc)
    => #'user/assoc2"
-  {:added "0.1"} 
+  {:added "1.1"}
   [to-ns sym svar]
   (intern to-ns
           (with-meta sym
@@ -23,7 +23,7 @@
    => '{:ns  clojure.core
         :op  :exclude
         :arr [assoc]}"
-  {:added "0.1"} 
+  {:added "1.1"}
   [[ns & [arg & rest :as args]]]
   (let [[op arr] (cond (or (symbol? arg) (vector? arg))
                        [:refer args]
@@ -77,7 +77,7 @@
                    :arr [inject-single]}
                   {:ns lucid.flight.maven, :op :exclude, :arr ()}
                   {:ns lucid.flight.debug, :op :exclude, :arr ()}]}]"
-  {:added "2.1"} 
+  {:added "1.1"}
   [args]
   (let [{:keys [all current]}
         (reduce (fn [{:keys [last current all] :as m} arg]
@@ -111,7 +111,7 @@
                      '{:ns clojure.java.shell, :op :refer,
                        :arr [sh]})
    => [#'user/-sh]"
-  {:added "2.1"} 
+  {:added "1.1"}
   [to-ns prefix {:keys [op arr] from-ns :ns}]
   (require from-ns)
   (cond (= op :refer)
@@ -144,7 +144,7 @@
                  [{:ns clojure.repl, :op :refer,
                    :arr [apropos source doc]}]})
    => [#'a/apropos #'a/source #'a/doc]"
-  {:added "2.1"} 
+  {:added "1.1"}
   [{:keys [imports prefix] to-ns :ns}]
   (let [_ (create-ns to-ns)
         out (mapcat #(inject-row-entry to-ns prefix %) imports)
@@ -159,7 +159,7 @@
              b
              (clojure.repl apropos source doc)])
    => [#'./apropos #'./source #'./doc #'b/apropos #'b/source #'b/doc]"
-  {:added "2.1"} 
+  {:added "1.1"}
   [& args]
   (->> args
        (mapcat inject-split-args)
@@ -174,7 +174,7 @@
    => [#'c/apropos #'c/source #'c/doc
        #'d/apropos #'d/source #'d/doc
        #'e/apropos #'e/source #'e/doc]"
-  {:added "2.1"} 
+  {:added "1.1"}
   [& args]
   (cons 'vector
         (mapcat inject-row

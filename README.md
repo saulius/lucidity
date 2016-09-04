@@ -5,8 +5,8 @@
 
 tools for clarity
 
-    All that we see or seem, is but a dream within a dream. 
-	- Edgar Allan Poe
+    See the world not as it is but as it should be.
+	- Glee
 
 ## License
 

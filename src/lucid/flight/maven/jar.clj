@@ -1,5 +1,5 @@
-(ns lucid.dive.maven.jar
-  (:require [lucid.dive.maven.file :as file]
+(ns lucid.flight.maven.jar
+  (:require [lucid.flight.maven.file :as file]
             [clojure.java.io :as io]
             [clojure.string :as string]
             [version-clj.core :as version])
@@ -8,21 +8,72 @@
 (defonce ^:dynamic *local-repo*
   (string/join file/*sep* [(System/getProperty "user.home") ".m2" "repository"]))
 
-(defn jar-entry [jar-path entry]
-  (let [resource-name (file/resource-path entry)
-        file   (io/as-file jar-path)]
+(defn jar-file
+  "returns a path as a jar or nil if it does not exist
+ 
+   (jar-file *hara-test-path*)
+   => java.util.jar.JarFile"
+  {:added "1.1"}
+  [path]
+  (let [file   (io/as-file path)]
     (if (.exists file)
-      (.getEntry (java.util.jar.JarFile. file) resource-name))))
+      (java.util.jar.JarFile. file))))
 
-(defn jar-contents [jar-path]
+(defn jar-entry
+  "returns an entry of the jar or nil if it does not exist
+ 
+   (jar-entry *hara-test-path* \"hara/test.clj\")
+   => java.util.jar.JarFile$JarFileEntry
+ 
+   (jar-entry *hara-test-path* \"NON-FILE\")
+   => nil"
+  {:added "1.1"}
+  [path entry]
+  (if-let [jar (jar-file path)]
+    (let [resource-name (file/resource-path entry)
+          entry (.getEntry jar resource-name)]
+      entry)))
+
+(defn jar-stream
+  "gets the input-stream of the entry for the jar
+   
+   (-> (fs/file *hara-test-path*)
+       (jar-stream \"hara/test.clj\")
+       (fs/pushback)
+       (read)
+       second)
+   => 'hara.test"
+  {:added "1.1"}
+  [path entry]
+  (if-let [jar (jar-file path)]
+    (let [resource-name (file/resource-path entry)
+          entry (.getEntry jar resource-name)]
+      (.getInputStream jar entry))))
+
+(defn jar-contents
+  "lists the contents of a jar
+   
+   (-> (fs/file *hara-test-path*)
+       (jar-contents))
+   => (contains [\"project.clj\" \"hara/test.clj\"] :in-any-order :gaps-ok)"
+  {:added "1.1"}
+  [path]
   (with-open [zip (java.util.zip.ZipInputStream.
-                   (io/input-stream jar-path))]
+                   (io/input-stream path))]
     (loop [entries []]
       (if-let [e (.getNextEntry zip)]
         (recur (conj entries (.getName e)))
         entries))))
 
-(defmulti resolve-jar (fn [x & [k v]] k))
+(defmulti resolve-jar
+  "resolves the path of a jar for a given namespace, according to many options
+   
+   (resolve-jar 'hara.test)
+   => [*hara-test-path* \"hara/test.clj\"]
+ 
+   "
+  {:added "1.1"}
+  (fn [x & [k v]] k))
 
 (defmethod resolve-jar nil
   [x & _]
@@ -50,7 +101,12 @@
       (recur x :jar-path more))))
 
 
-(defn maven-file [[name version] & [suffix local-repo]]
+(defn maven-file
+  "returns the path of the local maven file
+   (maven-file ['im.chit/hara.test *hara-version*])
+   => *hara-test-path*"
+  {:added "1.1"}
+  [[name version] & [suffix local-repo]]
   (let [[group artifact] (string/split (str name) #"/")
         artifact (or artifact
                      group)]
@@ -69,7 +125,14 @@
       res
       (recur x :coordinates more))))
 
-(defn find-all-jars [repo]
+(defn find-all-jars
+  "returns all jars within a repo in a form of a map
+   (-> (find-all-jars (fs/path \"~/.m2/repository\"))
+       (get (fs/path \"~/.m2/repository/im/chit/hara.test\"))
+       (get *hara-version*))
+   => *hara-test-path*"
+  {:added "1.1"}
+  [repo]
   (->> (file-seq (io/as-file repo))
        (filter (fn [f] (-> f (.getName) (.endsWith ".jar"))))
        (reduce (fn [out jar]
@@ -77,7 +140,14 @@
                    (assoc-in out [(.getParent parent-dir) (.getName parent-dir)]
                              (.getPath jar)))) {})))
 
-(defn find-latest-jars [repo]
+(defn find-latest-jars
+  "returns the latest jars within a repo
+   (->> (find-latest-jars (fs/path \"~/.m2/repository\"))
+        (filter #(= % *hara-test-path*))
+        first)
+   => *hara-test-path*"
+  {:added "1.1"}
+  [repo]
   (->> (find-all-jars repo)
        (map (fn [[_ entries]]
               (let [versions (keys entries)]

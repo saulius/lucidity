@@ -1,10 +1,16 @@
 (ns lucid.flight.classloader
   (:require [clojure.java.io :as io]
             [hara.reflect :as reflect]
-            [lucid.flight.maven.jar :as jar]
-            [lucid.flight.maven.file :as file]))
+            [lucid.flight.maven
+             [jar :as jar]
+             [file :as file]]))
 
-(defmulti to-bytes (fn [x] (type x)))
+(defmulti to-bytes
+  "opens `.class` file from an external source
+   (to-bytes \"target/classes/test/Dog.class\")
+   => checks/bytes?"
+  {:added "1.1"}
+  (fn [x] (type x)))
 
 (defmethod to-bytes java.io.InputStream [stream]
   (let [o (java.io.ByteArrayOutputStream.)]
@@ -31,13 +37,21 @@
   (clojure.lang.Util/clearCache *rq* *class-cache*)
   (.remove *class-cache* name))
 
-(defn path->classname [path]
+(defn path->classname
+  "converts the path to a classname
+   (path->classname \"test/Dog.class\")
+   => \"test.Dog\""
+  {:added "1.1"}
+  [path]
   (let [path (if (.endsWith path".class")
                (subs path 0 (- (count path) 6))
                path)]
     (.replaceAll path file/*sep* ".")))
 
-(defmulti load-class (fn [x & args] (type x)))
+(defmulti load-class
+  "loads class from an external source"
+  {:added "1.1"}
+  (fn [x & args] (type x)))
 
 (defmethod load-class Class [cls]
   (.put *class-cache*

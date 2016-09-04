@@ -1,4 +1,4 @@
-(ns lucid.dive.maven.file
+(ns lucid.flight.maven.file
   (:require [clojure.string :as string]
             [clojure.java.io :as io])
   (:import [clojure.lang Symbol]))
@@ -17,7 +17,15 @@
 
 (defonce ^:dynamic *java-runtime-jar* (str *java-home* "/lib/rt.jar"))
 
-(defn resource-symbol-path [sym]
+(defn resource-symbol-path
+  "creates a path based on symbol
+   (resource-symbol-path 'hara.test)
+   => \"hara/test.clj\"
+ 
+   (resource-symbol-path 'version-clj.core)
+   => \"version_clj/core.clj\""
+  {:added "1.1"}
+  [sym]
   (let [sym-str (-> (str sym)
                     (.replaceAll "\\." *sep*)
                     (.replaceAll "-" "_"))
@@ -28,7 +36,18 @@
            ".class"
            ".clj"))))
 
-(defn resource-path [x]
+(defn resource-path
+  "creates a path based item
+   (resource-path \"hello/world.txt\")
+   => \"hello/world.txt\"
+ 
+   (resource-path 'version-clj.core)
+   => \"version_clj/core.clj\"
+ 
+   (resource-path java.io.File)
+   => \"java/io/File.class\""
+  {:added "1.1"}
+  [x]
   (condp = (type x)
     String x
     Symbol (resource-symbol-path x)
