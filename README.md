@@ -1,7 +1,7 @@
 # lucid
 
-[![Build Status](https://travis-ci.org/tahto/lucid.png?branch=master)](https://travis-ci.org/tahto/lucid)
-[![Clojars](https://img.shields.io/clojars/v/tahto/lucid.svg)](https://clojars.org/tahto/lucid)
+[![Build Status](https://travis-ci.org/tahto/lucidity.png?branch=master)](https://travis-ci.org/tahto/lucidity)
+[![Clojars](https://img.shields.io/clojars/v/tahto/lucidity.svg)](https://clojars.org/tahto/lucidity)
 
 tools for clarity
 
