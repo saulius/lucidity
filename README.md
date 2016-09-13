@@ -1,4 +1,4 @@
-# lucid
+# lucidity
 
 [![Build Status](https://travis-ci.org/tahto/lucidity.png?branch=master)](https://travis-ci.org/tahto/lucidity)
 [![Clojars](https://img.shields.io/clojars/v/tahto/lucidity.svg)](https://clojars.org/tahto/lucidity)
