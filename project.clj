@@ -1,10 +1,10 @@
-(defproject tahto/lucid "1.1.0"
+(defproject tahto/lucidity "1.1.0"
   :description "tools for clarity"
-  :url "https://www.github.com/tahto/lucid"
+  :url "https://www.github.com/tahto/lucidity"
   :license {:name "The MIT License"
             :url "http://http://opensource.org/licenses/MIT"}
   :aliases {"test" ["run" "-m" "hara.test"]}
-  :injections [(require '[lucid.flight.inject :as inject])
+  :injections [(require  '[lucid.flight.inject :as inject])
 	           (inject/in [lucid.flight.inject :refer [inject [in inject-in]]]
 	                      [clojure.pprint pprint]
 	                      [clojure.java.shell sh]
