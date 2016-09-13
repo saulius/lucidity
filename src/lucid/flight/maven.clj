@@ -3,7 +3,7 @@
             [hara.reflect :as reflect]
             [lucid.flight.maven.jar :as jar]
             [lucid.flight.maven.file :as file]
-            [wu.kong :as aether])
+            [lucid.aether :as aether])
   (:import [clojure.lang Symbol PersistentVector]))
 
 (defn coordinate
