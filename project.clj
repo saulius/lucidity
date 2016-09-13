@@ -14,31 +14,23 @@
 	                      [lucid.flight.reflection .& .> .? .* .% .%>]
 
 	                      clojure.core
-	                      [lucid.flight.debug :refer [[dbg-> *->] [dbg->> *->>]]])
-				#_(require 'spyscope.core)
-                #_(require 'io.aviso.repl 
-                         'clojure.repl 
-                         'clojure.main)
-                #_(alter-var-root #'clojure.main/repl-caught
-                  (constantly @#'io.aviso.repl/pretty-pst))
-                #_(alter-var-root #'clojure.repl/pst
-                  (constantly @#'io.aviso.repl/pretty-pst))]
+	                      [lucid.flight.debug :refer [[dbg-> *->] [dbg->> *->>]]])]
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.match "0.2.2"]
-                 [im.chit/hara.data      "2.4.0"]
-                 [im.chit/hara.data.diff "2.4.0"]
-                 ;;[im.chit/hara.io.file   "2.4.0"]
-                 [im.chit/hara.io.watch  "2.4.0"]
-                 [im.chit/hara.common.checks "2.4.0"]
-                 [im.chit/hara.common.watch  "2.4.0"]
-                 [im.chit/hara.component "2.4.0"]
-                 [im.chit/hara.concurrent.latch "2.4.0"]
-                 [im.chit/hara.concurrent.pipe "2.4.0"]
-                 [im.chit/hara.event     "2.4.0"]
-                 [im.chit/hara.object    "2.4.0"]
-                 [im.chit/hara.reflect   "2.4.0"]
-                 [im.chit/hara.string    "2.4.0"]
-				 [im.chit/jai "0.2.11"]
+                 [im.chit/hara.data      "2.4.2"]
+                 [im.chit/hara.data.diff "2.4.2"]
+                 [im.chit/hara.io.file "2.4.2"]
+                 [im.chit/hara.io.watch  "2.4.2"]
+                 [im.chit/hara.common.checks "2.4.2"]
+                 [im.chit/hara.common.watch  "2.4.2"]
+                 [im.chit/hara.component "2.4.2"]
+                 [im.chit/hara.concurrent.latch "2.4.2"]
+                 [im.chit/hara.concurrent.pipe  "2.4.2"]
+                 [im.chit/hara.event     "2.4.2"]
+                 [im.chit/hara.object    "2.4.2"]
+                 [im.chit/hara.reflect   "2.4.2"]
+                 [im.chit/hara.string    "2.4.2"]
+				 [im.chit/jai "0.2.12"]
                  [tahto/wu.kong "0.1.4"]
                  [version-clj/version-clj "0.1.2"]
                  [rewrite-clj/rewrite-clj "0.5.1"]
@@ -46,16 +38,9 @@
                  [hiccup/hiccup "1.0.5"]]
   :java-source-paths ["example/java"]
   :jar-exclusions [#"^test\..+\.class"]				 
-  :profiles {:dev {:dependencies [[im.chit/hara.test "2.4.0"]
-                                  [proto-repl "0.3.1"]
-			  		              ;;[spyscope "0.1.5"]
-			  					  ;;[io.aviso/pretty "0.1.8"]
-			  					  ;;[org.clojure/tools.namespace "0.2.5"]
-								  ]
+  :profiles {:dev {:dependencies [[im.chit/hara.test "2.4.2"]]
                    :plugins [[lein-hydrox "0.1.17"]
-				             [lein-repack "0.2.10"]
-				             [lein-ancient "0.6.10"]
-		                     [cider/cider-nrepl "0.13.0"]]}}
+				             [lein-repack "0.2.10"]]}}
 
   :repack [{:type :clojure
             :levels 2
