@@ -44,6 +44,9 @@
   ([aether coords]
    (let [system  (system/repository-system)
          request (request/dependency-request aether coords)
-         session (session/session system (select-keys aether [:local-repo]))]
+         session (->> (select-keys aether [:local-repo])
+                      (session/session system))]
      (-> (.resolveDependencies system session request)
-         (result/summary)))))
+         (result/summary)
+         (flatten-values)
+         (set)))))

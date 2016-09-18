@@ -20,7 +20,6 @@
 (defmethod to-bytes String [path]
   (to-bytes (io/input-stream path)))
 
-
 (defonce ^:dynamic *class-cache*
   (reflect/apply-element clojure.lang.DynamicClassLoader "classCache" []))
 

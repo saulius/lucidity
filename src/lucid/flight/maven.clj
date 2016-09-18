@@ -29,19 +29,19 @@
 (defn coordinate-dependencies
   "list dependencies for a coordinate
  
-   (coordinate-dependencies '[[im.chit/hara.test \"2.4.0\"]])
-   => (contains '[[im.chit/hara.test \"2.4.0\"]
-                  [im.chit/hara.namespace.import \"2.4.0\"]
-                  [im.chit/hara.event \"2.4.0\"]
-                  [im.chit/hara.common.primitives \"2.4.0\"]
-                  [im.chit/hara.data.seq \"2.4.0\"]
-                 [im.chit/hara.data.map \"2.4.0\"]
-                  [im.chit/hara.common.checks \"2.4.0\"]
-                  [im.chit/hara.common.primitives \"2.4.0\"]
-                  [im.chit/hara.common.error \"2.4.0\"]
-                  [im.chit/hara.common.checks \"2.4.0\"]
-                  [im.chit/hara.io.file \"2.4.0\"]
-                  [im.chit/hara.display.ansii \"2.4.0\"]]
+   (coordinate-dependencies '[[im.chit/hara.test \"2.4.4\"]])
+   => (contains '[[im.chit/hara.test \"2.4.4\"]
+                  [im.chit/hara.namespace.import \"2.4.4\"]
+                  [im.chit/hara.event \"2.4.4\"]
+                  [im.chit/hara.common.primitives \"2.4.4\"]
+                  [im.chit/hara.data.seq \"2.4.4\"]
+                 [im.chit/hara.data.map \"2.4.4\"]
+                  [im.chit/hara.common.checks \"2.4.4\"]
+                  [im.chit/hara.common.primitives \"2.4.4\"]
+                  [im.chit/hara.common.error \"2.4.4\"]
+                  [im.chit/hara.common.checks \"2.4.4\"]
+                  [im.chit/hara.io.file \"2.4.4\"]
+                  [im.chit/hara.display.ansii \"2.4.4\"]]
                 :in-any-order)"
   {:added "1.1"}
   [coordinates & [repos]]
@@ -117,19 +117,19 @@
 (defn pull
   "pulls down the necessary dependencies from maven and adds it to the project
  
-   (pull '[im.chit/hara.test \"2.4.0\"])
-   => (contains '[[im.chit/hara.test \"2.4.0\"]
-                  [im.chit/hara.namespace.import \"2.4.0\"]
-                  [im.chit/hara.event \"2.4.0\"]
-                  [im.chit/hara.common.primitives \"2.4.0\"]
-                  [im.chit/hara.data.seq \"2.4.0\"]
-                 [im.chit/hara.data.map \"2.4.0\"]
-                  [im.chit/hara.common.checks \"2.4.0\"]
-                  [im.chit/hara.common.primitives \"2.4.0\"]
-                  [im.chit/hara.common.error \"2.4.0\"]
-                  [im.chit/hara.common.checks \"2.4.0\"]
-                  [im.chit/hara.io.file \"2.4.0\"]
-                  [im.chit/hara.display.ansii \"2.4.0\"]]
+   (pull '[im.chit/hara.test \"2.4.4\"])
+   => (contains '[[im.chit/hara.test \"2.4.4\"]
+                  [im.chit/hara.namespace.import \"2.4.4\"]
+                  [im.chit/hara.event \"2.4.4\"]
+                  [im.chit/hara.common.primitives \"2.4.4\"]
+                  [im.chit/hara.data.seq \"2.4.4\"]
+                  [im.chit/hara.data.map \"2.4.4\"]
+                  [im.chit/hara.common.checks \"2.4.4\"]
+                  [im.chit/hara.common.primitives \"2.4.4\"]
+                  [im.chit/hara.common.error \"2.4.4\"]
+                  [im.chit/hara.common.checks \"2.4.4\"]
+                  [im.chit/hara.io.file \"2.4.4\"]
+                  [im.chit/hara.display.ansii \"2.4.4\"]]
                 :in-any-order)"
   {:added "1.1"}
   [coord]

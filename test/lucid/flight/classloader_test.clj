@@ -14,5 +14,11 @@
   (path->classname "test/Dog.class")
   => "test.Dog")
 
+^{:refer lucid.flight.classloader/dynamic-loader :added "1.1"}
+(fact "returns the clojure runtime classloader")
+
 ^{:refer lucid.flight.classloader/load-class :added "1.1"}
 (fact "loads class from an external source")
+
+^{:refer lucid.flight.classloader/unload-class :added "1.1"}
+(fact "unloads class from the clojure runtime cache")
