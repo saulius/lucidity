@@ -1,5 +1,5 @@
 (ns lucid.dive.analyse.test
-    (:require [jai.query :as query]
+    (:require [lucid.query :as query]
             [rewrite-clj.zip :as source]
             [rewrite-clj.node :as node]
             [clojure.walk :as walk]

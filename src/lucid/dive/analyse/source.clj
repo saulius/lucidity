@@ -1,6 +1,6 @@
 (ns lucid.dive.analyse.source
   (:require [rewrite-clj.zip :as source]
-            [jai.query :as query]
+            [lucid.query :as query]
             [lucid.dive.analyse.common :as common]))
 
 (defn analyse-source-file
