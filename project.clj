@@ -3,7 +3,7 @@
   :url "https://www.github.com/tahto/lucidity"
   :license {:name "The MIT License"
             :url "http://http://opensource.org/licenses/MIT"}
-  :aliases {"test" ["run" "-m" "hara.test"]}
+  :aliases {"test" ["run" "-m" "hara.test" ":exit"]}
   :injections []
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.match "0.2.2"]
@@ -41,7 +41,7 @@
   :jar-exclusions [#"^test\..+\.class"]				 
   :profiles {:dev {:dependencies [[im.chit/hara.test "2.4.4"]]
                    :plugins [[lein-hydrox "0.1.17"]
-				             [lein-repack "0.2.10"]]}}
+				                     [lein-repack "0.2.10"]]}}
 
   :repack [{:type :clojure
             :levels 2

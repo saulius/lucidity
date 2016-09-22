@@ -1,4 +1,4 @@
-(ns lucid.query.comman
+(ns lucid.query.common
   (:require [clojure.string :as string]
             [clojure.walk :as walk]))
 

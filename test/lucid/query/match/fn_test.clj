@@ -1,8 +1,8 @@
-(ns jai.match.fn-test
+(ns lucid.query.match.fn-test
   (:use hara.test)
-  (:require  [jai.match [pattern :refer :all] fn]))
+  (:require  [lucid.query.match [pattern :refer :all] fn]))
 
-^{:refer jai.match.fn/pattern-fn :added "0.2"}
+^{:refer lucid.query.match.fn/pattern-fn :added "0.2"}
 (fact "make sure that functions are working properly"
   ((pattern-fn vector?) [])
   => throws

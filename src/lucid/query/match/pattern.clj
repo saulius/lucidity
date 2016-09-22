@@ -4,7 +4,7 @@
               [actual :as actual]
               [eval :as eval]
               [optional :as optional]]
-             [lucid.query.comman :as common]
+             [lucid.query.common :as common]
              [clojure.core.match :as match]
              [clojure.walk :as walk]))
 
