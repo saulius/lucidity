@@ -1,5 +1,5 @@
-(ns lucid.query.match.optional
-  (:require [lucid.query.common :as common]))
+(ns lucid.core.query.match.optional
+  (:require [lucid.core.query.common :as common]))
 
 (defn tag-meta
   [ele out]

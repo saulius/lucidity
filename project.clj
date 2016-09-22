@@ -1,4 +1,4 @@
-(defproject tahto/lucid "1.1.0"
+(defproject tahto/lucid "1.2.0"
   :description "tools for clarity"
   :url "https://www.github.com/tahto/lucidity"
   :license {:name "The MIT License"
@@ -21,7 +21,6 @@
                  [im.chit/hara.object    "2.4.4"]
                  [im.chit/hara.reflect   "2.4.4"]
                  [im.chit/hara.string    "2.4.4"]
-
 				         [org.eclipse.aether/aether-api "1.1.0"]
 	               [org.eclipse.aether/aether-spi "1.1.0"]
                  [org.eclipse.aether/aether-util "1.1.0"]
@@ -46,4 +45,4 @@
   :repack [{:type :clojure
             :levels 2
             :path "src"
-            :standalone #{"aether" "base" "dive" "launch" "query"}}])
+            :standalone #{"insight" "vision"}}])
