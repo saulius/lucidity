@@ -21,7 +21,6 @@
                  [im.chit/hara.object    "2.4.4"]
                  [im.chit/hara.reflect   "2.4.4"]
                  [im.chit/hara.string    "2.4.4"]
-				         [im.chit/jai "0.2.12"]
 
 				         [org.eclipse.aether/aether-api "1.1.0"]
 	               [org.eclipse.aether/aether-spi "1.1.0"]
