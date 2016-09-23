@@ -2,5 +2,6 @@
   (:require [hara.namespace.import :as ns]
             [lucid deploy
                    mind
+                   query
                    site
-                   wake]))
+                   unit]))

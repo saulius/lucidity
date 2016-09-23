@@ -1,6 +1,6 @@
-(ns lucid.wake.analyse.test.clojure
+(ns lucid.unit.test.clojure
   (:require [lucid.query :as query]
-            [lucid.wake.analyse.test.common :as common]
+            [lucid.unit.test.common :as common]
             [rewrite-clj.zip :as source]
             [rewrite-clj.node :as node]
             [clojure.string :as string]))

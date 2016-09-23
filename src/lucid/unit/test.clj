@@ -1,11 +1,11 @@
-(ns lucid.wake.analyse.test
+(ns lucid.unit.test
     (:require [lucid.query :as query]
             [rewrite-clj.zip :as source]
             [rewrite-clj.node :as node]
             [clojure.walk :as walk]
             [hara.data.nested :as nested]
-            [lucid.wake.analyse.common :as common]
-            [lucid.wake.analyse.test
+            [lucid.unit.common :as common]
+            [lucid.unit.test
              [common :as test] clojure fact]))
 
 (defn find-frameworks

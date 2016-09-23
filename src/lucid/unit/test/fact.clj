@@ -1,9 +1,9 @@
-(ns lucid.wake.analyse.test.fact
+(ns lucid.unit.test.fact
   (:require [lucid.query :as query]
             [clojure.string :as string]
             [rewrite-clj.zip :as source]
             [rewrite-clj.node :as node]
-            [lucid.wake.analyse.test.common :as common]))
+            [lucid.unit.test.common :as common]))
 
 (defn gather-fact-body
   ([zloc]

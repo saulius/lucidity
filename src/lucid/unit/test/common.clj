@@ -1,4 +1,4 @@
-(ns lucid.wake.analyse.test.common
+(ns lucid.unit.test.common
   (:require [rewrite-clj.zip :as source]
             [rewrite-clj.node :as node]
             [clojure.string :as string]))

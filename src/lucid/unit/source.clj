@@ -1,7 +1,7 @@
-(ns lucid.wake.analyse.source
+(ns lucid.unit.source
   (:require [rewrite-clj.zip :as source]
             [lucid.query :as query]
-            [lucid.wake.analyse.common :as common]))
+            [lucid.unit.common :as common]))
 
 (defn analyse-source-file
   "analyses a source file for namespace and function definitions

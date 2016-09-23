@@ -1,8 +1,8 @@
-(ns lucid.wake.analyse.source-test
+(ns lucid.unit.source-test
   (:use hara.test)
-  (:require [lucid.wake.analyse.source :refer :all]))
+  (:require [lucid.unit.source :refer :all]))
 
-^{:refer lucid.wake.analyse.source/analyse-source-file :added "1.1"}
+^{:refer lucid.unit.source/analyse-source-file :added "1.1"}
 (fact "analyses a source file for namespace and function definitions"
   (analyse-source-file "example/src/example/core.clj" {})
   => '{example.core

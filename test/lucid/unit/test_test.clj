@@ -1,9 +1,9 @@
-(ns lucid.wake.analyse.test-test
+(ns lucid.unit.test-test
   (:use hara.test)
-  (:require [lucid.wake.analyse.test :refer :all]
-            [lucid.wake.analyse.test.common :as common]))
+  (:require [lucid.unit.test :refer :all]
+            [lucid.unit.test.common :as common]))
 
-^{:refer lucid.wake.analyse.test/find-frameworks :added "1.1"}
+^{:refer lucid.unit.test/find-frameworks :added "1.1"}
 (fact "find test frameworks given a namespace form"
   (find-frameworks '(ns ...
                       (:use hara.test)))
@@ -13,7 +13,7 @@
                       (:use clojure.test)))
   => #{:clojure})
 
-^{:refer lucid.wake.analyse.test/analyse-test-file :added "1.1"}
+^{:refer lucid.unit.test/analyse-test-file :added "1.1"}
 (fact "analyses a test file for docstring forms"
   
   (-> (analyse-test-file "example/test/example/core_test.clj" {})
