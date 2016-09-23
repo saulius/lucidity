@@ -127,7 +127,8 @@
          version (->> (string/split (:version *project*) #"\.")
                       (take 2)
                       (string/join "."))]
-     (if (and vars (not (fs/exists? test-file)))
+     (if (and vars (or (not test-file)
+                       (not (fs/exists? test-file))))
        (let [test-file (format "%s/%s"
                                (first (:test-paths *project*))
                                (->  test-ns str munge (.replaceAll "\\." "/") (str ".clj")))]
