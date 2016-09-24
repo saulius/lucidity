@@ -2,6 +2,7 @@
   (:require [clojure.zip :as zip]
             [clojure.string :as string]
             [lucid.query :as query]
+            [hara.string.prose :as prose]
             [rewrite-clj
              [node :as node]
              [zip :as source]]))
@@ -24,57 +25,6 @@
         (zip/insert-right (node/newline-node "\n")))
     zloc))
 
-(defn has-quotes?
-  "checks if a string has quotes
- 
-   (has-quotes? \"\\\"hello\\\"\")
-   => true"
-  {:added "0.1"}
-  [s]
-  (and (.startsWith s "\"")
-           (.endsWith s "\"")))
-
-(defn strip-quotes
-  "gets rid of quotes in a string
- 
-   (strip-quotes \"\\\"hello\\\"\")
-   => \"hello\""
-  {:added "0.1"}
-  [s]
-  (if (has-quotes? s) 
-    (subs s 1 (dec (count s)))
-    s))
-
-(defn escape-newlines
-  "makes sure that newlines are printable
- 
-   (escape-newlines \"\\\n\")
-   => \"\\n\""
-  {:added "0.1"}
-  [s]
-  (-> s
-      (.replaceAll "\\n" "\\\\n")))
-
-(defn escape-escapes
-  "makes sure that newlines are printable
- 
-   (escape-escapes \"\\\n\")
-   => \"\\\n\""
-  {:added "0.1"}
-  [s]
-  (-> s
-      (.replaceAll "(\\\\)([A-Za-z])" "$1$1$2")))
-
-(defn escape-quotes
-  "makes sure that quotes are printable in string form
- 
-   (escape-quotes \"\\\"hello\\\"\")
-   => \"\\\"hello\\\"\""
-  {:added "0.1"}
-  [s]
-  (-> s
-      (.replaceAll "(\\\\)?\"" "$1$1\\\\\\\"")))
-
 (defn strip-quotes-array
   "utility that strips quotes when not the result of a fact
    (strip-quotes-array [\"\\\"hello\\\"\"])
@@ -90,10 +40,10 @@
 
          :else
          (recur more x p1 (conj out (if (= p2 "=>")
-                                      (if (has-quotes? x)
-                                        (escape-newlines x)
+                                      (if (prose/has-quotes? x)
+                                        (prose/escape-newlines x)
                                         x)
-                                      (strip-quotes x)))))))
+                                      (prose/strip-quotes x)))))))
 
 (defn nodes->docstring
   "converts nodes to a docstring compatible
@@ -119,8 +69,8 @@
        (map node/string)
        (strip-quotes-array)
        (string/join)
-       (escape-escapes)
-       (escape-quotes)
+       (prose/escape-escapes)
+       (prose/escape-quotes)
        (string/split-lines)
        (map-indexed (fn [i s]
                       (str (if-not (or (zero? i)

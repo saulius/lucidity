@@ -1,10 +1,13 @@
 (ns lucid.unit
-  (:require [lucid.unit.api :as api]
+  (:require [lucid.unit source test
+             [common :as common]
+             [zipper :as zipper]]
             [lucid.query :as query]
             [hara.io
              [file :as fs]
              [project :as project]]
-            [clojure.string :as string])
+            [clojure.string :as string]
+            [rewrite-clj.zip :as source])
   (:refer-clojure :exclude [import]))
 
 (defonce ^:dynamic *lookup* nil)
