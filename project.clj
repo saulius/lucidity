@@ -32,30 +32,29 @@
                  [org.eclipse.aether/aether-transport-file "1.1.0"]
                  [org.eclipse.aether/aether-transport-classpath "1.1.0"]
                  [org.apache.maven/maven-aether-provider "3.1.0"]
-
                  [version-clj/version-clj "0.1.2"]
                  [rewrite-clj/rewrite-clj "0.5.2"]
                  [markdown-clj/markdown-clj "0.9.89"]
                  [hiccup/hiccup "1.0.5"]
-                 [stencil/stencil "0.5.0"]] 
-  :java-source-paths ["example/java"]
-  :jar-exclusions [#"^test\..+\.class"]				 
-  :profiles {:dev {:plugins [[lein-repack "0.2.10"]]}}
+                 [stencil/stencil "0.5.0"]]
+                 
   :publish {:name   "lucidity"
             :output "docs"
             :tracking "UA-31320512-2"
             :owners [{:name    "Chris Zheng"
                       :email   "z@caudate.me"
                       :website "http://z.caudate.me"}]
-            :template {:path "template"
-                       :copy ["assets"]
-                       :defaults {:template "article.html"
-                                  :navbar  [:file "partials/navbar.html"]
-                                  :sidebar [:file "partials/sidebar.html"]
-                                  :footer  [:file "partials/footer.html"]
-                                  :dependencies [:file "partials/deps-web.html"]
-                                  :contentbar  :navigation
-                                  :article     :article}}
+            :templates {:html     {:path "template/html"
+                                   :copy ["assets"]
+                                   :defaults {:template     "article.html"
+                                              :navbar       [:file "partials/navbar.html"]
+                                              :sidebar      [:file "partials/sidebar.html"]
+                                              :footer       [:file "partials/footer.html"]
+                                              :dependencies [:file "partials/deps-web.html"]
+                                              :contentbar   :navigation
+                                              :article      :article}}
+                         :pdf      {}
+                         :markdown {}}
             :paths ["test/documentation"]
             :files {"index"
                     {:template "home.html"
@@ -75,7 +74,11 @@
                      :subtitle "integrating code and tests"}}
             :link {:auto-tag    true
                    :auto-number  true}}
+
   :deploy [{:type :clojure
             :levels 2
             :path "src"
-            :standalone #{"unit" "publish" "query" "deploy"}}])
+            :standalone #{"unit" "publish" "query" "deploy"}}]
+
+  :java-source-paths ["example/java"]
+  :jar-exclusions [#"^test\..+\.class"])

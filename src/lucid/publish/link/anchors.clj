@@ -32,6 +32,7 @@
    => {\"example\" {\"hello\" {:type :chapter, :tag \"hello\", :number \"1\"}}}"
   {:added "0.1"}
   [{:keys [anchors-lu articles] :as folio} name]
-  (->> (get anchors-lu name)
-       :by-tag
-       (assoc-in folio [:anchors name])))
+  (assoc-in folio
+            [:anchors name]
+            (or (:by-tag (get anchors-lu name))
+                {})))

@@ -123,7 +123,7 @@
                {:type :section}
                {:type :paragraph}
                {:type :subsection}
-              {:type :paragraph}
+               {:type :paragraph}
                {:type :section}
                {:type :chapter}
                {:type :section}
