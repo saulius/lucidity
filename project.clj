@@ -40,21 +40,12 @@
                  
   :publish {:name   "lucidity"
             :output "docs"
+            :template {:theme "martell"
+                       :path  "template"}
             :tracking "UA-31320512-2"
             :owners [{:name    "Chris Zheng"
                       :email   "z@caudate.me"
                       :website "http://z.caudate.me"}]
-            :templates {:html     {:path "template/html"
-                                   :copy ["assets"]
-                                   :defaults {:template     "article.html"
-                                              :navbar       [:file "partials/navbar.html"]
-                                              :sidebar      [:file "partials/sidebar.html"]
-                                              :footer       [:file "partials/footer.html"]
-                                              :dependencies [:file "partials/deps-web.html"]
-                                              :contentbar   :navigation
-                                              :article      :article}}
-                         :pdf      {}
-                         :markdown {}}
             :paths ["test/documentation"]
             :files {"index"
                     {:template "home.html"

@@ -1,4 +1,4 @@
-(ns lucid.publish.render.navigation
+(ns lucid.theme.martell.navigation
   (:require [lucid.publish.render.util :as util]))
 
 (defmulti render (fn [element folio] (:type element)))

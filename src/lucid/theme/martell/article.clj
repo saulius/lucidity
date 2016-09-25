@@ -1,4 +1,4 @@
-(ns lucid.publish.render.article
+(ns lucid.theme.martell.article
   (:require [lucid.publish.render
              [structure :as structure]
              [util :as util]]
@@ -137,20 +137,3 @@
      (render-api-index namespace tag nsp)
      [:hr]
      (render-api-elements namespace tag nsp)]))
-
-(comment
-  (use 'lucid.core.namespace)
-  (clear-aliases)
-  [:p (-> folio
-           :references
-           (get (symbol namespace))
-           keys
-           (map str))]
-
-  #_(-> folio
-          :references
-          (get (symbol namespace))
-          first
-          second
-          :docs
-          (references/process-doc-nodes)))
