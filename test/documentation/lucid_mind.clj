@@ -9,7 +9,7 @@
 
 "Add to `project.clj` dependencies: 
 
-`[tahto/lucid.mind `\"`{{PROJECT.version}}`\"`]`
+`[tahto/lucid.mind \"{{PROJECT.version}}\"]`
 
 All functionality is in the `lucid.mind` namespace:
 "

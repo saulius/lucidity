@@ -14,7 +14,8 @@
               :navbar       [:file "partials/navbar.html"]
               :sidebar      [:file "partials/sidebar.html"]
               :footer       [:file "partials/footer.html"]
-              :dependencies [:file "partials/deps-web.html"]}
+              :dependencies [:file "partials/deps-web.html"]
+              :logo        "img/logo.png"}
    :manifest ["article.html"
               "home.html"
               "assets/css/rdash.min.css"
@@ -23,6 +24,8 @@
               "assets/fonts/montserrat-regular-webfont.svg"
               "assets/fonts/montserrat-regular-webfont.ttf"
               "assets/fonts/montserrat-regular-webfont.woff"
+              "assets/img/logo.png"
+              "assets/img/logo-white.png"
               "assets/js/angular-highlightjs.min.js"
               "partials/deps-local.html"
               "partials/deps-web.html"
@@ -31,13 +34,13 @@
               "partials/sidebar.html"]})
 
 (defn render-article [interim name]
-  (->> (get-in interim [:articles name :elements])
+  (->> (get-in interim [:articles name :elements :elements])
        (mapv #(article/render % interim))
        (mapcat (fn [ele] (#'compiler/compile-seq [ele])))
        (string/join)))
 
 (defn render-navigation [interim name]
-  (let [elements (get-in interim [:articles name :elements])
+  (let [elements (get-in interim [:articles name :elements :elements])
         chapters (filter (fn [e] (#{:chapter :appendix} (:type e)))
                          elements)]
     (->> chapters

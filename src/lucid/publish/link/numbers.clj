@@ -108,11 +108,11 @@
                {:elements [{:type :chapter, :title \"hello\", :number \"1\"}
                           {:type :section, :title \"world\", :number \"1.1\"}]}}}"
   {:added "0.1"}
-  [folio name]
-  (update-in folio [:articles name :elements]
+  [interim name]
+  (update-in interim [:articles name :elements]
              (fn [elements]
-               (let [auto-number (->> (list (get-in folio [:articles name :meta :link :auto-number])
-                                               (get-in folio [:meta :link :auto-number])
+               (let [auto-number (->> (list (get-in interim [:articles name :meta :link :auto-number])
+                                               (get-in interim [:meta :link :auto-number])
                                                true)
                                          (drop-while nil?)
                                          (first))

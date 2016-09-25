@@ -15,10 +15,10 @@
 (defn generate
   "generates the tree outline for rendering"
   {:added "0.1"}
-  [{:keys [project] :as folio} name]
+  [{:keys [project] :as interim} name]
   (let [meta       (-> project :documentation :files (get name))
-        folio      (prepare-article folio name (:input meta))
-        elements   (get-in folio [:articles name :elements])
+        interim      (prepare-article interim name (:input meta))
+        elements   (get-in interim [:articles name :elements])
         structure  (structure/structure elements)]
     structure))
 
@@ -38,18 +38,18 @@
 (defn prepare-placeholders
   "prepare template accept placeholders"
   {:added "0.1"}
-  [name placeholders folio]
+  [name placeholders interim]
   (let [no-doc (->> (filter (fn [[k v]] (#{:article :navigation} v)) placeholders)
                     empty?)]
     (cond no-doc
           placeholders
 
           :else
-          (let [elements (generate folio name)]
+          (let [elements (generate interim name)]
             (reduce-kv (fn [out k v]
                          (assoc out k (case v
-                                        :article    (render/render-article elements folio)
-                                        :navigation (render/render-navigation elements folio)
+                                        :article    (render/render-article elements interim)
+                                        :navigation (render/render-navigation elements interim)
                                         v)))
                        {}
                        placeholders)))))
@@ -70,7 +70,7 @@
           template       (slurp template-path)
           includes       (->> (find-includes template)
                               (select-keys entry))
-          includes       (prepare-includes name includes folio)
+          includes       (prepare-includes name includes interim)
           html           (render/replace-template template includes opts project)]
       (spit output-path html)
       (println "SUCCESS"))

@@ -8,7 +8,7 @@
    => {\"example\" {:by-number {:chapter {\"1\" {:type :chapter, :tag \"hello\", :number \"1\"}}},
                   :by-tag {\"hello\" {:type :chapter, :tag \"hello\", :number \"1\"}}}}"
   {:added "0.1"}
-  [{:keys [articles] :as folio} name]
+  [{:keys [articles] :as interim} name]
   (let [anchors (->> (get-in articles [name :elements])
                      (filter :tag)
                      (map #(select-keys % [:type :tag :number])))]
@@ -20,7 +20,7 @@
                              m)]
                      (assoc-in m [:by-tag tag] anchor)))
                  {})
-         (assoc-in folio [:anchors-lu name]))))
+         (assoc-in interim [:anchors-lu name]))))
 
 (defn link-anchors
   "creates a global anchors list based on the lookup
@@ -31,8 +31,8 @@
        :anchors)
    => {\"example\" {\"hello\" {:type :chapter, :tag \"hello\", :number \"1\"}}}"
   {:added "0.1"}
-  [{:keys [anchors-lu articles] :as folio} name]
-  (assoc-in folio
+  [{:keys [anchors-lu articles] :as interim} name]
+  (assoc-in interim
             [:anchors name]
             (or (:by-tag (get anchors-lu name))
                 {})))

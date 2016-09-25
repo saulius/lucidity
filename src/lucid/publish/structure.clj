@@ -1,4 +1,4 @@
-(ns lucid.publish.render.structure)
+(ns lucid.publish.structure)
 
 (def containers
   #{:article :chapter :appendix :section :subsection :subsubsection :generic})
@@ -80,6 +80,7 @@
   {:added "0.1"}
   ([v]
    (->> (containify v [#{:appendix :chapter :generic} :section :subsection :subsubsection])
+        (filterv identity)
         (cons {:type :article})
         vec))
   ([v [tag & more]]
@@ -113,7 +114,6 @@
         :else
         (mapv mapify-unit (cons head more))))
 
-
 (defn structure
   "creates a nested map structure of elements and their containers
    (structure [{:type :generic}
@@ -144,6 +144,15 @@
                   {:type :appendix, :elements []}]}"
   {:added "0.1"}
   [v]
-  (-> v
-      (containify)
-      (mapify)))
+  (cond (empty? v)
+        {:type :article :elements []}
+        
+        :else
+        (-> v
+            (containify)
+            (mapify))))
+
+(comment
+  (structure [])
+  (mapify [])
+  (containify []))

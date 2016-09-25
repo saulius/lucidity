@@ -59,6 +59,7 @@
   ([{:keys [name input] :as meta} project out]
    (let [elements (if input (parse/parse-file input project) [])]
      (-> out
+         (assoc :project project)
          (assoc-in [:articles name :elements] elements)
          (assoc-in [:articles name :meta] meta)
          (collect/collect-global name)

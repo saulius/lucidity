@@ -70,11 +70,11 @@
        :project {:version \"0.1\"},
        :anchors {\"example\" {\"hello\" {:number 2, :label \"two\"}}}}"
   {:added "0.1"}
-  [folio name]
-  (let [anchors (assoc (:anchors folio)
-                       :PROJECT (:project folio)
-                       :DOCUMENT (get-in folio [:articles name :meta]))]
-    (update-in folio [:articles name :elements]
+  [interim name]
+  (let [anchors (assoc (:anchors interim)
+                       :PROJECT (:project interim)
+                       :DOCUMENT (get-in interim [:articles name :meta]))]
+    (update-in interim [:articles name :elements]
                (fn [elements]
                  (->> elements
                       (map (fn [element]

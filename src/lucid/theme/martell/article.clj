@@ -1,15 +1,14 @@
 (ns lucid.theme.martell.article
   (:require [lucid.publish.render
-             [structure :as structure]
              [util :as util]]
-            [rewrite-clj.node :as node]
+            [lucid.publish.structure :as structure]
             [clojure.string :as string]))
 
-(defmulti render (fn [element folio] (:type element)))
+(defmulti render (fn [element interim] (:type element)))
 
 (defmethod render
   :paragraph
-  [{:keys [text indentation] :as element} folio]
+  [{:keys [text indentation] :as element} interim]
   [:div {:class :paragraph}
    (-> text
        (util/markup)
@@ -18,53 +17,53 @@
 
 (defmethod render
   :generic
-  [{:keys [tag text elements]} folio]
+  [{:keys [tag text elements]} interim]
   (vec (concat [:section]
-               (map #(render % folio) elements))))
+               (map #(render % interim) elements))))
 
 (defmethod render
   :chapter
-  [{:keys [tag text number title elements] :as element} folio]
+  [{:keys [tag text number title elements] :as element} interim]
   (vec (concat [:section {:id tag :class :chapter}
                 [:h2 {:class :chapter} (str number "  &nbsp;&nbsp; " title)]]
                (->> (structure/seperate #(= (:type %) :section) elements)
                     (map (fn [group]
                            (if (= :section (:type (first group)))
-                             (render (first group) folio)
+                             (render (first group) interim)
                              (vec (concat [:div {:class :group}]
-                                          (map #(render % folio) group))))))))))
+                                          (map #(render % interim) group))))))))))
 
 (defmethod render
   :appendix
-  [{:keys [tag text number title elements]} folio]
+  [{:keys [tag text number title elements]} interim]
   (vec (concat [:section {:id tag :class :chapter}
                 [:h2 {:class :chapter} (str number "  &nbsp;&nbsp; " title)]]
-               (map #(render % folio) elements))))
+               (map #(render % interim) elements))))
 
 (defmethod render
   :section
-  [{:keys [tag text number title elements]} folio]
+  [{:keys [tag text number title elements]} interim]
   (vec (concat [:section {:id tag :class :section}
                 [:h3 {:class :section} (str number "  &nbsp;&nbsp; " title)]]
-               (map #(render % folio) elements))))
+               (map #(render % interim) elements))))
 
 (defmethod render
   :subsection
-  [{:keys [tag text number title elements]} folio]
+  [{:keys [tag text number title elements]} interim]
   (vec (concat [:section {:id tag :class :subsection}
                 [:h4 {:class :subsection} (str number "  &nbsp;&nbsp; " title)]]
-               (map #(render % folio) elements))))
+               (map #(render % interim) elements))))
 
 (defmethod render
   :subsubsection
-  [{:keys [tag text number title elements]} folio]
+  [{:keys [tag text number title elements]} interim]
   (vec (concat [:section {:id tag :class :subsubsection}
                 [:h4 {:class :subsubsection} (str number "  &nbsp;&nbsp; " title)]]
-               (map #(render % folio) elements))))
+               (map #(render % interim) elements))))
 
 (defmethod render
   :code
-  [{:keys [tag text code indentation lang number title] :as element} folio]
+  [{:keys [tag text code indentation lang number title] :as element} interim]
   [:div {:class :code}
    (if tag [:a {:name tag}])
    (if number
@@ -80,12 +79,17 @@
 
 (defmethod render
   :block
-  [element folio]
-  (render (assoc element :type :code) folio))
+  [element interim]
+  (render (assoc element :type :code) interim))
+
+(defmethod render
+  :test
+  [element interim]
+  (render (assoc element :type :code) interim))
 
 (defmethod render
   :image
-  [{:keys [tag title text number] :as element} folio]
+  [{:keys [tag title text number] :as element} interim]
   [:div {:class :figure}
    (if tag [:a {:name tag}])
    [:div {:class "img"}
@@ -96,7 +100,7 @@
 
 (defmethod render
   :namespace
-  [{:keys [mode] :as element} folio])
+  [{:keys [mode] :as element} interim])
 
 (defn render-api-index [namespace tag nsp]
   (->> nsp
@@ -125,9 +129,9 @@
 
 (defmethod render
   :api
-  [{:keys [namespace tag] :as element} folio]
+  [{:keys [namespace tag] :as element} interim]
   (let [tag (or tag (str "api-" (.replaceAll ^String namespace "\\." "-")))
-        nsp (-> folio
+        nsp (-> interim
                  :references
                  (get (symbol namespace))
                  (->> (filter (fn [[_ data]] (:docs data)))

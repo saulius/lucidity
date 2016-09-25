@@ -94,10 +94,10 @@
                    {:type :chapter, :title \"hello world\", :tag \"hello-world-0\"}],
          :tags #{}}}}"
   {:added "0.1"}
-  [{:keys [articles] :as folio} name]
+  [{:keys [articles] :as interim} name]
   (let [tags (atom (get-in articles [name :tags]))]
     (let [auto-tag (->> (list (get-in articles [name :link :auto-tag])
-                              (get-in folio [:meta :link :auto-tag])
+                              (get-in interim [:meta :link :auto-tag])
                               true)
                         (drop-while nil?)
                         (first))
@@ -114,4 +114,4 @@
                            (create-tag element tags)
 
                            :else element)))
-           (assoc-in folio [:articles name :elements])))))
+           (assoc-in interim [:articles name :elements])))))

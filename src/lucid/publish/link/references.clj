@@ -46,8 +46,8 @@
             :title \"source of <i>example.core/hello</i>\"}]}},
        :references '{example.core {hello {:docs [], :source \"(defn hello [] 1)\"}}}}"
   {:added "0.1"}
-  [{:keys [references] :as folio} name]
-  (update-in folio [:articles name :elements]
+  [{:keys [references] :as interim} name]
+  (update-in interim [:articles name :elements]
              (fn [elements]
                (mapv (fn [element]
                        (if (-> element :type (= :reference))

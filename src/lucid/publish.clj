@@ -6,16 +6,22 @@
   (:require [hara.io.project :as project]
             [lucid.publish
              [prepare :as prepare]
-             [render :as render]]
+             [render :as render]
+             [template :as template]]
             [clojure.java.io :as io]
             [hara.io.file :as fs]))
 
 (def ^:dynamic *output* "docs")
+(def ^:dynamic *template* "template")
 
 (defn publish
   ([] (publish [*ns*]))
-  ([inputs] (publish inputs (project/project)))
-  ([inputs project]
+  ([inputs]
+   (let [project (project/project)
+         theme  (-> project :publish :template :theme)
+         settings (template/load-settings theme project)]
+     (publish inputs settings project)))
+  ([inputs settings project]
    (let [inputs (if (vector? inputs) inputs [inputs])
          ns->symbol (fn [x] (if (instance? clojure.lang.Namespace x)
                               (.getName x)
@@ -28,30 +34,51 @@
      (fs/create-directory out-dir)
      (doseq [name names]
        (spit (str (fs/path (str out-dir) (str name ".html")))
-             (render/render interim name project))))))
+             (render/render interim name settings project))))))
 
-(defn deploy-template
-  ([theme target]
-   (deploy-template theme target (project/project)))
-  ([theme target project]
-   (let [settings (render/load-settings theme project)
+(defn publish-all
+  ([]
+   (let [project (project/project)
+         theme  (-> project :publish :template :theme)
+         settings (template/load-settings theme project)]
+     (publish-all settings project)))
+  ([settings project]
+   (let [files (-> project :publish :files)]
+     (publish (vec (keys files)) settings project))))
+
+(defn copy-template
+  ([]
+   (let [project (project/project)
+         theme  (-> project :publish :template :theme)
+         settings (template/load-settings theme project)]
+     (copy-template settings project)))
+  ([settings project]
+   (let [target (or (-> project :publish :template :path)
+                    *template*)
          inputs   (mapv (juxt (fn [path]
                                 (-> (str (:resource settings) "/" path)
                                     (io/resource)
                                     (.openStream)))
                               identity)
                         (:manifest settings))]
-     (doseq [[stream path] inputs]
-       (let [out (fs/path target path)]
+     (doseq [[stream filename] inputs]
+       (let [out (fs/path (:root project) target filename)]
          (fs/create-directory (fs/parent out))
          (fs/write stream out))))))
 
 (comment
   (def settings (render/load-settings "martell"))
 
+  (copy-template)
   (publish "index")
+  (publish "index")
+
+  (publish "lucid-mind")
+
   
-  (deploy-template "martell" "template")
+  
+  
+  (copy-template "martell")
   (settings)
   
   (java.nio.file.Files/copy (.openStream (io/resource "clojure/core/match.clj"))
