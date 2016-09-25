@@ -60,7 +60,7 @@
                     (filter #(-> % :type (= :global)))
                     (apply nested/merge-nested {}))]
     (-> folio
-        (update-in [:meta] (fnil nested/merge-nested {}) (dissoc global :type))
+        (update-in [:global] (fnil nested/merge-nested {}) (dissoc global :type))
         (update-in [:articles name :elements]
                    (fn [elements] (filter #(-> % :type (not= :global)) elements))))))
 
