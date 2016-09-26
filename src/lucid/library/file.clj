@@ -1,4 +1,4 @@
-(ns lucid.core.maven.file
+(ns lucid.library.file
   (:require [clojure.string :as string]
             [clojure.java.io :as io])
   (:import [clojure.lang Symbol]))

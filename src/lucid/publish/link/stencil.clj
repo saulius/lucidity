@@ -78,7 +78,12 @@
                (fn [elements]
                  (->> elements
                       (map (fn [element]
-                             (if (= :paragraph (:type element))
-                               (update-in element [:text]
-                                          transform-stencil name anchors)
-                               element))))))))
+                             (cond (= :paragraph (:type element))
+                                   (update-in element [:text]
+                                              transform-stencil name anchors)
+                                              
+                                   (:stencil element)
+                                   (update-in element [:code]
+                                              transform-stencil name anchors)
+                                   
+                                   :else element))))))))

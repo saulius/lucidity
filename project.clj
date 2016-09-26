@@ -51,10 +51,26 @@
                     {:template "home.html"
                      :title "lucidity"
                      :subtitle "tools for clarity"}
+                    "lucid-core"
+                    {:input "test/documentation/lucid_core.clj"
+                     :title "core"
+                     :subtitle "functions to enhance code flow"}
+                    "lucid-deploy"
+                    {:input "test/documentation/lucid_deploy.clj"
+                     :title "deploy"
+                     :subtitle "code packaging and distribution"}
+                    "lucid-library"
+                    {:input "test/documentation/lucid_library.clj"
+                     :title "library"
+                     :subtitle "management of project dependencies"}
                     "lucid-mind"
                     {:input "test/documentation/lucid_mind.clj"
                      :title "mind"
-                     :subtitle "simple, contemplative reflection"}
+                     :subtitle "contemplative reflection for the jvm"}
+                    "lucid-publish"
+                    {:input "test/documentation/lucid_publish.clj"
+                     :title "publish"
+                     :subtitle "generate documentation from code"}
                     "lucid-query"
                     {:input "test/documentation/lucid_query.clj"
                      :title "query"
@@ -62,7 +78,7 @@
                     "lucid-unit"
                     {:input "test/documentation/lucid_unit.clj"
                      :title "unit"
-                     :subtitle "integrating code and tests"}}
+                     :subtitle "unit tests for code management"}}
             :link {:auto-tag    true
                    :auto-number  true}}
 

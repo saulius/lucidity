@@ -44,9 +44,11 @@
      (render interim name settings project)))
   ([interim name settings project]
    (let [[template includes] (prepare-template interim name settings project)
-         interim (update-in interim
-                            [:articles name :elements]
-                            structure/structure)]
+         interim (if (:structure settings)
+                   (update-in interim
+                              [:articles name :elements]
+                              structure/structure)
+                   interim)]
      (reduce-kv (fn [^String html k v]
                   (let [value (cond (string? v) v
 

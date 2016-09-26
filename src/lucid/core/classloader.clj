@@ -1,7 +1,7 @@
 (ns lucid.core.classloader
   (:require [clojure.java.io :as io]
             [hara.reflect :as reflect]
-            [lucid.core.maven
+            [lucid.library
              [jar :as jar]
              [file :as file]]))
 

@@ -1,5 +1,5 @@
-(ns lucid.core.maven.jar
-  (:require [lucid.core.maven.file :as file]
+(ns lucid.library.jar
+  (:require [lucid.library.file :as file]
             [clojure.java.io :as io]
             [clojure.string :as string]
             [version-clj.core :as version])

@@ -1,7 +1,7 @@
-(ns lucid.core.maven.jar-test
+(ns lucid.library.jar-test
   (:use hara.test)
-  (:require [lucid.core.maven.jar :refer :all]
-            [lucid.core.maven.file :as file]
+  (:require [lucid.library.jar :refer :all]
+            [lucid.library.file :as file]
             [hara.io.file :as fs]
             [clojure.java.io :as io]))
 
@@ -15,13 +15,13 @@
                      *match-version*
                      ".jar"))))
 
-^{:refer lucid.core.maven.jar/jar-file :added "1.1"}
+^{:refer lucid.library.jar/jar-file :added "1.1"}
 (fact "returns a path as a jar or nil if it does not exist"
 
   (jar-file *match-path*)
   => java.util.jar.JarFile)
 
-^{:refer lucid.core.maven.jar/jar-entry :added "1.1"}
+^{:refer lucid.library.jar/jar-entry :added "1.1"}
 (fact "returns an entry of the jar or nil if it does not exist"
 
   (jar-entry *match-path* "clojure/core/match.clj")
@@ -30,7 +30,7 @@
   (jar-entry *match-path* "NON-FILE")
   => nil)
 
-^{:refer lucid.core.maven.jar/jar-stream :added "1.1"}
+^{:refer lucid.library.jar/jar-stream :added "1.1"}
 (fact "gets the input-stream of the entry for the jar"
   
   (-> (java.io.File. *match-path*)
@@ -41,33 +41,33 @@
       second)
   => 'clojure.core.match)
 
-^{:refer lucid.core.maven.jar/jar-contents :added "1.1"}
+^{:refer lucid.library.jar/jar-contents :added "1.1"}
 (fact "lists the contents of a jar"
   
   (-> (java.io.File. *match-path*)
       (jar-contents))
   => (contains ["clojure/core/match.clj"] :in-any-order :gaps-ok))
 
-^{:refer lucid.core.maven.jar/maven-file :added "1.1"}
+^{:refer lucid.library.jar/maven-file :added "1.1"}
 (fact "returns the path of the local maven file"
   (maven-file ['org.clojure/core.match *match-version*])
   => *match-path*)
 
-^{:refer lucid.core.maven.jar/find-all-jars :added "1.1"}
+^{:refer lucid.library.jar/find-all-jars :added "1.1"}
 (fact "returns all jars within a repo in a form of a map"
   (-> (find-all-jars (str (fs/path "~/.m2/repository")))
       (get (str (fs/path "~/.m2/repository/org/clojure/core.match")))
       (get *match-version*))
   => *match-path*)
 
-^{:refer lucid.core.maven.jar/find-latest-jars :added "1.1"}
+^{:refer lucid.library.jar/find-latest-jars :added "1.1"}
 (fact "returns the latest jars within a repo"
   (->> (find-latest-jars (str (fs/path "~/.m2/repository")))
        (filter #(= % *match-path*))
        first)
   => *match-path*)
 
-^{:refer lucid.core.maven.jar/resolve-jar :added "1.1"}
+^{:refer lucid.library.jar/resolve-jar :added "1.1"}
 (fact "resolves the path of a jar for a given namespace, according to many options"
   
   (resolve-jar 'clojure.core.match)

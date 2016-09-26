@@ -2,7 +2,8 @@
   (:require [lucid.publish.render
              [util :as util]]
             [lucid.publish.structure :as structure]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [rewrite-clj.node :as node]))
 
 (defmulti render (fn [element interim] (:type element)))
 

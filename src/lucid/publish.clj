@@ -71,10 +71,12 @@
 
   (copy-template)
   (publish "index")
-  (publish "index")
+  (publish "index") 
 
   (publish "lucid-mind")
+  (publish "lucid-query")
 
+  (publish-all)
   
   
   

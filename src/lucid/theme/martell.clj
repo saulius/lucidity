@@ -6,32 +6,33 @@
             [clojure.string :as string]))
 
 (def settings
-  {:resource "html/martell"
-   :copy     ["assets"]
-   :render   {:article    "render-article"
-              :navigation "render-navigation"}
-   :defaults {:template     "article.html"
-              :navbar       [:file "partials/navbar.html"]
-              :sidebar      [:file "partials/sidebar.html"]
-              :footer       [:file "partials/footer.html"]
-              :dependencies [:file "partials/deps-web.html"]
-              :logo        "img/logo.png"}
-   :manifest ["article.html"
-              "home.html"
-              "assets/css/rdash.min.css"
-              "assets/css/scrollspy.css"
-              "assets/fonts/montserrat-regular-webfont.eot"
-              "assets/fonts/montserrat-regular-webfont.svg"
-              "assets/fonts/montserrat-regular-webfont.ttf"
-              "assets/fonts/montserrat-regular-webfont.woff"
-              "assets/img/logo.png"
-              "assets/img/logo-white.png"
-              "assets/js/angular-highlightjs.min.js"
-              "partials/deps-local.html"
-              "partials/deps-web.html"
-              "partials/footer.html"
-              "partials/navbar.html"
-              "partials/sidebar.html"]})
+  {:resource  "html/martell"
+   :copy      ["assets"]
+   :structure true
+   :render    {:article    "render-article"
+               :navigation "render-navigation"}
+   :defaults  {:template     "article.html"
+               :navbar       [:file "partials/navbar.html"]
+               :sidebar      [:file "partials/sidebar.html"]
+               :footer       [:file "partials/footer.html"]
+               :dependencies [:file "partials/deps-web.html"]
+               :logo        "img/logo.png"}
+   :manifest  ["article.html"
+               "home.html"
+               "assets/css/rdash.min.css"
+               "assets/css/scrollspy.css"
+               "assets/fonts/montserrat-regular-webfont.eot"
+               "assets/fonts/montserrat-regular-webfont.svg"
+               "assets/fonts/montserrat-regular-webfont.ttf"
+               "assets/fonts/montserrat-regular-webfont.woff"
+               "assets/img/logo.png"
+               "assets/img/logo-white.png"
+               "assets/js/angular-highlightjs.min.js"
+               "partials/deps-local.html"
+               "partials/deps-web.html"
+               "partials/footer.html"
+               "partials/navbar.html"
+               "partials/sidebar.html"]})
 
 (defn render-article [interim name]
   (->> (get-in interim [:articles name :elements :elements])

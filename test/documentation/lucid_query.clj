@@ -7,24 +7,24 @@
 
 "`lucid.query` makes it easy for querying and manipulation of clojure source code through an `xpath`/`css`-inspired syntax
 
- - to simplify traversal and manipulation of source code
- - to provide higher level abstractions on top of [rewrite-clj](https://github.com/xsc/rewrite-clj)
- - to leverage [core.match](https://github.com/clojure/core.match)'s pattern matching for a more declarative syntax" 
+- to simplify traversal and manipulation of source code
+- to provide higher level abstractions on top of [rewrite-clj](https://github.com/xsc/rewrite-clj)
+- to leverage [core.match](https://github.com/clojure/core.match)'s pattern matching for a more declarative syntax" 
 
 [[:chapter {:title "Installation"}]]
 
-"Add to `project.clj` dependencies: 
+"Add to `project.clj` dependencies:"
 
-`[tahto/lucid.query `\"`{{PROJECT.version}}`\"`]`
-
-All functionality is in the `lucid.query` namespace:
-"
+[[{:stencil true}]]
+(comment
+  [tahto/lucid.query "{{PROJECT.version}}"])
+  
+"All functionality is in the `lucid.query` namespace:"
 
 (comment
   (use 'lucid.query))
 
 [[:chapter {:title "Usage"}]]
-
 
 "We first define a code fragment to query on. The library currently works with strings and files."
 
@@ -66,7 +66,7 @@ a search for `prn` at the second and third level forms below the `defn`:"
 (fact
   ($ fragment [defn :2 prn])
   => '[(defn world [] (if true (prn "world")))]
-
+  
   ($ fragment [defn :3 prn])
   => '[])
 
@@ -117,7 +117,7 @@ a search for `prn` at the second and third level forms below the `defn`:"
   
   ($ fragment [defn | if prn])
   => '[(if true (prn "world"))]
-
+  
   ($ fragment [defn if | prn])
   => '[(prn "world")])
 
@@ -128,10 +128,10 @@ a search for `prn` at the second and third level forms below the `defn`:"
 (fact
   ($ fragment [defn (if | _ & _)])
   => '[true]
-
+  
   ($ fragment [defn (if _ | _)])
   => '[(prn "world")]
-
+  
   ($ fragment [defn if (prn | _)])
   => '["world"])
 
@@ -144,7 +144,7 @@ a search for `prn` at the second and third level forms below the `defn`:"
   ($ fragment [(defn & _)])
   => '[(defn hello [] (println "hello"))
        (defn world [] (if true (prn "world")))]
-
+  
   ($ fragment [(defn hello & _)])
   => '[(defn hello [] (println "hello"))])
 
@@ -269,11 +269,10 @@ the workaround is to use the `^:%+` meta and write the object as an expression t
 "a map-based syntax is provided for matching:"
 
 (fact
-
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match 'if))
   => true
-
+  
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match {:form 'if}))
   => true
@@ -281,49 +280,28 @@ the workaround is to use the `^:%+` meta and write the object as an expression t
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match {:is list?}))
   => true
-
+  
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match {:child {:is true}}))
   => true
-
+  
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match {:child {:form '+}}))
   => true)
   
-[[:chapter {:title "Options"}]]
+[[:chapter {:title "Match Element"}]]
 
 "There are many options for matches:
-
- - `:fn`           match on checking function
- - `:is`           match on value or checking function
- - `:or`           match two options, done using a set
- - `:equal`        match on equivalence
- - `:type`         match on `rewrite-clj` type
- - `:meta`         match on meta tag
- - `:form`         match on first element of a form
- - `:pattern`      match on a pattern
- - `:code`         match on code
-
-The positional options for matches are:
-
- - `:parent`       match on direct parent of element
- - `:child`        match on any child of element
- - `:first`        match on first child of element
- - `:last`         match on last child of element
- - `:nth`          match on nth child of element
- - `:nth-left`     match on nth-sibling to the left of element
- - `:nth-right`    match on nth-sibling to the right of element
- - `:nth-ancestor` match on the ancestor that is n levels higher
- - `:nth-contains` match on any contained element that is n levels lower
- - `:ancestor`     match on any ancestor
- - `:contains`     match on any contained element
- - `:sibling`      match on any sibling
- - `:left`         match on node directly to left
- - `:right`        match on node directly to right
- - `:left-of`      match on node to left
- - `:right-of`     match on node to right
- - `:left-most`    match is element is the left-most element
- - `:right-most`   match is element is the right-most element"
+  
+- `:fn`           match on checking function
+- `:is`           match on value or checking function
+- `:or`           match two options, done using a set
+- `:equal`        match on equivalence
+- `:type`         match on `rewrite-clj` type
+- `:meta`         match on meta tag
+- `:form`         match on first element of a form
+- `:pattern`      match on a pattern
+- `:code`         match on code"
 
 [[:section {:title ":fn"}]]
 
@@ -342,11 +320,10 @@ The positional options for matches are:
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match {:child {:is true}}))
   => true
-
-  (fact
+  
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match {:child {:is (fn [x] (instance? Boolean x))}}))
-  => true))
+  => true)
 
 [[:section {:title ":form"}]]
 
@@ -371,9 +348,8 @@ The positional options for matches are:
 (fact
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match '#{{:form if} {:form defn}}))
-  => true)
-
-(fact
+  => true
+  
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match '#{if defn}))
   => true)
@@ -393,7 +369,7 @@ The positional options for matches are:
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match '[if defn]))
   => false
-
+  
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match '[if {:contains 1}]))
   => true)
@@ -406,7 +382,7 @@ The positional options for matches are:
   (-> (z/of-string "(if #{:a :b :c} (+ 1 2) (+ 1 1))")
       (match {:child {:equal #{:a :b :c}}}))
   => true
-
+  
   (-> (z/of-string "(if {:a 1 :b 2} (+ 1 2) (+ 1 1))")
       (match {:child {:equal {:a 1 :b 2}}}))
   => true)
@@ -419,7 +395,7 @@ The positional options for matches are:
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match {:type :list}))
   => true
-
+  
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match {:child {:type :token}}))
   => true)
@@ -432,7 +408,7 @@ The positional options for matches are:
   (-> (z/down (z/of-string "^:a (+ 1 1)"))
       (match {:meta :a}))
   => true
-
+  
   (-> (z/down (z/of-string "^{:a true} (+ 1 1)"))
       (match {:meta {:a true}}))
   => true)
@@ -452,6 +428,29 @@ The positional options for matches are:
   (-> (z/of-string "(if true (+ 1 2) (+ 1 1))")
       (match {:pattern '(if true & _)}))
   => true)
+
+[[:chapter {:title "Match Position"}]]
+
+"The positional options for matches are:
+
+- `:parent`       match on direct parent of element
+- `:child`        match on any child of element
+- `:first`        match on first child of element
+- `:last`         match on last child of element
+- `:nth`          match on nth child of element
+- `:nth-left`     match on nth-sibling to the left of element
+- `:nth-right`    match on nth-sibling to the right of element
+- `:nth-ancestor` match on the ancestor that is n levels higher
+- `:nth-contains` match on any contained element that is n levels lower
+- `:ancestor`     match on any ancestor
+- `:contains`     match on any contained element
+- `:sibling`      match on any sibling
+- `:left`         match on node directly to left
+- `:right`        match on node directly to right
+- `:left-of`      match on node to left
+- `:right-of`     match on node to right
+- `:left-most`    match is element is the left-most element
+- `:right-most`   match is element is the right-most element"
 
 [[:section {:title ":parent"}]]
 
@@ -495,7 +494,7 @@ The positional options for matches are:
   (-> (z/of-string "(if [1 2 3] (+ 1 2) (+ 1 1))")
       (match {:child {:last 3}}))
   => true
-
+  
   (-> (z/of-string "(if [1 2 3] (+ 1 2) (+ 1 1))")
       (match {:child {:last 1}}))
   => true)

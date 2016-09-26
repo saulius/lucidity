@@ -1,8 +1,8 @@
-(ns lucid.core.maven
+(ns lucid.library
   (:require [clojure.string :as string]
             [hara.reflect :as reflect]
-            [lucid.core.maven.jar :as jar]
-            [lucid.core.maven.file :as file]
+            [lucid.library.jar :as jar]
+            [lucid.library.file :as file]
             [lucid.core.aether :as aether])
   (:import [clojure.lang Symbol PersistentVector]))
 
