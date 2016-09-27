@@ -7,7 +7,7 @@
     <meta name="google" value="notranslate">
 
 
-    <title>mind - simple, contemplative reflection</title>
+    <title>mind - contemplative reflection for the jvm</title>
 
     
   <link href='http://fonts.googleapis.com/css?family=Raleway:300' rel='stylesheet' type='text/css'>
@@ -43,7 +43,7 @@
   <body ng-app="app" data-spy="scroll" data-target=".scrollspy">
   <!-- Fixed navbar -->
     <nav class="navbar navbar-fixed-top">
-      <div class="container">
+      <div class="container" style="margin-left: inherit;">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -51,23 +51,21 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.html"><img src="img/logo-white.png"></a>
+          <a class="navbar-brand" href="index.html"><img src="img/glyph-white.png"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Guides <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="lucid-core-aether.html">core.aether</a></li>
-                <li><a href="lucid-core-classloader.html">core.classloader</a></li>
-                <li><a href="lucid-core-debug.html">core.debug</a></li>
-                <li><a href="lucid-core-inject.html">core.inject</a></li>
-                <li><a href="lucid-core-maven.html">core.maven</a></li>
-                <li><a href="lucid-deploy.html">deploy</a></li>
+                <li><a href="lucid-core.html">core</a></li>
+                <!--li><a href="lucid-deploy.html">deploy</a></li-->
+                <!--li><a href="lucid-flow.html">flow</a></li-->
                 <li><a href="lucid-mind.html">mind</a></li>
+                <li><a href="lucid-publish.html">publish</a></li>
                 <li><a href="lucid-query.html">query</a></li>
-                <li><a href="lucid-site.html">site</a></li>
-                <li><a href="lucid-unit.html">unit</a></li>
+                <li><a href="lucid-space.html">space</a></li>
+                <li><a href="lucid-test.html">test</a></li>
             </ul>
             </li>
             <li>
@@ -81,20 +79,225 @@
 
 
   <div class="container row">
-    <div class="col-md-4 scrollspy pull-right">
+    <div class="col-md-3 scrollspy pull-right">
       <ul id="nav" class="nav hidden-xs hidden-sm" data-spy="affix">
-        <li><a href="#introduction">1  &nbsp;&nbsp; Introduction</a></li><li><a href="#installation">2  &nbsp;&nbsp; Installation</a></li>
+        <li><a href="#introduction">1  &nbsp;&nbsp; Introduction</a><ul class="nav"><li><a href="#installation">1.1  &nbsp;&nbsp; Installation</a></li><li><a href="#motivation">1.2  &nbsp;&nbsp; Motivation</a></li><li><a href="#summary">1.3  &nbsp;&nbsp; Summary</a></li></ul></li><li><a href="#fields">2  &nbsp;&nbsp; Fields</a><ul class="nav"><li><a href="#delegate">2.1  &nbsp;&nbsp; delegate</a></li><li><a href="#threading">2.2  &nbsp;&nbsp; class threading</a></li></ul></li><li><a href="#classes">3  &nbsp;&nbsp; Classes</a><ul class="nav"><li><a href="#info">3.1  &nbsp;&nbsp; class info</a></li><li><a href="#hierarchy">3.2  &nbsp;&nbsp; class hierarchy</a></li></ul></li><li><a href="#queries">4  &nbsp;&nbsp; Queries</a><ul class="nav"><li><a href="#class">4.1  &nbsp;&nbsp; class query</a></li><li><a href="#filter-on-name">4.2  &nbsp;&nbsp; filter on name</a></li><li><a href="#elements">4.3  &nbsp;&nbsp; elements</a></li><li><a href="#selection">4.4  &nbsp;&nbsp; selection</a></li><li><a href="#filter-on-modifiers">4.5  &nbsp;&nbsp; filter on modifiers</a></li><li><a href="#multiselect">4.6  &nbsp;&nbsp; multiselect</a></li><li><a href="#filter-on-signatures">4.7  &nbsp;&nbsp; filter on signatures</a></li><li><a href="#instance">4.8  &nbsp;&nbsp; instance query</a></li></ul></li><li><a href="#import">5  &nbsp;&nbsp; Import</a><ul class="nav"><li><a href="#import-var">5.1  &nbsp;&nbsp; import as var</a></li><li><a href="#import-ns">5.2  &nbsp;&nbsp; import as namespace</a></li></ul></li>
       </ul>
     </div>
-    <div class="col-md-8" id="content">
+    <div class="col-md-9" id="content">
       <div class="jumbotron">
         <div class="container">
           <h1>mind</h1>
-          <h4>simple, contemplative reflection</h4>
+          <h4>contemplative reflection for the jvm</h4>
         </div>
       </div>
-      <section class="chapter" id="introduction"><h2 class="chapter">1  &nbsp;&nbsp; Introduction</h2><div class="group"><div class="paragraph"><p><strong>lucid.mind</strong> gives greater understanding of java objects</p></div></div></section><section class="chapter" id="installation"><h2 class="chapter">2  &nbsp;&nbsp; Installation</h2><div class="group"><div class="paragraph"><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">[tahto/lucid.mind &quot;1.2.0&quot;]</div></div><div class="paragraph"><p>All functionality is in the <code>lucid.mind</code> namespace:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(use 'lucid.mind)</div></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(+ 1 1)
-=&gt; 2</div></div></div></section>
+      <section class="chapter" id="introduction"><h2 class="chapter">1  &nbsp;&nbsp; Introduction</h2><div class="group"><div class="paragraph"><p><code>lucid.mind</code> gives greater understanding of objects by providing a macro language on top of <a href='http://docs.caudate.me/hara/hara-reflect.html'>hara.reflect</a> such that object introspection becomes very easy when working with the jvm. This library was originally <a href='https://github.com/zcaudate/hara/iroh'>iroh</a> and then <a href='https://github.com/zcaudate/vinyasa'>vinyasa.reflection</a>.</p></div></div><section class="section" id="installation"><h3 class="section">1.1  &nbsp;&nbsp; Installation</h3><div class="paragraph"><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">[tahto/lucid.mind &quot;1.2.0&quot;]</div></div><div class="paragraph"><p>All functionality is in the <code>lucid.mind</code> namespace:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(use 'lucid.mind)</div></div></section><section class="section" id="motivation"><h3 class="section">1.2  &nbsp;&nbsp; Motivation</h3><div class="paragraph"><p>The words <em>everything is data</em> are taken literally when using <code>lucid.mind</code> to explore the world beyond clojure. Although functional programming have influenced the direction of Java as a whole, the object-orientated paradigm has a very deep hold on the language.</p><p>One OO <em>paradigm</em> - that of encapsulation - has been turned on it's head. In OO, it is a feature, in FP, it is a hinderence. <code>lucid.mind</code> bridges this gap. Taking inspiration from <a href='https://github.com/arohner/clj-wallhack'>clj-wallhack</a>, here are some primary use cases for the library:</p><ul><li>To explore the members of classes as well as all instances within the repl</li><li>To be able to test methods and functions that are usually not testable, or very hard to test:<ul><li>Make hidden class members visible by providing access to private methods and fields</li><li>Make immutable class members flexible for initialisation of state</li></ul></li><li>Extract out class members into documented and executable functions (including multi-argument functions)</li><li>Better understand jvm security and how to dodge it if needed</li><li>Better understand the java type system as well as clojure's own interface definitions</li><li>To make working with java fun and informative</li></ul></div></section><section class="section" id="summary"><h3 class="section">1.3  &nbsp;&nbsp; Summary</h3><div class="paragraph"><p>The api consists of the following macros:</p><ul><li><a href='#delegate'>.&</a> - for transparency into objects</li><li><a href='#threading'>.></a> - threading macro for reflective invocation of objects</li><li><a href='#info'>.%</a> - for showing class properties</li><li><a href='#hierarchy'>.%></a> - for showing type hierarchy</li><li><a href='#class'>.?</a> - for showing class elements</li><li><a href='#instance'>.*</a> - for showing instance elements</li><li><a href='#import-var'>.>var</a> - for importing elements into current namespace</li><li><a href='#import-ns'>.>ns</a> - for importing object elements into a namespace</li></ul></div></section></section><section class="chapter" id="fields"><h2 class="chapter">2  &nbsp;&nbsp; Fields</h2><section class="section" id="delegate"><h3 class="section">2.1  &nbsp;&nbsp; delegate</h3><div class="paragraph"><p><code>.&amp;</code> does what bean does but it actually allows field access to the underlying object through reflection. This way, one can set and get values from any object, regardless of permission model (private, protected, etc...).</p></div><div class="paragraph"><p>First we create a string:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(def a &quot;hello&quot;)
+a =&gt; &quot;hello&quot;</div></div><div class="paragraph"><p>Then we create the delegate for the string</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(def &gt;a (.&amp; a))
+
+&gt;a
+;;=&gt; &lt;java.lang.String@99162322 {:hash 99162322, :hash32 0, :value #&lt;char[] [C@202cf33f&gt;}&gt;</div></div><div class="paragraph"><p>We can dereference the delegate to get the underlying fields of the object</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">@&gt;a          ;;=&gt; {:hash 99162322, :hash32 0, :value #&lt;char[] [C@202cf33f&gt;}
+
+(keys &gt;a)    ;;=&gt; (:value :hash :hash32)</div></div><div class="paragraph"><p>The delegate behaves exactly like a map:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(&gt;a :hash)   ;;=&gt; 99162322
+
+(:hash32 &gt;a) ;;=&gt; 0</div></div><div class="paragraph"><p>The value of the string <code>a</code> can also be changed through it's delegate <code>&gt;a</code>, even though <code>value</code> is a private, final field:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(&gt;a :value (char-array &quot;world&quot;)) ;;=&gt; &quot;world&quot;
+
+a =&gt; &quot;world&quot;</div></div></section><section class="section" id="threading"><h3 class="section">2.2  &nbsp;&nbsp; class threading</h3><div class="paragraph"><p><code>.&gt;</code> is a convenience macro for accessing the innards of an object. It is akin to the threading <code>-&gt;</code> macro except that now private fields can also be accessed:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.&gt; &quot;hello&quot; (:value) seq)
+=&gt; [&#92;h &#92;e &#92;l &#92;l &#92;o]</div></div><div class="paragraph"><p>changing the value of the string</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.&gt; &quot;hello&quot; (:value &quot;world&quot;) (:value) seq)
+=&gt; [&#92;w &#92;o &#92;r &#92;l &#92;d]</div></div></section></section><section class="chapter" id="classes"><h2 class="chapter">3  &nbsp;&nbsp; Classes</h2><section class="section" id="info"><h3 class="section">3.1  &nbsp;&nbsp; class info</h3><div class="paragraph"><p><code>.%</code> shows the infomation about a particular class or class instance:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.% String)
+=&gt; (contains {:name &quot;java.lang.String&quot;,
+              :hash number?
+              :modifiers #{:instance :public :final :class}})</div></div><div class="paragraph"><p>This can also be used on a class instance itself:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.% &quot;abc&quot;)
+=&gt; {:name &quot;java.lang.String&quot;,
+    :hash 206835546,
+    :modifiers #{:instance :public :final :class}}</div></div></section><section class="section" id="hierarchy"><h3 class="section">3.2  &nbsp;&nbsp; class hierarchy</h3><div class="paragraph"><p><code>.%&gt;</code> shows the class hierarchy for a particular class or class instance:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.%&gt; 1)
+=&gt; [java.lang.Long
+    [java.lang.Number #{java.lang.Comparable}]
+    [java.lang.Object #{java.io.Serializable}]]</div></div><div class="paragraph"><p>To read this, the first entry <code>java.lang.Long</code> is the actual type of the object. It extends <code>java.lang.Number</code> and implements the <code>java.lang.Comparable</code> interface. <code>java.lang.Number</code> extends <code>java.lang.Object</code> and implements the <code>java.io.Serializable</code> interface. So we can see the entire inheritance structure for the input <code>1</code>.</p></div><div class="paragraph"><p>A additional example is for a string:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.%&gt; &quot;hello&quot;)
+=&gt; [java.lang.String
+    [java.lang.Object #{java.lang.CharSequence
+                        java.io.Serializable
+                        java.lang.Comparable}]]</div></div><div class="paragraph"><p>And for a clojure map:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.%&gt; {})
+=&gt; [clojure.lang.PersistentArrayMap
+    [clojure.lang.APersistentMap #{clojure.lang.IKVReduce
+                                   clojure.lang.IObj
+                                   clojure.lang.IEditableCollection
+                                   clojure.lang.IMapIterable}]
+    [clojure.lang.AFn #{java.util.Map
+                        java.io.Serializable
+                        clojure.lang.MapEquivalence
+                        clojure.lang.IHashEq
+                        java.lang.Iterable
+                        clojure.lang.IPersistentMap}]
+    [java.lang.Object #{clojure.lang.IFn}]]</div></div><div class="paragraph"><p>As you can see, a map is not that simple.</p></div></section></section><section class="chapter" id="queries"><h2 class="chapter">4  &nbsp;&nbsp; Queries</h2><section class="section" id="class"><h3 class="section">4.1  &nbsp;&nbsp; class query</h3><div class="paragraph"><p><code>.?</code> is used to list all methods belonging to a single class:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? 1)
+;; (#[BYTES :: &lt;java.lang.Long&gt; | int]
+;;  #[MAX_VALUE :: &lt;java.lang.Long&gt; | long]
+;;  #[MIN_VALUE :: &lt;java.lang.Long&gt; | long]
+;;  ...
+;;  ...
+;;  #[toUnsignedString :: (long) -&gt; java.lang.String]
+;;  #[toUnsignedString0 :: (long, int) -&gt; java.lang.String]
+;;  #[value :: (java.lang.Long) | long]
+;;  #[valueOf :: (java.lang.String, int) -&gt; java.lang.Long]
+;;  #[valueOf :: (long) -&gt; java.lang.Long]
+;;  #[valueOf :: (java.lang.String) -&gt; java.lang.Long])</div></div><div class="paragraph"><p>It's not that useful to just return a whole bunch of elements and so the query is customizable through are many filters that can be used.</p></div></section><section class="section" id="filter-on-name"><h3 class="section">4.2  &nbsp;&nbsp; filter on name</h3><div class="paragraph"><p>The function name can be matched using either a string for exact match or a regex pattern for fuzzy match. To find all elements called <code>valueOf</code>, a string is used as input:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? 1 &quot;valueOf&quot;)
+;; (#[valueOf :: (java.lang.String, int) -&gt; java.lang.Long]
+;;  #[valueOf :: (long) -&gt; java.lang.Long]
+;;  #[valueOf :: (java.lang.String) -&gt; java.lang.Long])</div></div><div class="paragraph"><p>To find all elements starting with the letter <code>c</code> a regex can be constructed:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? 1 #&quot;^c&quot;)
+;; (#[compare :: (long, long) -&gt; int]
+;;  #[compareTo :: (java.lang.Long, java.lang.Object) -&gt; int]
+;;  #[compareTo :: (java.lang.Long, java.lang.Long) -&gt; int]
+;;  #[compareUnsigned :: (long, long) -&gt; int])</div></div></section><section class="section" id="elements"><h3 class="section">4.3  &nbsp;&nbsp; elements</h3><div class="paragraph"><p>The query returns a list of elements. Each single element can be further explored. A query looking for methods named <code>parselong</code> yields two methods:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? 1 &quot;parseLong&quot;)
+;; (#[parseLong :: (java.lang.String, int) -&gt; long]
+;;  #[parseLong :: (java.lang.String) -&gt; long])</div></div><div class="paragraph"><p>The element can be captured to a variable.</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(def parse-long (second (.? 1 &quot;parseLong&quot;)))</div></div><div class="paragraph"><p>Printing out the variable sees that it is a method that takes a string as input as returns a long.</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(str parse-long)
+=&gt; &quot;#[parseLong :: (java.lang.String) -&gt; long]&quot;</div></div><div class="paragraph"><p>The variable can used like any other clojure method:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(parse-long &quot;202&quot;)
+=&gt; 202</div></div><div class="paragraph"><p>Introspection of the element reveals that it indeed extends IFn and ILookup:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.%&gt; parse-long)
+=&gt; [hara.reflect.types.element.Element
+    [java.lang.Object #{clojure.lang.IType
+                        clojure.lang.IFn
+                        clojure.lang.ILookup}]]</div></div><div class="paragraph"><p><code>parse-long</code> contains a lot more information that allows for it to behave like a typed function. The keyword <code>:all</code> accesses the data for the element:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(:all parse-long)
+=&gt; (contains {:origins [java.lang.Long]
+              :hash number?
+              :delegate java.lang.reflect.Method
+              :name &quot;parseLong&quot;,
+              :static true,
+              :params [java.lang.String],
+              :type Long/TYPE
+              :modifiers #{:method :public :static},
+              :container java.lang.Long,
+              :tag :method})</div></div><div class="paragraph"><p>Individual attributes are accessible through keyword lookup:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(:name parse-long)
+=&gt; &quot;parseLong&quot;</div></div></section><section class="section" id="selection"><h3 class="section">4.4  &nbsp;&nbsp; selection</h3><div class="paragraph"><p>Queries can be made with specific attribues returned, instead of the entire element by specifying options:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? 1 #&quot;^parse&quot; :name)
+=&gt; [&quot;parseLong&quot; &quot;parseUnsignedLong&quot;]
+
+(.? 1 #&quot;^parse&quot; :name :params)
+=&gt; [{:name &quot;parseLong&quot;, :params [java.lang.String Integer/TYPE]}
+    {:name &quot;parseLong&quot;, :params [java.lang.String]}
+    {:name &quot;parseUnsignedLong&quot;, :params [java.lang.String Integer/TYPE]}
+    {:name &quot;parseUnsignedLong&quot;, :params [java.lang.String]}]</div></div><div class="paragraph"><p>The most useful keyword is <code>:name</code> as it provides a succinct way of listing the contents of a class:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? 1 :name)
+=&gt; (contains
+    [&quot;BYTES&quot; &quot;MAX_VALUE&quot; &quot;MIN_VALUE&quot; &quot;SIZE&quot;
+     &quot;TYPE&quot; &quot;bitCount&quot; &quot;byteValue&quot; &quot;compare&quot;
+     &quot;compareTo&quot; &quot;compareUnsigned&quot; &quot;decode&quot;
+     &quot;divideUnsigned&quot; &quot;doubleValue&quot; &quot;equals&quot;
+     &quot;floatValue&quot; &quot;formatUnsignedLong&quot; &quot;getChars&quot;
+     &quot;getLong&quot; &quot;hashCode&quot; &quot;highestOneBit&quot;
+     &quot;intValue&quot; &quot;longValue&quot; &quot;lowestOneBit&quot;
+     &quot;max&quot; &quot;min&quot; &quot;new&quot; &quot;numberOfLeadingZeros&quot;
+     &quot;numberOfTrailingZeros&quot; &quot;parseLong&quot;
+     &quot;parseUnsignedLong&quot; &quot;remainderUnsigned&quot;
+     &quot;reverse&quot; &quot;reverseBytes&quot; &quot;rotateLeft&quot;
+     &quot;rotateRight&quot; &quot;serialVersionUID&quot; &quot;shortValue&quot;
+     &quot;signum&quot; &quot;stringSize&quot; &quot;sum&quot; &quot;toBinaryString&quot;
+     &quot;toHexString&quot; &quot;toOctalString&quot; &quot;toString&quot;
+     &quot;toUnsignedBigInteger&quot; &quot;toUnsignedString&quot;
+     &quot;toUnsignedString0&quot; &quot;value&quot; &quot;valueOf&quot;])</div></div></section><section class="section" id="filter-on-modifiers"><h3 class="section">4.5  &nbsp;&nbsp; filter on modifiers</h3><div class="paragraph"><p>There are a list of modifiers that can be used for filtering:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(def flags
+  
+  [;; Element Type
+   :field
+   :method
+
+   ;; Element Encapsulation
+   :plain          
+   :public          
+   :private         
+   :protected       
+
+   ;; Element Attributes
+   :static          
+   :final           
+   :synchronized    
+   :native          
+   :abstract])</div></div><div class="paragraph"><p>For example, listing all the private fields of a string:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? String :name :private :field)
+=&gt; (&quot;hash&quot; &quot;serialPersistentFields&quot; &quot;serialVersionUID&quot; &quot;value&quot;)</div></div><div class="paragraph"><p>All static methods of String:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? String :name :method :static)
+=&gt; (&quot;checkBounds&quot; &quot;copyValueOf&quot; &quot;format&quot; &quot;indexOf&quot; &quot;join&quot; &quot;lastIndexOf&quot; &quot;valueOf&quot;)</div></div><div class="paragraph"><p>All the private non-static field names in String:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? String :name :private :field :instance)
+=&gt; [&quot;hash&quot; &quot;value&quot;]</div></div></section><section class="section" id="multiselect"><h3 class="section">4.6  &nbsp;&nbsp; multiselect</h3><div class="paragraph"><p>Going back to <code>parseLong</code>, it can be seen that there are two methods listed</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? 1 &quot;parseLong&quot;)
+;; (#[parseLong :: (java.lang.String, int) -&gt; long]
+;;  #[parseLong :: (java.lang.String) -&gt; long])</div></div><div class="paragraph"><p>In order to get all of them under the same name, use <code>:#</code></p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? 1 &quot;parseLong&quot; :#)
+;; #[parseLong :: ([java.lang.String int]), ([java.lang.String])]</div></div><div class="paragraph"><p>The type signature can take two types of inputs, as seen below:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(def parse-long-multi (.? 1 &quot;parseLong&quot; :#))</div></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(parse-long-multi &quot;10&quot;)
+=&gt; 10
+  
+(parse-long-multi &quot;10&quot; 10)
+=&gt; 10
+  
+(parse-long-multi &quot;10&quot; 2)
+=&gt; 2</div></div><div class="paragraph"><p>This is very useful for including a bunch of methods</p></div></section><section class="section" id="filter-on-signatures"><h3 class="section">4.7  &nbsp;&nbsp; filter on signatures</h3><div class="paragraph"><p>The signature of methods can also be explored. A list of the name and params of methods starting with <code>s</code> that have 3 inputs are shown below:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? String :name :params #&quot;^s&quot; 3)
+=&gt; ({:name &quot;split&quot;,
+     :params [java.lang.String java.lang.String int]}
+    {:name &quot;startsWith&quot;,
+     :params [java.lang.String java.lang.String int]}
+    {:name &quot;subSequence&quot;,
+     :params [java.lang.String int int]}
+    {:name &quot;substring&quot;,
+     :params [java.lang.String int int]})</div></div><div class="paragraph"><p>The return type can be filtered by specifying a class. A list of methods that return a <code>java.lang.String</code> object are shown below:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? String :name String)
+=&gt; (&quot;concat&quot; &quot;copyValueOf&quot; &quot;format&quot; &quot;intern&quot;
+    &quot;join&quot; &quot;new&quot; &quot;replace&quot; &quot;replaceAll&quot;
+    &quot;replaceFirst&quot; &quot;substring&quot; &quot;toLowerCase&quot;
+    &quot;toString&quot; &quot;toUpperCase&quot; &quot;trim&quot; &quot;valueOf&quot;)</div></div><div class="paragraph"><p>Input types can also be filtered by specifing an array with the type signature. A list of methods that take a <code>java.lang.String</code> as input are shown below:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? String :name :method [String])
+=&gt; (&quot;getBytes&quot; &quot;hashCode&quot; &quot;intern&quot; &quot;isEmpty&quot;
+    &quot;length&quot; &quot;toCharArray&quot; &quot;toLowerCase&quot;
+    &quot;toString&quot; &quot;toUpperCase&quot; &quot;trim&quot;)</div></div><div class="paragraph"><p>Match for any public method that contains an <code>int</code> in the input signature:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? String :name :public :method [:any int])
+=&gt; (&quot;charAt&quot; &quot;codePointAt&quot; &quot;codePointBefore&quot;
+    &quot;codePointCount&quot; &quot;copyValueOf&quot; &quot;getBytes&quot;
+    &quot;getChars&quot; &quot;indexOf&quot; &quot;lastIndexOf&quot;
+    &quot;offsetByCodePoints&quot; &quot;regionMatches&quot;
+    &quot;split&quot; &quot;startsWith&quot; &quot;subSequence&quot;
+    &quot;substring&quot; &quot;valueOf&quot;)</div></div></section><section class="section" id="instance"><h3 class="section">4.8  &nbsp;&nbsp; instance query</h3><div class="paragraph"><p><code>.&#42;</code> is very similar to <code>.?</code> in that it also inspects a variable and they have the same listing and filtering mechanisms. However,  <code>.?</code> holds the java view of the Class declaration, staying true to the class and its members. <code>.&#42;</code> holds the runtime view of Objects and what methods could be applied to that instance. <code>.&#42;</code> will also look up the inheritance tree to fill in additional functionality. </p></div><div class="paragraph"><p>Below shows the difference when asking for members of String beginning with <code>c</code>.:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? String  #&quot;^c&quot; :name)
+=&gt; (&quot;charAt&quot; &quot;checkBounds&quot; &quot;codePointAt&quot; &quot;codePointBefore&quot;
+    &quot;codePointCount&quot; &quot;compareTo&quot; &quot;compareToIgnoreCase&quot;
+    &quot;concat&quot; &quot;contains&quot; &quot;contentEquals&quot; &quot;copyValueOf&quot;)</div></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.* String #&quot;^c&quot; :name)
+=&gt; (&quot;cachedConstructor&quot; &quot;cannotCastMsg&quot; &quot;casAnnotationType&quot;
+    &quot;cast&quot; &quot;checkBounds&quot; &quot;checkMemberAccess&quot; &quot;checkPackageAccess&quot;
+    &quot;classRedefinedCount&quot; &quot;classValueMap&quot; &quot;clone&quot;
+    &quot;copyValueOf&quot; &quot;createAnnotationData&quot;)</div></div><div class="paragraph"><p><code>.?</code> lists is what we expect when we read the documentation on <code>java.lang.String</code>. <code>.&#42;</code> lists all static methods and fields as well as Class methods of <code>String</code>, whilst for instances of <code>String</code>, it will list all the instance methods from the entire class hierachy.</p></div><div class="paragraph"><p>A further comparison can be seen when listing the public methods:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.? {} :name :method :public)
+=&gt; (&quot;asTransient&quot; &quot;assoc&quot; &quot;assocEx&quot; &quot;capacity&quot; &quot;containsKey&quot;
+    &quot;count&quot; &quot;create&quot; &quot;createAsIfByAssoc&quot; &quot;createWithCheck&quot;
+    &quot;empty&quot; &quot;entryAt&quot; &quot;iterator&quot; &quot;keyIterator&quot; &quot;kvreduce&quot;
+    &quot;meta&quot; &quot;seq&quot; &quot;valAt&quot; &quot;valIterator&quot; &quot;withMeta&quot; &quot;without&quot;)</div></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.* {} :name :method :public)
+=&gt; (&quot;applyTo&quot; &quot;asTransient&quot; &quot;assoc&quot; &quot;assocEx&quot; &quot;call&quot; &quot;capacity&quot;
+    &quot;clear&quot; &quot;cons&quot; &quot;containsKey&quot; &quot;containsValue&quot; &quot;count&quot; &quot;empty&quot;
+    &quot;entryAt&quot; &quot;entrySet&quot; &quot;equals&quot; &quot;equiv&quot; &quot;get&quot; &quot;getClass&quot; &quot;hashCode&quot;
+    &quot;hasheq&quot; &quot;invoke&quot; &quot;isEmpty&quot; &quot;iterator&quot; &quot;keyIterator&quot; &quot;keySet&quot;
+    &quot;kvreduce&quot; &quot;meta&quot; &quot;notify&quot; &quot;notifyAll&quot; &quot;put&quot; &quot;putAll&quot; &quot;remove&quot;
+    &quot;run&quot; &quot;seq&quot; &quot;size&quot; &quot;throwArity&quot; &quot;toString&quot; &quot;valAt&quot; &quot;valIterator&quot;
+    &quot;values&quot; &quot;wait&quot; &quot;withMeta&quot; &quot;without&quot;)</div></div><div class="paragraph"><p><code>.?</code> lists only the class declarations whereas <code>.&#42;</code> lists all methods available to the instance, including methods from further up the inheritance tree. It can be said that the difference between the two is that <code>.?</code> takes the class view, whereas <code>.&#42;</code> takes the runtime view.</p></div></section></section><section class="chapter" id="import"><h2 class="chapter">5  &nbsp;&nbsp; Import</h2><section class="section" id="import-var"><h3 class="section">5.1  &nbsp;&nbsp; import as var</h3><div class="paragraph"><p>We can extract methods from a Class or interface with <code>.&gt;var</code>:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.&gt;var hash-without [clojure.lang.IPersistentMap without]
+       hash-assoc [clojure.lang.IPersistentMap assoc])
+=&gt; [#'documentation.lucid-mind/hash-without
+    #'documentation.lucid-mind/hash-assoc]
+  
+(clojure.repl/doc hash-without)
+;; documentation.lucid-mind/hash-without
+;; [[clojure.lang.PersistentArrayMap java.lang.Object]]
+;;
+;; member: clojure.lang.PersistentArrayMap/without
+;; type: clojure.lang.IPersistentMap
+;; modifiers: instance, method, public
+
+(hash-without {:a 1 :b 2} :a)
+=&gt; {:b 2}
+  
+(clojure.repl/doc hash-assoc)
+;; documentation.lucid-mind/hash-assoc
+;; [[clojure.lang.IPersistentMap java.lang.Object java.lang.Object]]
+;;
+;; member: clojure.lang.IPersistentMap/assoc
+;; type: clojure.lang.IPersistentMap
+;; modifiers: instance, method, public, abstract
+
+(hash-assoc {:a 1 :b 2} :c 3)
+=&gt; {:a 1, :b 2, :c 3}</div></div></section><section class="section" id="import-ns"><h3 class="section">5.2  &nbsp;&nbsp; import as namespace</h3><div class="paragraph"><p>We can extract an entire class into a namespace. These are modifiable by selectors from <code>.?</code>. This is very useful for exploring a class by dumping out the contents into a test namespace:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(.&gt;ns test.string String :public #&quot;^c&quot; 2)
+=&gt; (#'test.string/charAt
+    #'test.string/codePointAt
+    #'test.string/codePointBefore
+    #'test.string/compareTo
+    #'test.string/compareToIgnoreCase
+    #'test.string/concat
+    #'test.string/contains
+    #'test.string/contentEquals)
+  
+(str test.string/concat)
+=&gt; &quot;#[concat :: (java.lang.String, java.lang.String) -&gt; java.lang.String]&quot;
+  
+(test.string/concat &quot;hello &quot; &quot;world&quot;)
+=&gt; &quot;hello world&quot;</div></div></section></section>
     </div>
 </div><!--end of .container-->
 

@@ -25,6 +25,8 @@
                "assets/fonts/montserrat-regular-webfont.svg"
                "assets/fonts/montserrat-regular-webfont.ttf"
                "assets/fonts/montserrat-regular-webfont.woff"
+               "assets/img/glyph-color.png"
+               "assets/img/glyph-white.png"
                "assets/img/logo.png"
                "assets/img/logo-white.png"
                "assets/js/angular-highlightjs.min.js"

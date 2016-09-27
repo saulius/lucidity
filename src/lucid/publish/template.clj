@@ -2,9 +2,10 @@
   (:require [hara.io
              [project :as project]
              [file :as fs]]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io])
+  (:refer-clojure :exclude [load-file]))
 
-(defonce *theme* "martell")
+(defonce ^:dynamic *theme* "martell")
 
 (defn load-var [ns var]
   (-> (symbol (str ns "/" var))
@@ -43,7 +44,7 @@
 
 (comment
   
-  (:defaults (load-settings))
+  (:version (load-settings))
   
   {:theme "martell",
    :path "template",

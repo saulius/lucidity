@@ -34,7 +34,7 @@
     (lucid.reflection [>ns ns] [>var var])
     (clojure.java.shell :refer [sh])
     (lucid.core.inject :exclude [inject-single])
-    (lucid.library :all)
+    (lucid.space :all)
     (lucid.core.debug)])
   => '[{:ns clojure.core, :prefix >,
        :imports [{:ns clojure.pprint, :op :refer,
@@ -51,7 +51,7 @@
                   :arr [sh]}
                  {:ns lucid.core.inject, :op :exclude,
                   :arr [inject-single]}
-                 {:ns lucid.library, :op :exclude, :arr ()}
+                 {:ns lucid.space, :op :exclude, :arr ()}
                  {:ns lucid.core.debug, :op :exclude, :arr ()}]}])
 
 ^{:refer lucid.core.inject/inject-row-entry :added "1.1"}

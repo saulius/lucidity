@@ -1,5 +1,5 @@
 (defproject tahto/lucid "1.2.0"
-  :description "tools for clarity"
+  :description "tools for code clarity"
   :url "https://www.github.com/tahto/lucidity"
   :license {:name "The MIT License"
             :url "http://http://opensource.org/licenses/MIT"}
@@ -50,19 +50,19 @@
             :files {"index"
                     {:template "home.html"
                      :title "lucidity"
-                     :subtitle "tools for clarity"}
+                     :subtitle "tools for code clarity"}
                     "lucid-core"
                     {:input "test/documentation/lucid_core.clj"
                      :title "core"
-                     :subtitle "functions to enhance code flow"}
+                     :subtitle "functions for the code environment"}
                     "lucid-deploy"
                     {:input "test/documentation/lucid_deploy.clj"
                      :title "deploy"
                      :subtitle "code packaging and distribution"}
-                    "lucid-library"
-                    {:input "test/documentation/lucid_library.clj"
-                     :title "library"
-                     :subtitle "management of project dependencies"}
+                    "lucid-flow"
+                    {:input "test/documentation/lucid_flow.clj"
+                     :title "flow"
+                     :subtitle "enhancing the coding experience"}
                     "lucid-mind"
                     {:input "test/documentation/lucid_mind.clj"
                      :title "mind"
@@ -75,10 +75,14 @@
                     {:input "test/documentation/lucid_query.clj"
                      :title "query"
                      :subtitle "intuitive search for code"}
-                    "lucid-unit"
-                    {:input "test/documentation/lucid_unit.clj"
-                     :title "unit"
-                     :subtitle "unit tests for code management"}}
+                    "lucid-space"
+                    {:input "test/documentation/lucid_space.clj"
+                     :title "space"
+                     :subtitle "management of project externals"}
+                    "lucid-test"
+                    {:input "test/documentation/lucid_test.clj"
+                     :title "test"
+                     :subtitle "tests for code management"}}
             :link {:auto-tag    true
                    :auto-number  true}}
 

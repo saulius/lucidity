@@ -8,10 +8,10 @@
              [result :as result]]))
 
 (defonce +defaults+
-  {:repositories {"central" {:name "central"
-                             :url "http://central.maven.org/maven2/"}
-                  "clojars" {:name "clojars"
-                             :url "http://clojars.org/repo"}}})
+  {:repositories {"clojars" {:name "clojars"
+                             :url "http://clojars.org/repo"}
+                  "central" {:name "central"
+                             :url "http://central.maven.org/maven2/"}}})
 
 (defrecord Aether [])
 
@@ -38,15 +38,27 @@
                         [item]))
                 node)))
 
-(defn resolve-dependencies
+(defn resolve-hierarchy
   ([coords]
-   (resolve-dependencies (aether) coords))
+   (resolve-hierarchy (aether) coords))
   ([aether coords]
    (let [system  (system/repository-system)
          request (request/dependency-request aether coords)
          session (->> (select-keys aether [:local-repo])
                       (session/session system))]
      (-> (.resolveDependencies system session request)
-         (result/summary)
-         (flatten-values)
-         (set)))))
+         (result/summary)))))
+
+(defn resolve-dependencies
+  ([coords]
+   (resolve-dependencies (aether) coords))
+  ([aether coords]
+   (->> (resolve-hierarchy aether coords)
+        (flatten-values)
+        (sort)
+        (reverse)
+        (reduce (fn [out coord]
+                  (if (-> out last first (= (first coord)))
+                    out
+                    (conj out coord)))
+                []))))

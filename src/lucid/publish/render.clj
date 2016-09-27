@@ -29,8 +29,9 @@
          settings (template/load-settings theme project)]
      (prepare-template interim name settings project)))
   ([interim name settings project]
-   (let [defaults (:defaults settings)
-         opts (merge defaults
+   (let [defaults (:defaults settings) 
+         opts (merge (select-keys project [:version :name :root :url :description])
+                     defaults
                      (get-in interim [:articles name :meta]))
          template (template/load-file (:template opts) settings project)
          includes (find-includes template)]

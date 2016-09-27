@@ -1,0 +1,162 @@
+
+
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <meta name="google" value="notranslate">
+
+
+    <title>core - functions for the code environment</title>
+
+    
+  <link href='http://fonts.googleapis.com/css?family=Raleway:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/clojure.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/magula.min.css">
+
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.min.js"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-cookies.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js"></script>
+  <script type="text/javascript" src="js/angular-highlightjs.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="css/rdash.min.css">
+  <link rel="stylesheet" type="text/css" href="css/scrollspy.css">
+
+
+  <script>
+    window.console = window.console || function(t) {};
+    window.open = function(){ console.log("window.open is disabled."); };
+    window.print   = function(){ console.log("window.print is disabled."); };
+  </script>
+
+  <script>
+    var app = angular.module('app', ['hljs']);
+  </script>
+  </head>
+
+  <body ng-app="app" data-spy="scroll" data-target=".scrollspy">
+  <!-- Fixed navbar -->
+    <nav class="navbar navbar-fixed-top">
+      <div class="container" style="margin-left: inherit;">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html"><img src="img/glyph-white.png"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Guides <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="lucid-core.html">core</a></li>
+                <!--li><a href="lucid-deploy.html">deploy</a></li-->
+                <!--li><a href="lucid-flow.html">flow</a></li-->
+                <li><a href="lucid-mind.html">mind</a></li>
+                <li><a href="lucid-publish.html">publish</a></li>
+                <li><a href="lucid-query.html">query</a></li>
+                <li><a href="lucid-space.html">space</a></li>
+                <li><a href="lucid-test.html">test</a></li>
+            </ul>
+            </li>
+            <li>
+              <a href="https://github.com/tahto/lucidity" target="_blank">Github</a></li>
+            <li>
+              <a href="http://gitter.im/tahto/lucidity" target="_blank">Gitter</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+
+  <div class="container row">
+    <div class="col-md-3 scrollspy pull-right">
+      <ul id="nav" class="nav hidden-xs hidden-sm" data-spy="affix">
+        <li><a href="#introduction">1  &nbsp;&nbsp; Introduction</a></li><li><a href="#aether">2  &nbsp;&nbsp; aether</a><ul class="nav"><li><a href="#installation">2.1  &nbsp;&nbsp; Installation</a></li><li><a href="#resolve">2.2  &nbsp;&nbsp; resolve</a></li><li><a href="#hierarchy">2.3  &nbsp;&nbsp; hierarchy</a></li></ul></li><li><a href="#classloader">3  &nbsp;&nbsp; classloader</a><ul class="nav"><li><a href="#installation-0">3.1  &nbsp;&nbsp; Installation</a></li><li><a href="#load-class">3.2  &nbsp;&nbsp; load-class</a></li></ul></li><li><a href="#debug">4  &nbsp;&nbsp; debug</a><ul class="nav"><li><a href="#installation-1">4.1  &nbsp;&nbsp; Installation</a></li></ul></li><li><a href="#inject">5  &nbsp;&nbsp; inject</a><ul class="nav"><li><a href="#installation-2">5.1  &nbsp;&nbsp; Installation</a></li></ul></li><li><a href="#namespace">6  &nbsp;&nbsp; namespace</a><ul class="nav"><li><a href="#installation-3">6.1  &nbsp;&nbsp; Installation</a></li></ul></li>
+      </ul>
+    </div>
+    <div class="col-md-9" id="content">
+      <div class="jumbotron">
+        <div class="container">
+          <h1>core</h1>
+          <h4>functions for the code environment</h4>
+        </div>
+      </div>
+      <section class="chapter" id="introduction"><h2 class="chapter">1  &nbsp;&nbsp; Introduction</h2><div class="group"><div class="paragraph"><p><code>lucid.core</code> provides utilities that either support the rest of the <code>lucidity</code> suite or are useful standalone tools by themselves. Each one is installed individually and usually only provides one or two top level function for use:</p></div></div></section><section class="chapter" id="aether"><h2 class="chapter">2  &nbsp;&nbsp; aether</h2><section class="section" id="installation"><h3 class="section">2.1  &nbsp;&nbsp; Installation</h3><div class="paragraph"><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">[tahto/lucid.core.aether &quot;1.2.0&quot;]</div></div><div class="paragraph"><p>All functionality is in the <code>lucid.core.aether</code> namespace:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(use 'lucid.core.aether)</div></div></section><section class="section" id="resolve"><h3 class="section">2.2  &nbsp;&nbsp; resolve</h3><div class="paragraph"><p><code>resolve-dependencies</code> is a very important function as it is used to synchronise many tasks so that libraries are downloaded as needed from maven:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(resolve-dependencies '[prismatic/schema &quot;1.1.3&quot;])
+=&gt; '[[prismatic/schema &quot;1.1.3&quot;]]
+  
+(resolve-dependencies '[midje &quot;1.6.3&quot;])
+=&gt; '[[utilize/utilize &quot;0.2.3&quot;]
+     [swiss-arrows/swiss-arrows &quot;1.0.0&quot;]
+     [slingshot/slingshot &quot;0.10.3&quot;]
+     [org.clojure/tools.namespace &quot;0.2.4&quot;]
+     [org.clojure/tools.macro &quot;0.1.5&quot;]
+     [org.clojure/math.combinatorics &quot;0.0.7&quot;]
+     [org.clojure/core.unify &quot;0.5.2&quot;]
+     [org.clojars.trptcolin/sjacket &quot;0.1.3&quot;]
+     [ordered/ordered &quot;1.2.0&quot;]
+     [net.cgrand/regex &quot;1.1.0&quot;]
+     [net.cgrand/parsley &quot;0.9.1&quot;]
+     [midje/midje &quot;1.6.3&quot;]
+     [joda-time/joda-time &quot;2.2&quot;]
+     [gui-diff/gui-diff &quot;0.5.0&quot;]
+     [dynapath/dynapath &quot;0.2.0&quot;]
+     [commons-codec/commons-codec &quot;1.9&quot;]
+     [colorize/colorize &quot;0.1.1&quot;]
+     [clj-time/clj-time &quot;0.6.0&quot;]]</div></div></section><section class="section" id="hierarchy"><h3 class="section">2.3  &nbsp;&nbsp; hierarchy</h3><div class="paragraph"><p><code>resolve-hierarchy</code> shows the dependency hierachy instead of a flattened list:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(resolve-hierarchy '[midje &quot;1.6.3&quot;])
+=&gt; '{[midje/midje &quot;1.6.3&quot;]
+     [{[ordered/ordered &quot;1.2.0&quot;] []}
+      {[org.clojure/math.combinatorics &quot;0.0.7&quot;] []}
+      {[org.clojure/core.unify &quot;0.5.2&quot;] []}
+      {[utilize/utilize &quot;0.2.3&quot;]
+       [{[org.clojure/tools.macro &quot;0.1.1&quot;] []}
+        {[joda-time/joda-time &quot;2.0&quot;] []}
+        {[ordered/ordered &quot;1.0.0&quot;] []}]}
+      {[colorize/colorize &quot;0.1.1&quot;] []}
+      {[org.clojure/tools.macro &quot;0.1.5&quot;] []}
+      {[dynapath/dynapath &quot;0.2.0&quot;] []}
+      {[swiss-arrows/swiss-arrows &quot;1.0.0&quot;] []}
+      {[org.clojure/tools.namespace &quot;0.2.4&quot;] []}
+      {[slingshot/slingshot &quot;0.10.3&quot;] []}
+      {[commons-codec/commons-codec &quot;1.9&quot;] []}
+      {[gui-diff/gui-diff &quot;0.5.0&quot;]
+       [{[org.clojars.trptcolin/sjacket &quot;0.1.3&quot;]
+         [{[net.cgrand/regex &quot;1.1.0&quot;] []}
+          {[net.cgrand/parsley &quot;0.9.1&quot;]
+           [{[net.cgrand/regex &quot;1.1.0&quot;] []}]}]}
+        {[ordered/ordered &quot;1.2.0&quot;] []}]}
+      {[clj-time/clj-time &quot;0.6.0&quot;]
+       [{[joda-time/joda-time &quot;2.2&quot;] []}]}]}</div></div></section></section><section class="chapter" id="classloader"><h2 class="chapter">3  &nbsp;&nbsp; classloader</h2><section class="section" id="installation-0"><h3 class="section">3.1  &nbsp;&nbsp; Installation</h3><div class="paragraph"><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">[tahto/lucid.core.classloader &quot;1.2.0&quot;]</div></div><div class="paragraph"><p>All functionality is in the <code>lucid.core.classloader</code> namespace:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(use 'lucid.core.classloader)</div></div></section><section class="section" id="load-class"><h3 class="section">3.2  &nbsp;&nbsp; load-class</h3></section></section><section class="chapter" id="debug"><h2 class="chapter">4  &nbsp;&nbsp; debug</h2><section class="section" id="installation-1"><h3 class="section">4.1  &nbsp;&nbsp; Installation</h3><div class="paragraph"><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">[tahto/lucid.core.debug &quot;1.2.0&quot;]</div></div><div class="paragraph"><p>All functionality is in the <code>lucid.core.debug</code> namespace:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(use 'lucid.core.debug)</div></div></section></section><section class="chapter" id="inject"><h2 class="chapter">5  &nbsp;&nbsp; inject</h2><section class="section" id="installation-2"><h3 class="section">5.1  &nbsp;&nbsp; Installation</h3><div class="paragraph"><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">[tahto/lucid.core.inject &quot;1.2.0&quot;]</div></div><div class="paragraph"><p>All functionality is in the <code>lucid.core.inject</code> namespace:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(use 'lucid.core.inject)</div></div></section></section><section class="chapter" id="namespace"><h2 class="chapter">6  &nbsp;&nbsp; namespace</h2><section class="section" id="installation-3"><h3 class="section">6.1  &nbsp;&nbsp; Installation</h3><div class="paragraph"><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">[tahto/lucid.core.namespace &quot;1.2.0&quot;]</div></div><div class="paragraph"><p>All functionality is in the <code>lucid.core.namespace</code> namespace:</p></div><div class="code"><div hljs="hljs" language="clojure" no-escape="no-escape">(use 'lucid.core.namespace)</div></div></section></section>
+    </div>
+</div><!--end of .container-->
+
+  <section class="application">
+    
+  </section>
+</body>
+
+<script>
+  $('#nav').affix({
+    offset: {
+        top: $('#nav').offset().top,
+        bottom: $('footer').outerHeight(true) + $('.application').outerHeight(true) + 40
+    }});
+</script>
+
+
+<script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+</body>
+</html>

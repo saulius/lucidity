@@ -36,25 +36,27 @@
        (spit (str (fs/path (str out-dir) (str name ".html")))
              (render/render interim name settings project))))))
 
-(defn publish-all
-  ([]
-   (let [project (project/project)
-         theme  (-> project :publish :template :theme)
-         settings (template/load-settings theme project)]
-     (publish-all settings project)))
-  ([settings project]
-   (let [files (-> project :publish :files)]
-     (publish (vec (keys files)) settings project))))
+(defn template-path [project]
+  (let [template-dir (or (-> project :publish :template :path)
+                         *template*)]
+    (fs/path (:root project) template-dir)))
 
-(defn copy-template
+(defn output-path [project]
+  (let [output-dir (or (-> project :publish :output)
+                         *output*)]
+    (fs/path (:root project) output-dir)))
+
+(defn template-deploy
   ([]
    (let [project (project/project)
-         theme  (-> project :publish :template :theme)
+         theme   (-> project :publish :template :theme)
          settings (template/load-settings theme project)]
-     (copy-template settings project)))
+     (template-deploy settings project)))
   ([settings project]
-   (let [target (or (-> project :publish :template :path)
-                    *template*)
+   (let [target (template-path project)
+         _  (if (fs/exists? target)
+              (throw (Exception. (format "Template already deployed in %s"
+                                         target))))
          inputs   (mapv (juxt (fn [path]
                                 (-> (str (:resource settings) "/" path)
                                     (io/resource)
@@ -62,24 +64,65 @@
                               identity)
                         (:manifest settings))]
      (doseq [[stream filename] inputs]
-       (let [out (fs/path (:root project) target filename)]
+       (let [out (fs/path target filename)]
          (fs/create-directory (fs/parent out))
          (fs/write stream out))))))
 
-(comment
-  (def settings (render/load-settings "martell"))
+(defn template-copy
+  ([]
+   (let [project (project/project)
+         theme   (-> project :publish :template :theme)
+         settings (template/load-settings theme project)]
+     (template-copy settings project)))
+  ([settings project]
+   (let [source (template-path project)
+         output (output-path project)
+         files  (->> (:copy settings)
+                     (mapcat (fn [dir]
+                               (let [partial (fs/path source dir)
+                                     files (->> (fs/select partial)
+                                                (filter fs/file?))]
+                                 (map (juxt identity
+                                            (fn [f]
+                                              (fs/path output (str (fs/relativize partial f))))) files)))))]
+     (doseq [[in out] files]
+       (fs/create-directory (fs/parent out))
+       (fs/copy-single in out {:options [:replace-existing :copy-attributes]})))))
 
-  (copy-template)
+(defn publish-all
+  ([]
+   (let [project (project/project)
+         theme  (-> project :publish :template :theme)
+         settings (template/load-settings theme project)]
+     (publish-all settings project)))
+  ([settings project]
+   (let [template (template-path project)
+         output   (output-path project)
+         _  (if-not   (fs/exists? template)
+              (template-deploy settings project))
+         files (-> project :publish :files keys vec)]
+     (template-copy settings project)
+     (publish files settings project))))
+
+(comment
+  (def settings (template/load-settings "martell"))
+  
+(output-path (project/project))
+  
   (publish "index")
   (publish "index") 
 
   (publish "lucid-mind")
   (publish "lucid-query")
+  (publish "lucid-library")
+  (publish "lucid-core")
 
   (publish-all)
+  (template-deploy)
+  (template-copy)
   
-  
-  
+  (fs/option )
+  (:atomic-move :create-new :skip-siblings :read :continue :create :terminate :copy-attributes :append :truncate-existing :sync :follow-links :delete-on-close :write :dsync :replace-existing :sparse :nofollow-links :skip-subtree)
   (copy-template "martell")
   (settings)
   
@@ -87,7 +130,7 @@
                             (fs/path "match.clj")
                             (make-array java.nio.file.CopyOption 0))
   (deploy-template "martell")
-  
+  (template/load-settings "martell")
   (tagged-name (parse/parse-file (lookup-path *ns* (project/project)) (project/project)))
   
   (publish :pdf)

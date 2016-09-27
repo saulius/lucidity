@@ -2,7 +2,7 @@
   (:require [hara.io
              [file :as fs]
              [project :as project]]
-            [lucid.unit :as unit]
+            [lucid.test :as unit]
             [lucid.publish
              [collect :as collect]
              [link :as link]

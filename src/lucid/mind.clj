@@ -82,8 +82,8 @@
   ([name [class method & selectors]]
    `(reflect/extract-to-var ~(list `symbol (str name)) ~class ~(str method) ~(args/args-convert selectors)))
   ([name objvec & more]
-   [`(.>var ~name ~objvec)]
-   ~@(map #(cons `.>var %) (partition 2 more))))
+   `[(.>var ~name ~objvec)
+     ~@(map #(cons `.>var %) (partition 2 more))]))
 
 (defmacro .>ns
   "extracts all class methods into its own namespace.

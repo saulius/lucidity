@@ -5,13 +5,13 @@
 
 [[:chapter {:title "Introduction"}]]
 
-"`lucid.query` makes it easy for querying and manipulation of clojure source code through an `xpath`/`css`-inspired syntax
+"`lucid.query` makes it easy for querying and manipulation of clojure source code through an `xpath`/`css`-inspired syntax. This library was originally developed as [jai](https://github.com/zcaudate/hara/jai).
 
 - to simplify traversal and manipulation of source code
 - to provide higher level abstractions on top of [rewrite-clj](https://github.com/xsc/rewrite-clj)
 - to leverage [core.match](https://github.com/clojure/core.match)'s pattern matching for a more declarative syntax" 
 
-[[:chapter {:title "Installation"}]]
+[[:section {:title "Installation"}]]
 
 "Add to `project.clj` dependencies:"
 

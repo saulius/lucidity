@@ -42,7 +42,7 @@
     out))
 
 (defn markup
-  "calls the markdown library to create markup from a string"
+  "calls the markdown space to create markup from a string"
   {:added "0.1"}
   [data]
   (markdown/md-to-html-string data))

@@ -80,13 +80,13 @@ section:last-child {
 
 
 .nav {
-  background: #30426a;
+  background: #631D05;
 }
 
 .nav .contents{
   color: white;
   padding: 18px 0px 15px 30px;
-  background: #2d3e63;
+  background: #440507;
 }
 
 .nav a {
@@ -96,7 +96,7 @@ section:last-child {
 
 .nav li a:hover,
 .nav li a:focus {
-  background: #2d3e63;
+  background: #440507;
 }
 
 .nav .active {
@@ -203,8 +203,8 @@ ul.sidebar .submenu-item {
 }
 
 nav {
-  background-color: #30426A;
-  border-color: #30426A;
+  background-color: #631D05;
+  border-color: #631D05;
 }
 
 .navbar-brand img{
@@ -217,7 +217,11 @@ nav {
 }
 
 .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
-  background-color: #30426A;
+  background-color: #631D05;
+}
+
+#nav {
+  width: 250px;
 }
 
 .dropdown-menu>li>a:hover {

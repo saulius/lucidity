@@ -205,7 +205,7 @@
         ((wrap-meta parse-fact-form) zloc)
 
         (checks/facts? zloc)
-        ((wrap-meta parse-facts-form) zloc)
+        ((wrap-meta parse-fact-form) zloc)
 
         (checks/comment? zloc)
         ((wrap-meta parse-comment-form) zloc)
@@ -311,5 +311,3 @@
   {:added "1.2"}
   [file opts]
   (parse-loop (source/of-file file) opts))
-
-
