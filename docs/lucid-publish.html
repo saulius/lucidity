@@ -2,7 +2,7 @@
   <head>
     <meta content=\"chrome=1\" http-equiv=\"X-UA-Compatible\" />
     <meta charset=\"utf-8\" /><meta content=\"width=device-width, initial-scale=1, user-scalable=no\" name=\"viewport\" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico?v=2" type="image/x-icon" />
     <title>publish - generate documentation from code</title>
     <script src="js/highlight.min.js"></script>
     <style>
@@ -483,13 +483,14 @@ Qt Creator light color scheme
           <br/>
           <hr/>
         </div>
-        <div><a name="introduction"></a><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.publish</code> facilitates the creation of 'documentation that we can run', the tool allows for a design-orientated workflow for the programming process, blurring the boundaries between design, development, testing and documentation. This library was originally developed as <a href='https://www.github.com/zcaudate/lein-midje-doc'>lein-midje-doc</a>, and then <a href='https://www.github.com/helpshift/hydrox'>hydrox</a>.</p></div><div><a name="installation"></a><h3>1.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.publish &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.publish</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.publish)</code></pre></div><div><a name="motivation"></a><h3>1.2 &nbsp;&nbsp; Motivation</h3></div><div><p>Documentation is the programmers' means of communicating how to use a library. There are various tools for documentation like <code>latex</code>, <code>wiki</code> and <code>markdown</code>, however <code>lucid.publish</code> should be thought of as an in-built html renderer for clojure code. It's features are:</p><ol><li>To generate <code>.html</code> documentation from a <code>.clj</code> test file.</li><li>Render code and test cases as examples</li><li>Latex-like numbering and linking facilities</li><li>To promote code as communication</li></ol></div><div><a name="basics"></a><h2><b>2 &nbsp;&nbsp; Basics</b></h2></div><div><p>Any clojure file can be made into a <code>.html</code> page. Let's give it a go. Create a file</p></div><div><pre><code class="clojure">^{:title &quot;hello world&quot;
-:subtitle &quot;this is a sample document&quot;}
+        <div><a name="introduction"></a><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.publish</code> facilitates the creation of 'documentation that we can run', the tool allows for a design-orientated workflow for the programming process, blurring the boundaries between design, development, testing and documentation. This library was originally developed as <a href='https://www.github.com/zcaudate/lein-midje-doc'>lein-midje-doc</a>, and then <a href='https://www.github.com/helpshift/hydrox'>hydrox</a>.</p></div><div><a name="installation"></a><h3>1.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.publish &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.publish</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.publish)</code></pre></div><div><a name="motivation"></a><h3>1.2 &nbsp;&nbsp; Motivation</h3></div><div><p>Documentation is the programmers' means of communicating how to use a library. There are various tools for documentation like <code>latex</code>, <code>wiki</code> and <code>markdown</code>, however <code>lucid.publish</code> should be thought of as an in-built html renderer for clojure code. It's features are:</p><ol><li>To generate <code>.html</code> documentation from a <code>.clj</code> test file.</li><li>Render code and test cases as examples</li><li>Latex-like numbering and linking facilities</li><li>To promote code as communication</li></ol></div><div><a name="basics"></a><h2><b>2 &nbsp;&nbsp; Basics</b></h2></div><div><p>Any clojure file can be made into a <code>.html</code> page. Let's give it a go. Create a file</p></div><h1>HELLO THERE</h1><div><pre><code class="clojure">^{:title &quot;hello world&quot;
+  :subtitle &quot;this is a sample document&quot;}
 (ns example.sample-document
-(:use hara.test))
-
-[[:chapter {:tag &quot;hello&quot; :title &quot;My First Article&quot;}]]
-
+  (:use hara.test)
+  (:require [lucid.publish :as publish]))
+  
+[[:chapter {:tag &quot;hello&quot; :title &quot;Introduction&quot;}]]
+  
 &quot;This is an introduction to writing with **Lucidity**&quot;
 
 [[:section {:title &quot;Defining a function&quot;}]]
@@ -498,7 +499,7 @@ Qt Creator light color scheme
 
 [[{:numbered false}]]
 (defn add-5 [x]
-(+ x 5))
+  (+ x 5))
 
 [[:section {:title &quot;Testing a function&quot;}]]
 
@@ -510,9 +511,16 @@ Qt Creator light color scheme
 [[{:tag &quot;add-5-10&quot; :title &quot;10 add 5 = 15&quot;}]]
 (fact (add-5 10) =&gt; 15)
 
+[[:chapter {:tag &quot;two&quot; :title &quot;Another Chapter&quot;}]]
+
+[[{:title &quot;map&quot;}]]
+(comment
+  (map inc (range 10))
+  =&gt; (1 2 3 4 5 6 7 8 9 10)) 
+
 [[{:hidden true}]]
 (comment
-(lucid.publish/publish))</code></pre></div><div><a name="design-driven-development"></a><h2><b>3 &nbsp;&nbsp; Design Driven Development</b></h2></div><div><p>Documentation at the design level requires more visual elements than documentation at the function level. <code>lucid.publish</code> can generates a <code>.html</code> output based on a <code>.clj</code> file. This requires some configuration and so the following is placed in the <code>project.clj</code> file:</p></div><div><pre><code class="clojure">(defproject ...
+  (publish/publish))</code></pre></div><div><a name="design-driven-development"></a><h2><b>3 &nbsp;&nbsp; Design Driven Development</b></h2></div><div><p>Documentation at the design level requires more visual elements than documentation at the function level. <code>lucid.publish</code> can generates a <code>.html</code> output based on a <code>.clj</code> file. This requires some configuration and so the following is placed in the <code>project.clj</code> file:</p></div><div><pre><code class="clojure">(defproject ...
   ...
   :publish {:site   &quot;sample&quot;
             :output &quot;docs&quot;
@@ -545,7 +553,7 @@ Qt Creator light color scheme
   (add-5 1) =&gt; 6
 
   [[{:tag &quot;add-5-10&quot; :title &quot;10 add 5 = 15&quot;}]]
-  (add-5 10) =&gt; 15)</code></pre></div><div><p>A pretty looking html document can be generated by running <code>publish</code>:</p></div><div><pre><code class="clojure">(publish &quot;sample-document&quot;)</code></pre></div><div><p>The <code>:output</code> entry specifies the directory that files are rendered to.</p></div><div><a name="api-reference"></a><h2><b>4 &nbsp;&nbsp; API Reference</b></h2></div><div><a name="the-basics"></a><h3>4.1 &nbsp;&nbsp; The Basics</h3></div><div><a name="elements"></a><h3><i>4.1.1 &nbsp;&nbsp; elements</i></h3></div><div><p>Elements are constructed using a tag and a map contained within double square brackets. Elements tags have been inspired from latex:</p><ul><li><a href='#sectioning-elements'>Sectioning Elements</a></li><li><a href='#text-elements'>Text Elements</a></li><li><a href='#code-elements'>Code Elements</a></li><li><a href='#additional-elements'>Additional Elements</a></li></ul><p>Clojure strings are treated as paragraph elements whilst clojure forms are treated as code elements. <code>fact</code> and <code>comment</code> forms are also considered code elements. Elements will be described in detail in their respective sections.</p></div><div><a name="elements-ex1"></a><h4><i>e.  &nbsp;-&nbsp; Element Notation</i></h4><pre><code class="clojure">[[&lt;tag&gt; {&lt;key1&gt; &lt;value1&gt;, &lt;key2&gt; &lt;value2&gt;}]]
+  (add-5 10) =&gt; 15)</code></pre></div><div><p>A pretty looking html document can be generated by running <code>publish</code>:</p></div><div><pre><code class="clojure">(publish &quot;sample-document&quot;)</code></pre></div><div><p>The <code>:output</code> entry specifies the directory that files are rendered to.</p></div><div><a name="api-reference"></a><h2><b>4 &nbsp;&nbsp; API Reference</b></h2></div><div><a name="the-basics"></a><h3>4.1 &nbsp;&nbsp; The Basics</h3></div><div><a name="elements"></a><h3><i>4.1.1 &nbsp;&nbsp; elements</i></h3></div><div><p>Elements are constructed using a tag and a map contained within double square brackets. Elements tags have been inspired from latex:</p><ul><li><a href='#sectioning-elements'>Sectioning Elements</a></li><li><a href='#text-elements'>Text Elements</a></li><li><a href='#code-elements'>Code Elements</a></li><li><a href='#additional-elements'>Additional Elements</a></li></ul><p>Clojure strings are treated as paragraph elements whilst clojure forms are treated as code elements. <code>fact</code> and <code>comment</code> forms are also considered code elements. Elements will be described in detail in their respective sections.</p></div><div><a name="elements-ex1"></a><h4><i>e.4.1  &nbsp;-&nbsp; Element Notation</i></h4><pre><code class="clojure">[[&lt;tag&gt; {&lt;key1&gt; &lt;value1&gt;, &lt;key2&gt; &lt;value2&gt;}]]
 
 for example
 
@@ -579,7 +587,7 @@ is equivalent to
     *1.2.1.1 Eagle        ;; eagle
     *1.2.1.2 Hummingbird  ;; hummingbird
   *1.2.2 Flightless       ;; flightless
-    *1.2.2.1 Penguin      ;; penguin</code></pre></div><div><a name="content-elements"></a><h3>4.3 &nbsp;&nbsp; Content Elements</h3></div><div><p>Content elements include <code>:paragraph</code>, <code>:image</code>, and <code>file</code> elements.</p></div><div><a name="paragraph"></a><h3><i>4.3.1 &nbsp;&nbsp; :paragraph</i></h3></div><div><p>Paragraph elements should make up the bulk of the documentation. They can be written as an element or in the usual case, as a string. The string is markdown with templating - so that chapter, section, code and image numbers can be referred to by their tags.</p></div><div><h4><i>e.  &nbsp;-&nbsp; Paragraph Element</i></h4><pre><code class="clojure">[[:paragraph {:content &quot;Here is some content&quot;}]]</code></pre></div><div><h4><i>e.  &nbsp;-&nbsp; Paragraph String</i></h4><pre><code class="clojure">&quot;Here is some content&quot;</code></pre></div><div><h4><i>e.  &nbsp;-&nbsp; Markdown String</i></h4><pre><code class="clojure">[[:chapter {:title &quot;Chapter Heading&quot; :tag &quot;ch-heading&quot;}]]
+    *1.2.2.1 Penguin      ;; penguin</code></pre></div><div><a name="content-elements"></a><h3>4.3 &nbsp;&nbsp; Content Elements</h3></div><div><p>Content elements include <code>:paragraph</code>, <code>:image</code>, and <code>file</code> elements.</p></div><div><a name="paragraph"></a><h3><i>4.3.1 &nbsp;&nbsp; :paragraph</i></h3></div><div><p>Paragraph elements should make up the bulk of the documentation. They can be written as an element or in the usual case, as a string. The string is markdown with templating - so that chapter, section, code and image numbers can be referred to by their tags.</p></div><div><h4><i>e.4.2  &nbsp;-&nbsp; Paragraph Element</i></h4><pre><code class="clojure">[[:paragraph {:content &quot;Here is some content&quot;}]]</code></pre></div><div><h4><i>e.4.3  &nbsp;-&nbsp; Paragraph String</i></h4><pre><code class="clojure">&quot;Here is some content&quot;</code></pre></div><div><h4><i>e.4.4  &nbsp;-&nbsp; Markdown String</i></h4><pre><code class="clojure">[[:chapter {:title &quot;Chapter Heading&quot; :tag &quot;ch-heading&quot;}]]
 
 &quot;
 # Heading One
@@ -588,17 +596,17 @@ Here is a tag reference to Chapter Heading - {{ch-heading}}
 
 - Here is a bullet point
 - Here is another one&quot;</code></pre></div><div><a name="image"></a><h3><i>4.3.2 &nbsp;&nbsp; :image</i></h3></div><div><p>The <code>:image</code> element embeds an image as a figure within the document. It is numbered and can be tagged for easy reference. The code example produces the image seen in Figure 1:</p></div><div><pre><code class="clojure">[[:image {:tag &quot;clojure-logo&quot; :title &quot;Clojure Logo (source clojure.org)&quot;
-          :src &quot;http://clojure.org/space/showimage/clojure-icon.gif&quot;}]]</code></pre></div><div class="figure"><a name="clojure-logo"></a><h4><i>fig.clojure.core$num@2e8d9ea8  &nbsp;-&nbsp; Clojure Logo (source clojure.org)</i></h4><div class="img"><img number="1" src="http://clojure.org/space/showimage/clojure-icon.gif" title="Clojure Logo (source clojure.org)" /></div><p></p></div><div><a name="file"></a><h3><i>4.3.3 &nbsp;&nbsp; :file</i></h3></div><div><p>The <code>:file</code> element allows inclusion of other files into the document. It is useful for breaking up a document into managable chunks. A file element require that the <code>:src</code> attribute be specified. A high-level view of a document can thus be achieved, making the source more readable. This is similar to the <code>include</code> element in latex.</p></div><div><a name="file-element"></a><h4><i>e.  &nbsp;-&nbsp; :file tag example</i></h4><pre><code class="clojure">[[:file {:src &quot;test/docs/first_section.clj&quot;}]]
+          :src &quot;http://clojure.org/images/clojure-logo-120b.png&quot;}]]</code></pre></div><div class="figure"><a name="clojure-logo"></a><h4><i>fig.1  &nbsp;-&nbsp; Clojure Logo (source clojure.org)</i></h4><div class="img"><img number="1" src="http://clojure.org/images/clojure-logo-120b.png" title="Clojure Logo (source clojure.org)" /></div><p></p></div><div><a name="file"></a><h3><i>4.3.3 &nbsp;&nbsp; :file</i></h3></div><div><p>The <code>:file</code> element allows inclusion of other files into the document. It is useful for breaking up a document into managable chunks. A file element require that the <code>:src</code> attribute be specified. A high-level view of a document can thus be achieved, making the source more readable. This is similar to the <code>include</code> element in latex.</p></div><div><a name="file-element"></a><h4><i>e.4.5  &nbsp;-&nbsp; :file tag example</i></h4><pre><code class="clojure">[[:file {:src &quot;test/docs/first_section.clj&quot;}]]
 [[:file {:src &quot;test/docs/second_section.clj&quot;}]]
-[[:file {:src &quot;test/docs/third_section.clj&quot;}]]</code></pre></div><div><a name="code-elements"></a><h3>4.4 &nbsp;&nbsp; Code Elements</h3></div><div><p>Code displayed in documentation are of a few types:</p><ol><li>Code that needs to be run (normal clojure code)</li><li>Code that needs verification taking input and showing output. (midje fact)</li><li>Code that should not be run (namespace declaration examples)</li><li>Code that is part of the library's tests or source definition</li><li>Code in other languages</li></ol><p>The different types of code can be defined so that code examples render properly using a variety of methods</p></div><div><a name="normal-s-expressions"></a><h3><i>4.4.1 &nbsp;&nbsp; normal s-expressions</i></h3></div><div><p>Normal s-expressions are rendered as is. Attributes can be added for grouping purposes. The source code shown below</p></div><div><a name="c-add-src"></a><h4><i>e.  &nbsp;-&nbsp; seperating code blocks through attributes</i></h4><pre><code class="clojure">[[{:title &quot;add-n definition&quot; :tag &quot;c-add-1&quot;}]]
+[[:file {:src &quot;test/docs/third_section.clj&quot;}]]</code></pre></div><div><a name="code-elements"></a><h3>4.4 &nbsp;&nbsp; Code Elements</h3></div><div><p>Code displayed in documentation are of a few types:</p><ol><li>Code that needs to be run (normal clojure code)</li><li>Code that needs verification taking input and showing output. (midje fact)</li><li>Code that should not be run (namespace declaration examples)</li><li>Code that is part of the library's tests or source definition</li><li>Code in other languages</li></ol><p>The different types of code can be defined so that code examples render properly using a variety of methods</p></div><div><a name="normal-s-expressions"></a><h3><i>4.4.1 &nbsp;&nbsp; normal s-expressions</i></h3></div><div><p>Normal s-expressions are rendered as is. Attributes can be added for grouping purposes. The source code shown below</p></div><div><a name="c-add-src"></a><h4><i>e.4.6  &nbsp;-&nbsp; seperating code blocks through attributes</i></h4><pre><code class="clojure">[[{:title &quot;add-n definition&quot; :tag &quot;c-add-1&quot;}]]
 (defn add-n [n]
   (fn [x] (+ x n)))
 
 [[{:title &quot;add-4 and add-5 definitions&quot; :tag &quot;c-add-2&quot;}]]
 (def add-4 (add-n 4))
-(def add-5 (add-n 5))</code></pre></div><div><p>renders the following outputs:</p></div><div><a name="c-add-1"></a><h4><i>e.  &nbsp;-&nbsp; add-n definition</i></h4><pre><code class="clojure">(defn add-n [n]
-  (fn [x] (+ x n)))</code></pre></div><div><a name="c-add-2"></a><h4><i>e.  &nbsp;-&nbsp; add-4 and add-5 definitions</i></h4><pre><code class="clojure">(def add-4 (add-n 4))
-(def add-5 (add-n 5))</code></pre></div><div><a name="test-forms"></a><h3><i>4.4.2 &nbsp;&nbsp; test forms</i></h3></div><div><p>Documentation examples put in <code>facts</code> forms allows the code to be verified for correctness using <code>lein midje</code>. Document element notation still be rendered except before and after the midje arrows (<strong>=></strong>). Consecutive code within a fact form will stacked as one common code block.</p></div><div><p>The source form:</p></div><div><a name="c-facts-src"></a><h4><i>e.  &nbsp;-&nbsp; Facts Form Source</i></h4><pre><code class="clojure">[[{:tag &quot;facts-form-output&quot; :title &quot;Facts Form Output&quot;}]]
+(def add-5 (add-n 5))</code></pre></div><div><p>renders the following outputs:</p></div><div><a name="c-add-1"></a><h4><i>e.4.7  &nbsp;-&nbsp; add-n definition</i></h4><pre><code class="clojure">(defn add-n [n]
+  (fn [x] (+ x n)))</code></pre></div><div><a name="c-add-2"></a><h4><i>e.4.8  &nbsp;-&nbsp; add-4 and add-5 definitions</i></h4><pre><code class="clojure">(def add-4 (add-n 4))
+(def add-5 (add-n 5))</code></pre></div><div><a name="test-forms"></a><h3><i>4.4.2 &nbsp;&nbsp; test forms</i></h3></div><div><p>Documentation examples put in <code>facts</code> forms allows the code to be verified for correctness using <code>lein midje</code>. Document element notation still be rendered except before and after the midje arrows (<strong>=></strong>). Consecutive code within a fact form will stacked as one common code block.</p></div><div><p>The source form:</p></div><div><a name="c-facts-src"></a><h4><i>e.4.9  &nbsp;-&nbsp; Facts Form Source</i></h4><pre><code class="clojure">[[{:tag &quot;facts-form-output&quot; :title &quot;Facts Form Output&quot;}]]
 (facts
   [[{:title &quot;Definining an atom&quot; :tag &quot;c-facts-1&quot;}]]
   (def a (atom 1))
@@ -613,7 +621,7 @@ Here is a tag reference to Chapter Heading - {{ch-heading}}
 
 [[{:title &quot;Updating the atom&quot; :tag &quot;c-factss-2&quot;}]]
 (swap! a inc)
-(deref a) =&gt; 2</code></pre></div><div><a name="fact-form"></a><h3><i>4.4.3 &nbsp;&nbsp; fact form</i></h3></div><div><p>For an entire block to be embedded in code, use the <code>fact</code> form. The source form:</p></div><div><a name="c-fact-src"></a><h4><i>e.  &nbsp;-&nbsp; Fact Form Source</i></h4><pre><code class="clojure">[[{:tag &quot;fact-form-output&quot; :title &quot;Fact Form Output&quot;}]]
+(deref a) =&gt; 2</code></pre></div><div><a name="fact-form"></a><h3><i>4.4.3 &nbsp;&nbsp; fact form</i></h3></div><div><p>For an entire block to be embedded in code, use the <code>fact</code> form. The source form:</p></div><div><a name="c-fact-src"></a><h4><i>e.4.10  &nbsp;-&nbsp; Fact Form Source</i></h4><pre><code class="clojure">[[{:tag &quot;fact-form-output&quot; :title &quot;Fact Form Output&quot;}]]
 (fact
   (def a (atom 1))
   (deref a) =&gt; 1
@@ -623,29 +631,27 @@ Here is a tag reference to Chapter Heading - {{ch-heading}}
 (deref a) =&gt; 1
 
 (swap! a inc)
-(deref a) =&gt; 2</code></pre></div><div><a name="comments"></a><h3><i>4.4.4 &nbsp;&nbsp; comments</i></h3></div><div><p>Comments are clojure's built-in method of displaying non-running code and so this mechanisim is used in clojure for displaying code that should not be run, but still requires display. Code can still output without interferring with code or tests.</p></div><div><a name="c-com-src"></a><h4><i>e.  &nbsp;-&nbsp; Switching to a new namespace</i></h4><pre><code class="clojure">[[{:title &quot;Switching to a new namespace&quot; :tag &quot;c-com-1&quot;}]]
+(deref a) =&gt; 2</code></pre></div><div><a name="comments"></a><h3><i>4.4.4 &nbsp;&nbsp; comments</i></h3></div><div><p>Comments are clojure's built-in method of displaying non-running code and so this mechanisim is used in clojure for displaying code that should not be run, but still requires display. Code can still output without interferring with code or tests.</p></div><div><a name="c-com-src"></a><h4><i>e.4.11  &nbsp;-&nbsp; Switching to a new namespace</i></h4><pre><code class="clojure">[[{:title &quot;Switching to a new namespace&quot; :tag &quot;c-com-1&quot;}]]
 (comment
   (in-ns 'hello.world)
   (use 'clojure.string)
   (split &quot;Hello World&quot; #&quot;&#92;s&quot;) ;=&gt; [&quot;Hello&quot; &quot;World&quot;]
-  )</code></pre></div><div><a name="c-com-1"></a><h4><i>e.  &nbsp;-&nbsp; Switching to a new namespace</i></h4><pre><code class="clojure">(in-ns 'hello.world)
+  )</code></pre></div><div><a name="c-com-1"></a><h4><i>e.4.12  &nbsp;-&nbsp; Switching to a new namespace</i></h4><pre><code class="clojure">(in-ns 'hello.world)
 (use 'clojure.string)
-(split &quot;Hello World&quot; #&quot;&#92;s&quot;) ;=&gt; [&quot;Hello&quot; &quot;World&quot;]</code></pre></div><div><a name="code"></a><h3><i>4.4.5 &nbsp;&nbsp; code</i></h3></div><div><p>The most generic way of displaying code is with the <code>:code</code> tag. It is useful when code in other languages are required to be in the documentation.</p></div><div><a name="python-example"></a><h3><i>clojure.core$num@2e8d9ea8 &nbsp;&nbsp; Python Example</i></h3></div><div><p>The source and outputs are listed below:</p></div><div><a name="c-py-src"></a><h4><i>e.  &nbsp;-&nbsp; Python for Loop Source</i></h4><pre><code class="clojure">[[:code {:lang &quot;python&quot; :title &quot;Python for Loop&quot; :tag &quot;c-py-1&quot;}
+(split &quot;Hello World&quot; #&quot;&#92;s&quot;) ;=&gt; [&quot;Hello&quot; &quot;World&quot;]</code></pre></div><div><a name="code"></a><h3><i>4.4.5 &nbsp;&nbsp; code</i></h3></div><div><p>The most generic way of displaying code is with the <code>:code</code> tag. It is useful when code in other languages are required to be in the documentation.</p></div><div><a name="python-example"></a><h3><i>4.4.5.1 &nbsp;&nbsp; Python Example</i></h3></div><div><p>The source and outputs are listed below:</p></div><div><a name="c-py-src"></a><h4><i>e.4.13  &nbsp;-&nbsp; Python for Loop Source</i></h4><pre><code class="clojure">[[:code {:lang &quot;python&quot; :title &quot;Python for Loop&quot; :tag &quot;c-py-1&quot;}
 &quot;
 myList = [1,2,3,4]
 for index in range(len(myList)):
   myList[index] += 1
-print myList&quot;]]</code></pre></div><div><a name="c-py-1"></a><h4><i>e.  &nbsp;-&nbsp; Python for Loop</i></h4><pre><code class="python">
-myList = [1,2,3,4]
+print myList&quot;]]</code></pre></div><div><a name="c-py-1"></a><h4><i>e.4.14  &nbsp;-&nbsp; Python for Loop</i></h4><pre><code class="python">myList = [1,2,3,4]
 for index in range(len(myList)):
   myList[index] += 1
-print myList</code></pre></div><div><a name="ruby-example"></a><h3><i>clojure.core$num@2e8d9ea8 &nbsp;&nbsp; Ruby Example</i></h3></div><div><p>The source and outputs are listed below:</p></div><div><a name="c-rb-src"></a><h4><i>e.  &nbsp;-&nbsp; Ruby for Loop Source</i></h4><pre><code class="clojure">[[:code {:lang &quot;ruby&quot; :title &quot;Ruby for Loop&quot; :tag &quot;c-rb-2&quot;}
+print myList</code></pre></div><div><a name="ruby-example"></a><h3><i>4.4.5.2 &nbsp;&nbsp; Ruby Example</i></h3></div><div><p>The source and outputs are listed below:</p></div><div><a name="c-rb-src"></a><h4><i>e.4.15  &nbsp;-&nbsp; Ruby for Loop Source</i></h4><pre><code class="clojure">[[:code {:lang &quot;ruby&quot; :title &quot;Ruby for Loop&quot; :tag &quot;c-rb-2&quot;}
 &quot;
 array.each_with_index do |element,index|
   element.do_stuff(index)
-end&quot;]]</code></pre></div><div><a name="c-rb-2"></a><h4><i>e.  &nbsp;-&nbsp; Ruby for Loop</i></h4><pre><code class="ruby">
-array.each_with_index do |element,index|
-  element.do_stuff(index)
+end&quot;]]</code></pre></div><div><a name="c-rb-2"></a><h4><i>e.4.16  &nbsp;-&nbsp; Ruby for Loop</i></h4><pre><code class="ruby">array.each_with_index do |element,index|
+    element.do_stuff(index)
 end</code></pre></div>
       </section>
     </div>

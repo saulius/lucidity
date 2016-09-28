@@ -42,6 +42,7 @@
             
             :author "Chris Zheng"
             :email  "z@caudate.me"
+            :gitter "https://gitter.im/tahto/lucidity"
 
             :files {"index"
                     {:input "test/documentation/home_lucidity.clj"

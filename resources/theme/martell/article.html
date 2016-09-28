@@ -22,8 +22,34 @@
   </head>
 
   <body ng-app="app" data-spy="scroll" data-target=".scrollspy">
-  <@=navbar>
-
+  
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-fixed-top">
+    <div class="container" style="margin-left: inherit;">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><img src="img/glyph-white.png"></a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Guides <span class="caret"></span></a>
+            <@=top-links>
+          </li>
+          <li>
+            <a href="<@=url>" target="_blank">Github</a></li>
+          <li>
+            <a href="<@=gitter>" target="_blank">Gitter</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+  
   <div class="container row">
     <div class="col-md-3 scrollspy pull-right">
       <ul id="nav" class="nav hidden-xs hidden-sm" data-spy="affix">

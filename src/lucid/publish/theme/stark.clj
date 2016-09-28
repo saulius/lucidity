@@ -39,63 +39,69 @@
          vec
          html/html)))
 
-(defn render-element [{:keys [type number name text tag title code lang indentation] :as elem}]
-  (condp = type
-    
-    :block
-    (render-element (assoc elem :type :code))
+(defn render-element [{:keys [type number hidden name text tag
+                              title code lang indentation src]
+                       :as elem}]
+  (if-not hidden
+    (condp = type
 
-    :test
-    (render-element (assoc elem :type :code))
-    
-    :chapter
-    [:div
-     (if tag [:a {:name tag}])
-     [:h2 [:b (str number " &nbsp;&nbsp; " title)]]]
-    
-    :section
-    [:div
-     (if tag [:a {:name tag}])
-     [:h3 (str number " &nbsp;&nbsp; " title)]]
-    
-    :subsection
-    [:div
-     (if tag [:a {:name tag}])
-     [:h3 [:i (str number " &nbsp;&nbsp; " title)]]]
-    
-    :subsubsection
-    [:div
-     (if tag [:a {:name tag}])
-     [:h3 [:i (str num " &nbsp;&nbsp; " title)]]]
-    
-    :paragraph [:div (util/basic-html-unescape (util/markup text))]
+      :html src
+      
+      :block
+      (render-element (assoc elem :type :code))
 
-    :image
-    [:div {:class "figure"}
-     (if tag [:a {:name tag}])
-     (if num
-       [:h4 [:i (str "fig." num
-                     (if-let [t title] (str "  &nbsp;-&nbsp; " t)))]])
-     [:div {:class "img"} [:img (dissoc elem :num :type :tag)]]
-     [:p]]
+      :test
+      (render-element (assoc elem :type :code))
+      
+      :chapter
+      [:div
+       (if tag [:a {:name tag}])
+       [:h2 [:b (str number " &nbsp;&nbsp; " title)]]]
+      
+      :section
+      [:div
+       (if tag [:a {:name tag}])
+       [:h3 (str number " &nbsp;&nbsp; " title)]]
+      
+      :subsection
+      [:div
+       (if tag [:a {:name tag}])
+       [:h3 [:i (str number " &nbsp;&nbsp; " title)]]]
+      
+      :subsubsection
+      [:div
+       (if tag [:a {:name tag}])
+       [:h3 [:i (str number " &nbsp;&nbsp; " title)]]]
+      
+      :paragraph [:div (util/basic-html-unescape (util/markup text))]
 
-    :ns
-    [:div
-     [:pre (-> elem :content util/basic-html-escape)]]
+      :image
+      [:div {:class "figure"}
+       (if tag [:a {:name tag}])
+       (if number
+         [:h4 [:i (str "fig." number
+                       (if-let [t title] (str "  &nbsp;-&nbsp; " t)))]])
+       [:div {:class "img"} [:img (dissoc elem :num :type :tag)]]
+       [:p]]
 
-    :code
-    [:div
-     (if tag [:a {:name tag}])
-     (if number
-       [:h4 [:i (str "e." (:num elem)
-                     (if-let [t title] (str "  &nbsp;-&nbsp; " t)))]])
-     [:pre [:code {:class (or lang "clojure")}
-            (-> code
-                (util/join)
-                (util/basic-html-escape)
-                (util/adjust-indent indentation)
-                (string/trimr)
-                (string/trim-newline))]]]))
+      :ns
+      [:div
+       [:pre (-> elem :content util/basic-html-escape)]]
+
+      :code
+      [:div
+       (if tag [:a {:name tag}])
+       (if number
+         [:h4 [:i (str "e." number
+                       (if-let [t title] (str "  &nbsp;-&nbsp; " t)))]])
+       [:pre [:code {:class (or lang "clojure")}
+              (-> code
+                  (util/join)
+                  (util/basic-html-escape)
+                  (util/adjust-indent indentation)
+                  (string/triml)
+                  (string/trimr)
+                  (string/trim-newline))]]])))
 
 (defn render-article [interim name]
   (->> (get-in interim [:articles name :elements])

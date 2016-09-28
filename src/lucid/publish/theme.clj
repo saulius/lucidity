@@ -8,19 +8,6 @@
 
 (defonce ^:dynamic *path* "template")
 
-(defn apply-settings [f & args]
-  (let [project (project/project)
-        theme   (-> project :publish :theme)
-        settings (load-settings theme project)]
-    (apply f (concat args [settings project]))))
-
-(defn template-path
-  ([] (apply-settings template-path))
-  ([settings project]
-   (let [template-dir (or (-> project :publish :template :path)
-                          *path*)]
-     (fs/path (:root project) template-dir (:theme settings)))))
-
 (defn load-var [ns var]
   (-> (symbol (str ns "/" var))
       resolve
@@ -53,6 +40,19 @@
                        (assoc-in out [:defaults k] [:fn (load-var ns v)]))
                      settings)
           (merge opts)))))
+
+(defn apply-settings [f & args]
+  (let [project (project/project)
+        theme   (-> project :publish :theme)
+        settings (load-settings theme project)]
+    (apply f (concat args [settings project]))))
+
+(defn template-path
+  ([] (apply-settings template-path))
+  ([settings project]
+   (let [template-dir (or (-> project :publish :template :path)
+                          *path*)]
+     (fs/path (:root project) template-dir (:theme settings)))))
     
 (defn refresh?
   ([] 

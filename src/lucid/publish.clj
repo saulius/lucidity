@@ -13,6 +13,11 @@
 
 (def ^:dynamic *output* "docs")
 
+(defn output-path [project]
+  (let [output-dir (or (-> project :publish :output)
+                         *output*)]
+    (fs/path (:root project) output-dir)))
+
 (defn copy-assets
   ([]
    (theme/apply-settings copy-assets))
@@ -60,14 +65,10 @@
          out-dir (fs/path (-> project :root)
                           (or (-> project :publish :output) *output*))]
      (fs/create-directory out-dir)
+     (println "KEYS:" inputs names out-dir)
      (doseq [name names]
        (spit (str (fs/path (str out-dir) (str name ".html")))
              (render/render interim name settings project))))))
-
-(defn output-path [project]
-  (let [output-dir (or (-> project :publish :output)
-                         *output*)]
-    (fs/path (:root project) output-dir)))
 
 (defn publish-all
   ([] (publish-all {}))
@@ -90,6 +91,7 @@
   (publish "index")
   (publish "index")
   (publish "lucid-mind" {:theme "stark" :refresh true})
+  (publish "lucid-publish")
   (publish "lucid-query" {:theme "stark"})
   (publish "lucid-mind" {:theme "stark"})
   (publish "lucid-test")

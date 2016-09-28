@@ -8,7 +8,8 @@
     :appendix :chapter
     :section :subsection :subsubsection
     :image :paragraph :code
-    :equation :citation})
+    :equation :citation
+    :html :api})
 
 (defn wrap-meta [f]
   (fn [zloc selector]

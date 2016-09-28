@@ -3,6 +3,7 @@
              [article :as article]
              [navigation :as navigation]]
             [hiccup.compiler :as compiler]
+            [hiccup.core :as html]
             [clojure.string :as string]))
 
 (def settings
@@ -10,9 +11,9 @@
    :copy      ["assets"]
    :structure true
    :render    {:article    "render-article"
-               :navigation "render-navigation"}
+               :navigation "render-navigation"
+               :top-links  "render-top-links"}
    :defaults  {:template     "article.html"
-               :navbar       [:file "partials/navbar.html"]
                :sidebar      [:file "partials/sidebar.html"]
                :footer       [:file "partials/footer.html"]
                :dependencies [:file "partials/deps-web.html"]
@@ -35,8 +36,22 @@
                "partials/deps-local.html"
                "partials/deps-web.html"
                "partials/footer.html"
-               "partials/navbar.html"
                "partials/sidebar.html"]})
+
+(defn render-top-links
+  [interim name]
+  (let [files (-> interim
+                  :project
+                  :publish
+                  :files
+                  (dissoc "index")
+                  (sort))]
+    (->> files
+         (map (fn [[key {title :title}]]
+                [:li [:a {:href (str key ".html")} title]]))
+         (concat [:ul {:class "dropdown-menu"}])
+         vec
+         html/html)))
 
 (defn render-article [interim name]
   (->> (get-in interim [:articles name :elements :elements])

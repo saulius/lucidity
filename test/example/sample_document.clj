@@ -1,30 +1,41 @@
-^{:title "hello world"
-  :subtitle "this is a sample document"}
-(ns example.sample-document
-  (:use hara.test))
+  ^{:title "hello world"
+    :subtitle "this is a sample document"}
+  (ns example.sample-document
+    (:use hara.test)
+    (:require [lucid.publish :as publish]))
+  
+  [[:chapter {:tag "hello" :title "Introduction"}]]
+  
+  "This is an introduction to writing with **Lucidity**"
 
-[[:chapter {:tag "hello" :title "My First Article"}]]
+  [[:section {:title "Defining a function"}]]
 
-"This is an introduction to writing with **Lucidity**"
+  "We define function `add-5` below:"
 
-[[:section {:title "Defining a function"}]]
+  [[{:numbered false}]]
+  (defn add-5 [x]
+    (+ x 5))
 
-"We define function `add-5` below:"
+  [[:section {:title "Testing a function"}]]
 
-[[{:numbered false}]]
-(defn add-5 [x]
-  (+ x 5))
+  "`add-5` outputs the following results:"
 
-[[:section {:title "Testing a function"}]]
+  [[{:tag "add-5-1" :title "1 add 5 = 6"}]]
+  (fact (add-5 1) => 6)
 
-"`add-5` outputs the following results:"
+  [[{:tag "add-5-10" :title "10 add 5 = 15"}]]
+  (fact (add-5 10) => 15)
 
-[[{:tag "add-5-1" :title "1 add 5 = 6"}]]
-(fact (add-5 1) => 6)
+  [[:chapter {:tag "two" :title "Another Chapter"}]]
 
-[[{:tag "add-5-10" :title "10 add 5 = 15"}]]
-(fact (add-5 10) => 15)
+  [[{:title "map"}]]
+  (comment
+    (map inc (range 10))
+    => (1 2 3 4 5 6 7 8 9 10)) 
 
-[[{:hidden true}]]
+  [[{:hidden true}]]
+
 (comment
-  (lucid.publish/publish))
+  (lucid.publish/publish 'example.sample-document {:theme "martell"})
+  (lucid.publish/publish 'example.sample-document {:theme "stark"})
+  (lucid.publish/publish  {:theme "martell" :refresh true}))
