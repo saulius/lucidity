@@ -4,6 +4,7 @@
     <meta charset=\"utf-8\" /><meta content=\"width=device-width, initial-scale=1, user-scalable=no\" name=\"viewport\" />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <title>query - intuitive search for code</title>
+    <script src="js/highlight.min.js"></script>
     <style>
       body {
   padding:50px;
@@ -43,7 +44,7 @@ header h4{
 }
 
 a {
-  color:#39c;
+  color:#3c3;
   font-weight:400;
   text-decoration:none;
 }
@@ -82,7 +83,7 @@ code, pre {
 
 pre {
   padding:8px 15px;
-  background: #f8f8f8;  
+  background: #fff;  
   border-radius:5px;
   border:1px solid #e5e5e5;
   overflow-x: auto;
@@ -357,6 +358,89 @@ header div.heading {
 .type-csharp .highlight .s { color: #A31515 }
 .type-csharp .highlight .sc { color: #A31515 }
 
+      /*
+
+Qt Creator light color scheme
+
+*/
+
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #ffffff;
+}
+
+.hljs,
+.hljs-subst,
+.hljs-tag,
+.hljs-title {
+  color: #000000;
+}
+
+.hljs-strong,
+.hljs-emphasis {
+  color: #000000;
+}
+
+.hljs-bullet,
+.hljs-quote,
+.hljs-number,
+.hljs-regexp,
+.hljs-literal {
+  color: #000080;
+}
+
+.hljs-code
+.hljs-selector-class {
+  color: #800080;
+}
+
+.hljs-emphasis,
+.hljs-stronge,
+.hljs-type {
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-function,
+.hljs-section,
+.hljs-symbol,
+.hljs-name {
+  color: #808000;
+}
+
+.hljs-attribute {
+  color: #800000;
+}
+
+.hljs-variable,
+.hljs-params,
+.hljs-class .hljs-title {
+  color: #0055AF;
+}
+
+.hljs-string,
+.hljs-selector-id,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-type,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-addition,
+.hljs-link {
+  color: #008000;
+}
+
+.hljs-comment,
+.hljs-meta,
+.hljs-deletion {
+  color: #008000;
+}
     </style>
   </head>
     
@@ -399,23 +483,23 @@ header div.heading {
           <br/>
           <hr/>
         </div>
-        <div><a name="introduction"></a><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.query</code> makes it easy for querying and manipulation of clojure source code through an <code>xpath</code>/<code>css</code>-inspired syntax. This library was originally developed as <a href='https://github.com/zcaudate/hara/jai'>jai</a>.</p><ul><li>to simplify traversal and manipulation of source code</li><li>to provide higher level abstractions on top of <a href='https://github.com/xsc/rewrite-clj'>rewrite-clj</a></li><li>to leverage <a href='https://github.com/clojure/core.match'>core.match</a>'s pattern matching for a more declarative syntax</li></ul></div><div><a name="installation"></a><h3>1.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre>[tahto/lucid.query &quot;1.2.0&quot;]</pre></div><div><p>All functionality is in the <code>lucid.query</code> namespace:</p></div><div><pre>(use 'lucid.query)</pre></div><div><a name="usage"></a><h2><b>2 &nbsp;&nbsp; Usage</b></h2></div><div><p>We first define a code fragment to query on. The library currently works with strings and files.</p></div><div><pre>(def fragment {:string &quot;(defn hello [] (println &#92;&quot;hello&#92;&quot;))&#92;n
-                        (defn world [] (if true (prn &#92;&quot;world&#92;&quot;)))&quot;})</pre></div><div><a name="basics"></a><h3>2.1 &nbsp;&nbsp; Basics</h3></div><div><p>Find all the <code>defn</code> forms:</p></div><div><pre>($ fragment [defn])
+        <div><a name="introduction"></a><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.query</code> makes it easy for querying and manipulation of clojure source code through an <code>xpath</code>/<code>css</code>-inspired syntax. This library was originally developed as <a href='https://github.com/zcaudate/hara/jai'>jai</a>.</p><ul><li>to simplify traversal and manipulation of source code</li><li>to provide higher level abstractions on top of <a href='https://github.com/xsc/rewrite-clj'>rewrite-clj</a></li><li>to leverage <a href='https://github.com/clojure/core.match'>core.match</a>'s pattern matching for a more declarative syntax</li></ul></div><div><a name="installation"></a><h3>1.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.query &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.query</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.query)</code></pre></div><div><a name="usage"></a><h2><b>2 &nbsp;&nbsp; Usage</b></h2></div><div><p>We first define a code fragment to query on. The library currently works with strings and files.</p></div><div><pre><code class="clojure">(def fragment {:string &quot;(defn hello [] (println &#92;&quot;hello&#92;&quot;))&#92;n
+                        (defn world [] (if true (prn &#92;&quot;world&#92;&quot;)))&quot;})</code></pre></div><div><a name="basics"></a><h3>2.1 &nbsp;&nbsp; Basics</h3></div><div><p>Find all the <code>defn</code> forms:</p></div><div><pre><code class="clojure">($ fragment [defn])
 =&gt; '[(defn hello [] (println &quot;hello&quot;))
-     (defn world [] (if true (prn &quot;world&quot;)))]</pre></div><div><p>Find all the <code>if</code> forms</p></div><div><pre>($ fragment [if])
-=&gt; '((if true (prn &quot;world&quot;)))</pre></div><div><a name="path"></a><h3>2.2 &nbsp;&nbsp; Path</h3></div><div><p>Find all the <code>defn</code> forms that contain an <code>if</code> form directly below it:</p></div><div><pre>($ fragment [defn if])
-=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</pre></div><div><p>Find all the <code>defn</code> forms that contains a <code>prn</code> form anywhere in its body</p></div><div><pre>($ fragment [defn :* prn])
-=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</pre></div><div><p>Depth searching at specific levels can also be done, the following code performs a search for <code>prn</code> at the second and third level forms below the <code>defn</code>:</p></div><div><pre>($ fragment [defn :2 prn])
+     (defn world [] (if true (prn &quot;world&quot;)))]</code></pre></div><div><p>Find all the <code>if</code> forms</p></div><div><pre><code class="clojure">($ fragment [if])
+=&gt; '((if true (prn &quot;world&quot;)))</code></pre></div><div><a name="path"></a><h3>2.2 &nbsp;&nbsp; Path</h3></div><div><p>Find all the <code>defn</code> forms that contain an <code>if</code> form directly below it:</p></div><div><pre><code class="clojure">($ fragment [defn if])
+=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</code></pre></div><div><p>Find all the <code>defn</code> forms that contains a <code>prn</code> form anywhere in its body</p></div><div><pre><code class="clojure">($ fragment [defn :* prn])
+=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</code></pre></div><div><p>Depth searching at specific levels can also be done, the following code performs a search for <code>prn</code> at the second and third level forms below the <code>defn</code>:</p></div><div><pre><code class="clojure">($ fragment [defn :2 prn])
 =&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]
   
 ($ fragment [defn :3 prn])
-=&gt; '[]</pre></div><div><a name="representation"></a><h3>2.3 &nbsp;&nbsp; Representation</h3></div><div><p>Instead of returning an s-expression, we can also return other represetations through specifying the <code>:return</code> value on the code. The options are <code>:zipper</code>, <code>:sexpr</code> or <code>:string</code>.</p></div><div><p>By default, querying returns a <code>:sexpr</code> representation</p></div><div><pre>($ (assoc fragment :return :sexpr) [defn :* prn])
-=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</pre></div><div><p>String representations are useful for directly writing to file</p></div><div><pre>($ fragment [defn :* prn] {:return :string})
-=&gt; [&quot;(defn world [] (if true (prn &#92;&quot;world&#92;&quot;)))&quot;]</pre></div><div><p>If more manipulation is needed, then returning a zipper allows composablity with rewrite-clj</p></div><div><pre>(-&gt;&gt; ($ fragment [defn :* prn] {:return :zipper})
+=&gt; '[]</code></pre></div><div><a name="representation"></a><h3>2.3 &nbsp;&nbsp; Representation</h3></div><div><p>Instead of returning an s-expression, we can also return other represetations through specifying the <code>:return</code> value on the code. The options are <code>:zipper</code>, <code>:sexpr</code> or <code>:string</code>.</p></div><div><p>By default, querying returns a <code>:sexpr</code> representation</p></div><div><pre><code class="clojure">($ (assoc fragment :return :sexpr) [defn :* prn])
+=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</code></pre></div><div><p>String representations are useful for directly writing to file</p></div><div><pre><code class="clojure">($ fragment [defn :* prn] {:return :string})
+=&gt; [&quot;(defn world [] (if true (prn &#92;&quot;world&#92;&quot;)))&quot;]</code></pre></div><div><p>If more manipulation is needed, then returning a zipper allows composablity with rewrite-clj</p></div><div><pre><code class="clojure">(-&gt;&gt; ($ fragment [defn :* prn] {:return :zipper})
      (map z/sexpr))
-=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</pre></div><div><a name="cursors"></a><h3>2.4 &nbsp;&nbsp; Cursors</h3></div><div><p>It is not very useful just selecting top-level forms. We need a way to move between the sections. This is where cursors come into picture. We can use <code>|</code> to set access to selected forms. For example, we can grab the entire top level form like this:</p></div><div><pre>($ fragment [defn println])
-=&gt; '[(defn hello [] (println &quot;hello&quot;))]</pre></div><div><p>But usually, the more common scenario is that we wish to perform a particular action on the <code>&#40;println ...&#41;</code> form. This is accessible by adding <code>&quot;|&quot;</code> in front of the <code>println</code> symbol:</p></div><div><pre>($ fragment [defn | println])
-=&gt; '[(println &quot;hello&quot;)]</pre></div><div><p>We can see how the cursor works by drilling down into our code fragment:</p></div><div><pre>($ fragment [defn if prn])
+=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</code></pre></div><div><a name="cursors"></a><h3>2.4 &nbsp;&nbsp; Cursors</h3></div><div><p>It is not very useful just selecting top-level forms. We need a way to move between the sections. This is where cursors come into picture. We can use <code>|</code> to set access to selected forms. For example, we can grab the entire top level form like this:</p></div><div><pre><code class="clojure">($ fragment [defn println])
+=&gt; '[(defn hello [] (println &quot;hello&quot;))]</code></pre></div><div><p>But usually, the more common scenario is that we wish to perform a particular action on the <code>&#40;println ...&#41;</code> form. This is accessible by adding <code>&quot;|&quot;</code> in front of the <code>println</code> symbol:</p></div><div><pre><code class="clojure">($ fragment [defn | println])
+=&gt; '[(println &quot;hello&quot;)]</code></pre></div><div><p>We can see how the cursor works by drilling down into our code fragment:</p></div><div><pre><code class="clojure">($ fragment [defn if prn])
 =&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]
   
 ($ fragment [| defn if prn])
@@ -425,46 +509,46 @@ header div.heading {
 =&gt; '[(if true (prn &quot;world&quot;))]
   
 ($ fragment [defn if | prn])
-=&gt; '[(prn &quot;world&quot;)]</pre></div><div><a name="fine-grain-control"></a><h3>2.5 &nbsp;&nbsp; Fine Grain Control</h3></div><div><p>It is not enough that we can walk to a particular form, we have to be able to control the place within the form that we wish to traverse to. </p></div><div><pre>($ fragment [defn (if | _ &amp; _)])
+=&gt; '[(prn &quot;world&quot;)]</code></pre></div><div><a name="fine-grain-control"></a><h3>2.5 &nbsp;&nbsp; Fine Grain Control</h3></div><div><p>It is not enough that we can walk to a particular form, we have to be able to control the place within the form that we wish to traverse to. </p></div><div><pre><code class="clojure">($ fragment [defn (if | _ &amp; _)])
 =&gt; '[true]
   
 ($ fragment [defn (if _ | _)])
 =&gt; '[(prn &quot;world&quot;)]
   
 ($ fragment [defn if (prn | _)])
-=&gt; '[&quot;world&quot;]</pre></div><div><a name="pattern-matching"></a><h3>2.6 &nbsp;&nbsp; Pattern Matching</h3></div><div><p>We can also use a pattern expressed using a list. Defining a pattern allows matched elements to be expressed more intuitively:</p></div><div><pre>($ fragment [(defn &amp; _)])
+=&gt; '[&quot;world&quot;]</code></pre></div><div><a name="pattern-matching"></a><h3>2.6 &nbsp;&nbsp; Pattern Matching</h3></div><div><p>We can also use a pattern expressed using a list. Defining a pattern allows matched elements to be expressed more intuitively:</p></div><div><pre><code class="clojure">($ fragment [(defn &amp; _)])
 =&gt; '[(defn hello [] (println &quot;hello&quot;))
      (defn world [] (if true (prn &quot;world&quot;)))]
   
 ($ fragment [(defn hello &amp; _)])
-=&gt; '[(defn hello [] (println &quot;hello&quot;))]</pre></div><div><p>A pattern can have nestings:</p></div><div><pre>($ fragment [(defn world [] (if &amp; _))])
-=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</pre></div><div><p>If functions are needed, the symbols can be tagged with the a meta <code>&#94;:%</code></p></div><div><pre>($ fragment [(defn world ^:% vector? ^:% list?)])
-=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</pre></div><div><p>The queries are declarative and should be quite intuitive to use</p></div><div><pre>($ fragment [(_ _ _ (if ^:% true? &amp; _))])
-=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</pre></div><div><a name="insertion"></a><h3>2.7 &nbsp;&nbsp; Insertion</h3></div><div><p>We can additionally insert elements by tagging with the <code>&#94;:+</code> meta:</p></div><div><pre>($ fragment [(defn world _ ^:+ (prn &quot;hello&quot;) &amp; _)])
-=&gt; '[(defn world [] (prn &quot;hello&quot;) (if true (prn &quot;world&quot;)))]</pre></div><div><p>There are some values that do not allow metas tags (<code>strings</code>, <code>keywords</code> and <code>number</code>), in this case the workaround is to use the <code>&#94;:%+</code> meta and write the object as an expression to be evaluated. Note the writing <code>:%+</code> is the equivalent of writing <code>&#94;{:% true :+ true}</code></p></div><div><pre>($ fragment [(defn world _ (if true (prn ^:%+ (keyword &quot;hello&quot;) _)))])
-=&gt; '[(defn world [] (if true (prn :hello &quot;world&quot;)))]</pre></div><div><p>Insertions also work seamlessly with cursors:</p></div><div><pre>($ fragment [(defn world _ (if true | (prn ^:%+ (long 2) _)))])
-=&gt; '[(prn 2 &quot;world&quot;)]</pre></div><div><a name="deletion"></a><h3>2.8 &nbsp;&nbsp; Deletion</h3></div><div><p>We can delete values by using the <code>&#94;:-</code> meta tag. When used on the code fragment, we can see that the function has been mangled as the first two elements have been deleted:</p></div><div><pre>($ fragment [(defn ^:- world  ^:- _ &amp; _)])
-=&gt; '[(defn (if true (prn &quot;world&quot;)))]</pre></div><div><p>Entire forms can be marked for deletion:</p></div><div><pre>($ fragment [(defn world _ ^:- (if &amp; _))])
-=&gt; '[(defn world [])]</pre></div><div><p>Deletions and insertions work quite well together. For example, below shows the replacement of the function name from <code>world</code> to <code>world2</code>:</p></div><div><pre>($ fragment [(defn ^:- world _ ^:+ world2 &amp; _)])
-=&gt; '[(defn [] world2 (if true (prn &quot;world&quot;)))]</pre></div><div><a name="optional-matches"></a><h3>2.9 &nbsp;&nbsp; Optional Matches</h3></div><div><p>There are certain use cases when source code has optional parameters such as a docstring or a meta map.</p></div><div><pre>($ fragment [(defn ^:% symbol? ^:%?- string? ^:%?- map? ^:% vector? &amp; _)])
+=&gt; '[(defn hello [] (println &quot;hello&quot;))]</code></pre></div><div><p>A pattern can have nestings:</p></div><div><pre><code class="clojure">($ fragment [(defn world [] (if &amp; _))])
+=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</code></pre></div><div><p>If functions are needed, the symbols can be tagged with the a meta <code>&#94;:%</code></p></div><div><pre><code class="clojure">($ fragment [(defn world ^:% vector? ^:% list?)])
+=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</code></pre></div><div><p>The queries are declarative and should be quite intuitive to use</p></div><div><pre><code class="clojure">($ fragment [(_ _ _ (if ^:% true? &amp; _))])
+=&gt; '[(defn world [] (if true (prn &quot;world&quot;)))]</code></pre></div><div><a name="insertion"></a><h3>2.7 &nbsp;&nbsp; Insertion</h3></div><div><p>We can additionally insert elements by tagging with the <code>&#94;:+</code> meta:</p></div><div><pre><code class="clojure">($ fragment [(defn world _ ^:+ (prn &quot;hello&quot;) &amp; _)])
+=&gt; '[(defn world [] (prn &quot;hello&quot;) (if true (prn &quot;world&quot;)))]</code></pre></div><div><p>There are some values that do not allow metas tags (<code>strings</code>, <code>keywords</code> and <code>number</code>), in this case the workaround is to use the <code>&#94;:%+</code> meta and write the object as an expression to be evaluated. Note the writing <code>:%+</code> is the equivalent of writing <code>&#94;{:% true :+ true}</code></p></div><div><pre><code class="clojure">($ fragment [(defn world _ (if true (prn ^:%+ (keyword &quot;hello&quot;) _)))])
+=&gt; '[(defn world [] (if true (prn :hello &quot;world&quot;)))]</code></pre></div><div><p>Insertions also work seamlessly with cursors:</p></div><div><pre><code class="clojure">($ fragment [(defn world _ (if true | (prn ^:%+ (long 2) _)))])
+=&gt; '[(prn 2 &quot;world&quot;)]</code></pre></div><div><a name="deletion"></a><h3>2.8 &nbsp;&nbsp; Deletion</h3></div><div><p>We can delete values by using the <code>&#94;:-</code> meta tag. When used on the code fragment, we can see that the function has been mangled as the first two elements have been deleted:</p></div><div><pre><code class="clojure">($ fragment [(defn ^:- world  ^:- _ &amp; _)])
+=&gt; '[(defn (if true (prn &quot;world&quot;)))]</code></pre></div><div><p>Entire forms can be marked for deletion:</p></div><div><pre><code class="clojure">($ fragment [(defn world _ ^:- (if &amp; _))])
+=&gt; '[(defn world [])]</code></pre></div><div><p>Deletions and insertions work quite well together. For example, below shows the replacement of the function name from <code>world</code> to <code>world2</code>:</p></div><div><pre><code class="clojure">($ fragment [(defn ^:- world _ ^:+ world2 &amp; _)])
+=&gt; '[(defn [] world2 (if true (prn &quot;world&quot;)))]</code></pre></div><div><a name="optional-matches"></a><h3>2.9 &nbsp;&nbsp; Optional Matches</h3></div><div><p>There are certain use cases when source code has optional parameters such as a docstring or a meta map.</p></div><div><pre><code class="clojure">($ fragment [(defn ^:% symbol? ^:%?- string? ^:%?- map? ^:% vector? &amp; _)])
 =&gt; '[(defn hello [] (println &quot;hello&quot;))
-     (defn world [] (if true (prn &quot;world&quot;)))]</pre></div><div><p>We can use optional matches to clean up certain elements within the form, such as being able to remove docstrings and meta maps if they exist.</p></div><div><pre>($ {:string &quot;(defn add &#92;&quot;adding numbers&#92;&quot; {:added &#92;&quot;0.1&#92;&quot;} [x y] (+ x y))&quot;}
+     (defn world [] (if true (prn &quot;world&quot;)))]</code></pre></div><div><p>We can use optional matches to clean up certain elements within the form, such as being able to remove docstrings and meta maps if they exist.</p></div><div><pre><code class="clojure">($ {:string &quot;(defn add &#92;&quot;adding numbers&#92;&quot; {:added &#92;&quot;0.1&#92;&quot;} [x y] (+ x y))&quot;}
    [(defn ^:% symbol? ^:%?- string? ^:%?- map? ^:% vector? &amp; _)]
    {:return :string})
-=&gt; [&quot;(defn add [x y] (+ x y))&quot;]</pre></div><div><a name="utilities"></a><h2><b>3 &nbsp;&nbsp; Utilities</b></h2></div><div><p>These utilities are specially designed to work with <code>rewrite-clj</code>;</p></div><div><pre>(use rewrite-clj.zip :as z)</pre></div><div><a name="traverse"></a><h3>3.1 &nbsp;&nbsp; traverse</h3></div><div><p>While the <code>$</code> macro is provided for global searches within a file, <code>traverse</code> is provided to work with the zipper library for traversal/manipulation of a form.</p></div><div><pre>(-&gt; (z/of-string &quot;(defn add &#92;&quot;adding numbers&#92;&quot; {:added &#92;&quot;0.1&#92;&quot;} [x y] (+ x y))&quot;)
+=&gt; [&quot;(defn add [x y] (+ x y))&quot;]</code></pre></div><div><a name="utilities"></a><h2><b>3 &nbsp;&nbsp; Utilities</b></h2></div><div><p>These utilities are specially designed to work with <code>rewrite-clj</code>;</p></div><div><pre><code class="clojure">(use rewrite-clj.zip :as z)</code></pre></div><div><a name="traverse"></a><h3>3.1 &nbsp;&nbsp; traverse</h3></div><div><p>While the <code>$</code> macro is provided for global searches within a file, <code>traverse</code> is provided to work with the zipper library for traversal/manipulation of a form.</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(defn add &#92;&quot;adding numbers&#92;&quot; {:added &#92;&quot;0.1&#92;&quot;} [x y] (+ x y))&quot;)
     (traverse '(defn ^:% symbol? ^:%?- string? ^:%?- map? ^:% vector? | &amp; _))
     (z/insert-left '(prn &quot;add&quot;))
     (z/up)
     (z/sexpr))
-=&gt; '(defn add [x y] (prn &quot;add&quot;) (+ x y))</pre></div><div><p><code>traverse</code> can also be given a function as the third argument. This will perform some action on the location given by the cursor and then jump out again:</p></div><div><pre>(-&gt; (z/of-string &quot;(defn add &#92;&quot;adding numbers&#92;&quot; {:added &#92;&quot;0.1&#92;&quot;} [x y] (+ x y))&quot;)
+=&gt; '(defn add [x y] (prn &quot;add&quot;) (+ x y))</code></pre></div><div><p><code>traverse</code> can also be given a function as the third argument. This will perform some action on the location given by the cursor and then jump out again:</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(defn add &#92;&quot;adding numbers&#92;&quot; {:added &#92;&quot;0.1&#92;&quot;} [x y] (+ x y))&quot;)
     (traverse '(defn ^:% symbol? ^:%?- string? ^:%?- map? ^:% vector? | &amp; _)
               (fn [zloc] (z/insert-left zloc '(prn &quot;add&quot;))))
     (z/sexpr))
-=&gt; '(defn add [x y] (prn &quot;add&quot;) (+ x y))</pre></div><div><p><code>traverse</code> works with metas as well, which is harder to work with using just <code>rewrite-clj</code></p></div><div><pre>(-&gt; (z/of-string &quot;(defn add [x y] ^{:text 0} (+ (+ x 1) y 1))&quot;)
+=&gt; '(defn add [x y] (prn &quot;add&quot;) (+ x y))</code></pre></div><div><p><code>traverse</code> works with metas as well, which is harder to work with using just <code>rewrite-clj</code></p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(defn add [x y] ^{:text 0} (+ (+ x 1) y 1))&quot;)
     (traverse '(defn _ _ (+ (+ | x 1) y 1))
               (fn [zloc] (z/insert-left zloc '(prn &quot;add&quot;))))
     (z/sexpr))
-=&gt; '(defn add [x y] (+ (+ (prn &quot;add&quot;) x 1) y 1))</pre></div><div><a name="match"></a><h3>3.2 &nbsp;&nbsp; match</h3></div><div><p>a map-based syntax is provided for matching:</p></div><div><pre>(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
+=&gt; '(defn add [x y] (+ (+ (prn &quot;add&quot;) x 1) y 1))</code></pre></div><div><a name="match"></a><h3>3.2 &nbsp;&nbsp; match</h3></div><div><p>a map-based syntax is provided for matching:</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match 'if))
 =&gt; true
   
@@ -482,124 +566,124 @@ header div.heading {
   
 (-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match {:child {:form '+}}))
-=&gt; true</pre></div><div><a name="match-element"></a><h2><b>4 &nbsp;&nbsp; Match Element</b></h2></div><div><p>There are many options for matches:   </p><ul><li><code>:fn</code>           match on checking function</li><li><code>:is</code>           match on value or checking function</li><li><code>:or</code>           match two options, done using a set</li><li><code>:equal</code>        match on equivalence</li><li><code>:type</code>         match on <code>rewrite-clj</code> type</li><li><code>:meta</code>         match on meta tag</li><li><code>:form</code>         match on first element of a form</li><li><code>:pattern</code>      match on a pattern</li><li><code>:code</code>         match on code</li></ul></div><div><a name="fn"></a><h3>4.1 &nbsp;&nbsp; :fn</h3></div><div><p>The most general match, takes a predicate dispatching on a zipper location</p></div><div><pre>(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="match-element"></a><h2><b>4 &nbsp;&nbsp; Match Element</b></h2></div><div><p>There are many options for matches:   </p><ul><li><code>:fn</code>           match on checking function</li><li><code>:is</code>           match on value or checking function</li><li><code>:or</code>           match two options, done using a set</li><li><code>:equal</code>        match on equivalence</li><li><code>:type</code>         match on <code>rewrite-clj</code> type</li><li><code>:meta</code>         match on meta tag</li><li><code>:form</code>         match on first element of a form</li><li><code>:pattern</code>      match on a pattern</li><li><code>:code</code>         match on code</li></ul></div><div><a name="fn"></a><h3>4.1 &nbsp;&nbsp; :fn</h3></div><div><p>The most general match, takes a predicate dispatching on a zipper location</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match {:fn (fn [zloc] (= :list (z/tag zloc)))}))
-=&gt; true</pre></div><div><a name="is"></a><h3>4.2 &nbsp;&nbsp; :is</h3></div><div><p>The most general match, takes a value or a function</p></div><div><pre>(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="is"></a><h3>4.2 &nbsp;&nbsp; :is</h3></div><div><p>The most general match, takes a value or a function</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match {:child {:is true}}))
 =&gt; true
   
 (-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match {:child {:is (fn [x] (instance? Boolean x))}}))
-=&gt; true</pre></div><div><a name="form"></a><h3>4.3 &nbsp;&nbsp; :form</h3></div><div><p>By default, a symbol is evaluated as a <code>:form</code>'</p></div><div><pre>(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="form"></a><h3>4.3 &nbsp;&nbsp; :form</h3></div><div><p>By default, a symbol is evaluated as a <code>:form</code>'</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match 'if))
-=&gt; true</pre></div><div><p>It can also be expressed explicitly:</p></div><div><pre>(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><p>It can also be expressed explicitly:</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match '{:form if}))
-=&gt; true</pre></div><div><a name="or"></a><h3>4.4 &nbsp;&nbsp; :or</h3></div><div><p>or style matching done using set notation</p></div><div><pre>(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="or"></a><h3>4.4 &nbsp;&nbsp; :or</h3></div><div><p>or style matching done using set notation</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match '#{{:form if} {:form defn}}))
 =&gt; true
   
 (-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match '#{if defn}))
-=&gt; true</pre></div><div><p>if need arises to match a set, use the <code>&#94;&amp;</code> meta tag</p></div><div><pre>(-&gt; (z/of-string &quot;(if #{:a :b :c} (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><p>if need arises to match a set, use the <code>&#94;&amp;</code> meta tag</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if #{:a :b :c} (+ 1 2) (+ 1 1))&quot;)
     (match {:child {:is '^&amp; #{:a :b :c}}}))
-=&gt; true</pre></div><div><a name="and"></a><h3>4.5 &nbsp;&nbsp; :and</h3></div><div><p>similar usage to :or except that vector notation is used:</p></div><div><pre>(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="and"></a><h3>4.5 &nbsp;&nbsp; :and</h3></div><div><p>similar usage to :or except that vector notation is used:</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match '[if defn]))
 =&gt; false
   
 (-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match '[if {:contains 1}]))
-=&gt; true</pre></div><div><a name="equal"></a><h3>4.6 &nbsp;&nbsp; :equal</h3></div><div><p>matches sets, vectors and maps as is</p></div><div><pre>(-&gt; (z/of-string &quot;(if #{:a :b :c} (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="equal"></a><h3>4.6 &nbsp;&nbsp; :equal</h3></div><div><p>matches sets, vectors and maps as is</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if #{:a :b :c} (+ 1 2) (+ 1 1))&quot;)
     (match {:child {:equal #{:a :b :c}}}))
 =&gt; true
   
 (-&gt; (z/of-string &quot;(if {:a 1 :b 2} (+ 1 2) (+ 1 1))&quot;)
     (match {:child {:equal {:a 1 :b 2}}}))
-=&gt; true</pre></div><div><a name="type"></a><h3>4.7 &nbsp;&nbsp; :type</h3></div><div><p>predicate on the rewrite-clj reader type</p></div><div><pre>(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="type"></a><h3>4.7 &nbsp;&nbsp; :type</h3></div><div><p>predicate on the rewrite-clj reader type</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match {:type :list}))
 =&gt; true
   
 (-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match {:child {:type :token}}))
-=&gt; true</pre></div><div><a name="meta"></a><h3>4.8 &nbsp;&nbsp; :meta</h3></div><div><p>matches the meta on a location</p></div><div><pre>(-&gt; (z/down (z/of-string &quot;^:a (+ 1 1)&quot;))
+=&gt; true</code></pre></div><div><a name="meta"></a><h3>4.8 &nbsp;&nbsp; :meta</h3></div><div><p>matches the meta on a location</p></div><div><pre><code class="clojure">(-&gt; (z/down (z/of-string &quot;^:a (+ 1 1)&quot;))
     (match {:meta :a}))
 =&gt; true
   
 (-&gt; (z/down (z/of-string &quot;^{:a true} (+ 1 1)&quot;))
     (match {:meta {:a true}}))
-=&gt; true</pre></div><div><a name="pattern"></a><h3>4.9 &nbsp;&nbsp; :pattern</h3></div><div><p>pattern matches are done automatically with a list</p></div><div><pre>(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="pattern"></a><h3>4.9 &nbsp;&nbsp; :pattern</h3></div><div><p>pattern matches are done automatically with a list</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match '(if true &amp; _)))
-=&gt; true</pre></div><div><p>but they can be made more explicit:</p></div><div><pre>(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><p>but they can be made more explicit:</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match {:pattern '(if true &amp; _)}))
-=&gt; true</pre></div><div><a name="match-position"></a><h2><b>5 &nbsp;&nbsp; Match Position</b></h2></div><div><p>The positional options for matches are:</p><ul><li><code>:parent</code>       match on direct parent of element</li><li><code>:child</code>        match on any child of element</li><li><code>:first</code>        match on first child of element</li><li><code>:last</code>         match on last child of element</li><li><code>:nth</code>          match on nth child of element</li><li><code>:nth-left</code>     match on nth-sibling to the left of element</li><li><code>:nth-right</code>    match on nth-sibling to the right of element</li><li><code>:nth-ancestor</code> match on the ancestor that is n levels higher</li><li><code>:nth-contains</code> match on any contained element that is n levels lower</li><li><code>:ancestor</code>     match on any ancestor</li><li><code>:contains</code>     match on any contained element</li><li><code>:sibling</code>      match on any sibling</li><li><code>:left</code>         match on node directly to left</li><li><code>:right</code>        match on node directly to right</li><li><code>:left-of</code>      match on node to left</li><li><code>:right-of</code>     match on node to right</li><li><code>:left-most</code>    match is element is the left-most element</li><li><code>:right-most</code>   match is element is the right-most element</li></ul></div><div><a name="parent"></a><h3>5.1 &nbsp;&nbsp; :parent</h3></div><div><p>matches on the parent form</p></div><div><pre>(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="match-position"></a><h2><b>5 &nbsp;&nbsp; Match Position</b></h2></div><div><p>The positional options for matches are:</p><ul><li><code>:parent</code>       match on direct parent of element</li><li><code>:child</code>        match on any child of element</li><li><code>:first</code>        match on first child of element</li><li><code>:last</code>         match on last child of element</li><li><code>:nth</code>          match on nth child of element</li><li><code>:nth-left</code>     match on nth-sibling to the left of element</li><li><code>:nth-right</code>    match on nth-sibling to the right of element</li><li><code>:nth-ancestor</code> match on the ancestor that is n levels higher</li><li><code>:nth-contains</code> match on any contained element that is n levels lower</li><li><code>:ancestor</code>     match on any ancestor</li><li><code>:contains</code>     match on any contained element</li><li><code>:sibling</code>      match on any sibling</li><li><code>:left</code>         match on node directly to left</li><li><code>:right</code>        match on node directly to right</li><li><code>:left-of</code>      match on node to left</li><li><code>:right-of</code>     match on node to right</li><li><code>:left-most</code>    match is element is the left-most element</li><li><code>:right-most</code>   match is element is the right-most element</li></ul></div><div><a name="parent"></a><h3>5.1 &nbsp;&nbsp; :parent</h3></div><div><p>matches on the parent form</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (z/down)
     (z/right)
     (match {:parent 'if}))
-=&gt; true</pre></div><div><a name="child"></a><h3>5.2 &nbsp;&nbsp; :child</h3></div><div><p>matches on any of the child forms</p></div><div><pre>(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="child"></a><h3>5.2 &nbsp;&nbsp; :child</h3></div><div><p>matches on any of the child forms</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if true (+ 1 2) (+ 1 1))&quot;)
     (match {:child '(+ _ 2)}))
-=&gt; true</pre></div><div><a name="first"></a><h3>5.3 &nbsp;&nbsp; :first</h3></div><div><p>matches on the first child, can also be a vector</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="first"></a><h3>5.3 &nbsp;&nbsp; :first</h3></div><div><p>matches on the first child, can also be a vector</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (match {:child {:first '+}}))
 =&gt; true
   
 (-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (match {:child {:first 1}}))
-=&gt; true</pre></div><div><a name="last"></a><h3>5.4 &nbsp;&nbsp; :last</h3></div><div><p>matches on the last child element</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="last"></a><h3>5.4 &nbsp;&nbsp; :last</h3></div><div><p>matches on the last child element</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (match {:child {:last 3}}))
 =&gt; true
   
 (-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (match {:child {:last 1}}))
-=&gt; true</pre></div><div><a name="nth"></a><h3>5.5 &nbsp;&nbsp; :nth</h3></div><div><p>matches the nth child</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="nth"></a><h3>5.5 &nbsp;&nbsp; :nth</h3></div><div><p>matches the nth child</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (match {:nth [1 {:equal [1 2 3]}]}))
-=&gt; true</pre></div><div><a name="nth-left"></a><h3>5.6 &nbsp;&nbsp; :nth-left</h3></div><div><p>matches the nth sibling to the left</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="nth-left"></a><h3>5.6 &nbsp;&nbsp; :nth-left</h3></div><div><p>matches the nth sibling to the left</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (z/down)
     (z/rightmost)
     (match {:nth-left [2 {:equal [1 2 3]}]}))
-=&gt; true</pre></div><div><a name="nth-right"></a><h3>5.7 &nbsp;&nbsp; :nth-right</h3></div><div><p>matches the nth sibling to the right</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="nth-right"></a><h3>5.7 &nbsp;&nbsp; :nth-right</h3></div><div><p>matches the nth sibling to the right</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (z/down)
     (match {:nth-right [1 {:equal [1 2 3]}]}))
-=&gt; true</pre></div><div><a name="nth-ancestor"></a><h3>5.8 &nbsp;&nbsp; :nth-ancestor</h3></div><div><p>matches the nth ancestor in the hierarchy</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="nth-ancestor"></a><h3>5.8 &nbsp;&nbsp; :nth-ancestor</h3></div><div><p>matches the nth ancestor in the hierarchy</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (z/down)
     (z/right)
     (z/down)
     (match {:nth-ancestor [2 {:form 'if}]}))
-=&gt; true</pre></div><div><a name="nth-contains"></a><h3>5.9 &nbsp;&nbsp; :nth-contains</h3></div><div><p>matches the nth level children</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="nth-contains"></a><h3>5.9 &nbsp;&nbsp; :nth-contains</h3></div><div><p>matches the nth level children</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (match {:nth-contains [2 {:is 3}]}))
-=&gt; true</pre></div><div><a name="ancestor"></a><h3>5.10 &nbsp;&nbsp; :ancestor</h3></div><div><p>matches any ancestor</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="ancestor"></a><h3>5.10 &nbsp;&nbsp; :ancestor</h3></div><div><p>matches any ancestor</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (z/down)
     (z/right)
     (z/down)
     (match {:ancestor 'if}))
-=&gt; true</pre></div><div><a name="contains"></a><h3>5.11 &nbsp;&nbsp; :contains</h3></div><div><p>matches the any subelement contained by the element</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="contains"></a><h3>5.11 &nbsp;&nbsp; :contains</h3></div><div><p>matches the any subelement contained by the element</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (match {:contains 3}))
-=&gt; true</pre></div><div><a name="sibling"></a><h3>5.12 &nbsp;&nbsp; :sibling</h3></div><div><p>matches any sibling</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="sibling"></a><h3>5.12 &nbsp;&nbsp; :sibling</h3></div><div><p>matches any sibling</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (z/down)
     (match {:sibling {:form '+}}))
-=&gt; true</pre></div><div><a name="left"></a><h3>5.13 &nbsp;&nbsp; :left</h3></div><div><p>matches element to the left</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="left"></a><h3>5.13 &nbsp;&nbsp; :left</h3></div><div><p>matches element to the left</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (z/down)
     (z/right)
     (match {:left {:is 'if}}))
-=&gt; true</pre></div><div><a name="right"></a><h3>5.14 &nbsp;&nbsp; :right</h3></div><div><p>matches element to the right</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="right"></a><h3>5.14 &nbsp;&nbsp; :right</h3></div><div><p>matches element to the right</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (z/down)
     (match {:right {:is [1 2 3]}}))
-=&gt; true</pre></div><div><a name="left-of"></a><h3>5.15 &nbsp;&nbsp; :left-of</h3></div><div><p>matches any element to the left</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="left-of"></a><h3>5.15 &nbsp;&nbsp; :left-of</h3></div><div><p>matches any element to the left</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (z/down)
     (z/rightmost)
     (match {:left-of {:is [1 2 3]}}))
-=&gt; true</pre></div><div><a name="right-of"></a><h3>5.16 &nbsp;&nbsp; :right-of</h3></div><div><p>matches any element to the right</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="right-of"></a><h3>5.16 &nbsp;&nbsp; :right-of</h3></div><div><p>matches any element to the right</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (z/down)
     (match {:right-of '(+ 1 1)}))
-=&gt; true</pre></div><div><a name="left-most"></a><h3>5.17 &nbsp;&nbsp; :left-most</h3></div><div><p>is the left-most element</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="left-most"></a><h3>5.17 &nbsp;&nbsp; :left-most</h3></div><div><p>is the left-most element</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (z/down)
     (match {:left-most true}))
-=&gt; true</pre></div><div><a name="right-most"></a><h3>5.18 &nbsp;&nbsp; :right-most</h3></div><div><p>is the right-most element</p></div><div><pre>(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
+=&gt; true</code></pre></div><div><a name="right-most"></a><h3>5.18 &nbsp;&nbsp; :right-most</h3></div><div><p>is the right-most element</p></div><div><pre><code class="clojure">(-&gt; (z/of-string &quot;(if [1 2 3] (+ 1 2) (+ 1 1))&quot;)
     (z/down)
     (z/rightmost)
     (match {:right-most true}))
-=&gt; true</pre></div>
+=&gt; true</code></pre></div>
       </section>
     </div>
   </body>
-  <script type=\"text/javascript\">
+  <script type="text/javascript">
     var metas = document.getElementsByTagName('meta');
 var i;
 if (navigator.userAgent.match(/iPhone/i)) {
@@ -617,5 +701,8 @@ function gestureStart() {
     }
   }
 }
+    
+    hljs.registerLanguage("clojure",function(e){var t={"builtin-name":"def defonce cond apply if-not if-let if not not= = < > <= >= == + / * - rem quot neg? pos? delay? symbol? keyword? true? false? integer? empty? coll? list? set? ifn? fn? associative? sequential? sorted? counted? reversible? number? decimal? class? distinct? isa? float? rational? reduced? ratio? odd? even? char? seq? vector? string? map? nil? contains? zero? instance? not-every? not-any? libspec? -> ->> .. . inc compare do dotimes mapcat take remove take-while drop letfn drop-last take-last drop-while while intern condp case reduced cycle split-at split-with repeat replicate iterate range merge zipmap declare line-seq sort comparator sort-by dorun doall nthnext nthrest partition eval doseq await await-for let agent atom send send-off release-pending-sends add-watch mapv filterv remove-watch agent-error restart-agent set-error-handler error-handler set-error-mode! error-mode shutdown-agents quote var fn loop recur throw try monitor-enter monitor-exit defmacro defn defn- macroexpand macroexpand-1 for dosync and or when when-not when-let comp juxt partial sequence memoize constantly complement identity assert peek pop doto proxy defstruct first rest cons defprotocol cast coll deftype defrecord last butlast sigs reify second ffirst fnext nfirst nnext defmulti defmethod meta with-meta ns in-ns create-ns import refer keys select-keys vals key val rseq name namespace promise into transient persistent! conj! assoc! dissoc! pop! disj! use class type num float double short byte boolean bigint biginteger bigdec print-method print-dup throw-if printf format load compile get-in update-in pr pr-on newline flush read slurp read-line subvec with-open memfn time re-find re-groups rand-int rand mod locking assert-valid-fdecl alias resolve ref deref refset swap! reset! set-validator! compare-and-set! alter-meta! reset-meta! commute get-validator alter ref-set ref-history-count ref-min-history ref-max-history ensure sync io! new next conj set! to-array future future-call into-array aset gen-class reduce map filter find empty hash-map hash-set sorted-map sorted-map-by sorted-set sorted-set-by vec vector seq flatten reverse assoc dissoc list disj get union difference intersection extend extend-type extend-protocol int nth delay count concat chunk chunk-buffer chunk-append chunk-first chunk-rest max min dec unchecked-inc-int unchecked-inc unchecked-dec-inc unchecked-dec unchecked-negate unchecked-add-int unchecked-add unchecked-subtract-int unchecked-subtract chunk-next chunk-cons chunked-seq? prn vary-meta lazy-seq spread list* str find-keyword keyword symbol gensym force rationalize"},r="a-zA-Z_\\-!.?+*=<>&#'",n="["+r+"]["+r+"0-9/;:]*",a="[-+]?\\d+(\\.\\d+)?",o={b:n,r:0},s={cN:"number",b:a,r:0},i=e.inherit(e.QSM,{i:null}),c=e.C(";","$",{r:0}),d={cN:"literal",b:/\b(true|false|nil)\b/},l={b:"[\\[\\{]",e:"[\\]\\}]"},m={cN:"comment",b:"\\^"+n},p=e.C("\\^\\{","\\}"),u={cN:"symbol",b:"[:]{1,2}"+n},f={b:"\\(",e:"\\)"},h={eW:!0,r:0},y={k:t,l:n,cN:"name",b:n,starts:h},b=[f,i,m,p,c,u,l,s,d,o];return f.c=[e.C("comment",""),y,h],h.c=b,l.c=b,{aliases:["clj"],i:/\S/,c:[f,i,m,p,c,u,l,s,d]}});
+    hljs.initHighlightingOnLoad();
   </script>
   </html>

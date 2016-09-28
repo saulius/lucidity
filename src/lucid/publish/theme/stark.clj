@@ -8,18 +8,21 @@
 (def settings
   {:resource  "theme/stark"
    :copy      ["assets"]
-   :render    {:article    "render-article"
-               :navigation "render-navigation"
-               :top-level  "render-top-level"}
-   :defaults  {:icon         "favicon"
-               :template     "article.html"
-               :css-page     [:file "partials/page.css"]
-               :css-code     [:file "partials/code.css"]
-               :js-scale     [:file "partials/scale.js"]}
+   :render    {:article       "render-article"
+               :navigation    "render-navigation"
+               :top-level     "render-top-level"}
+   :defaults  {:icon          "favicon"
+               :template      "article.html"
+               :css-code      [:file "partials/code.css"]
+               :css-highlight [:file "partials/highlight.css"]
+               :css-page      [:file "partials/page.css"]
+               :js-scale      [:file "partials/scale.js"]}
    :manifest  ["article.html"
-               "assets/stark.ico"
-               "partials/page.css"
+               "assets/favicon.ico"
+               "assets/js/highlight.min.js"
                "partials/code.css"
+               "partials/highlight.css"
+               "partials/page.css"
                "partials/scale.js"]})
 
 (defn render-top-level [interim name]
@@ -36,7 +39,7 @@
          vec
          html/html)))
 
-(defn render-element [{:keys [type number name text tag title code indentation] :as elem}]
+(defn render-element [{:keys [type number name text tag title code lang indentation] :as elem}]
   (condp = type
     
     :block
@@ -86,12 +89,13 @@
      (if number
        [:h4 [:i (str "e." (:num elem)
                      (if-let [t title] (str "  &nbsp;-&nbsp; " t)))]])
-     [:pre (-> code
-               (util/join)
-               (util/basic-html-escape)
-               (util/adjust-indent indentation)
-               (string/trimr)
-               (string/trim-newline))]]))
+     [:pre [:code {:class (or lang "clojure")}
+            (-> code
+                (util/join)
+                (util/basic-html-escape)
+                (util/adjust-indent indentation)
+                (string/trimr)
+                (string/trim-newline))]]]))
 
 (defn render-article [interim name]
   (->> (get-in interim [:articles name :elements])

@@ -9,7 +9,7 @@
 (defn clear-mappings
   ([] (clear-mappings (.getName *ns*)))
   ([ns]
-   (doseq [func (keys (ns-interns ns))]
+   (doseq [func (keys (ns-map ns))]
      (ns-unmap ns func))))
 
 (comment (ns-interns *ns*)

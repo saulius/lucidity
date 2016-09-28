@@ -69,8 +69,8 @@
 
                                     (vector? v)
                                     (case (first v)
-                                      :file (theme-file (second v) settings project)
-                                      :fn   ((second v) interim name)))]
+                                      :file  (theme-file (second v) settings project)
+                                      :fn    ((second v) interim name)))]
                     (.replaceAll html
                                  (str "<@=" (clojure.core/name k) ">")
                                  (prose/escape-dollars value))))
