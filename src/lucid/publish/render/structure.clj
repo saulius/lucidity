@@ -1,4 +1,4 @@
-(ns lucid.publish.structure)
+(ns lucid.publish.render.structure)
 
 (def containers
   #{:article :chapter :appendix :section :subsection :subsubsection :generic})

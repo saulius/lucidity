@@ -1,7 +1,7 @@
-(ns lucid.theme.martell.article
+(ns lucid.publish.theme.martell.article
   (:require [lucid.publish.render
+             [structure :as structure]
              [util :as util]]
-            [lucid.publish.structure :as structure]
             [clojure.string :as string]
             [rewrite-clj.node :as node]))
 
@@ -64,19 +64,20 @@
 
 (defmethod render
   :code
-  [{:keys [tag text code indentation lang number title] :as element} interim]
+  [{:keys [tag hidden text code indentation lang number title] :as element} interim]
   [:div {:class :code}
    (if tag [:a {:name tag}])
    (if number
      [:h5 (str "e." number
                (if title (str "  &nbsp;-&nbsp; " title)))])
-   [:div {:hljs :hljs :no-escape :no-escape :language (or lang :clojure)}
-    (-> code
-        (util/join)
-        (util/basic-html-escape)
-        (util/adjust-indent indentation)
-        (string/trimr)
-        (string/trim-newline))]])
+   (if-not hidden
+     [:div {:hljs :hljs :no-escape :no-escape :language (or lang :clojure)}
+      (-> code
+          (util/join)
+          (util/basic-html-escape)
+          (util/adjust-indent indentation)
+          (string/trimr)
+          (string/trim-newline))])])
 
 (defmethod render
   :block

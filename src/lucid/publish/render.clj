@@ -5,9 +5,11 @@
             [hara.string
              [prose :as prose]]
             [clojure.java.io :as io]
+            [lucid.publish.render
+             [structure :as structure]]
             [lucid.publish
-             [structure :as structure]
-             [template :as template]]))
+             [prepare :as prepare]
+             [theme :as theme]]))
 
 (defn find-includes
   "finds elements with `@=` tags
@@ -22,18 +24,30 @@
        (map keyword)
        set))
 
-(defn prepare-template
+(defn theme-file
+  ([file]
+   (load-file file (theme/load-settings)))
+  ([file settings]
+   (load-file file settings (project/project)))
+  ([file settings project]
+   (let [dir (or (:path settings) theme/*path*)]
+     (slurp (str (fs/path (:root project) dir (:theme settings) file))))))
+
+(defn render-init
   ([interim name]
    (let [project (project/project)
          theme  (-> project :publish :template :theme)
-         settings (template/load-settings theme project)]
-     (prepare-template interim name settings project)))
+         settings (theme/load-settings theme project)]
+     (render-init interim name settings project)))
   ([interim name settings project]
-   (let [defaults (:defaults settings) 
-         opts (merge (select-keys project [:version :name :root :url :description])
-                     defaults
+   (if-not (theme/deployed? settings project)
+     (theme/deploy settings project))
+   (let [opts (merge (select-keys project [:version :name :root :url :description])
+                     (:publish project)
+                     (:defaults settings)
+                     (dissoc settings :manifest :defaults)
                      (get-in interim [:articles name :meta]))
-         template (template/load-file (:template opts) settings project)
+         template (theme-file (:template opts) settings project)
          includes (find-includes template)]
      [template (select-keys opts includes)])))
 
@@ -41,10 +55,10 @@
   ([interim name]
    (let [project (project/project)
          theme  (-> project :publish :template :theme)
-         settings (template/load-settings theme project)]
+         settings (theme/load-settings theme project)]
      (render interim name settings project)))
   ([interim name settings project]
-   (let [[template includes] (prepare-template interim name settings project)
+   (let [[template includes] (render-init interim name settings project)
          interim (if (:structure settings)
                    (update-in interim
                               [:articles name :elements]
@@ -55,7 +69,7 @@
 
                                     (vector? v)
                                     (case (first v)
-                                      :file (template/load-file (second v) settings project)
+                                      :file (theme-file (second v) settings project)
                                       :fn   ((second v) interim name)))]
                     (.replaceAll html
                                  (str "<@=" (clojure.core/name k) ">")
@@ -64,6 +78,8 @@
                 includes))))
 
 (comment
+  (theme/deployed?)
+  
   (prepare-template
    (lucid.publish.prepare/prepare ["index"])
    "index")

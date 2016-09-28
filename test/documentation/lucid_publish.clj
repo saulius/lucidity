@@ -5,7 +5,7 @@
 
 "`lucid.publish` facilitates the creation of 'documentation that we can run', the tool allows for a design-orientated workflow for the programming process, blurring the boundaries between design, development, testing and documentation. This library was originally developed as [lein-midje-doc](https://www.github.com/zcaudate/lein-midje-doc), and then [hydrox](https://www.github.com/helpshift/hydrox)." 
 
-[[:chapter {:title "Installation"}]]
+[[:section {:title "Installation"}]]
 
 "Add to `project.clj` dependencies:"
 
@@ -20,14 +20,48 @@
 
 [[:section {:title "Motivation"}]]
 
-"Documentation is the programmers' means of communicating how to use a library. There are various tools for documentation like `latex`, `wiki` and `markdown`- however, they are not linked to code and
+"Documentation is the programmers' means of communicating how to use a library. There are various tools for documentation like `latex`, `wiki` and `markdown`, however `lucid.publish` should be thought of as an in-built html renderer for clojure code. It's features are:
 
 1. To generate `.html` documentation from a `.clj` test file.
-- Check code-examples for errors using test suites
 - Render code and test cases as examples
 - Latex-like numbering and linking facilities
-- Code as Communication"
+- To promote code as communication"
 
+[[:chapter {:title "Basics"}]]
+
+"Any clojure file can be made into a `.html` page. Let's give it a go. Create a file"
+
+(comment
+^{:title "hello world"
+  :subtitle "this is a sample document"}
+(ns example.sample-document
+  (:use hara.test))
+
+[[:chapter {:tag "hello" :title "My First Article"}]]
+
+"This is an introduction to writing with **Lucidity**"
+
+[[:section {:title "Defining a function"}]]
+
+"We define function `add-5` below:"
+
+[[{:numbered false}]]
+(defn add-5 [x]
+  (+ x 5))
+
+[[:section {:title "Testing a function"}]]
+
+"`add-5` outputs the following results:"
+
+[[{:tag "add-5-1" :title "1 add 5 = 6"}]]
+(fact (add-5 1) => 6)
+
+[[{:tag "add-5-10" :title "10 add 5 = 15"}]]
+(fact (add-5 10) => 15)
+
+[[{:hidden true}]]
+(comment
+  (lucid.publish/publish)))
 
 
 [[:chapter {:title "Design Driven Development"}]]
@@ -51,7 +85,7 @@
 (comment
   (ns documentation.sample.document
     (:require [midje.sweet :refer :all]))
-
+  
   [[:chapter {:tag "hello" :title "Hello Midje Doc"}]]
 
   "This is an introduction to writing with midje-doc."
@@ -83,5 +117,3 @@
 "The `:output` entry specifies the directory that files are rendered to."
 
 [[:file {:src "test/documentation/lucid_publish/api.clj"}]]
-
-[[:file {:src "test/documentation/lucid_publish/bug_example.clj"}]]

@@ -1,12 +1,12 @@
-(ns lucid.theme.martell
-  (:require [lucid.theme.martell
+(ns lucid.publish.theme.martell
+  (:require [lucid.publish.theme.martell
              [article :as article]
              [navigation :as navigation]]
             [hiccup.compiler :as compiler]
             [clojure.string :as string]))
 
 (def settings
-  {:resource  "html/martell"
+  {:resource  "theme/martell"
    :copy      ["assets"]
    :structure true
    :render    {:article    "render-article"
@@ -16,9 +16,11 @@
                :sidebar      [:file "partials/sidebar.html"]
                :footer       [:file "partials/footer.html"]
                :dependencies [:file "partials/deps-web.html"]
+               :icon        "favicon"
                :logo        "img/logo.png"}
    :manifest  ["article.html"
                "home.html"
+               "assets/martell.ico"
                "assets/css/rdash.min.css"
                "assets/css/scrollspy.css"
                "assets/fonts/montserrat-regular-webfont.eot"

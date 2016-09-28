@@ -1,4 +1,4 @@
-(ns lucid.theme.martell.navigation)
+(ns lucid.publish.theme.martell.navigation)
 
 (defmulti render (fn [element interim] (:type element)))
 

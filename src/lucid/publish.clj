@@ -1,26 +1,54 @@
-^{:name "hello-world"
-  :template "home.html"
-  :title "lucidity"
-  :subtitle "tools for clarity"}
+^{:title "publish"
+  :subtitle "source code of lucid.publish"
+  :author "Chris Zheng"
+  :email "z@caudate.me"}
 (ns lucid.publish
   (:require [hara.io.project :as project]
             [lucid.publish
              [prepare :as prepare]
              [render :as render]
-             [template :as template]]
+             [theme :as theme]]
             [clojure.java.io :as io]
             [hara.io.file :as fs]))
 
 (def ^:dynamic *output* "docs")
-(def ^:dynamic *template* "template")
+
+(defn copy-assets
+  ([]
+   (theme/apply-settings copy-assets))
+  ([settings project]
+   (let [source (theme/template-path settings project)
+         output (output-path project)]
+     (doseq [entry (:copy settings)]
+       (let [dir   (fs/path source entry)
+             files (->> (fs/select dir)
+                        (filter fs/file?))]
+         (doseq [in files]
+           (let [out (fs/path output (str (fs/relativize dir in)))]
+             (fs/create-directory (fs/parent out))
+             (fs/copy-single in out {:options [:replace-existing :copy-attributes]}))))))))
+
+(defn apply-with-options [f & args]
+  (let [[args opts]  [(butlast args) (last args)]
+        project (project/project)
+        theme   (or (:theme opts)
+                    (-> project :publish :theme))
+        settings (merge (theme/load-settings theme project)
+                        opts)]
+     (when (:refresh settings)
+       (theme/deploy settings project)
+       (copy-assets settings project))
+     (apply f (concat args [settings project]))))
 
 (defn publish
-  ([] (publish [*ns*]))
-  ([inputs]
-   (let [project (project/project)
-         theme  (-> project :publish :template :theme)
-         settings (template/load-settings theme project)]
-     (publish inputs settings project)))
+  ([] (publish [*ns*] {}))
+  ([x] (cond (map? x)
+             (publish [*ns*] x)
+
+             :else
+             (publish x {})))
+  ([inputs opts]
+   (apply-with-options publish inputs opts))
   ([inputs settings project]
    (let [inputs (if (vector? inputs) inputs [inputs])
          ns->symbol (fn [x] (if (instance? clojure.lang.Namespace x)
@@ -36,82 +64,38 @@
        (spit (str (fs/path (str out-dir) (str name ".html")))
              (render/render interim name settings project))))))
 
-(defn template-path [project]
-  (let [template-dir (or (-> project :publish :template :path)
-                         *template*)]
-    (fs/path (:root project) template-dir)))
-
 (defn output-path [project]
   (let [output-dir (or (-> project :publish :output)
                          *output*)]
     (fs/path (:root project) output-dir)))
 
-(defn template-deploy
-  ([]
-   (let [project (project/project)
-         theme   (-> project :publish :template :theme)
-         settings (template/load-settings theme project)]
-     (template-deploy settings project)))
-  ([settings project]
-   (let [target (template-path project)
-         _  (if (fs/exists? target)
-              (throw (Exception. (format "Template already deployed in %s"
-                                         target))))
-         inputs   (mapv (juxt (fn [path]
-                                (-> (str (:resource settings) "/" path)
-                                    (io/resource)
-                                    (.openStream)))
-                              identity)
-                        (:manifest settings))]
-     (doseq [[stream filename] inputs]
-       (let [out (fs/path target filename)]
-         (fs/create-directory (fs/parent out))
-         (fs/write stream out))))))
-
-(defn template-copy
-  ([]
-   (let [project (project/project)
-         theme   (-> project :publish :template :theme)
-         settings (template/load-settings theme project)]
-     (template-copy settings project)))
-  ([settings project]
-   (let [source (template-path project)
-         output (output-path project)
-         files  (->> (:copy settings)
-                     (mapcat (fn [dir]
-                               (let [partial (fs/path source dir)
-                                     files (->> (fs/select partial)
-                                                (filter fs/file?))]
-                                 (map (juxt identity
-                                            (fn [f]
-                                              (fs/path output (str (fs/relativize partial f))))) files)))))]
-     (doseq [[in out] files]
-       (fs/create-directory (fs/parent out))
-       (fs/copy-single in out {:options [:replace-existing :copy-attributes]})))))
-
 (defn publish-all
-  ([]
-   (let [project (project/project)
-         theme  (-> project :publish :template :theme)
-         settings (template/load-settings theme project)]
-     (publish-all settings project)))
+  ([] (publish-all {}))
+  ([opts]
+   (apply-with-options publish-all opts))
   ([settings project]
-   (let [template (template-path project)
+   (let [template (theme/template-path settings project)
          output   (output-path project)
-         _  (if-not   (fs/exists? template)
-              (template-deploy settings project))
          files (-> project :publish :files keys vec)]
-     (template-copy settings project)
      (publish files settings project))))
 
 (comment
-  (def settings (template/load-settings "martell"))
+  (def settings (theme/load-settings "martell"))
+  (def settings)
   
-(output-path (project/project))
+  (theme/load-settings "stark")
   
+  (output-path (project/project))
+  (theme/deploy)
   (publish "index")
-  (publish "index") 
-
+  (publish "index")
+  (publish "lucid-mind" {:theme "stark" :refresh true})
+  (publish "lucid-query" {:theme "stark"})
+  (publish "lucid-mind" {:theme "stark"})
+  (publish "lucid-query" {:theme "stark" :refresh true})
+  (publish {:theme "stark" :refresh true})
+  (copy-assets)
+  (publish-all {:theme "stark"})
   (publish "lucid-mind")
   (publish "lucid-query")
   (publish "lucid-library")
@@ -120,6 +104,9 @@
   (publish-all)
   (template-deploy)
   (template-copy)
+
+  (def interim (prepare/prepare ["index"]))
+  (lucid.publish.theme.stark/render-top-level interim)
   
   (fs/option )
   (:atomic-move :create-new :skip-siblings :read :continue :create :terminate :copy-attributes :append :truncate-existing :sync :follow-links :delete-on-close :write :dsync :replace-existing :sparse :nofollow-links :skip-subtree)
@@ -130,7 +117,7 @@
                             (fs/path "match.clj")
                             (make-array java.nio.file.CopyOption 0))
   (deploy-template "martell")
-  (template/load-settings "martell")
+  (theme/load-settings "martell")
   (tagged-name (parse/parse-file (lookup-path *ns* (project/project)) (project/project)))
   
   (publish :pdf)
@@ -156,4 +143,3 @@
 
   (-> (project/project)
       :root))
-  

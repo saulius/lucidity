@@ -6,22 +6,22 @@
   :aliases {"test" ["run" "-m" "hara.test" ":exit"]}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.match "0.2.2"]
-                 [im.chit/hara.common.checks "2.4.4"]
-                 [im.chit/hara.common.watch  "2.4.4"]
-                 [im.chit/hara.component "2.4.4"]
-                 [im.chit/hara.concurrent.latch "2.4.4"]
-                 [im.chit/hara.concurrent.pipe  "2.4.4"]
-                 [im.chit/hara.data      "2.4.4"]
-                 [im.chit/hara.data.diff "2.4.4"]
-                 [im.chit/hara.data.nested "2.4.4"]
-                 [im.chit/hara.event     "2.4.4"]
-                 [im.chit/hara.io.file   "2.4.4"]
-                 [im.chit/hara.io.watch  "2.4.4"]
-                 [im.chit/hara.namespace "2.4.4"]
-                 [im.chit/hara.object    "2.4.4"]
-                 [im.chit/hara.reflect   "2.4.4"]
-                 [im.chit/hara.string    "2.4.4"]
-                 [im.chit/hara.test      "2.4.4"]
+                 [im.chit/hara.common.checks "2.4.5"]
+                 [im.chit/hara.common.watch  "2.4.5"]
+                 [im.chit/hara.component "2.4.5"]
+                 [im.chit/hara.concurrent.latch "2.4.5"]
+                 [im.chit/hara.concurrent.pipe  "2.4.5"]
+                 [im.chit/hara.data      "2.4.5"]
+                 [im.chit/hara.data.diff "2.4.5"]
+                 [im.chit/hara.data.nested "2.4.5"]
+                 [im.chit/hara.event     "2.4.5"]
+                 [im.chit/hara.io.file   "2.4.5"]
+                 [im.chit/hara.io.watch  "2.4.5"]
+                 [im.chit/hara.namespace "2.4.5"]
+                 [im.chit/hara.object    "2.4.5"]
+                 [im.chit/hara.reflect   "2.4.5"]
+                 [im.chit/hara.string    "2.4.5"]
+                 [im.chit/hara.test      "2.4.5"]
                  [org.eclipse.aether/aether-api "1.1.0"]
                  [org.eclipse.aether/aether-spi "1.1.0"]
                  [org.eclipse.aether/aether-util "1.1.0"]
@@ -38,31 +38,27 @@
                  [hiccup/hiccup "1.0.5"]
                  [stencil/stencil "0.5.0"]]
                  
-  :publish {:name   "lucidity"
-            :output "docs"
-            :template {:theme "martell"
-                       :path  "template"}
-            :tracking "UA-31320512-2"
-            :owners [{:name    "Chris Zheng"
-                      :email   "z@caudate.me"
-                      :website "http://z.caudate.me"}]
-            :paths ["test/documentation"]
+  :publish {:theme  "stark"
+            
+            :author "Chris Zheng"
+            :email  "z@caudate.me"
+
             :files {"index"
-                    {:template "home.html"
+                    {:input "test/documentation/home_lucidity.clj"
                      :title "lucidity"
                      :subtitle "tools for code clarity"}
                     "lucid-core"
                     {:input "test/documentation/lucid_core.clj"
                      :title "core"
                      :subtitle "functions for the code environment"}
-                    "lucid-deploy"
-                    {:input "test/documentation/lucid_deploy.clj"
-                     :title "deploy"
-                     :subtitle "code packaging and distribution"}
-                    "lucid-flow"
-                    {:input "test/documentation/lucid_flow.clj"
-                     :title "flow"
-                     :subtitle "enhancing the coding experience"}
+                    #_"lucid-deploy"
+                    #_{:input "test/documentation/lucid_deploy.clj"
+                       :title "deploy"
+                       :subtitle "code packaging and distribution"}
+                    #_"lucid-flow"
+                    #_{:input "test/documentation/lucid_flow.clj"
+                       :title "flow"
+                       :subtitle "enhancing the coding experience"}
                     "lucid-mind"
                     {:input "test/documentation/lucid_mind.clj"
                      :title "mind"
@@ -82,14 +78,18 @@
                     "lucid-test"
                     {:input "test/documentation/lucid_test.clj"
                      :title "test"
-                     :subtitle "tests for code management"}}
+                     :subtitle "unit tests for code management"}}
+            :tracking "UA-31320512-2"
             :link {:auto-tag    true
                    :auto-number  true}}
-
-  :deploy [{:type :clojure
+  :profiles {:dev {:plugins [[lein-repack "0.2.10"]]}}
+  :repack [{:type :clojure
             :levels 2
             :path "src"
-            :standalone #{"unit" "publish" "query" "deploy"}}]
+            :standalone #{"deploy" "flow" "mind" "publish" "query" "space" "test"}}
+           {:subpackage "resources"
+            :path "resources"
+            :distribute {"publish" #{"publish"}}}]
 
   :java-source-paths ["example/java"]
   :jar-exclusions [#"^test\..+\.class"])

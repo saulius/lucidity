@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <meta content=\"chrome=1\" http-equiv=\"X-UA-Compatible\" />
+    <meta charset=\"utf-8\" /><meta content=\"width=device-width, initial-scale=1, user-scalable=no\" name=\"viewport\" />
+    <link rel="icon" href="<@=icon>.ico" type="image/x-icon" />
+    <title><@=title> - <@=subtitle></title>
+    <style>
+      <@=css-page>
+      <@=css-code>
+    </style>
+  </head>
+    
+  <body>
+
+    <header class="top">
+      <@=top-level>
+    </header>
+    <header>      
+      <div class="heading">
+        <h1><@=title></h1>
+        <h3><@=subtitle></h3>
+        <hr/>
+        <div class=\"info\">
+          <h5>Author: <@=author><b>&nbsp;&nbsp;<a href="mailto:<@=email>">(<@=email>)</a></b></h5>
+          <h5>Date: <@=date></h5>
+          <h5>Repository: <a href="<@=url>"><@=url></a></h5>
+          <h5>Version: <@=version></h5>
+        </div>
+        <br/>
+        <hr/>
+      </div>
+      <@=navigation>
+      <br/>
+      <br/>
+    </header>
+    
+    <div class="content">
+      <section>
+        <div class="heading">
+          <h1><@=title></h1>
+          <h3><@=subtitle></h3>
+          <hr/>
+          <div class=\"info\">
+            <h5>Author: <@=author><b>&nbsp;&nbsp;<a href="mailto:<@=email>">(<@=email>)</a></b></h5>
+            <h5>Date: <@=date></h5>
+            <h5>Repository: <a href="<@=url>"><@=url></a></h5>
+            <h5>Version: <@=version></h5>
+          </div>
+          <br/>
+          <hr/>
+        </div>
+        <@=article>
+      </section>
+    </div>
+  </body>
+  <script type=\"text/javascript\">
+    <@=js-scale>
+  </script>
+  </html>
