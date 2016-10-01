@@ -16,7 +16,6 @@
                        (remove references))
         sources   (concat missing imported)
         tests     (map #(symbol (str % "-test")) sources)]
-    (prn "STUFF:" sources tests)
     (reduce (fn [references ns]
               (if-let [file (lookup ns)]
                 (->> (code/analyse-file file)
@@ -26,19 +25,21 @@
             (concat sources tests))))
 
 (defn collect-references
-  ""
-  {:added "1.2"}
   [{:keys [articles project] :as interim} name]
-  (let [lookup (:lookup project)
-        all    (->> (get-in articles [name :elements])
+  (let [all    (->> (get-in articles [name :elements])
                     (filter #(-> % :type (= :reference))))
         namespaces (-> (map (comp symbol namespace symbol :refer) all))]
-    (update-in interim [:references]
-               (fnil (fn [references]
-                       (reference-namespaces references lookup namespaces))
-                     {}))))
+    (-> interim
+        (update-in [:references]
+                   (fnil (fn [references]
+                           (reference-namespaces references
+                                                 (:lookup project)
+                                                 namespaces))
+                         {})))))
 
 (comment
+  "DO NOT DELETE!!!!!"
+  
   (:lookup PROJECT)
   (-> (parse/parse-file
        "test/documentation/hara_zip.clj" PROJECT)
@@ -47,14 +48,7 @@
       (collect-references "hara-zip")
       :references
       keys)
-  (hara.zip hara.zip.base)
-  
-  
-  )
-
-
-
-
+  (hara.zip hara.zip.base))
 (comment
    (do (require '[lucid.publish :as publish]
                 '[lucid.publish.theme]
@@ -64,5 +58,4 @@
        (def project-file "/Users/chris/Development/chit/hara/project.clj")
        
        (def PROJECT (let [project (project/project project-file)] 
-                      (assoc project :lookup (project/file-lookup project)))))
-   )
+                      (assoc project :lookup (project/file-lookup project))))))

@@ -119,3 +119,7 @@
               (cons (ns-form ns))
               (string/join "\n\n")
               (spit test-file)))))))
+
+(comment
+  (import)
+  )

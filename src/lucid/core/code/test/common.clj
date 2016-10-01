@@ -6,7 +6,7 @@
 (defmulti frameworks (fn [sym] sym))
 (defmethod frameworks :default [_])
 
-(defmulti analyse-test (fn [type zloc] type))
+(defmulti analyse-test (fn [type zloc opts] type))
 
 (defn gather-meta
   "gets the metadata for a particular form

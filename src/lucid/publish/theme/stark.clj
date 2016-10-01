@@ -13,6 +13,7 @@
                :top-level     "render-top-level"}
    :defaults  {:icon          "stark"
                :template      "article.html"
+               :css-api       [:file "partials/api.css"]
                :css-code      [:file "partials/code.css"]
                :css-highlight [:file "partials/highlight.css"]
                :css-page      [:file "partials/page.css"]
@@ -20,6 +21,7 @@
    :manifest  ["article.html"
                "assets/favicon.ico"
                "assets/js/highlight.min.js"
+               "partials/api.css"
                "partials/code.css"
                "partials/highlight.css"
                "partials/page.css"

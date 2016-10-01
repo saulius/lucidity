@@ -19,21 +19,14 @@
                          *output*)]
     (fs/path (:root project) output-dir)))
 
-(defn load-settings [opts project]
-  (let [theme (or (:theme opts)
-                  (-> project :publish :theme))
-        settings (merge (theme/load-settings theme)
-                        opts)]
-     (when (:refresh settings)
-       (theme/deploy settings project)
-       (copy-assets settings project))
-     settings))
-
 (defn copy-assets
-  ([] (copy-assets {}  (project/project)))
-  ([opts project]
-   (let [settings (load-settings opts project)
-         template-dir (theme/template-path settings project)
+  ([]
+   (let [project (project/project)
+         theme (-> project :publish :theme)
+         settings (theme/load-settings theme)]
+     (copy-assets settings project)))
+  ([settings project]
+   (let [template-dir (theme/template-path settings project)
          output-dir (output-path project)]
      (doseq [entry (:copy settings)]
        (let [dir   (fs/path template-dir entry)
@@ -43,6 +36,16 @@
            (let [out (fs/path output-dir (str (fs/relativize dir in)))]
              (fs/create-directory (fs/parent out))
              (fs/copy-single in out {:options [:replace-existing :copy-attributes]}))))))))
+
+(defn load-settings [opts project]
+  (let [theme (or (:theme opts)
+                  (-> project :publish :theme))
+        settings (merge (theme/load-settings theme)
+                        opts)]
+     (when (:refresh settings)
+       (theme/deploy settings project)
+       (copy-assets settings project))
+     settings))
 
 (defn add-lookup [project]
   (if (:lookup project)

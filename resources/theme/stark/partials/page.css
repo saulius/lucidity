@@ -199,6 +199,23 @@ header div.heading {
   display:none;
 }
 
+.code .failed
+{
+  background-color:brown; 
+  padding: 10px;
+}
+
+.code .failed h5, h4
+{
+  color: white
+}
+
+.code .failed hr
+{
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+
 
 @media print, screen and (max-width: 960px) {
   

@@ -41,5 +41,5 @@
         frameworks (find-frameworks ns-form)]
     (->> frameworks
          (map (fn [framework]
-                (test/analyse-test framework zloc)))
+                (test/analyse-test framework zloc {:path file})))
          (apply nested/merge-nested))))

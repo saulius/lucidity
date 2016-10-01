@@ -1,5 +1,6 @@
 (ns lucid.publish.engine.winterfell
   (:require [lucid.publish.render.util :as util]
+            [lucid.publish.engine.plugin.api :as api]
             [clojure.string :as string]))
 
 (defmulti page-element :type)
@@ -59,19 +60,44 @@
    [:p]])
 
 (defmethod page-element :code
-  [{:keys [tag number title code lang indentation] :as elem}]
-  [:div
-       (if tag [:a {:name tag}])
-       (if number
-         [:h4 [:i (str "e."
-                       number
-                       (if title (str "  &nbsp;-&nbsp; " title)))]])
-       [:pre [:code {:class (or lang "clojure")}
-              (-> code
-                  (util/join-string)
-                  (util/basic-html-escape)
-                  (util/adjust-indent indentation)
-                  (string/trim))]]])
+  [{:keys [tag number title code lang indentation failed path] :as elem}]
+  [:div {:class "code"}
+   (if tag [:a {:name tag}])
+   (if number
+     [:h4 [:i (str "e."
+                   number
+                   (if title (str "  &nbsp;-&nbsp; " title)))]])
+   [:pre
+    [:code {:class (or lang "clojure")}
+     (-> code
+         (util/join-string)
+         (util/basic-html-escape)
+         (util/adjust-indent indentation)
+         (string/trim))]]
+   (if failed
+     (apply vector
+            :div
+            {:class "failed"}
+            [:h4 (str "FAILED: " (count (:output failed)))]
+            [:h4 (str "FILE: " path)]
+            [:h4 (str "LINE: " (:line failed))]
+            [:hr]
+            (map (fn [{:keys [data form check code]}]
+                   [:div
+                    [:h5 "&nbsp;"]
+                    [:h5 "Line: " (:line code)]
+                    [:h5 "Expression: " (str form)]
+                    [:h5 "Expected: " (str check)]
+                    [:h5 "Actual: " (str data)]])
+                 (:output failed))))])
+
+(defmethod page-element :api
+  [elem]
+  (api/api-element elem))
+
+(defmethod page-element :default
+  [{:keys [line] :as elem}]
+  (throw (Exception. (str "Cannot process element:" elem))))
 
 (defmulti nav-element :type)
 

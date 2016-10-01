@@ -65,16 +65,16 @@
   {:added "1.1"}
   [zloc]
   (if-let [mta (common/gather-meta zloc)]
-    (assoc mta :docs (gather-deftest-body zloc))))
+    (assoc mta :test (gather-deftest-body zloc))))
 
 (defmethod common/frameworks 'clojure.test [_] :clojure)
 
 (defmethod common/analyse-test :clojure
-  [type zloc]
+  [type zloc opts]
   (let [fns  (query/$ zloc [(deftest _ | & _)] {:return :zipper :walk :top})]
     (->> (keep gather-deftest fns)
-         (reduce (fn [m {:keys [ns var docs] :as meta}]
+         (reduce (fn [m {:keys [ns var test] :as meta}]
                    (-> m
-                       (assoc-in [ns var :docs] docs)
-                       (assoc-in [ns var :meta] (dissoc meta :docs :ns :var :refer))))
+                       (assoc-in [ns var :test] test)
+                       (assoc-in [ns var :meta] (dissoc meta :test :ns :var :refer))))
                  {}))))

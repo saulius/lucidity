@@ -54,8 +54,7 @@
   [zloc]
   {:type :test
    :indentation (+ *indentation* *spacing*)
-   :code (code-form zloc "fact")
-   :source (meta (source/node zloc))})
+   :code (code-form zloc "fact")})
 
 (defn parse-comment-form
   "convert a comment zipper into an element

@@ -16,8 +16,9 @@
         fns  (->> (query/$ zloc [(#{defn defmulti defmacro} | _ ^:%?- string? ^:%?- map? & _)]
                            {:return :zipper :walk :top})
                   (map (juxt source/sexpr
-                             (comp #(hash-map :source %)
-                                   source/string
+                             (comp #(hash-map :source {:code (source/string %)
+                                                       :line (meta (source/node %))
+                                                       :path file})
                                    source/up)))
                   (into {}))]
     {nsp fns}))

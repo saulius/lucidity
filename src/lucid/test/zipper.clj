@@ -84,11 +84,14 @@
   {:added "0.1"}
   [zloc nsp gathered]
   (let [sym   (source/sexpr zloc)
-        nodes (get-in gathered [nsp sym :docs])
+        intro (get-in gathered [nsp sym :intro])
+        nodes (get-in gathered [nsp sym :test :code])
         meta  (get-in gathered [nsp sym :meta])]
     (-> zloc
         (append-node meta)
-        (append-node (if nodes (nodes->docstring nodes))))))
+        (append-node (-> (node/string-node intro)
+                         (cons nodes)
+                         (nodes->docstring))))))
 
 (defn write-file
   "exports the zipper contents to file"
