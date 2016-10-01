@@ -4,7 +4,7 @@
              [file :as fs]]
             [clojure.java.io :as io]))
 
-(defonce ^:dynamic *default* "martell")
+(defonce ^:dynamic *default* "stark")
 
 (defonce ^:dynamic *path* "template")
 

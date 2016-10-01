@@ -3,7 +3,7 @@
     <meta content=\"chrome=1\" http-equiv=\"X-UA-Compatible\" />
     <meta charset=\"utf-8\" /><meta content=\"width=device-width, initial-scale=1, user-scalable=no\" name=\"viewport\" />
     <link rel="icon" href="favicon.ico?v=2" type="image/x-icon" />
-    <title>core - functions for the code environment</title>
+    <title>outline - code checks for markdown files</title>
     <script src="js/highlight.min.js"></script>
     <style>
       body {
@@ -451,8 +451,8 @@ Qt Creator light color scheme
     </header>
     <header>      
       <div class="heading">
-        <h1>core</h1>
-        <h3>functions for the code environment</h3>
+        <h1>outline</h1>
+        <h3>code checks for markdown files</h3>
         <hr/>
         <div class=\"info\">
           <h5>Author: Chris Zheng<b>&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></b></h5>
@@ -463,7 +463,7 @@ Qt Creator light color scheme
         <br/>
         <hr/>
       </div>
-      <h4><a href="#introduction">1 &nbsp; Introduction</a></h4><h4><a href="#aether">2 &nbsp; Aether</a></h4><h5>&nbsp;&nbsp;<i><a href="#installation">2.1 &nbsp; Installation</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#resolve">2.2 &nbsp; resolve</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#hierarchy">2.3 &nbsp; hierarchy</a></i></h5><h4><a href="#asm">3 &nbsp; Asm</a></h4><h5>&nbsp;&nbsp;<i><a href="#installation-0">3.1 &nbsp; Installation</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#load-class">3.2 &nbsp; load-class</a></i></h5><h4><a href="#code">4 &nbsp; Code</a></h4><h5>&nbsp;&nbsp;<i><a href="#installation-1">4.1 &nbsp; Installation</a></i></h5><h4><a href="#debug">5 &nbsp; Debug</a></h4><h5>&nbsp;&nbsp;<i><a href="#installation-2">5.1 &nbsp; Installation</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#dbg-">5.2 &nbsp; dbg-></a></i></h5><h5>&nbsp;&nbsp;<i><a href="#dbg--0">5.3 &nbsp; dbg->></a></i></h5><h4><a href="#inject">6 &nbsp; Inject</a></h4><h5>&nbsp;&nbsp;<i><a href="#installation-3">6.1 &nbsp; Installation</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#inject-0">6.2 &nbsp; inject</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#in">6.3 &nbsp; in</a></i></h5><h4><a href="#namespace">7 &nbsp; Namespace</a></h4><h5>&nbsp;&nbsp;<i><a href="#installation-4">7.1 &nbsp; Installation</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#clear-aliases">7.2 &nbsp; clear-aliases</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#clear-mappings">7.3 &nbsp; clear-mappings</a></i></h5>
+      
       <br/>
       <br/>
     </header>
@@ -471,8 +471,8 @@ Qt Creator light color scheme
     <div class="content">
       <section>
         <div class="heading">
-          <h1>core</h1>
-          <h3>functions for the code environment</h3>
+          <h1>outline</h1>
+          <h3>code checks for markdown files</h3>
           <hr/>
           <div class=\"info\">
             <h5>Author: Chris Zheng<b>&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></b></h5>
@@ -483,158 +483,7 @@ Qt Creator light color scheme
           <br/>
           <hr/>
         </div>
-        <div><a name="introduction"></a><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.core</code> provides utilities that either support the rest of the <code>lucidity</code> suite or are useful standalone tools by themselves. Each one is installed individually and usually only provides one or two top level function for use:</p></div><div><a name="aether"></a><h2><b>2 &nbsp;&nbsp; Aether</b></h2></div><div><p>This library is used to as an interface to manage dependencies. It is meant to replace <a href='https://github.com/cemerick/pomegranate'>pomegranate</a> for some tasks.</p></div><div><a name="installation"></a><h3>2.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.core.aether &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.aether</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.core.aether)</code></pre></div><div><a name="resolve"></a><h3>2.2 &nbsp;&nbsp; resolve</h3></div><div><p><code>resolve-dependencies</code> is a very important function as it is used to synchronise many tasks so that libraries are downloaded as needed from maven:</p></div><div><pre><code class="clojure">(resolve-dependencies '[prismatic/schema &quot;1.1.3&quot;])
-=&gt; '[[prismatic/schema &quot;1.1.3&quot;]]
-  
-(resolve-dependencies '[midje &quot;1.6.3&quot;])
-=&gt; '[[utilize/utilize &quot;0.2.3&quot;]
-     [swiss-arrows/swiss-arrows &quot;1.0.0&quot;]
-     [slingshot/slingshot &quot;0.10.3&quot;]
-     [org.clojure/tools.namespace &quot;0.2.4&quot;]
-     [org.clojure/tools.macro &quot;0.1.5&quot;]
-     [org.clojure/math.combinatorics &quot;0.0.7&quot;]
-     [org.clojure/core.unify &quot;0.5.2&quot;]
-     [org.clojars.trptcolin/sjacket &quot;0.1.3&quot;]
-     [ordered/ordered &quot;1.2.0&quot;]
-     [net.cgrand/regex &quot;1.1.0&quot;]
-     [net.cgrand/parsley &quot;0.9.1&quot;]
-     [midje/midje &quot;1.6.3&quot;]
-     [joda-time/joda-time &quot;2.2&quot;]
-     [gui-diff/gui-diff &quot;0.5.0&quot;]
-     [dynapath/dynapath &quot;0.2.0&quot;]
-     [commons-codec/commons-codec &quot;1.9&quot;]
-     [colorize/colorize &quot;0.1.1&quot;]
-     [clj-time/clj-time &quot;0.6.0&quot;]]</code></pre></div><div><a name="hierarchy"></a><h3>2.3 &nbsp;&nbsp; hierarchy</h3></div><div><p><code>resolve-hierarchy</code> shows the dependency hierachy instead of a flattened list:</p></div><div><pre><code class="clojure">(resolve-hierarchy '[midje &quot;1.6.3&quot;])
-=&gt; '{[midje/midje &quot;1.6.3&quot;]
-     [{[ordered/ordered &quot;1.2.0&quot;] []}
-      {[org.clojure/math.combinatorics &quot;0.0.7&quot;] []}
-      {[org.clojure/core.unify &quot;0.5.2&quot;] []}
-      {[utilize/utilize &quot;0.2.3&quot;]
-       [{[org.clojure/tools.macro &quot;0.1.1&quot;] []}
-        {[joda-time/joda-time &quot;2.0&quot;] []}
-        {[ordered/ordered &quot;1.0.0&quot;] []}]}
-      {[colorize/colorize &quot;0.1.1&quot;] []}
-      {[org.clojure/tools.macro &quot;0.1.5&quot;] []}
-      {[dynapath/dynapath &quot;0.2.0&quot;] []}
-      {[swiss-arrows/swiss-arrows &quot;1.0.0&quot;] []}
-      {[org.clojure/tools.namespace &quot;0.2.4&quot;] []}
-      {[slingshot/slingshot &quot;0.10.3&quot;] []}
-      {[commons-codec/commons-codec &quot;1.9&quot;] []}
-      {[gui-diff/gui-diff &quot;0.5.0&quot;]
-       [{[org.clojars.trptcolin/sjacket &quot;0.1.3&quot;]
-         [{[net.cgrand/regex &quot;1.1.0&quot;] []}
-          {[net.cgrand/parsley &quot;0.9.1&quot;]
-           [{[net.cgrand/regex &quot;1.1.0&quot;] []}]}]}
-        {[ordered/ordered &quot;1.2.0&quot;] []}]}
-      {[clj-time/clj-time &quot;0.6.0&quot;]
-       [{[joda-time/joda-time &quot;2.2&quot;] []}]}]}</code></pre></div><div><a name="asm"></a><h2><b>3 &nbsp;&nbsp; Asm</b></h2></div><div><p>This library allows exploration of classes on the filesystem, independent of a classloader. Warning, it may be very frustrating to use, however, the tool gives the user a lot of control.</p></div><div><a name="installation-0"></a><h3>3.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.core.asm &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.asm</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.core.asm)</code></pre></div><div><a name="load-class"></a><h3>3.2 &nbsp;&nbsp; load-class</h3></div><div><p>Enables the loading of class files in the directory</p></div><div><pre><code class="clojure">(load-class &quot;target/classes/test/Cat.class&quot;)
-=&gt; test.Cat</code></pre></div><div><p>Can load class files within a jar:</p></div><div><pre><code class="clojure">(load-class &quot;&lt;.m2&gt;/org/yaml/snakeyaml/1.5/snakeyaml-1.5.jar&quot;
-            &quot;org/yaml/snakeyaml/Dumper.class&quot;)
-=&gt; org.yaml.snakeyaml.Dumper</code></pre></div><div><p>As well as with a coordinate:</p></div><div><pre><code class="clojure">(load-class '[org.yaml/snakeyaml &quot;1.5&quot;]
-            &quot;org/yaml/snakeyaml/Dumper.class&quot;)
-=&gt; org.yaml.snakeyaml.Dumper</code></pre></div><div><a name="code"></a><h2><b>4 &nbsp;&nbsp; Code</b></h2></div><div><p>Source and test code analysis</p></div><div><a name="installation-1"></a><h3>4.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.core.code &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.code</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.core.code)</code></pre></div><div><a name="debug"></a><h2><b>5 &nbsp;&nbsp; Debug</b></h2></div><div><p>Macros and helpers for debugging</p></div><div><a name="installation-2"></a><h3>5.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.core.debug &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.debug</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.core.debug)</code></pre></div><div><a name="dbg-"></a><h3>5.2 &nbsp;&nbsp; dbg-></h3></div><div><p>The function acts the same way as the <code>-&gt;</code> thrush macro but also prints out each step of the output:</p></div><div><pre><code class="clojure">(dbg-&gt; 1
-       inc
-       (+ 10 1 1))
-=&gt; 14
-;; 1
-;; -&gt; inc :: 2
-;; -&gt;  (+ 10 1 1) :: 14</code></pre></div><div><p>It works with all data:</p></div><div><pre><code class="clojure">(dbg-&gt; {:a 1}
-       (update-in [:a] inc)
-       (merge {:c 3 :d 4})
-       (select-keys [:a :d]))
-=&gt; {:a 2, :d 4}
-;; {:a 1}
-;; -&gt; (update-in [:a] inc) :: {:a 2}
-;; -&gt; (merge {:c 3, :d 4}) :: {:a 2, :c 3, :d 4}
-;; -&gt; (select-keys [:a :d]) :: {:a 2, :d 4}</code></pre></div><div><a name="dbg--0"></a><h3>5.3 &nbsp;&nbsp; dbg->></h3></div><div><p>The function acts the same way as the <code>-&gt;&gt;</code> thrush last macro but also prints out each step of the output:</p></div><div><pre><code class="clojure">(dbg-&gt;&gt; [1 2 3 4 5]
-        (map inc)
-        (filter even?)
-        (concat [&quot;a&quot; &quot;b&quot; &quot;c&quot;]))
-=&gt; (&quot;a&quot; &quot;b&quot; &quot;c&quot; 2 4 6)
-;; [1 2 3 4 5]
-;; -&gt;&gt; (map inc) :: (2 3 4 5 6)
-;; -&gt;&gt; (filter even?) :: (2 4 6)
-;; -&gt;&gt; (concat [a b c]) :: (a b c 2 4 6)</code></pre></div><div><a name="inject"></a><h2><b>6 &nbsp;&nbsp; Inject</b></h2></div><div><p><code>inject</code>' has been quite popular due this <a href='http://dev.solita.fi/2014/03/18/pimp-my-repl.html'>article</a>. It's main use is to create extra symbols in a particular namespace, namely <code>clojure.core</code>.</p></div><div><a name="installation-3"></a><h3>6.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.core.inject &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.inject</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.core.inject)</code></pre></div><div><a name="inject-0"></a><h3>6.2 &nbsp;&nbsp; inject</h3></div><div><p>This function is extremely useful when adding additional functionality that is needed which is not included in <code>clojure.core</code>. It can be used to import both macros and funcions into a given namespace:</p></div><div><pre><code class="clojure">(inject '[clojure.core [clojure.repl dir]])
-=&gt; [#'clojure.core/dir]
-
-(dir clojure.repl)
-;; apropos
-;; demunge
-;; dir
-;; dir-fn
-;; doc
-;; find-doc
-;; pst
-;; root-cause
-;; set-break-handler!
-;; source
-;; source-fn
-;; stack-element-str
-;; thread-stopper</code></pre></div><div><a name="in"></a><h3>6.3 &nbsp;&nbsp; in</h3></div><div><p>A helper macro <code>inject/in</code> enables better support:</p></div><div><pre><code class="clojure">;; the default injected namespace is `.`
-(inject/in
- 
- ;; note that `:refer, :all and :exclude can be used
- [lucid.core.inject :refer [inject [in inject-in]]]
- 
- ;; imports all functions from lucid.space
- [lucid.space]
- 
- ;; inject into clojure.core
- clojure.core
- [lucid.mind .&gt; .? .* .% .%&gt; .&amp; .&gt;ns .&gt;var]
-             
- ;; inject into `&gt;` namespace
- &gt;
- [clojure.pprint pprint]
- [clojure.java.shell sh])
-  
-=&gt; [#'./inject
-    #'./inject-in
-    #'./pull
-    #'./resolve-coordinates
-    #'./jar-entry
-    #'./add-url
-    #'./resolve-jar
-    #'./resolve-with-dependencies
-    #'./maven-file
-    #'./coordinate
-    #'clojure.core/.&gt;
-    #'clojure.core/.?
-    #'clojure.core/.*
-    #'clojure.core/.%
-    #'clojure.core/.%&gt;
-    #'clojure.core/.&amp;
-    #'clojure.core/.&gt;ns
-    #'clojure.core/.&gt;var
-    #'&gt;/pprint
-    #'&gt;/sh]</code></pre></div><div><a name="namespace"></a><h2><b>7 &nbsp;&nbsp; Namespace</b></h2></div><div><p>Better development experience by providing some additional namespace utilities.</p></div><div><a name="installation-4"></a><h3>7.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.core.namespace &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.namespace</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.core.namespace)</code></pre></div><div><a name="clear-aliases"></a><h3>7.2 &nbsp;&nbsp; clear-aliases</h3></div><div><p>Manually gets rid of all namespace aliases in the current namespace</p></div><div><pre><code class="clojure">;; require clojure.string
-(require '[clojure.string :as string])
-=&gt; nil
-
-;; error if a new namespace is set to the same alias
-(require '[clojure.set :as string])
-=&gt; (throws &quot;Alias string already exists in namespace&quot;)
-
-;; clearing all aliases
-(clear-aliases)
-(ns-aliases *ns*)
-=&gt; {}
-
-;; okay to require
-(require '[clojure.set :as string])
-=&gt; nil</code></pre></div><div><a name="clear-mappings"></a><h3>7.3 &nbsp;&nbsp; clear-mappings</h3></div><div><p>Manually gets rid of all interned symbols in the current namespace</p></div><div><pre><code class="clojure">;; require `join`
-(require '[clojure.string :refer [join]])
-
-;; check that it runs
-(join [&quot;a&quot; &quot;b&quot; &quot;c&quot;])
-=&gt; &quot;abc&quot;
-
-;; clear mappings
-(clear-mappings)
-  
-;; the mapped symbol is gone
-(join [&quot;a&quot; &quot;b&quot; &quot;c&quot;])
-=&gt; (throws &quot;Unable to resolve symbol: join in this context&quot;)</code></pre></div>
+        
       </section>
     </div>
   </body>

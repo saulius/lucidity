@@ -1,4 +1,4 @@
-(ns lucid.publish.link.references
+(ns lucid.publish.link.reference
   (:require [hara.data.nested :as nested]
             [hara.string.prose :as prose]
             [rewrite-clj.node :as node]
@@ -52,6 +52,7 @@
                (mapv (fn [element]
                        (if (-> element :type (= :reference))
                          (let [{:keys [refer mode]} element
+                               refer (symbol refer)
                                nsp (symbol (.getNamespace refer))
                                var (symbol (.getName refer))
                                mode (or mode :source)
@@ -60,9 +61,8 @@
                                       :source code
                                       :docs   (process-doc-nodes code))]
                            (-> element
-                               (assoc :type :code
-                                      :origin :reference
-                                      :indentation (case mode :source 0 :docs 2)
+                               (assoc :type :reference
+                                      :indentation (case mode :source 0 :test 2)
                                       :code code
                                       :mode mode)
                                (update-in [:title] #(or % (str (clojure.core/name mode) " of <i>" refer "</i>")))))

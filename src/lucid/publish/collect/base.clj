@@ -1,4 +1,4 @@
-(ns lucid.publish.collect
+(ns lucid.publish.collect.base
   (:require [hara.data.nested :as nested]))
 
 (defn collect-namespaces
@@ -26,7 +26,7 @@
         (update-in [:articles name :elements]
                    (fn [elements] (filter #(-> % :type (not= :ns-form)) elements))))))
 
-(defn collect-article
+(defn collect-article-metas
   "shunts `:article` directives into a seperate `:meta` section
    
    (collect-article
@@ -45,7 +45,7 @@
         (update-in [:articles name :elements]
                    (fn [elements] (filter #(-> % :type (not= :article)) elements))))))
 
-(defn collect-global
+(defn collect-global-metas
   "shunts `:global` directives into a globally available `:meta` section
    
    (collect-global

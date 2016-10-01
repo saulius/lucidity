@@ -185,6 +185,13 @@
       (f (-> zloc source/down source/right))
       (f zloc))))
 
+(defn wrap-line-info
+  "if form is meta, then go down a level"
+  {:added "1.2"}
+  [f]
+  (fn [zloc]
+    (assoc (f zloc) :line (meta (source/node zloc)))))
+
 (defn parse-single
   "parse a single zloc"
   {:added "1.2"}
@@ -266,7 +273,7 @@
          (merge-current output current)
 
          :else
-         (let [element (parse-single zloc)]
+         (let [element ((wrap-line-info parse-single) zloc)]
            (cond (= (:type current) :attribute)
                  (if (not= :whitespace (:type element))
                    (recur (source/right* zloc) opts (merge current element) output)
@@ -310,4 +317,7 @@
   "parse the entire file"
   {:added "1.2"}
   [file opts]
-  (parse-loop (source/of-file file) opts))
+  (let [path (if (:root opts)
+               (str (:root opts) "/" file)
+               file)]
+    (parse-loop (source/of-file path) opts)))

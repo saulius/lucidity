@@ -7,7 +7,7 @@
    (.% String)
    => (contains {:modifiers #{:instance :public :final :class},
                  :name \"java.lang.String\"})"
-  {:added "2.1"}
+  {:added "1.2"}
   [obj]
   `(reflect/class-info ~obj))
 
@@ -20,7 +20,7 @@
         #{java.io.Serializable
           java.lang.Comparable
           java.lang.CharSequence}]]"
-  {:added "2.1"}
+  {:added "1.2"}
   [obj]
   `(reflect/class-hierarchy ~obj))
 
@@ -31,7 +31,7 @@
    => [\"charAt\" \"checkBounds\" \"codePointAt\" \"codePointBefore\"
        \"codePointCount\" \"compareTo\" \"compareToIgnoreCase\"
        \"concat\" \"contains\" \"contentEquals\" \"copyValueOf\"]"
-  {:added "2.1"}
+  {:added "1.2"}
   [obj & selectors]
   `(reflect/query-class ~obj ~(args/args-convert selectors)))
 
@@ -43,7 +43,7 @@
  
    (.* String :name #\"^to\")
    => (contains [\"toString\"])"
-  {:added "2.1"}
+  {:added "1.2"}
   [obj & selectors]
   `(reflect/query-instance ~obj ~(args/args-convert selectors)))
 
@@ -57,7 +57,7 @@
    (do (>a :value (char-array \"world\"))
        a)
    => \"world\""
-  {:added "2.1"}
+  {:added "1.2"}
   [obj]
   `(reflect/delegate ~obj))
 
@@ -78,7 +78,7 @@
  
    (eval '(hash-without {:a 1 :b 2} :a))
    => {:b 2}"
-  {:added "2.1"}
+  {:added "1.2"}
   ([name [class method & selectors]]
    `(reflect/extract-to-var ~(list `symbol (str name)) ~class ~(str method) ~(args/args-convert selectors)))
   ([name objvec & more]
@@ -91,7 +91,7 @@
    (map #(.sym %)
         (.>ns test.string String :private #\"serial\"))
    => '[serialPersistentFields serialVersionUID]"
-  {:added "2.1"}
+  {:added "1.2"}
   [ns class & selectors]
   `(reflect/extract-to-ns ~(list `symbol (str ns)) ~class ~(args/args-convert selectors)))
 
@@ -107,7 +107,7 @@
          _  (.> a (.value (char-array \"world\")))]
      a)
    => \"world\""
-  {:added "2.1"}
+  {:added "1.2"}
   ([obj] obj)
   ([obj method]
    (cond (not (list? method))

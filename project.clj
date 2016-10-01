@@ -39,11 +39,10 @@
                  [stencil/stencil "0.5.0"]]
                  
   :publish {:theme  "stark"
+            :template {:author "Chris Zheng"
+                       :email  "z@caudate.me"
+                       :icon   "favicon"}
             
-            :author "Chris Zheng"
-            :email  "z@caudate.me"
-            :gitter "https://gitter.im/tahto/lucidity"
-
             :files {"index"
                     {:input "test/documentation/home_lucidity.clj"
                      :title "lucidity"
@@ -52,18 +51,14 @@
                     {:input "test/documentation/lucid_core.clj"
                      :title "core"
                      :subtitle "functions for the code environment"}
-                    #_"lucid-deploy"
-                    #_{:input "test/documentation/lucid_deploy.clj"
-                       :title "deploy"
-                       :subtitle "code packaging and distribution"}
-                    #_"lucid-flow"
-                    #_{:input "test/documentation/lucid_flow.clj"
-                       :title "flow"
-                       :subtitle "enhancing the coding experience"}
                     "lucid-mind"
                     {:input "test/documentation/lucid_mind.clj"
                      :title "mind"
                      :subtitle "contemplative reflection for the jvm"}
+                    "lucid-outline"
+                    {:input "test/documentation/lucid_outline.clj"
+                     :title "outline"
+                     :subtitle "code verification for markdown"}
                     "lucid-publish"
                     {:input "test/documentation/lucid_publish.clj"
                      :title "publish"

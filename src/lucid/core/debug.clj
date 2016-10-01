@@ -68,3 +68,20 @@
     `(do (println "\n")
          (println ~n)
          (->> ~n ~@wfncs))))
+         
+(defmacro do-> [x & forms]
+  `(do (-> ~x ~@forms)
+       ~x))
+
+(defmacro do->> [x & forms]
+  `(do (->> ~x ~@forms)
+       ~x))
+       
+(defmacro prn->
+    ([x] `(prn-> ~x nil))
+    ([x tag]
+     `(do (if ~tag
+            (print (str ~tag " ")))
+          (prn ~x)
+          ~x)))
+  

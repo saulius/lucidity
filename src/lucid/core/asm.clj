@@ -1,4 +1,4 @@
-(ns lucid.core.classloader
+(ns lucid.core.asm
   (:require [clojure.java.io :as io]
             [hara.reflect :as reflect]
             [lucid.space

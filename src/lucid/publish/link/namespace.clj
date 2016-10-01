@@ -1,4 +1,4 @@
-(ns lucid.publish.link.namespaces)
+(ns lucid.publish.link.namespace)
 
 (defn link-namespaces
   "link elements with `:ns` forms to code
@@ -21,8 +21,7 @@
                        (if (= :ns (:type element))
                          (let [{:keys [ns code]} element]
                            (assoc element
-                                  :type :code
-                                  :origin :ns
+                                  :type :ns
                                   :indentation 0
                                   :code (get-in namespaces [ns :code])))
                          element))

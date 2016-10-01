@@ -86,7 +86,7 @@
         {[clj-time/clj-time "0.6.0"]
          [{[joda-time/joda-time "2.2"] []}]}]})
 
-[[:chapter {:title "Classloader"}]]
+[[:chapter {:title "Asm"}]]
 
 "This library allows exploration of classes on the filesystem, independent of a classloader. Warning, it may be very frustrating to use, however, the tool gives the user a lot of control."
 
@@ -96,12 +96,12 @@
 
 [[{:stencil true}]]
 (comment
-  [tahto/lucid.core.classloader "{{PROJECT.version}}"])
+  [tahto/lucid.core.asm "{{PROJECT.version}}"])
   
-"All functionality is in the `lucid.core.classloader` namespace:"
+"All functionality is in the `lucid.core.asm` namespace:"
 
 (comment
-  (use 'lucid.core.classloader))
+  (use 'lucid.core.asm))
 
 [[:section {:title "load-class"}]]
 
@@ -124,6 +124,26 @@
   (load-class '[org.yaml/snakeyaml "1.5"]
               "org/yaml/snakeyaml/Dumper.class")
   => org.yaml.snakeyaml.Dumper)
+
+[[:chapter {:title "Code"}]]
+
+"Source and test code analysis"
+
+[[:section {:title "Installation"}]]
+
+"Add to `project.clj` dependencies:"
+
+[[{:stencil true}]]
+(comment
+  [tahto/lucid.core.code "{{PROJECT.version}}"])
+  
+"All functionality is in the `lucid.core.code` namespace:"
+
+(comment
+  (use 'lucid.core.code))
+  
+
+
 
 [[:chapter {:title "Debug"}]]
 

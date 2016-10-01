@@ -1,7 +1,6 @@
 (ns lucid.publish.render.util
   (:require [clojure.string :as string]
-            [markdown.core :as markdown]
-            [hiccup.core :as html]))
+            [markdown.core :as markdown]))
 
 (defn adjust-indent
   "fixes indentation for code that is off slightly due to alignment
@@ -41,22 +40,22 @@
                 (.replaceAll "&amp;amp;" "&amp;"))]
     out))
 
-(defn markup
-  "calls the markdown space to create markup from a string"
-  {:added "0.1"}
-  [data]
-  (markdown/md-to-html-string data))
-
-(defn join
+(defn join-string
   "like string/join but will return the input if it is a string
  
    (join \"hello\") => \"hello\"
  
    (join [\"hello\" \" \" \"world\"]) => \"hello world\""
-  {:added "0.1"}
+  {:added "1.2"}
   [data]
   (cond (string? data)
         data
 
         (vector? data)
         (string/join data)))
+
+(defn markup
+  "calls the markdown space to create markup from a string"
+  {:added "0.1"}
+  [data]
+  (markdown/md-to-html-string data))

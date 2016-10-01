@@ -1,4 +1,4 @@
-(ns lucid.publish.link.anchors)
+(ns lucid.publish.link.anchor)
 
 (defn link-anchors-lu
   "creates the anchor lookup for tags and numbers

@@ -5,13 +5,13 @@
             [clojure.string :as string])
   (:refer-clojure :exclude [.% .%> .? .* .& .> .>ns .>var]))
 
-^{:refer lucid.mind/.% :added "2.1"}
+^{:refer lucid.mind/.% :added "1.2"}
 (fact "Lists class information"
   (.% String)
   => (contains {:modifiers #{:instance :public :final :class},
                 :name "java.lang.String"}))
 
-^{:refer lucid.mind/.%> :added "2.1"}
+^{:refer lucid.mind/.%> :added "1.2"}
 (fact "Lists the class and interface hierarchy for the class"
 
   (.%> String)
@@ -21,7 +21,7 @@
          java.lang.Comparable
          java.lang.CharSequence}]])
 
-^{:refer lucid.mind/.& :added "2.1"}
+^{:refer lucid.mind/.& :added "1.2"}
 (fact "Allow transparent field access and manipulation to the underlying object."
   
   (def a "hello")
@@ -32,7 +32,7 @@
       a)
   => "world")
 
-^{:refer lucid.mind/.? :added "2.1"}
+^{:refer lucid.mind/.? :added "1.2"}
 (fact "queries the java view of the class declaration"
 
   (.? String  #"^c" :name)
@@ -40,7 +40,7 @@
       "codePointCount" "compareTo" "compareToIgnoreCase"
       "concat" "contains" "contentEquals" "copyValueOf"])
 
-^{:refer lucid.mind/.* :added "2.1"}
+^{:refer lucid.mind/.* :added "1.2"}
 (fact "lists what methods could be applied to a particular instance"
 
   (.* "abc" :name #"^to")
@@ -49,7 +49,7 @@
   (.* String :name #"^to")
   => (contains ["toString"]))
 
-^{:refer lucid.mind/.> :added "2.1"}
+^{:refer lucid.mind/.> :added "1.2"}
 (fact "Threads the first input into the rest of the functions. Same as `->` but
    allows access to private fields using both `:keyword` and `.symbol` lookup:"
 
@@ -62,7 +62,7 @@
     a)
   => "world")
 
-^{:refer lucid.mind/.>var :added "2.1"}
+^{:refer lucid.mind/.>var :added "1.2"}
 (fact "extracts a class method into a namespace."
 
   (.>var hash-without [clojure.lang.IPersistentMap without])
@@ -80,7 +80,7 @@
   (eval '(hash-without {:a 1 :b 2} :a))
   => {:b 2})
 
-^{:refer lucid.mind/.>ns :added "2.1"}
+^{:refer lucid.mind/.>ns :added "1.2"}
 (fact "extracts all class methods into its own namespace."
 
   (map #(.sym %)

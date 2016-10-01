@@ -1,4 +1,4 @@
-(ns lucid.publish.link.tags
+(ns lucid.publish.link.tag
   (:require [hara.string.case :as case]))
 
 (def tag-required?

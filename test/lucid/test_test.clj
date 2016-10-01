@@ -1,4 +1,4 @@
-(ns lucid.test.code
+(ns lucid.core.code.test
   (:use hara.test)
   (:require [lucid.test :refer :all]))
 

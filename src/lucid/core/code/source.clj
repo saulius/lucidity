@@ -1,7 +1,6 @@
-(ns lucid.test.source
+(ns lucid.core.code.source
   (:require [rewrite-clj.zip :as source]
-            [lucid.query :as query]
-            [lucid.test.common :as common]))
+            [lucid.query :as query]))
 
 (defn analyse-source-file
   "analyses a source file for namespace and function definitions
@@ -10,7 +9,7 @@
         {foo
          {:source \"(defn foo\\n  [x]\\n  (println x \\\"Hello, World!\\\"))\"}}}"
   {:added "1.1"}
-  [file opts]
+  [file]
   (let [zloc (source/of-file file)
         nsp  (->  (query/$ zloc [(ns | _ & _)] {:walk :top})
                   first)
@@ -22,8 +21,3 @@
                                    source/up)))
                   (into {}))]
     {nsp fns}))
-
-(defmethod common/analyse-file
-  :source
-  [_ file opts]
-  (analyse-source-file file opts))

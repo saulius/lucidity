@@ -1,11 +1,17 @@
 (ns lucid.publish.theme.martell.article
   (:require [lucid.publish.render
-             [structure :as structure]
+             [structure :as structure]]
+            [lucid.core.code
              [util :as util]]
             [clojure.string :as string]
             [rewrite-clj.node :as node]))
 
 (defmulti render (fn [element interim] (:type element)))
+
+(defmethod render
+  :html
+  [{:keys [src] :as element} interim]
+  src)
 
 (defmethod render
   :paragraph
@@ -84,7 +90,7 @@
   [element interim]
   (render (assoc element :type :code) interim))
 
-(defmethod render
+(defmethod render 
   :test
   [element interim]
   (render (assoc element :type :code) interim))

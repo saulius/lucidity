@@ -1,11 +1,10 @@
-(ns lucid.test.code
+(ns lucid.core.code.test
     (:require [lucid.query :as query]
             [rewrite-clj.zip :as source]
             [rewrite-clj.node :as node]
             [clojure.walk :as walk]
             [hara.data.nested :as nested]
-            [lucid.test.common :as common]
-            [lucid.test.code
+            [lucid.core.code.test
              [common :as test] clojure fact]))
 
 (defn find-frameworks
@@ -32,7 +31,7 @@
        (update-in '[example.core foo :docs] common/join-nodes))
    => '{example.core {foo {:docs \"1\\n  => 1\", :meta {:added \"0.1\"}}}}"
   {:added "1.1"}
-  [file opts]
+  [file]
   (let [zloc   (source/of-file file)
         nsloc  (query/$ zloc [(ns | _ & _)] {:walk :top
                                              :return :zipper
@@ -44,8 +43,3 @@
          (map (fn [framework]
                 (test/analyse-test framework zloc)))
          (apply nested/merge-nested))))
-
-(defmethod common/analyse-file
-  :test
-  [_ file opts]
-  (analyse-test-file file opts))

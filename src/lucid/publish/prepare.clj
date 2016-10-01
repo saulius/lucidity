@@ -2,11 +2,26 @@
   (:require [hara.io
              [file :as fs]
              [project :as project]]
-            [lucid.test :as unit]
-            [lucid.publish
-             [collect :as collect]
-             [link :as link]
-             [parse :as parse]]))
+            [lucid.publish [parse :as parse]]
+            [lucid.publish.collect
+             [api :refer  [collect-apis]]
+             [base :refer [collect-article-metas
+                           collect-citations
+                           collect-global-metas
+                           collect-namespaces
+                           collect-tags]]
+             [reference :refer [collect-references]]
+             [test :refer [collect-tests]]]
+            [lucid.publish.link
+             [anchor :refer [link-anchors
+                             link-anchors-lu]]
+             [api :refer [link-apis]]
+             [namespace :refer [link-namespaces]]
+             [number :refer [link-numbers]]
+             [reference :refer [link-references]]
+             [stencil :refer [link-stencil]]
+             [tag :refer [link-tags]]
+             [test :refer [link-tests]]]))
 
 (defn lookup-meta
   "takes a key and looks up the associated meta information
@@ -22,8 +37,7 @@
        :subtitle \"simple, contemplative reflection\",
        :name \"lucid-mind\"}"
   {:added "1.2"}
-  ([key] (lookup-meta key (project/project)))
-  ([key project]
+  ([key lookup project]
    (cond (map? key) key
 
          (string? key)
@@ -31,7 +45,7 @@
            (assoc m :name key))
          
          (symbol? key)
-         (if-let [path (unit/lookup-namespace key)]
+         (if-let [path (get lookup key)]
            (let [tail (str (fs/relativize (:root project) path))
                  [k m] (->> (-> project :publish :files)
                             (filter (fn [[k {:keys [input]}]]
@@ -62,29 +76,35 @@
          (assoc :project project)
          (assoc-in [:articles name :elements] elements)
          (assoc-in [:articles name :meta] meta)
-         (collect/collect-global name)
-         (collect/collect-article name)
-         (collect/collect-namespaces name)
-         (collect/collect-tags name)
-         (collect/collect-citations name)
-         (link/link-namespaces name)
-         ;;(link/link-references name)
-         ;;(link/link-api name)
-         ;;(link/link-tests name)
-         (link/link-numbers name)
-         (link/link-tags name)
-         (link/link-anchors-lu name)
-         (link/link-anchors name)
-         (link/link-stencil name)))))
+         (collect-global-metas name)
+         (collect-article-metas name)
+         (collect-namespaces name)
+         (collect-references name)
+         (collect-apis name)
+         ;;(collect-tests)
+         (collect-tags name)
+         (collect-citations name)
+         (link-namespaces name)
+         (link-references name)
+         (link-apis name)
+         ;;(link-tests name)
+         (link-numbers name)
+         (link-tags name)
+         (link-anchors-lu name)
+         (link-anchors name)
+         (link-stencil name)))))
 
 (defn prepare
   "prepares an interim structure for many inputs"
   {:added "1.2"}
-  ([inputs] (prepare inputs (project/project)))
-  ([inputs project]
+  ([inputs]
+   (let [project (project/project)]
+     (assoc project :lookup (project/file-lookup project)))
+   (prepare inputs (project/project)))
+  ([inputs {:keys [lookup] :as project}]
    (reduce (fn [out input]
              (-> input
-                 (lookup-meta project)
+                 (lookup-meta lookup project)
                  (prepare-single project out)))
            {}
            inputs)))

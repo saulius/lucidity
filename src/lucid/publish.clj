@@ -3,13 +3,14 @@
   :author "Chris Zheng"
   :email "z@caudate.me"}
 (ns lucid.publish
-  (:require [hara.io.project :as project]
+  (:require [hara.io
+             [project :as project]
+             [file :as fs]]
             [lucid.publish
              [prepare :as prepare]
              [render :as render]
              [theme :as theme]]
-            [clojure.java.io :as io]
-            [hara.io.file :as fs]))
+            [clojure.java.io :as io]))
 
 (def ^:dynamic *output* "docs")
 
@@ -18,32 +19,35 @@
                          *output*)]
     (fs/path (:root project) output-dir)))
 
-(defn copy-assets
-  ([]
-   (theme/apply-settings copy-assets))
-  ([settings project]
-   (let [source (theme/template-path settings project)
-         output (output-path project)]
-     (doseq [entry (:copy settings)]
-       (let [dir   (fs/path source entry)
-             files (->> (fs/select dir)
-                        (filter fs/file?))]
-         (doseq [in files]
-           (let [out (fs/path output (str (fs/relativize dir in)))]
-             (fs/create-directory (fs/parent out))
-             (fs/copy-single in out {:options [:replace-existing :copy-attributes]}))))))))
-
-(defn apply-with-options [f & args]
-  (let [[args opts]  [(butlast args) (last args)]
-        project (project/project)
-        theme   (or (:theme opts)
-                    (-> project :publish :theme))
-        settings (merge (theme/load-settings theme project)
+(defn load-settings [opts project]
+  (let [theme (or (:theme opts)
+                  (-> project :publish :theme))
+        settings (merge (theme/load-settings theme)
                         opts)]
      (when (:refresh settings)
        (theme/deploy settings project)
        (copy-assets settings project))
-     (apply f (concat args [settings project]))))
+     settings))
+
+(defn copy-assets
+  ([] (copy-assets {}  (project/project)))
+  ([opts project]
+   (let [settings (load-settings opts project)
+         template-dir (theme/template-path settings project)
+         output-dir (output-path project)]
+     (doseq [entry (:copy settings)]
+       (let [dir   (fs/path template-dir entry)
+             files (->> (fs/select dir)
+                        (filter fs/file?))]
+         (doseq [in files]
+           (let [out (fs/path output-dir (str (fs/relativize dir in)))]
+             (fs/create-directory (fs/parent out))
+             (fs/copy-single in out {:options [:replace-existing :copy-attributes]}))))))))
+
+(defn add-lookup [project]
+  (if (:lookup project)
+     project
+    (assoc project :lookup (project/file-lookup project))))
 
 (defn publish
   ([] (publish [*ns*] {}))
@@ -52,10 +56,10 @@
 
              :else
              (publish x {})))
-  ([inputs opts]
-   (apply-with-options publish inputs opts))
-  ([inputs settings project]
-   (let [inputs (if (vector? inputs) inputs [inputs])
+  ([inputs opts project]
+   (let [project (add-lookup project)
+         settings (load-settings opts project)
+         inputs (if (vector? inputs) inputs [inputs])
          ns->symbol (fn [x] (if (instance? clojure.lang.Namespace x)
                               (.getName x)
                               x))
@@ -65,22 +69,22 @@
          out-dir (fs/path (-> project :root)
                           (or (-> project :publish :output) *output*))]
      (fs/create-directory out-dir)
-     (println "KEYS:" inputs names out-dir)
      (doseq [name names]
        (spit (str (fs/path (str out-dir) (str name ".html")))
              (render/render interim name settings project))))))
 
 (defn publish-all
   ([] (publish-all {}))
-  ([opts]
-   (apply-with-options publish-all opts))
-  ([settings project]
-   (let [template (theme/template-path settings project)
+  ([opts project]
+   (let [project (add-lookup project)
+         settings (load-settings opts project)
+         template (theme/template-path settings project)
          output   (output-path project)
          files (-> project :publish :files keys vec)]
      (publish files settings project))))
 
 (comment
+  (lucid.test/scaffold 'lucid.publish)
   (def settings (theme/load-settings "martell"))
   (def settings)
   

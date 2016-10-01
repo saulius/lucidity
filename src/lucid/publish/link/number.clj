@@ -1,4 +1,4 @@
-(ns lucid.publish.link.numbers)
+(ns lucid.publish.link.number)
 
 (def new-counter
   {:chapter 0
