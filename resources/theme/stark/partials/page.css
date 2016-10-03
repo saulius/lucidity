@@ -210,6 +210,11 @@ header div.heading {
   color: white
 }
 
+.code .failed h4
+{
+  font-style: italic;
+}
+
 .code .failed hr
 {
   margin-top: 15px;

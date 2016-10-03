@@ -18,9 +18,13 @@
     (require ns)
     (reduce-kv (fn [out k ref]
                  (let [v @ref]
-                   (if (instance? MultiFn  v)
-                     (assoc out (keyword k)
-                            (wrap-hidden (multi/clone-multi v (str k))))
-                     out)))
+                   (cond (instance? MultiFn  v)
+                         (assoc out (keyword k)
+                                (wrap-hidden (multi/multimethod v (str k))))
+
+                         (fn? v)
+                         (assoc out (keyword v) v)
+
+                         :else out)))
                 {}
                 (ns-interns ns))))

@@ -17,7 +17,7 @@
         live-vars (do (require namespace)
                       (ns-interns namespace))]
     (reduce-kv (fn [table ns vals]
-                 (let [relative-to-root #(->> % (fs/relativize (:root project)) str)
+                 (let [relative-to-root #(if % (->> % (fs/relativize (:root project)) str))
                        vals (if (= :all vals)
                               (-> ns references keys)
                               vals)]
@@ -40,7 +40,7 @@
   [{:keys [references project] :as interim} name]
   (update-in interim [:articles name :elements]
              (fn [elements]
-               (mapv (fn [{:keys [type namespace] :as element}]
+               (mapv (fn [{:keys [type namespace] :as element}]                       
                        (if (= type :api)
                          (-> element
                              (assoc :project project)

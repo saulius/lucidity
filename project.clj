@@ -5,23 +5,18 @@
             :url "http://http://opensource.org/licenses/MIT"}
   :aliases {"test" ["run" "-m" "hara.test" ":exit"]}
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/core.match "0.2.2"]
+                 [org.clojure/core.match     "0.2.2"]
                  [im.chit/hara.common.checks "2.4.5"]
-                 [im.chit/hara.common.watch  "2.4.5"]
-                 [im.chit/hara.component "2.4.5"]
-                 [im.chit/hara.concurrent.latch "2.4.5"]
-                 [im.chit/hara.concurrent.pipe  "2.4.5"]
-                 [im.chit/hara.data      "2.4.5"]
-                 [im.chit/hara.data.diff "2.4.5"]
-                 [im.chit/hara.data.nested "2.4.5"]
-                 [im.chit/hara.event     "2.4.5"]
-                 [im.chit/hara.io.file   "2.4.5"]
-                 [im.chit/hara.io.watch  "2.4.5"]
-                 [im.chit/hara.namespace "2.4.5"]
-                 [im.chit/hara.object    "2.4.5"]
-                 [im.chit/hara.reflect   "2.4.5"]
-                 [im.chit/hara.string    "2.4.5"]
-                 [im.chit/hara.test      "2.4.5"]
+                 [im.chit/hara.data          "2.4.5"]
+                 [im.chit/hara.data.diff     "2.4.5"]
+                 [im.chit/hara.data.nested   "2.4.5"]
+                 [im.chit/hara.event         "2.4.5"]
+                 [im.chit/hara.io.file       "2.4.5"]
+                 [im.chit/hara.io.project    "2.4.5"]
+                 [im.chit/hara.namespace     "2.4.5"]
+                 [im.chit/hara.reflect       "2.4.5"]
+                 [im.chit/hara.string        "2.4.5"]
+                 [im.chit/hara.test          "2.4.5"]
                  [org.eclipse.aether/aether-api "1.1.0"]
                  [org.eclipse.aether/aether-spi "1.1.0"]
                  [org.eclipse.aether/aether-util "1.1.0"]
@@ -44,7 +39,8 @@
                        :icon   "favicon"}
             
             :files {"index"
-                    {:input "test/documentation/home_lucidity.clj"
+                    {:template "home.html"
+                     :input "test/documentation/home_lucidity.clj"
                      :title "lucidity"
                      :subtitle "tools for code clarity"}
                     "lucid-core"
@@ -78,7 +74,11 @@
             :tracking "UA-31320512-2"
             :link {:auto-tag    true
                    :auto-number  true}}
-  :profiles {:dev {:plugins [[lein-repack "0.2.10"]]}}
+  :profiles {:dev {:dependencies [[compojure "1.4.0"]
+                                  [ring "1.4.0"]
+                                  [clj-http "2.1.0"]
+                                  [org.eclipse.jgit "4.0.1.201506240215-r"]]
+                   :plugins [[lein-repack "0.2.10"]]}}
   :repack [{:type :clojure
             :levels 2
             :path "src"

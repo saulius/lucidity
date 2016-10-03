@@ -56,6 +56,18 @@
    :indentation (+ *indentation* *spacing*)
    :code (code-form zloc "fact")})
 
+(defn parse-facts-form
+  "convert a fact zipper into an element
+ 
+   (-> (z/of-string \"(fact (+ 1 1) \\n => 2)\")
+       (parse-fact-form))
+   => {:type :block :indentation 2 :code \"(+ 1 1) \\n => 2\"}"
+  {:added "1.2"}
+  [zloc]
+  {:type :test
+   :indentation (+ *indentation* *spacing*)
+   :code (code-form zloc "facts")})
+
 (defn parse-comment-form
   "convert a comment zipper into an element
  
@@ -211,7 +223,7 @@
         ((wrap-meta parse-fact-form) zloc)
 
         (checks/facts? zloc)
-        ((wrap-meta parse-fact-form) zloc)
+        ((wrap-meta parse-facts-form) zloc)
 
         (checks/comment? zloc)
         ((wrap-meta parse-comment-form) zloc)

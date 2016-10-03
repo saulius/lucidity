@@ -10,12 +10,12 @@
                            collect-global-metas
                            collect-namespaces
                            collect-tags]]
-             [reference :refer [collect-references]]
-             [test :refer [collect-tests]]]
+             [reference :refer [collect-references]]]
             [lucid.publish.link
              [anchor :refer [link-anchors
                              link-anchors-lu]]
              [api :refer [link-apis]]
+             [chapter :refer [link-chapters]]
              [namespace :refer [link-namespaces]]
              [number :refer [link-numbers]]
              [reference :refer [link-references]]
@@ -86,6 +86,7 @@
          (link-namespaces name)
          (link-references name)
          (link-apis name)
+         (link-chapters name)
          (link-tests name)
          (link-numbers name)
          (link-tags name)

@@ -28,19 +28,19 @@
 (defmethod page-element :chapter
   [{:keys [tag number title]}]
   [:div
-   (if tag [:a {:name tag}])
+   (if tag [:span {:name tag :id tag}])
    [:h2 [:b (str number " &nbsp;&nbsp; " title)]]])
 
 (defmethod page-element :section
   [{:keys [tag number title]}]
   [:div
-   (if tag [:a {:name tag}])
+   (if tag [:span {:name tag :id tag}])
    [:h3 (str number " &nbsp;&nbsp; " title)]])
 
 (defmethod page-element :subsection
   [{:keys [tag number title]}]
   [:div
-   (if tag [:a {:name tag}])
+   (if tag [:span {:name tag :id tag}])
    [:h3 [:i (str number " &nbsp;&nbsp; " title)]]])
 
 (defmethod page-element :paragraph
@@ -50,7 +50,7 @@
 (defmethod page-element :image
   [{:keys [tag number title] :as elem}]
   [:div {:class "figure"}
-   (if tag [:a {:name tag}])
+   (if tag [:a {:name tag :id tag}])
    (if number
      [:h4 [:i (str "fig."
                    number
@@ -62,7 +62,7 @@
 (defmethod page-element :code
   [{:keys [tag number title code lang indentation failed path] :as elem}]
   [:div {:class "code"}
-   (if tag [:a {:name tag}])
+   (if tag [:a {:name tag :id tag}])
    (if number
      [:h4 [:i (str "e."
                    number
@@ -78,9 +78,10 @@
      (apply vector
             :div
             {:class "failed"}
-            [:h4 (str "FAILED: " (count (:output failed)))]
-            [:h4 (str "FILE: " path)]
-            [:h4 (str "LINE: " (:line failed))]
+            [:h4
+             (str "FAILED: " (count (:output failed)))
+             (str "&nbsp;&nbsp;&nbsp;FILE: " path)
+             (str "&nbsp;&nbsp;&nbsp;LINE: " (:line failed))]
             [:hr]
             (map (fn [{:keys [data form check code]}]
                    [:div
@@ -104,14 +105,17 @@
 (defmethod nav-element :chapter
   [{:keys [tag number title]}]
   [:h4
-   [:a {:href (str "#" tag)} (str number " &nbsp; " title)]])
+   [:a {:data-scroll "data-scroll"
+        :href (str "#" tag)} (str number " &nbsp; " title)]])
 
 (defmethod nav-element :section
   [{:keys [tag number title]}]
   [:h5 "&nbsp;&nbsp;"
-   [:i [:a {:href (str "#" tag)} (str number " &nbsp; " title)]]])
+   [:i [:a {:data-scroll "data-scroll"
+            :href (str "#" tag)} (str number " &nbsp; " title)]]])
 
 (defmethod nav-element :subsection
   [{:keys [tag number title]}]
   [:h5 "&nbsp;&nbsp;&nbsp;&nbsp;"
-   [:i [:a {:href (str "#" tag)} (str number " &nbsp; " title)]]])
+   [:i [:a {:data-scroll "data-scroll"
+            :href (str "#" tag)} (str number " &nbsp; " title)]]])
