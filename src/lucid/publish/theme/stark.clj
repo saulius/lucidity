@@ -11,21 +11,19 @@
    :render    {:article       "render-article"
                :navigation    "render-navigation"
                :top-level     "render-top-level"}
-   :defaults  {:icon          "stark"
-               :template      "article.html"
-               :css-api       [:file "partials/api.css"]
-               :css-code      [:file "partials/code.css"]
-               :css-highlight [:file "partials/highlight.css"]
-               :css-page      [:file "partials/page.css"]
-               :js-scale      [:file "partials/scale.js"]}
+   :defaults  {:icon             "stark"
+               :template         "article.html"
+               :icon             "favicon"
+               :tracking-enabled "false"}
    :manifest  ["article.html"
                "assets/favicon.ico"
                "assets/js/highlight.min.js"
-               "partials/api.css"
-               "partials/code.css"
-               "partials/highlight.css"
-               "partials/page.css"
-               "partials/scale.js"]})
+               "assets/js/gumshoe.min.js"
+               "assets/js/smooth-scroll.min.js"
+               "assets/css/api.css"
+               "assets/css/code.css"
+               "assets/css/highlight.css"
+               "assets/css/page.css"]})
 
 (def engine (engine/engine (:engine settings)))
 

@@ -17,24 +17,21 @@
                :tracking-enabled "false"
                :template       "article.html"
                :theme-base     "theme-base-08"
-               :logo-white     "img/logo-white.png"
-               :css-api        [:file "partials/api.css"]
-               :css-bolton     [:file "partials/bolton.css"]
-               :css-highlight  [:file "partials/highlight.css"]}
+               :logo-white     "img/logo-white.png"}
    :manifest  ["article.html"
                "home.html"
                "assets/favicon.ico"
                "assets/js/gumshoe.min.js"
                "assets/js/highlight.min.js"
                "assets/js/smooth-scroll.min.js"
+               "assets/css/api.css"
+               "assets/css/bolton.css"
+               "assets/css/highlight.css"
                "assets/css/lanyon.css"
                "assets/css/poole.css"
                "assets/css/syntax.css"
                "assets/img/logo.png"
-               "assets/img/logo-white.png"
-               "partials/api.css"
-               "partials/bolton.css"
-               "partials/highlight.css"]})
+               "assets/img/logo-white.png"]})
 
 (def engine (engine/engine (:engine settings)))
 

@@ -1,6 +1,6 @@
-(defproject tahto/lucid "1.2.0"
+(defproject im.chit/lucid "1.2.0"
   :description "tools for code clarity"
-  :url "https://www.github.com/tahto/lucidity"
+  :url "https://www.github.com/zcaudate/lucidity"
   :license {:name "The MIT License"
             :url "http://http://opensource.org/licenses/MIT"}
   :aliases {"test" ["run" "-m" "hara.test" ":exit"]}

@@ -74,14 +74,20 @@
    (let [target   (template-path settings project)
          inputs   (mapv (juxt (fn [path]
                                     (-> (str (:resource settings) "/" path)
-                                        (io/resource)
-                                        (.openStream)))
+                                        (io/resource)))
                                   identity)
                             (:manifest settings))]
-     (doseq [[stream filename] inputs]
-       (let [out (fs/path target filename)]
-         (fs/create-directory (fs/parent out))
-         (fs/write stream out {:options [:replace-existing]}))))))
+     (doseq [[resource filename] inputs]
+       (try
+         (let [out (fs/path target filename)]
+           (fs/create-directory (fs/parent out))
+           (fs/write (.openStream resource)
+                     out
+                     {:options [:replace-existing]}))
+         (catch Exception e
+           (print "Cannot Deploy Filename:" filename)
+           ;;(throw e)
+           ))))))
 
 (comment
   (template-path)

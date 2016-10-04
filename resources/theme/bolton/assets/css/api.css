@@ -45,16 +45,6 @@
  padding-top: 0.6em;
  margin-top: 0;
  }
-
-.api .entry-option .args
-{
- font-weight: lighter;
- }
- 
-.api .entry pre
- {
-   width: 100%;
-}
   
 .api pre h6
 {

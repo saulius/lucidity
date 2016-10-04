@@ -43,12 +43,7 @@
                             (-> entry :source :line :end-row))
                        :target "_blank"}
                    "v&nbsp;" version]
-           [:i {:class "error version"} "NONE"])
-       "&nbsp;&nbsp;args: "
-       [:i {:class "args"}
-        (string/join " " (:arglists entry))]
-       "&nbsp;&nbsp;&nbsp;"
-       ]
+           [:i {:class "error version"} "NONE"])]
       [:div
        [:input {:class "source-toggle"
                 :type "checkbox"
