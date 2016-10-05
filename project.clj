@@ -7,7 +7,6 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.match     "0.2.2"]
                  [im.chit/hara.common.checks "2.4.5"]
-                 [im.chit/hara.data          "2.4.5"]
                  [im.chit/hara.data.diff     "2.4.5"]
                  [im.chit/hara.data.nested   "2.4.5"]
                  [im.chit/hara.event         "2.4.5"]

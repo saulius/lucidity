@@ -2,23 +2,27 @@
   (:require [hara.io
              [project :as project]
              [file :as fs]]
+            [hara.namespace.import :as ns]
             [lucid.publish
              [prepare :as prepare]
              [render :as render]
              [theme :as theme]]
             [clojure.java.io :as io]))
 
+(ns/import lucid.publish.theme [deploy])
+
 (def ^:dynamic *output* "docs")
 
 (defn output-path
-  "TODO"
-  {:added "1.2"} [project]
+  "creates a path representing where the output files will go"
+  {:added "1.2"}
+  [project]
   (let [output-dir (or (-> project :publish :output)
                          *output*)]
     (fs/path (:root project) output-dir)))
 
 (defn copy-assets
-  "TODO"
+  "copies all theme assets into the output directory"
   {:added "1.2"}
   ([]
    (let [project (project/project)
@@ -40,7 +44,8 @@
              (fs/copy-single in out {:options [:replace-existing :copy-attributes]}))))))))
 
 (defn load-settings
-  "" [opts project]
+  ""
+  [opts project]
   (let [theme (or (:theme opts)
                   (-> project :publish :theme))
         settings (merge (theme/load-settings theme)
@@ -51,13 +56,14 @@
      settings))
 
 (defn add-lookup
-  "" [project]
+  ""
+  [project]
   (if (:lookup project)
      project
     (assoc project :lookup (project/file-lookup project))))
 
 (defn publish
-  "TODO"
+  "publishes a document as an html"
   {:added "1.2"}
   ([] (publish [*ns*] {} (project/project)))
   ([x] (cond (map? x)
@@ -83,7 +89,7 @@
              (render/render interim name settings project))))))
 
 (defn publish-all
-  "TODO"
+  "publishes all documents as html"
   {:added "1.2"}
   ([] (publish-all {} (project/project)))
   ([opts project]

@@ -3,16 +3,16 @@
   (:require [lucid.publish :refer :all]))
 
 ^{:refer lucid.publish/output-path :added "1.2"}
-(fact "TODO")
+(fact "creates a path representing where the output files will go")
 
 ^{:refer lucid.publish/copy-assets :added "1.2"}
-(fact "TODO")
+(fact "copies all theme assets into the output directory")
 
 ^{:refer lucid.publish/apply-with-options :added "1.2"}
-(fact "TODO")
+(fact "applies a method with options, settings and project")
 
 ^{:refer lucid.publish/publish :added "1.2"}
-(fact "TODO")
+(fact "publishes a document as an html")
 
 ^{:refer lucid.publish/publish-all :added "1.2"}
-(fact "TODO")
+(fact "publishes all documents as html")

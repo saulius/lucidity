@@ -38,6 +38,4 @@
 
 [[{:hidden true}]]
 (comment
-  (publish/publish)
-  
-  )
+  (publish/publish))

@@ -112,4 +112,6 @@
               :footer [:file "partials/footer.html"]
               :dependencies [:file "partials/deps-web.html"]}
    :fn #{:article :navigation}}
+
+  (lucid.unit/scaffold)
   )

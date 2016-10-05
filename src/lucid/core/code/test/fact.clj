@@ -44,7 +44,7 @@
 
 (defmethod common/analyse-test :fact
   ([type zloc opts]
-   (let [fns  (query/$ zloc [(fact | & _)] {:return :zipper :walk :top})]
+   (let [fns  (query/$ zloc [(#{fact comment} | & _)] {:return :zipper :walk :top})]
      (->> (keep gather-fact fns)
           (reduce (fn [m {:keys [ns var test intro line] :as meta}]
                     (-> m

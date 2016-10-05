@@ -370,12 +370,15 @@ end"]]
 
 [[:chapter {:title "Project Level"}]]
 
-"`lucid.publish` can also be used to generate an entire site. The default template can be changed. `lucid.publish` can generates a `.html` output based on a `.clj` file. This requires some configuration and so the following is placed in the `project.clj` file:"
+[[:section {:title "Setup"}]]
+
+"`lucid.publish` can also be used to generate an entire site based on clojure code input. The default template can be changed according to need. `lucid.publish` can generates a `.html` output based on a `.clj` file. The `:publish` key in `defproject` specifies which files to use as entry points to use for html generation. A sample can be seen below:"
 
 (comment
   (defproject ...
     ...
     :publish {:site   "sample"
+              :theme  "bolton" ;; stark is the default
               :output "docs"
               :files {"sample-document"
                       {:input "test/documentation/sample_document.clj"
@@ -383,4 +386,25 @@ end"]]
                        :subtitle "generating a document from code"}}}
     ...))
 
-"The `:publish` key in `defproject` specifies which files to use as entry points to use for html generation. A sample can be seen below:"
+"This is the simplest example - more options can be added as needed."
+
+
+[[:section {:title "Templates and Themes"}]]
+
+"Templates can be set up to customise the site:"
+
+[[:code {:lang "html" :title "Template"}
+"
+<html>
+  ...
+  <head>
+    <title><@=title></title>
+  </head>
+
+  <body>
+    <@=navigation>
+    <@=contents>
+  </body>
+
+</html>
+"]]
