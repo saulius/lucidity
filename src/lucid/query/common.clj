@@ -4,25 +4,25 @@
 
 (defn any
   "returns true for any value
-  (any nil) => true
-  (any '_) => true"
-  {:added "0.2"}
+   (any nil) => true
+   (any '_) => true"
+  {:added "1.2"}
   [x] true)
 
 (defn none
   "returns false for any value
-  (none nil) => false
-  (none '_) => false"
-  {:added "0.2"}
+   (none nil) => false	
+   (none '_) => false"
+  {:added "1.2"}
   [x] false)
 
 (defn expand-meta
   "separates out the meta into individual flags
-  (meta (expand-meta ^:? ()))
-  => {:? true}
-  (meta (expand-meta ^:+%? ()))
-  => {:+ true, :? true, :% true}"
-  {:added "0.2"}
+   (meta (expand-meta ^:? ()))
+   => {:? true}
+   (meta (expand-meta ^:+%? ()))
+   => {:+ true, :? true, :% true}"
+  {:added "1.2"}
   [ele]
   (->> (meta ele)
        (keys)
@@ -38,23 +38,23 @@
 
 (defn cursor?
   "checks if element is `|`
-  (cursor? '|) => true
-  (cursor? '_) => false"
-  {:added "0.2"}
+   (cursor? '|) => true
+   (cursor? '_) => false"
+  {:added "1.2"}
   [ele] (= '| ele))
 
 (defn insertion?
   "checks if element has an insert meta
-  (insertion? '^:+ a) => true
-  (insertion? 'a) => false"
-  {:added "0.2"}
+   (insertion? '^:+ a) => true
+   (insertion? 'a) => false"
+  {:added "1.2"}
   [ele] (or (-> ele meta :+) false))
 
 (defn deletion?
   "checks if element has a delete meta
-  (deletion? '^:- a) => true
-  (deletion? 'a) => false"
-  {:added "0.2"}
+   (deletion? '^:- a) => true
+   (deletion? 'a) => false"
+  {:added "1.2"}
   [ele] (or (-> ele meta :-) false))
 
 (defn- wrap-keep-meta [f]
@@ -66,6 +66,7 @@
         obj))))
 
 (defn prewalk
+  ""
   [f form]
   ((wrap-keep-meta walk/walk) (partial prewalk f) identity (f form)))
 
@@ -82,12 +83,12 @@
 
 (defn remove-items
   "removes items from a form matching the predicate
-  (remove-items #(= 1 %) '(1 2 3 4))
-  => '(2 3 4)
-
-  (remove-items #(= 1 %) '(1 (1 (1 (1)))))
-  => '(((())))"
-  {:added "0.2"}
+   (remove-items #(= 1 %) '(1 2 3 4))
+   => '(2 3 4)
+ 
+   (remove-items #(= 1 %) '(1 (1 (1 (1)))))
+   => '(((())))"
+  {:added "1.2"}
   [pred pattern]
   (->> pattern
        (prewalk (mark-null pred))
@@ -95,12 +96,12 @@
 
 (defn prepare-deletion
   "removes extraneous symbols for deletion walk
-  (prepare-deletion '(+ a 2))
-  => '(+ a 2)
-
-  (prepare-deletion '(+ ^:+ a | 2))
-  => '(+ 2)"
-  {:added "0.2"}
+   (prepare-deletion '(+ a 2))
+   => '(+ a 2)
+ 
+   (prepare-deletion '(+ ^:+ a | 2))
+   => '(+ 2)"
+  {:added "1.2"}
   [pattern]
   (->> pattern
        (remove-items cursor?)
@@ -108,18 +109,19 @@
 
 (defn prepare-insertion
   "removes extraneous symbols for deletion walk
-  (prepare-insertion '(+ a 2))
-  => '(+ a 2)
-
-  (prepare-insertion '(+ ^:+ a | ^:- b 2))
-  => '(+ a 2)"
-  {:added "0.2"}
+   (prepare-insertion '(+ a 2))
+   => '(+ a 2)
+ 
+   (prepare-insertion '(+ ^:+ a | ^:- b 2))
+   => '(+ a 2)"
+  {:added "1.2"}
   [pattern]
  (->> pattern
       (remove-items cursor?)
       (remove-items deletion?)))
 
-(defn prepare-query [pattern]
+(defn prepare-query
+  "" [pattern]
  (->> pattern
       (remove-items cursor?)
       (remove-items deletion?)
@@ -127,9 +129,9 @@
 
 (defn find-index
   "returns the index of the first occurrence
-  (find-index #(= 2 %) '(1 2 3 4))
-  => 1"
-  {:added "0.2"}
+   (find-index #(= 2 %) '(1 2 3 4))
+   => 1"
+  {:added "1.2"}
   ([pred seq]
    (find-index pred seq 0))
   ([pred [x & more :as seq] idx]
@@ -139,9 +141,9 @@
 
 (defn finto
   "into but the right way for lists
-  (finto () '(1 2 3))
-  => '(1 2 3)"
-  {:added "0.2"}
+   (finto () '(1 2 3))
+   => '(1 2 3)"
+  {:added "1.2"}
   [to from]
   (cond (list? to)
         (into to (reverse from))

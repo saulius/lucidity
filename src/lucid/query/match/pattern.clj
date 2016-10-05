@@ -9,7 +9,7 @@
              [clojure.walk :as walk]))
 
 (defn transform-pattern
-  {:added "0.1"}
+  ""
   [template]
   (cond (:& (meta template))       (actual/actual-pattern template)
         (:% (meta template))       (eval/eval-pattern template)
@@ -33,11 +33,13 @@
         :else template))
 
 (defn pattern-form
+  ""
   [sym template]
   (let [clauses [[(transform-pattern template)] true :else false]]
     (match/clj-form [sym] clauses)))
 
-(defn pattern-single-fn [template]
+(defn pattern-single-fn
+  "" [template]
   (let [sym        (gensym)
         match-form (pattern-form sym template)
         all-fn    `(fn [form#]
@@ -47,12 +49,12 @@
 
 (defn pattern-matches
   "pattern
-  ((pattern-matches ()) ())
-  => '(())
-  
-  ((pattern-matches '(^:% symbol? ^:? (+ 1 _ ^:? _))) '(+ (+ 1 2 3)))
-  => '((^{:% true} symbol? ^{:? 0} (+ 1 _ ^{:? 1} _)))"
-  {:added "0.2"}
+   ((pattern-matches ()) ())
+   => '(())
+   
+   ((pattern-matches '(^:% symbol? ^:? (+ 1 _ ^:? _))) '(+ (+ 1 2 3)))
+   => '((^{:% true} symbol? ^{:? 0} (+ 1 _ ^{:? 1} _)))"
+  {:added "1.2"}
   [template]
   (let [all-fns (->> template
                      (optional/pattern-seq)
@@ -62,7 +64,8 @@
                     (if (f form) [template])) all-fns)
           []))))
 
-(defn pattern-fn [template]
+(defn pattern-fn
+  "" [template]
   (fn [value]
     (-> ((pattern-matches template) value)
         empty?

@@ -17,6 +17,7 @@
                  [im.chit/hara.reflect       "2.4.5"]
                  [im.chit/hara.string        "2.4.5"]
                  [im.chit/hara.test          "2.4.5"]
+                 
                  [org.eclipse.aether/aether-api "1.1.0"]
                  [org.eclipse.aether/aether-spi "1.1.0"]
                  [org.eclipse.aether/aether-util "1.1.0"]
@@ -27,6 +28,7 @@
                  [org.eclipse.aether/aether-transport-file "1.1.0"]
                  [org.eclipse.aether/aether-transport-classpath "1.1.0"]
                  [org.apache.maven/maven-aether-provider "3.1.0"]
+                 
                  [version-clj/version-clj "0.1.2"]
                  [rewrite-clj/rewrite-clj "0.5.2"]
                  [markdown-clj/markdown-clj "0.9.89"]
@@ -34,9 +36,13 @@
                  [stencil/stencil "0.5.0"]]
                  
   :publish {:theme  "stark"
-            :template {:author "Chris Zheng"
+            
+            :template {:site   "lucid"
+                       :author "Chris Zheng"
                        :email  "z@caudate.me"
-                       :icon   "favicon"}
+                       :icon   "favicon"
+                       :tracking-enabled "true"
+                       :tracking "UA-31320512-2"}
             
             :files {"index"
                     {:template "home.html"
@@ -51,10 +57,6 @@
                     {:input "test/documentation/lucid_mind.clj"
                      :title "mind"
                      :subtitle "contemplative reflection for the jvm"}
-                    "lucid-outline"
-                    {:input "test/documentation/lucid_outline.clj"
-                     :title "outline"
-                     :subtitle "code verification for markdown"}
                     "lucid-publish"
                     {:input "test/documentation/lucid_publish.clj"
                      :title "publish"
@@ -67,11 +69,11 @@
                     {:input "test/documentation/lucid_space.clj"
                      :title "space"
                      :subtitle "management of project externals"}
-                    "lucid-test"
-                    {:input "test/documentation/lucid_test.clj"
-                     :title "test"
-                     :subtitle "unit tests for code management"}}
-            :tracking "UA-31320512-2"
+                    "lucid-unit"
+                    {:input "test/documentation/lucid_unit.clj"
+                     :title "unit"
+                     :subtitle "metadata through unit tests"}}
+   
             :link {:auto-tag    true
                    :auto-number  true}}
   :profiles {:dev {:dependencies [[compojure "1.4.0"]

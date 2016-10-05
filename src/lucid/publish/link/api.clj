@@ -2,7 +2,8 @@
   (:require [hara.io.file :as fs]
             [lucid.core.code :as code]))
 
-(defn external-vars [lookup ns]
+(defn external-vars
+  "" [lookup ns]
   (if-let [path (lookup ns)]
     (->> (fs/code path)
          (filter #(-> % first (= 'ns/import)))
@@ -10,7 +11,8 @@
          (map vec)
          (into {}))))
 
-(defn create-api-table [references project namespace]
+(defn create-api-table
+  "" [references project namespace]
   (let [lookup  (:lookup project)
         all-vars (-> (external-vars lookup namespace)
                      (assoc namespace :all))
@@ -37,6 +39,7 @@
                all-vars)))
 
 (defn link-apis
+  ""
   [{:keys [references project] :as interim} name]
   (update-in interim [:articles name :elements]
              (fn [elements]

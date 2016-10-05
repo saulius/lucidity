@@ -6,6 +6,7 @@
             [lucid.core.code.test.common :as common]))
 
 (defn gather-fact-body
+  ""
   ([zloc]
      (gather-fact-body zloc []))
   ([zloc output]
@@ -23,16 +24,7 @@
            (recur (source/right* zloc) (conj output (source/node zloc))))))
 
 (defn gather-fact
-  "Make docstring notation out of fact form
-   (-> \"^{:refer example/hello-world :added \\\"0.1\\\"}
-        (fact \\\"Sample test program\\\"\\n  (+ 1 1) => 2\\n  (long? 3) => true)\"
-       (z/of-string)
-       z/down z/right z/down z/right
-       (gather-fact)
-       :docs
-       common/join-nodes)
-  => \"\"Sample test program\"\\n  (+ 1 1) => 2\\n  (long? 3) => true\""
-  {:added "1.1"}
+  ""
   [zloc]
   (if-let [mta (common/gather-meta zloc)]
     (let [exp (source/sexpr zloc)

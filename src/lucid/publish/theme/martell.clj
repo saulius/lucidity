@@ -39,6 +39,7 @@
                "partials/sidebar.html"]})
 
 (defn render-top-links
+  ""
   [interim name]
   (let [files (-> interim
                   :project
@@ -53,13 +54,15 @@
          vec
          html/html)))
 
-(defn render-article [interim name]
+(defn render-article
+  "" [interim name]
   (->> (get-in interim [:articles name :elements :elements])
        (mapv #(article/render % interim))
        (mapcat (fn [ele] (#'compiler/compile-seq [ele])))
        (string/join)))
 
-(defn render-navigation [interim name]
+(defn render-navigation
+  "" [interim name]
   (let [elements (get-in interim [:articles name :elements :elements])
         chapters (filter (fn [e] (#{:chapter :appendix} (:type e)))
                          elements)]

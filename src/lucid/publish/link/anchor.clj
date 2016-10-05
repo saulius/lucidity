@@ -1,13 +1,7 @@
 (ns lucid.publish.link.anchor)
 
 (defn link-anchors-lu
-  "creates the anchor lookup for tags and numbers
-   (-> {:articles {\"example\" {:elements [{:type :chapter :tag \"hello\" :number \"1\"}]}}}
-       (link-anchors-lu \"example\")
-       :anchors-lu)
-   => {\"example\" {:by-number {:chapter {\"1\" {:type :chapter, :tag \"hello\", :number \"1\"}}},
-                  :by-tag {\"hello\" {:type :chapter, :tag \"hello\", :number \"1\"}}}}"
-  {:added "0.1"}
+  ""
   [{:keys [articles] :as interim} name]
   (let [anchors (->> (get-in articles [name :elements])
                      (filter :tag)
@@ -23,14 +17,7 @@
          (assoc-in interim [:anchors-lu name]))))
 
 (defn link-anchors
-  "creates a global anchors list based on the lookup
- 
-   (-> {:articles {\"example\" {:elements [{:type :chapter :tag \"hello\" :number \"1\"}]}}}
-       (link-anchors-lu \"example\")
-       (link-anchors \"example\")
-       :anchors)
-   => {\"example\" {\"hello\" {:type :chapter, :tag \"hello\", :number \"1\"}}}"
-  {:added "0.1"}
+  ""
   [{:keys [anchors-lu articles] :as interim} name]
   (assoc-in interim
             [:anchors name]

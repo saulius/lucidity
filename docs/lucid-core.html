@@ -1,560 +1,275 @@
-<html>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
   <head>
-    <meta content=\"chrome=1\" http-equiv=\"X-UA-Compatible\" />
-    <meta charset=\"utf-8\" /><meta content=\"width=device-width, initial-scale=1, user-scalable=no\" name=\"viewport\" />
-    <link rel="icon" href="favicon.ico?v=2" type="image/x-icon" />
-    <title>core - functions for the code environment</title>
-    <script src="js/highlight.min.js"></script>
-    <style>
-      body {
-  padding:50px;
-  font:14px/1.5 Helvetica, Arial, sans-serif;
-  color:#777;
-  font-weight:300;
-}
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-h1, h2, h3, h4, h5, h6 {
-  color:#222;
-  margin:0 0 20px;
-}
-
-p, ul, ol, table, pre, dl {
-  margin:0 0 20px;
-}
-
-h1, h2, h3 {
-  line-height:1.1;
-}
-
-h1 {
-  font-size:28px;
-}
-
-h2 {
-  color:#393939;
-}
-
-h4, h5, h6 {
-  color:#494949;
-  margin:0;
-}
-
-header h4{
-  margin: 10 0 0 0px;
-}
-
-a {
-  color:#3c3;
-  font-weight:400;
-  text-decoration:none;
-}
-
-a small {
-  font-size:11px;
-  color:#777;
-  margin-top:-0.6em;
-  display:block;
-}
-
-.wrapper {
-  width:860px;
-  margin:0 auto;
-}
-
-.figure div.img {
-  text-align: center;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  padding: 10px;
-}
-
-blockquote {
-  border-left:1px solid #e5e5e5;
-  margin:0;
-  padding:0 0 0 20px;
-  font-style:italic;
-}
-
-code, pre {
-  font-family:Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
-  color:#333;
-  font-size:12px;
-}
-
-pre {
-  padding:8px 15px;
-  background: #fff;  
-  border-radius:5px;
-  border:1px solid #e5e5e5;
-  overflow-x: auto;
-}
-
-table {
-  width:100%;
-  border-collapse:collapse;
-}
-
-th, td {
-  text-align:left;
-  padding:5px 10px;
-  border-bottom:1px solid #e5e5e5;
-}
-
-dt {
-  color:#444;
-  font-weight:700;
-}
-
-th {
-  color:#444;
-}
-
-img {
-  max-width:100%;
-}
-
-header {
-  width:250px;
-  float:left;
-}
-
-header ul {
-  list-style:none;
-  height:40px;
-  padding:0;
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <link rel="shortcut icon" href="favicon.ico">
+  <title>lucid.core - functions for the code environment</title>
+  <script src="js/highlight.min.js"></script>
+  <script src="js/gumshoe.min.js"></script>
+  <script src="js/smooth-scroll.min.js"></script>
   
-  background: #eee;
-  background: -moz-linear-gradient(top, #f8f8f8 0%, #dddddd 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#dddddd));
-  background: -webkit-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: -o-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: -ms-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/poole.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="css/lanyon.css">
+  <link rel="stylesheet" href="css/stark.css">
+  <link rel="stylesheet" href="css/stark-api.css">
+  <link rel="stylesheet" href="css/stark-highlight.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
   
-  border-radius:5px;
-  border:1px solid #d2d2d2;
-  box-shadow:inset #fff 0 1px 0, inset rgba(0,0,0,0.03) 0 -1px 0;
-}
+</head>
 
-header li {
-  width:89px;
-  float:left;
-  border-right:1px solid #d2d2d2;
-  height:40px;
-}
+  <body class="theme-base-0b">
+    <span id="page-top"></span>
 
-header ul a {
-  line-height:1;
-  font-size:11px;
-  color:#999;
-  display:block;
-  text-align:center;
-  padding-top:6px;
-  height:40px;
-}
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
 
-header.top {
-  position: fixed;
-  top: -2px;
-  right:5%;
-  width:auto;
-}
-
-strong {
-  font-weight:700;
-}
-
-header ul li + li {
-  width:88px;
-  border-left:1px solid #fff;
-}
-
-header ul li + li + li {
-  border-right:none;
-  width:89px;
-}
-
-header ul a strong {
-  font-size:14px;
-  display:block;
-  color:#222;
-}
-
-section {
-  margin-left:250px;
-  padding-bottom:50px;
-}
-
-small {
-  font-size:11px;
-}
-
-hr {
-  border:0;
-  background:#e5e5e5;
-  height:1px;
-  margin:0 0 20px;
-}
-
-footer {
-  width:250px;
-  float:left;
-  position:fixed;
-  bottom:50px;
-}
-
-header div.heading {
-  display:none;
-}
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <nav class="sidebar-nav">
+    <span>&nbsp;</span>
+    <a class="sidebar-nav-item header" href="index.html"><img src="img/logo-white.png" style="width:100%; padding-left:1em"/></a>
+    <span>&nbsp;</span>
+    <a class="sidebar-nav-item active" href="lucid-core.html">core</a><a class="sidebar-nav-item" href="lucid-mind.html">mind</a><a class="sidebar-nav-item" href="lucid-publish.html">publish</a><a class="sidebar-nav-item" href="lucid-query.html">query</a><a class="sidebar-nav-item" href="lucid-space.html">space</a><a class="sidebar-nav-item" href="lucid-unit.html">unit</a>
+    <span class="sidebar-nav-item">&nbsp;</span>
+    <span class="sidebar-nav-item">&nbsp;</span>
+  </nav>
+</div>
 
 
-@media print, screen and (max-width: 960px) {
-  
-  div.wrapper {
-    width:auto;
-    margin:0;
-  }
-  
-  header, section, footer {
-    float:none;
-    position:static;
-    width:auto;
-  }
-  
-  header div.heading {
-    display:block;
-  }
-    
-  section div.heading {
-    display:none;
-  }
-  
-  section {
-    border:1px solid #e5e5e5;
-    border-width:1px 0;
-    padding:20px 0;
-    margin:0 0 20px;
-  }
-  
-  header a small {
-    display:inline;
-  }
-  
-  header ul {
-    position:absolute;
-    right:0px;
-    top:0px;
-    height: auto;
-  }
-}
-
-@media print, screen and (max-width: 720px) {
-  body {
-    word-wrap:break-word;
-  }
-  
-  header {
-    padding:0;
-  }
-  
-  header ul, header p.view {
-    height: auto;
-  }
-  
-  header.top{
-    position: absolute;
-  }
-  
-  pre, code {
-    word-wrap:normal;
-  }
-}
-
-@media print, screen and (max-width: 480px) {
-  body {
-    padding:15px;
-  }
-  
-  header ul {
-    display:none;
-  }
-}
-
-@media print {
-  body {
-    padding:0.4in;
-    font-size:12pt;
-    color:#444;
-  }
-}
-
-      .highlight  { background: #ffffff; }
-.highlight .c { color: #999988; font-style: italic } /* Comment */
-.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
-.highlight .k { font-weight: bold } /* Keyword */
-.highlight .o { font-weight: bold } /* Operator */
-.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
-.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
-.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
-.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
-.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
-.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
-.highlight .ge { font-style: italic } /* Generic.Emph */
-.highlight .gr { color: #aa0000 } /* Generic.Error */
-.highlight .gh { color: #999999 } /* Generic.Heading */
-.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
-.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
-.highlight .go { color: #888888 } /* Generic.Output */
-.highlight .gp { color: #555555 } /* Generic.Prompt */
-.highlight .gs { font-weight: bold } /* Generic.Strong */
-.highlight .gu { color: #800080; font-weight: bold; } /* Generic.Subheading */
-.highlight .gt { color: #aa0000 } /* Generic.Traceback */
-.highlight .kc { font-weight: bold } /* Keyword.Constant */
-.highlight .kd { font-weight: bold } /* Keyword.Declaration */
-.highlight .kn { font-weight: bold } /* Keyword.Namespace */
-.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
-.highlight .kr { font-weight: bold } /* Keyword.Reserved */
-.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
-.highlight .m { color: #009999 } /* Literal.Number */
-.highlight .s { color: #d14 } /* Literal.String */
-.highlight .na { color: #008080 } /* Name.Attribute */
-.highlight .nb { color: #0086B3 } /* Name.Builtin */
-.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
-.highlight .no { color: #008080 } /* Name.Constant */
-.highlight .ni { color: #800080 } /* Name.Entity */
-.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
-.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
-.highlight .nn { color: #555555 } /* Name.Namespace */
-.highlight .nt { color: #000080 } /* Name.Tag */
-.highlight .nv { color: #008080 } /* Name.Variable */
-.highlight .ow { font-weight: bold } /* Operator.Word */
-.highlight .w { color: #bbbbbb } /* Text.Whitespace */
-.highlight .mf { color: #009999 } /* Literal.Number.Float */
-.highlight .mh { color: #009999 } /* Literal.Number.Hex */
-.highlight .mi { color: #009999 } /* Literal.Number.Integer */
-.highlight .mo { color: #009999 } /* Literal.Number.Oct */
-.highlight .sb { color: #d14 } /* Literal.String.Backtick */
-.highlight .sc { color: #d14 } /* Literal.String.Char */
-.highlight .sd { color: #d14 } /* Literal.String.Doc */
-.highlight .s2 { color: #d14 } /* Literal.String.Double */
-.highlight .se { color: #d14 } /* Literal.String.Escape */
-.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
-.highlight .si { color: #d14 } /* Literal.String.Interpol */
-.highlight .sx { color: #d14 } /* Literal.String.Other */
-.highlight .sr { color: #009926 } /* Literal.String.Regex */
-.highlight .s1 { color: #d14 } /* Literal.String.Single */
-.highlight .ss { color: #990073 } /* Literal.String.Symbol */
-.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
-.highlight .vc { color: #008080 } /* Name.Variable.Class */
-.highlight .vg { color: #008080 } /* Name.Variable.Global */
-.highlight .vi { color: #008080 } /* Name.Variable.Instance */
-.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
-
-.type-csharp .highlight .k { color: #0000FF }
-.type-csharp .highlight .kt { color: #0000FF }
-.type-csharp .highlight .nf { color: #000000; font-weight: normal }
-.type-csharp .highlight .nc { color: #2B91AF }
-.type-csharp .highlight .nn { color: #000000 }
-.type-csharp .highlight .s { color: #A31515 }
-.type-csharp .highlight .sc { color: #A31515 }
-
-      /*
-
-Qt Creator light color scheme
-
-*/
-
-
-.hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 0.5em;
-  background: #ffffff;
-}
-
-.hljs,
-.hljs-subst,
-.hljs-tag,
-.hljs-title {
-  color: #000000;
-}
-
-.hljs-strong,
-.hljs-emphasis {
-  color: #000000;
-}
-
-.hljs-bullet,
-.hljs-quote,
-.hljs-number,
-.hljs-regexp,
-.hljs-literal {
-  color: #000080;
-}
-
-.hljs-code
-.hljs-selector-class {
-  color: #800080;
-}
-
-.hljs-emphasis,
-.hljs-stronge,
-.hljs-type {
-  font-style: italic;
-}
-
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-function,
-.hljs-section,
-.hljs-symbol,
-.hljs-name {
-  color: #808000;
-}
-
-.hljs-attribute {
-  color: #800000;
-}
-
-.hljs-variable,
-.hljs-params,
-.hljs-class .hljs-title {
-  color: #0055AF;
-}
-
-.hljs-string,
-.hljs-selector-id,
-.hljs-selector-attr,
-.hljs-selector-pseudo,
-.hljs-type,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-template-tag,
-.hljs-template-variable,
-.hljs-addition,
-.hljs-link {
-  color: #008000;
-}
-
-.hljs-comment,
-.hljs-meta,
-.hljs-deletion {
-  color: #008000;
-}
-    </style>
-  </head>
-    
-  <body>
-
-    <header class="top">
-      <ul><li><a href="index.html">home</a></li><li><a href="lucid-core.html">core</a></li><li><a href="lucid-mind.html">mind</a></li><li><a href="lucid-outline.html">outline</a></li><li><a href="lucid-publish.html">publish</a></li><li><a href="lucid-query.html">query</a></li><li><a href="lucid-space.html">space</a></li><li><a href="lucid-test.html">test</a></li></ul>
-    </header>
-    <header>      
-      <div class="heading">
-        <h1>core</h1>
-        <h3>functions for the code environment</h3>
-        <hr/>
-        <div class=\"info\">
-          <h5>Author: Chris Zheng<b>&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></b></h5>
-          <h5>Date: 29 September 2016</h5>
-          <h5>Repository: <a href="https://www.github.com/tahto/lucidity">https://www.github.com/tahto/lucidity</a></h5>
-          <h5>Version: 1.2.0</h5>
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <span>lucid.core</span>
+            <small>functions for the code environment</small>
+          </h3>
         </div>
-        <br/>
-        <hr/>
       </div>
-      <h4><a href="#introduction">1 &nbsp; Introduction</a></h4><h4><a href="#aether">2 &nbsp; Aether</a></h4><h5>&nbsp;&nbsp;<i><a href="#installation">2.1 &nbsp; Installation</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#resolve">2.2 &nbsp; resolve</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#hierarchy">2.3 &nbsp; hierarchy</a></i></h5><h4><a href="#asm">3 &nbsp; Asm</a></h4><h5>&nbsp;&nbsp;<i><a href="#installation-0">3.1 &nbsp; Installation</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#load-class">3.2 &nbsp; load-class</a></i></h5><h4><a href="#code">4 &nbsp; Code</a></h4><h5>&nbsp;&nbsp;<i><a href="#installation-1">4.1 &nbsp; Installation</a></i></h5><h4><a href="#debug">5 &nbsp; Debug</a></h4><h5>&nbsp;&nbsp;<i><a href="#installation-2">5.1 &nbsp; Installation</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#dbg-">5.2 &nbsp; dbg-></a></i></h5><h5>&nbsp;&nbsp;<i><a href="#dbg--0">5.3 &nbsp; dbg->></a></i></h5><h4><a href="#inject">6 &nbsp; Inject</a></h4><h5>&nbsp;&nbsp;<i><a href="#installation-3">6.1 &nbsp; Installation</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#inject-0">6.2 &nbsp; inject</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#in">6.3 &nbsp; in</a></i></h5><h4><a href="#namespace">7 &nbsp; Namespace</a></h4><h5>&nbsp;&nbsp;<i><a href="#installation-4">7.1 &nbsp; Installation</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#clear-aliases">7.2 &nbsp; clear-aliases</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#clear-mappings">7.3 &nbsp; clear-mappings</a></i></h5>
-      <br/>
-      <br/>
-    </header>
-    
-    <div class="content">
-      <section>
-        <div class="heading">
-          <h1>core</h1>
-          <h3>functions for the code environment</h3>
+
+      <div class="container content">
+        <div class="page">
+          <div class="heading">
+            <div>
+              <h5>Author: Chris Zheng&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></h5>
+              <h5>Date: 05 October 2016</h5>
+              <h5>Repository: <a href="https://www.github.com/zcaudate/lucidity">https://www.github.com/zcaudate/lucidity</a></h5>
+              <h5>Version: 1.2.0</h5></div></div>
           <hr/>
-          <div class=\"info\">
-            <h5>Author: Chris Zheng<b>&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></b></h5>
-            <h5>Date: 29 September 2016</h5>
-            <h5>Repository: <a href="https://www.github.com/tahto/lucidity">https://www.github.com/tahto/lucidity</a></h5>
-            <h5>Version: 1.2.0</h5>
+          <div class="outline">
+            <div class="toc">
+              <nav data-gumshoe-header>
+                <ul data-gumshoe>
+                  <a data-scroll class="top" href="#page-top">TOP</a>
+                  <li><a class="chapter" data-scroll="" href="#core-aether"><h4>1 &nbsp; core.aether</h4></a><a class="section" data-scroll="" href="#entry__lucid_core_aether__resolve_dependencies"><h5><i>resolve-dependencies</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_aether__resolve_hierarchy"><h5><i>resolve-hierarchy</i></h5></a></li><li><a class="chapter" data-scroll="" href="#core-asm"><h4>2 &nbsp; core.asm</h4></a><a class="section" data-scroll="" href="#entry__lucid_core_asm__dynamic_loader"><h5><i>dynamic-loader</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_asm__load_class"><h5><i>load-class</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_asm__path__GT_classname"><h5><i>path->classname</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_asm__to_bytes"><h5><i>to-bytes</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_asm__unload_class"><h5><i>unload-class</i></h5></a></li><li><a class="chapter" data-scroll="" href="#core-code"><h4>3 &nbsp; core.code</h4></a><a class="section" data-scroll="" href="#entry__lucid_core_code__analyse_file"><h5><i>analyse-file</i></h5></a></li><li><a class="chapter" data-scroll="" href="#core-debug"><h4>4 &nbsp; core.debug</h4></a><a class="section" data-scroll="" href="#entry__lucid_core_debug__dbg__GT_"><h5><i>dbg-></i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_debug__dbg__GT__GT_"><h5><i>dbg->></i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_debug____GT_doto"><h5><i>->doto</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_debug____GT__GT_doto"><h5><i>->>doto</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_debug____GT_prn"><h5><i>->prn</i></h5></a></li><li><a class="chapter" data-scroll="" href="#core-inject"><h4>5 &nbsp; core.inject</h4></a><a class="section" data-scroll="" href="#entry__lucid_core_inject__in"><h5><i>in</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_inject__inject"><h5><i>inject</i></h5></a></li><li><a class="chapter" data-scroll="" href="#core-namespace"><h4>6 &nbsp; core.namespace</h4></a><a class="section" data-scroll="" href="#entry__lucid_core_namespace__clear_aliases"><h5><i>clear-aliases</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_namespace__clear_mappings"><h5><i>clear-mappings</i></h5></a></li>
+                </ul>
+              </nav>
+            </div>
           </div>
-          <br/>
-          <hr/>
-        </div>
-        <div><a name="introduction"></a><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.core</code> provides utilities that either support the rest of the <code>lucidity</code> suite or are useful standalone tools by themselves. Each one is installed individually and usually only provides one or two top level function for use:</p></div><div><a name="aether"></a><h2><b>2 &nbsp;&nbsp; Aether</b></h2></div><div><p>This library is used to as an interface to manage dependencies. It is meant to replace <a href='https://github.com/cemerick/pomegranate'>pomegranate</a> for some tasks.</p></div><div><a name="installation"></a><h3>2.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.core.aether &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.aether</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.core.aether)</code></pre></div><div><a name="resolve"></a><h3>2.2 &nbsp;&nbsp; resolve</h3></div><div><p><code>resolve-dependencies</code> is a very important function as it is used to synchronise many tasks so that libraries are downloaded as needed from maven:</p></div><div><pre><code class="clojure">(resolve-dependencies '[prismatic/schema &quot;1.1.3&quot;])
-=&gt; '[[prismatic/schema &quot;1.1.3&quot;]]
+
+          <div class="toc">
+              <nav>
+                <ul>
+                  <li><a class="chapter" data-scroll="" href="#core-aether"><h4>1 &nbsp; core.aether</h4></a><a class="section" data-scroll="" href="#entry__lucid_core_aether__resolve_dependencies"><h5><i>resolve-dependencies</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_aether__resolve_hierarchy"><h5><i>resolve-hierarchy</i></h5></a></li><li><a class="chapter" data-scroll="" href="#core-asm"><h4>2 &nbsp; core.asm</h4></a><a class="section" data-scroll="" href="#entry__lucid_core_asm__dynamic_loader"><h5><i>dynamic-loader</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_asm__load_class"><h5><i>load-class</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_asm__path__GT_classname"><h5><i>path->classname</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_asm__to_bytes"><h5><i>to-bytes</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_asm__unload_class"><h5><i>unload-class</i></h5></a></li><li><a class="chapter" data-scroll="" href="#core-code"><h4>3 &nbsp; core.code</h4></a><a class="section" data-scroll="" href="#entry__lucid_core_code__analyse_file"><h5><i>analyse-file</i></h5></a></li><li><a class="chapter" data-scroll="" href="#core-debug"><h4>4 &nbsp; core.debug</h4></a><a class="section" data-scroll="" href="#entry__lucid_core_debug__dbg__GT_"><h5><i>dbg-></i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_debug__dbg__GT__GT_"><h5><i>dbg->></i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_debug____GT_doto"><h5><i>->doto</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_debug____GT__GT_doto"><h5><i>->>doto</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_debug____GT_prn"><h5><i>->prn</i></h5></a></li><li><a class="chapter" data-scroll="" href="#core-inject"><h4>5 &nbsp; core.inject</h4></a><a class="section" data-scroll="" href="#entry__lucid_core_inject__in"><h5><i>in</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_inject__inject"><h5><i>inject</i></h5></a></li><li><a class="chapter" data-scroll="" href="#core-namespace"><h4>6 &nbsp; core.namespace</h4></a><a class="section" data-scroll="" href="#entry__lucid_core_namespace__clear_aliases"><h5><i>clear-aliases</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_core_namespace__clear_mappings"><h5><i>clear-mappings</i></h5></a></li>
+                </ul>
+              </nav>
+          </div>
+          <div><p><code>lucid.core</code> provides utilities that either support the rest of the <code>lucidity</code> suite or are useful standalone tools by themselves. Each one is installed individually and usually only provides one or two top level function for use:</p></div><div><span id="core-aether"></span><h2><b>1 &nbsp;&nbsp; core.aether</b></h2></div><div><p><code>lucid.core.aether</code> is used to as an interface to manage dependencies. It is meant to replace <a href='https://github.com/cemerick/pomegranate'>pomegranate</a> for dependency resolution.</p></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><pre><code class="clojure">[tahto/lucid.core.aether &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.aether</code> namespace:</p></div><div class="code"><pre><code class="clojure">(use 'lucid.core.aether)</code></pre></div><div class="api"><span id="entry__lucid_core_aether__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_core_aether__resolve_dependencies">resolve-dependencies</a></li><li><a data-scroll="" href="#entry__lucid_core_aether__resolve_hierarchy">resolve-hierarchy</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_core_aether__resolve_dependencies"></span><div class="entry-description"><h4><b>resolve-dependencies&nbsp<a data-scroll="" href="#entry__lucid_core_aether__">^</a></b></h4><p><i>resolves maven dependencies for a set of coordinates</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/aether.clj#L85-L122" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_aether__resolve_dependencies" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_aether__resolve_dependencies"></label><pre class="source"><code class="clojure">(defn resolve-dependencies
+  ([coords]
+   (resolve-dependencies (aether) coords))
+  ([aether coords]
+   (->> (resolve-hierarchy aether coords)
+        (flatten-values)
+        (sort)
+        (reverse)
+        (reduce (fn [out coord]
+                  (if (-> out last first (= (first coord)))
+                    out
+                    (conj out coord)))
+                []))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/aether_test.clj#L12-L35" target="_blank">link</a></i></h6><code class="clojure">(resolve-dependencies '[prismatic/schema "1.1.3"])
+=> '[[prismatic/schema "1.1.3"]]
   
-(resolve-dependencies '[midje &quot;1.6.3&quot;])
-=&gt; '[[utilize/utilize &quot;0.2.3&quot;]
-     [swiss-arrows/swiss-arrows &quot;1.0.0&quot;]
-     [slingshot/slingshot &quot;0.10.3&quot;]
-     [org.clojure/tools.namespace &quot;0.2.4&quot;]
-     [org.clojure/tools.macro &quot;0.1.5&quot;]
-     [org.clojure/math.combinatorics &quot;0.0.7&quot;]
-     [org.clojure/core.unify &quot;0.5.2&quot;]
-     [org.clojars.trptcolin/sjacket &quot;0.1.3&quot;]
-     [ordered/ordered &quot;1.2.0&quot;]
-     [net.cgrand/regex &quot;1.1.0&quot;]
-     [net.cgrand/parsley &quot;0.9.1&quot;]
-     [midje/midje &quot;1.6.3&quot;]
-     [joda-time/joda-time &quot;2.2&quot;]
-     [gui-diff/gui-diff &quot;0.5.0&quot;]
-     [dynapath/dynapath &quot;0.2.0&quot;]
-     [commons-codec/commons-codec &quot;1.9&quot;]
-     [colorize/colorize &quot;0.1.1&quot;]
-     [clj-time/clj-time &quot;0.6.0&quot;]]</code></pre></div><div><a name="hierarchy"></a><h3>2.3 &nbsp;&nbsp; hierarchy</h3></div><div><p><code>resolve-hierarchy</code> shows the dependency hierachy instead of a flattened list:</p></div><div><pre><code class="clojure">(resolve-hierarchy '[midje &quot;1.6.3&quot;])
-=&gt; '{[midje/midje &quot;1.6.3&quot;]
-     [{[ordered/ordered &quot;1.2.0&quot;] []}
-      {[org.clojure/math.combinatorics &quot;0.0.7&quot;] []}
-      {[org.clojure/core.unify &quot;0.5.2&quot;] []}
-      {[utilize/utilize &quot;0.2.3&quot;]
-       [{[org.clojure/tools.macro &quot;0.1.1&quot;] []}
-        {[joda-time/joda-time &quot;2.0&quot;] []}
-        {[ordered/ordered &quot;1.0.0&quot;] []}]}
-      {[colorize/colorize &quot;0.1.1&quot;] []}
-      {[org.clojure/tools.macro &quot;0.1.5&quot;] []}
-      {[dynapath/dynapath &quot;0.2.0&quot;] []}
-      {[swiss-arrows/swiss-arrows &quot;1.0.0&quot;] []}
-      {[org.clojure/tools.namespace &quot;0.2.4&quot;] []}
-      {[slingshot/slingshot &quot;0.10.3&quot;] []}
-      {[commons-codec/commons-codec &quot;1.9&quot;] []}
-      {[gui-diff/gui-diff &quot;0.5.0&quot;]
-       [{[org.clojars.trptcolin/sjacket &quot;0.1.3&quot;]
-         [{[net.cgrand/regex &quot;1.1.0&quot;] []}
-          {[net.cgrand/parsley &quot;0.9.1&quot;]
-           [{[net.cgrand/regex &quot;1.1.0&quot;] []}]}]}
-        {[ordered/ordered &quot;1.2.0&quot;] []}]}
-      {[clj-time/clj-time &quot;0.6.0&quot;]
-       [{[joda-time/joda-time &quot;2.2&quot;] []}]}]}</code></pre></div><div><a name="asm"></a><h2><b>3 &nbsp;&nbsp; Asm</b></h2></div><div><p>This library allows exploration of classes on the filesystem, independent of a classloader. Warning, it may be very frustrating to use, however, the tool gives the user a lot of control.</p></div><div><a name="installation-0"></a><h3>3.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.core.asm &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.asm</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.core.asm)</code></pre></div><div><a name="load-class"></a><h3>3.2 &nbsp;&nbsp; load-class</h3></div><div><p>Enables the loading of class files in the directory</p></div><div><pre><code class="clojure">(load-class &quot;target/classes/test/Cat.class&quot;)
-=&gt; test.Cat</code></pre></div><div><p>Can load class files within a jar:</p></div><div><pre><code class="clojure">(load-class &quot;&lt;.m2&gt;/org/yaml/snakeyaml/1.5/snakeyaml-1.5.jar&quot;
+(resolve-dependencies '[midje "1.6.3"])
+=> '[[utilize/utilize "0.2.3"]
+     [swiss-arrows/swiss-arrows "1.0.0"]
+     [slingshot/slingshot "0.10.3"]
+     [org.clojure/tools.namespace "0.2.4"]
+     [org.clojure/tools.macro "0.1.5"]
+     [org.clojure/math.combinatorics "0.0.7"]
+     [org.clojure/core.unify "0.5.2"]
+     [org.clojars.trptcolin/sjacket "0.1.3"]
+     [ordered/ordered "1.2.0"]
+     [net.cgrand/regex "1.1.0"]
+     [net.cgrand/parsley "0.9.1"]
+     [midje/midje "1.6.3"]
+     [joda-time/joda-time "2.2"]
+     [gui-diff/gui-diff "0.5.0"]
+     [dynapath/dynapath "0.2.0"]
+     [commons-codec/commons-codec "1.9"]
+     [colorize/colorize "0.1.1"]
+     [clj-time/clj-time "0.6.0"]]</code></pre></div><div class="entry"><span id="entry__lucid_core_aether__resolve_hierarchy"></span><div class="entry-description"><h4><b>resolve-hierarchy&nbsp<a data-scroll="" href="#entry__lucid_core_aether__">^</a></b></h4><p><i> shows the dependency hierachy for all packages</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/aether.clj#L47-L83" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_aether__resolve_hierarchy" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_aether__resolve_hierarchy"></label><pre class="source"><code class="clojure">(defn resolve-hierarchy
+  ([coords]
+   (resolve-hierarchy (aether) coords))
+  ([aether coords]
+   (let [system  (system/repository-system)
+         request (request/dependency-request aether coords)
+         session (->> (select-keys aether [:local-repo])
+                      (session/session system))]
+     (-> (.resolveDependencies system session request)
+         (result/summary)))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/aether_test.clj#L38-L63" target="_blank">link</a></i></h6><code class="clojure">(resolve-hierarchy '[midje "1.6.3"])
+=> '{[midje/midje "1.6.3"]
+     [{[ordered/ordered "1.2.0"] []}
+      {[org.clojure/math.combinatorics "0.0.7"] []}
+      {[org.clojure/core.unify "0.5.2"] []}
+      {[utilize/utilize "0.2.3"]
+       [{[org.clojure/tools.macro "0.1.1"] []}
+        {[joda-time/joda-time "2.0"] []}
+        {[ordered/ordered "1.0.0"] []}]}
+      {[colorize/colorize "0.1.1"] []}
+      {[org.clojure/tools.macro "0.1.5"] []}
+      {[dynapath/dynapath "0.2.0"] []}
+      {[swiss-arrows/swiss-arrows "1.0.0"] []}
+      {[org.clojure/tools.namespace "0.2.4"] []}
+      {[slingshot/slingshot "0.10.3"] []}
+      {[commons-codec/commons-codec "1.9"] []}
+      {[gui-diff/gui-diff "0.5.0"]
+       [{[org.clojars.trptcolin/sjacket "0.1.3"]
+         [{[net.cgrand/regex "1.1.0"] []}
+          {[net.cgrand/parsley "0.9.1"]
+           [{[net.cgrand/regex "1.1.0"] []}]}]}
+        {[ordered/ordered "1.2.0"] []}]}
+      {[clj-time/clj-time "0.6.0"]
+       [{[joda-time/joda-time "2.2"] []}]}]}</code></pre></div></div></div></div><div><span id="core-asm"></span><h2><b>2 &nbsp;&nbsp; core.asm</b></h2></div><div><p><code>lucid.core.asm</code> allows exploration of classes on the filesystem, independent of the JVM classloader.</p></div><div><p>Add to <code>project.clj</code>:</p></div><div class="code"><pre><code class="clojure">[tahto/lucid.core.asm &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.asm</code> namespace:</p></div><div class="code"><pre><code class="clojure">(use 'lucid.core.asm)</code></pre></div><div><p>The library enables the loading of class files in the directory:</p></div><div class="code"><pre><code class="clojure">(load-class &quot;target/classes/test/Cat.class&quot;)
+=&gt; test.Cat</code></pre></div><div><p>Within a jar:</p></div><div class="code"><pre><code class="clojure">(load-class &quot;&lt;.m2&gt;/org/yaml/snakeyaml/1.5/snakeyaml-1.5.jar&quot;
             &quot;org/yaml/snakeyaml/Dumper.class&quot;)
-=&gt; org.yaml.snakeyaml.Dumper</code></pre></div><div><p>As well as with a coordinate:</p></div><div><pre><code class="clojure">(load-class '[org.yaml/snakeyaml &quot;1.5&quot;]
+=&gt; org.yaml.snakeyaml.Dumper</code></pre></div><div><p>Within a coordinate:</p></div><div class="code"><pre><code class="clojure">(load-class '[org.yaml/snakeyaml &quot;1.5&quot;]
             &quot;org/yaml/snakeyaml/Dumper.class&quot;)
-=&gt; org.yaml.snakeyaml.Dumper</code></pre></div><div><a name="code"></a><h2><b>4 &nbsp;&nbsp; Code</b></h2></div><div><p>Source and test code analysis</p></div><div><a name="installation-1"></a><h3>4.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.core.code &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.code</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.core.code)</code></pre></div><div><a name="debug"></a><h2><b>5 &nbsp;&nbsp; Debug</b></h2></div><div><p>Macros and helpers for debugging</p></div><div><a name="installation-2"></a><h3>5.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.core.debug &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.debug</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.core.debug)</code></pre></div><div><a name="dbg-"></a><h3>5.2 &nbsp;&nbsp; dbg-></h3></div><div><p>The function acts the same way as the <code>-&gt;</code> thrush macro but also prints out each step of the output:</p></div><div><pre><code class="clojure">(dbg-&gt; 1
-       inc
-       (+ 10 1 1))
-=&gt; 14
-;; 1
-;; -&gt; inc :: 2
-;; -&gt;  (+ 10 1 1) :: 14</code></pre></div><div><p>It works with all data:</p></div><div><pre><code class="clojure">(dbg-&gt; {:a 1}
-       (update-in [:a] inc)
-       (merge {:c 3 :d 4})
-       (select-keys [:a :d]))
-=&gt; {:a 2, :d 4}
-;; {:a 1}
-;; -&gt; (update-in [:a] inc) :: {:a 2}
-;; -&gt; (merge {:c 3, :d 4}) :: {:a 2, :c 3, :d 4}
-;; -&gt; (select-keys [:a :d]) :: {:a 2, :d 4}</code></pre></div><div><a name="dbg--0"></a><h3>5.3 &nbsp;&nbsp; dbg->></h3></div><div><p>The function acts the same way as the <code>-&gt;&gt;</code> thrush last macro but also prints out each step of the output:</p></div><div><pre><code class="clojure">(dbg-&gt;&gt; [1 2 3 4 5]
-        (map inc)
-        (filter even?)
-        (concat [&quot;a&quot; &quot;b&quot; &quot;c&quot;]))
-=&gt; (&quot;a&quot; &quot;b&quot; &quot;c&quot; 2 4 6)
-;; [1 2 3 4 5]
-;; -&gt;&gt; (map inc) :: (2 3 4 5 6)
-;; -&gt;&gt; (filter even?) :: (2 4 6)
-;; -&gt;&gt; (concat [a b c]) :: (a b c 2 4 6)</code></pre></div><div><a name="inject"></a><h2><b>6 &nbsp;&nbsp; Inject</b></h2></div><div><p><code>inject</code>' has been quite popular due this <a href='http://dev.solita.fi/2014/03/18/pimp-my-repl.html'>article</a>. It's main use is to create extra symbols in a particular namespace, namely <code>clojure.core</code>.</p></div><div><a name="installation-3"></a><h3>6.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.core.inject &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.inject</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.core.inject)</code></pre></div><div><a name="inject-0"></a><h3>6.2 &nbsp;&nbsp; inject</h3></div><div><p>This function is extremely useful when adding additional functionality that is needed which is not included in <code>clojure.core</code>. It can be used to import both macros and funcions into a given namespace:</p></div><div><pre><code class="clojure">(inject '[clojure.core [clojure.repl dir]])
+=&gt; org.yaml.snakeyaml.Dumper</code></pre></div><div class="api"><span id="entry__lucid_core_asm__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_core_asm__dynamic_loader">dynamic-loader</a></li><li><a data-scroll="" href="#entry__lucid_core_asm__load_class">load-class</a></li><li><a data-scroll="" href="#entry__lucid_core_asm__path__GT_classname">path->classname</a></li><li><a data-scroll="" href="#entry__lucid_core_asm__to_bytes">to-bytes</a></li><li><a data-scroll="" href="#entry__lucid_core_asm__unload_class">unload-class</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_core_asm__dynamic_loader"></span><div class="entry-description"><h4><b>dynamic-loader&nbsp<a data-scroll="" href="#entry__lucid_core_asm__">^</a></b></h4><p><i>returns the clojure runtime classloader</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/asm.clj#L32-L38" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_asm__dynamic_loader" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_asm__dynamic_loader"></label><pre class="source"><code class="clojure">(defn dynamic-loader
+  []
+  (clojure.lang.DynamicClassLoader. file/*clojure-loader*))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/asm_test.clj#L18-L21" target="_blank">link</a></i></h6><code class="clojure">(dynamic-loader)
+=> #(instance? clojure.lang.DynamicClassLoader %)</code></pre></div><div class="entry"><span id="entry__lucid_core_asm__load_class"></span><div class="entry-description"><h4><b>load-class&nbsp<a data-scroll="" href="#entry__lucid_core_asm__">^</a></b></h4><p><i>loads class from an external source</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/asm.clj#L56-L59" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_asm__load_class" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_asm__load_class"></label><pre class="source"><code class="clojure">(defmulti load-class
+  (fn [x & args] (type x)))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/asm_test.clj#L24-L24" target="_blank">link</a></i></h6><code class="clojure"></code></pre></div><div class="entry"><span id="entry__lucid_core_asm__path__GT_classname"></span><div class="entry-description"><h4><b>path->classname&nbsp<a data-scroll="" href="#entry__lucid_core_asm__">^</a></b></h4><p><i>converts the path to a classname</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/asm.clj#L45-L54" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_asm__path__GT_classname" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_asm__path__GT_classname"></label><pre class="source"><code class="clojure">(defn path->classname
+  [path]
+  (let [path (if (.endsWith path".class")
+               (subs path 0 (- (count path) 6))
+               path)]
+    (.replaceAll path file/*sep* ".")))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/asm_test.clj#L13-L15" target="_blank">link</a></i></h6><code class="clojure">(path->classname "test/Dog.class")
+=> "test.Dog"</code></pre></div><div class="entry"><span id="entry__lucid_core_asm__to_bytes"></span><div class="entry-description"><h4><b>to-bytes&nbsp<a data-scroll="" href="#entry__lucid_core_asm__">^</a></b></h4><p><i>opens `.class` file from an external source</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/asm.clj#L8-L13" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_asm__to_bytes" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_asm__to_bytes"></label><pre class="source"><code class="clojure">(defmulti to-bytes
+  (fn [x] (type x)))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/asm_test.clj#L8-L10" target="_blank">link</a></i></h6><code class="clojure">(to-bytes "target/classes/test/Dog.class")
+=> checks/bytes?</code></pre></div><div class="entry"><span id="entry__lucid_core_asm__unload_class"></span><div class="entry-description"><h4><b>unload-class&nbsp<a data-scroll="" href="#entry__lucid_core_asm__">^</a></b></h4><p><i></i></p></div><div class="entry-option"><h6><i class="error version">NONE</i></h6><div><input class="source-toggle" id="entry__pre_lucid_core_asm__unload_class" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_asm__unload_class"></label><pre class="source"><code class="clojure">(defn unload-class
+  [name]
+  (clojure.lang.Util/clearCache *rq* *class-cache*)
+  (.remove *class-cache* name))</code></pre></div></div><pre class="error"><h6>example not found</h6><code></code></pre></div></div></div></div><div><span id="core-code"></span><h2><b>3 &nbsp;&nbsp; core.code</b></h2></div><div><p><code>lucid.core.code</code> is analyses source and test code and is used by <code>lucid.publish</code> and <code>lucid.unit</code> to build additional functionality.</p></div><div><p>Add to <code>project.clj</code>:</p></div><div class="code"><pre><code class="clojure">[tahto/lucid.core.code &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.code</code> namespace:</p></div><div class="code"><pre><code class="clojure">(use 'lucid.core.code)</code></pre></div><div class="api"><span id="entry__lucid_core_code__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_core_code__analyse_file">analyse-file</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_core_code__analyse_file"></span><div class="entry-description"><h4><b>analyse-file&nbsp<a data-scroll="" href="#entry__lucid_core_code__">^</a></b></h4><p><i>analyses a source or test file for information</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/code.clj#L9-L45" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_code__analyse_file" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_code__analyse_file"></label><pre class="source"><code class="clojure">(defn analyse-file
+  ([path]
+   (cond (.endsWith (str path) "_test.clj")
+         (test/analyse-test-file path)
+
+         :else
+         (source/analyse-source-file path)))
+  ([type path]
+   (case type
+     :source (source/analyse-source-file path)
+     :test (test/analyse-test-file path))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/code_test.clj#L6-L30" target="_blank">link</a></i></h6><code class="clojure">(analyse-file "src/lucid/core/code.clj")
+=> (contains-in
+    {'lucid.core.code
+     {'analyse-file
+      {:source {:code string?,
+                :line {:row number?
+                       :col number?
+                       :end-row number?
+                       :end-col number?},
+                :path "src/lucid/core/code.clj"}}}})
+
+(analyse-file "test/lucid/core/code_test.clj")
+=> (contains-in
+    {'lucid.core.code
+     {'analyse-file
+      {:test {:code vector?
+              :line {:row number?
+                       :col number?
+                       :end-row number?
+                       :end-col number?}
+              :path "test/lucid/core/code_test.clj"},
+       :meta {:added "1.2"},
+       :intro "analyses a source or test file for information"}}})</code></pre></div></div></div></div><div><span id="core-debug"></span><h2><b>4 &nbsp;&nbsp; core.debug</b></h2></div><div><p><code>lucid.core.debug</code> contains macros and helpers for debugging</p></div><div><p>Add to <code>project.clj</code>:</p></div><div class="code"><pre><code class="clojure">[tahto/lucid.core.debug &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.debug</code> namespace:</p></div><div class="code"><pre><code class="clojure">(use 'lucid.core.debug)</code></pre></div><div class="api"><span id="entry__lucid_core_debug__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_core_debug__dbg__GT_">dbg-></a></li><li><a data-scroll="" href="#entry__lucid_core_debug__dbg__GT__GT_">dbg->></a></li><li><a data-scroll="" href="#entry__lucid_core_debug____GT_doto">->doto</a></li><li><a data-scroll="" href="#entry__lucid_core_debug____GT__GT_doto">->>doto</a></li><li><a data-scroll="" href="#entry__lucid_core_debug____GT_prn">->prn</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_core_debug__dbg__GT_"></span><div class="entry-description"><h4><b>dbg->&nbsp<a data-scroll="" href="#entry__lucid_core_debug__">^</a></b></h4><p><i>prints each stage of the `->` macro</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/debug.clj#L35-L51" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_debug__dbg__GT_" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_debug__dbg__GT_"></label><pre class="source"><code class="clojure">(defmacro dbg->
+  [n & funcs]
+  (let [wfncs (map #(dbg-print % '->) funcs)]
+    `(do (println "n")
+         (println ~n)
+         (-> ~n ~@wfncs))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/debug_test.clj#L24-L33" target="_blank">link</a></i></h6><code class="clojure">(-> (dbg-> {:a 1}
+                     (assoc :b 2)
+                     (merge {:c 3}))
+    (with-out-str)
+    (string/split-lines))
+=> ["" ""
+    "{:a 1}"
+    "-> (assoc :b 2) :: {:a 1, :b 2}"
+    "-> (merge {:c 3}) :: {:a 1, :b 2, :c 3}"]</code></pre></div><div class="entry"><span id="entry__lucid_core_debug__dbg__GT__GT_"></span><div class="entry-description"><h4><b>dbg->>&nbsp<a data-scroll="" href="#entry__lucid_core_debug__">^</a></b></h4><p><i>prints each stage of the `->>` macro</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/debug.clj#L53-L70" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_debug__dbg__GT__GT_" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_debug__dbg__GT__GT_"></label><pre class="source"><code class="clojure">(defmacro dbg->>
+  [n & funcs]
+  (let [wfncs (map #(dbg-print % '->>) funcs)]
+    `(do (println "n")
+         (println ~n)
+         (->> ~n ~@wfncs))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/debug_test.clj#L36-L46" target="_blank">link</a></i></h6><code class="clojure">(->  (dbg->> (range 5)
+             (map inc)
+             (take 2))
+    (with-out-str)
+    (string/split-lines))
+=> ["" ""
+    "(0 1 2 3 4)"
+    "->> (map inc) :: (1 2 3 4 5)"
+    "->> (take 2) :: (1 2)"]</code></pre></div><div class="entry"><span id="entry__lucid_core_debug____GT_doto"></span><div class="entry-description"><h4><b>->doto&nbsp<a data-scroll="" href="#entry__lucid_core_debug__">^</a></b></h4><p><i>used to perform side-effects within a `->` macro</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/debug.clj#L72-L83" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_debug____GT_doto" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_debug____GT_doto"></label><pre class="source"><code class="clojure">(defmacro ->doto
+  [x & forms]
+  `(do (-> ~x ~@forms)
+       ~x))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/debug_test.clj#L49-L55" target="_blank">link</a></i></h6><code class="clojure">(-> {:a 1}
+    (->doto (update-in [:a] inc) print)
+    (assoc :b 2))
+;; {:a 2}
+=> {:a 1, :b 2}</code></pre></div><div class="entry"><span id="entry__lucid_core_debug____GT__GT_doto"></span><div class="entry-description"><h4><b>->>doto&nbsp<a data-scroll="" href="#entry__lucid_core_debug__">^</a></b></h4><p><i>used to perform side effects within a `->>` macro</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/debug.clj#L85-L97" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_debug____GT__GT_doto" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_debug____GT__GT_doto"></label><pre class="source"><code class="clojure">(defmacro ->>doto
+  [& forms]
+  (let [[x forms] [(last forms) (butlast forms)]]
+    `(do (->> ~x ~@forms)
+         ~x)))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/debug_test.clj#L58-L64" target="_blank">link</a></i></h6><code class="clojure">(->> [1 2 3]
+     (->>doto (map inc) print)
+     (cons 0))
+;; (2 3 4)
+=> [0 1 2 3]</code></pre></div><div class="entry"><span id="entry__lucid_core_debug____GT_prn"></span><div class="entry-description"><h4><b>->prn&nbsp<a data-scroll="" href="#entry__lucid_core_debug__">^</a></b></h4><p><i>used to print within the macro</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/debug.clj#L99-L113" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_debug____GT_prn" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_debug____GT_prn"></label><pre class="source"><code class="clojure">(defmacro ->prn
+  ([x] `(->prn ~x nil))
+    ([x tag]
+     `(do (if ~tag
+            (print (str ~tag " ")))
+          (prn ~x)
+          ~x)))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/debug_test.clj#L67-L73" target="_blank">link</a></i></h6><code class="clojure">(-> [1 2 3]
+    (->prn)
+    (conj 4))
+;; [1 2 3]
+=> [1 2 3 4]</code></pre></div></div></div></div><div><span id="core-inject"></span><h2><b>5 &nbsp;&nbsp; core.inject</b></h2></div><div><p><code>lucid.core.inject</code>' is used to create extra symbols in namespaces. It has been quite popular due this <a href='http://dev.solita.fi/2014/03/18/pimp-my-repl.html'>article</a>.</p></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><pre><code class="clojure">[tahto/lucid.core.inject &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.inject</code> namespace:</p></div><div class="code"><pre><code class="clojure">(use 'lucid.core.inject)</code></pre></div><div class="api"><span id="entry__lucid_core_inject__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_core_inject__in">in</a></li><li><a data-scroll="" href="#entry__lucid_core_inject__inject">inject</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_core_inject__in"></span><div class="entry-description"><h4><b>in&nbsp<a data-scroll="" href="#entry__lucid_core_inject__">^</a></b></h4><p><i>takes a list of injections and output the created vars</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/inject.clj#L169-L181" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_inject__in" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_inject__in"></label><pre class="source"><code class="clojure">(defmacro in
+  [& args]
+  (cons 'vector
+        (mapcat inject-row
+                (inject-split-args args))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/inject_test.clj#L82-L88" target="_blank">link</a></i></h6><code class="clojure">(in c (clojure.repl apropos source doc)
+    d (clojure.repl apropos source doc)
+    e (clojure.repl apropos source doc))
+=> [#'c/apropos #'c/source #'c/doc
+    #'d/apropos #'d/source #'d/doc
+    #'e/apropos #'e/source #'e/doc]</code></pre></div><div class="entry"><span id="entry__lucid_core_inject__inject"></span><div class="entry-description"><h4><b>inject&nbsp<a data-scroll="" href="#entry__lucid_core_inject__">^</a></b></h4><p><i>takes a list of injections and output the created vars</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/inject.clj#L155-L167" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_inject__inject" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_inject__inject"></label><pre class="source"><code class="clojure">(defn inject
+  [& args]
+  (->> args
+       (mapcat inject-split-args)
+       (mapcat inject-row)
+       vec))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/inject_test.clj#L74-L79" target="_blank">link</a></i></h6><code class="clojure">(inject '[(clojure.repl apropos source doc)
+
+          b
+          (clojure.repl apropos source doc)])
+=> [#'./apropos #'./source #'./doc #'b/apropos #'b/source #'b/doc]</code></pre></div></div></div></div><div><p><code>inject</code> enables both macros and functions to be imported:</p></div><div class="code"><pre><code class="clojure">(inject '[clojure.core [clojure.repl dir]])
 =&gt; [#'clojure.core/dir]
 
 (dir clojure.repl)
@@ -570,7 +285,7 @@ Qt Creator light color scheme
 ;; source
 ;; source-fn
 ;; stack-element-str
-;; thread-stopper</code></pre></div><div><a name="in"></a><h3>6.3 &nbsp;&nbsp; in</h3></div><div><p>A helper macro <code>inject/in</code> enables better support:</p></div><div><pre><code class="clojure">;; the default injected namespace is `.`
+;; thread-stopper</code></pre></div><div><p>This function is extremely useful when adding additional functionality that is needed which is not included in <code>clojure.core</code>. It can be used to import both macros and funcions into a given namespace:</p></div><div><p>The macro <code>inject/in</code> enables better support:</p></div><div class="code"><pre><code class="clojure">;; the default injected namespace is `.`
 (inject/in
  
  ;; note that `:refer, :all and :exclude can be used
@@ -607,57 +322,74 @@ Qt Creator light color scheme
     #'clojure.core/.&gt;ns
     #'clojure.core/.&gt;var
     #'&gt;/pprint
-    #'&gt;/sh]</code></pre></div><div><a name="namespace"></a><h2><b>7 &nbsp;&nbsp; Namespace</b></h2></div><div><p>Better development experience by providing some additional namespace utilities.</p></div><div><a name="installation-4"></a><h3>7.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.core.namespace &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.namespace</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.core.namespace)</code></pre></div><div><a name="clear-aliases"></a><h3>7.2 &nbsp;&nbsp; clear-aliases</h3></div><div><p>Manually gets rid of all namespace aliases in the current namespace</p></div><div><pre><code class="clojure">;; require clojure.string
+    #'&gt;/sh]</code></pre></div><div><span id="core-namespace"></span><h2><b>6 &nbsp;&nbsp; core.namespace</b></h2></div><div><p><code>lucid.core.namespace</code> provides additional namespace utilities.</p></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><pre><code class="clojure">[tahto/lucid.core.namespace &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.core.namespace</code> namespace:</p></div><div class="code"><pre><code class="clojure">(use 'lucid.core.namespace)</code></pre></div><div class="api"><span id="entry__lucid_core_namespace__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_core_namespace__clear_aliases">clear-aliases</a></li><li><a data-scroll="" href="#entry__lucid_core_namespace__clear_mappings">clear-mappings</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_core_namespace__clear_aliases"></span><div class="entry-description"><h4><b>clear-aliases&nbsp<a data-scroll="" href="#entry__lucid_core_namespace__">^</a></b></h4><p><i>removes all namespace aliases</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/namespace.clj#L3-L29" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_namespace__clear_aliases" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_namespace__clear_aliases"></label><pre class="source"><code class="clojure">(defn clear-aliases
+  ([] (clear-aliases (.getName *ns*)))
+  ([ns]
+   (doseq [alias (keys (ns-aliases ns))]
+     (ns-unalias ns alias))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/namespace_test.clj#L29-L49" target="_blank">link</a></i></h6><code class="clojure">(clear-aliases)
+  
+;; require clojure.string
 (require '[clojure.string :as string])
-=&gt; nil
+=> nil
 
 ;; error if a new namespace is set to the same alias
 (require '[clojure.set :as string])
-=&gt; (throws &quot;Alias string already exists in namespace&quot;)
+=> (throws) ;;  Alias string already exists in namespace
 
 ;; clearing all aliases
 (clear-aliases)
+
 (ns-aliases *ns*)
-=&gt; {}
+=> {}
 
 ;; okay to require
 (require '[clojure.set :as string])
-=&gt; nil</code></pre></div><div><a name="clear-mappings"></a><h3>7.3 &nbsp;&nbsp; clear-mappings</h3></div><div><p>Manually gets rid of all interned symbols in the current namespace</p></div><div><pre><code class="clojure">;; require `join`
+=> nil</code></pre></div><div class="entry"><span id="entry__lucid_core_namespace__clear_mappings"></span><div class="entry-description"><h4><b>clear-mappings&nbsp<a data-scroll="" href="#entry__lucid_core_namespace__">^</a></b></h4><p><i>removes all mapped vars in the namespace</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/core/namespace.clj#L31-L57" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_core_namespace__clear_mappings" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_core_namespace__clear_mappings"></label><pre class="source"><code class="clojure">(defn clear-mappings
+  ([] (clear-mappings (.getName *ns*)))
+  ([ns]
+   (doseq [func (keys (ns-map ns))]
+     (ns-unmap ns func))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/core/namespace_test.clj#L6-L26" target="_blank">link</a></i></h6><code class="clojure">;; require `join`
 (require '[clojure.string :refer [join]])
-
+  
 ;; check that it runs
-(join [&quot;a&quot; &quot;b&quot; &quot;c&quot;])
-=&gt; &quot;abc&quot;
-
+(join ["a" "b" "c"])
+=> "abc"
+  
 ;; clear mappings
 (clear-mappings)
   
+(clojure.core/refer-clojure)
+(use 'hara.tes)
+(require '[lucid.core.namespace :refer :all])
+  
 ;; the mapped symbol is gone
-(join [&quot;a&quot; &quot;b&quot; &quot;c&quot;])
-=&gt; (throws &quot;Unable to resolve symbol: join in this context&quot;)</code></pre></div>
-      </section>
+
+(eval '(join ["a" "b" "c"]))
+=> (throws) ;; "Unable to resolve symbol: join in this context"</code></pre></div></div></div></div>
+        </div>
+      </div>
     </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
   </body>
+
+  <script>
+  if (true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-31320512-2', 'caudate.me');
+    ga('send', 'pageview');
+  }
+  </script>
+  
   <script type="text/javascript">
-    var metas = document.getElementsByTagName('meta');
-var i;
-if (navigator.userAgent.match(/iPhone/i)) {
-  for (i=0; i<metas.length; i++) {
-    if (metas[i].name == "viewport") {
-      metas[i].content = "width=device-width, minimum-scale=1.0, maximum-scale=1.0";
-    }
-  }
-  document.addEventListener("gesturestart", gestureStart, false);
-}
-function gestureStart() {
-  for (i=0; i<metas.length; i++) {
-    if (metas[i].name == "viewport") {
-      metas[i].content = "width=device-width, minimum-scale=0.25, maximum-scale=1.6";
-    }
-  }
-}
-    
+    smoothScroll.init();
+    gumshoe.init({});
+  
     hljs.registerLanguage("clojure",function(e){var t={"builtin-name":"def defonce cond apply if-not if-let if not not= = < > <= >= == + / * - rem quot neg? pos? delay? symbol? keyword? true? false? integer? empty? coll? list? set? ifn? fn? associative? sequential? sorted? counted? reversible? number? decimal? class? distinct? isa? float? rational? reduced? ratio? odd? even? char? seq? vector? string? map? nil? contains? zero? instance? not-every? not-any? libspec? -> ->> .. . inc compare do dotimes mapcat take remove take-while drop letfn drop-last take-last drop-while while intern condp case reduced cycle split-at split-with repeat replicate iterate range merge zipmap declare line-seq sort comparator sort-by dorun doall nthnext nthrest partition eval doseq await await-for let agent atom send send-off release-pending-sends add-watch mapv filterv remove-watch agent-error restart-agent set-error-handler error-handler set-error-mode! error-mode shutdown-agents quote var fn loop recur throw try monitor-enter monitor-exit defmacro defn defn- macroexpand macroexpand-1 for dosync and or when when-not when-let comp juxt partial sequence memoize constantly complement identity assert peek pop doto proxy defstruct first rest cons defprotocol cast coll deftype defrecord last butlast sigs reify second ffirst fnext nfirst nnext defmulti defmethod meta with-meta ns in-ns create-ns import refer keys select-keys vals key val rseq name namespace promise into transient persistent! conj! assoc! dissoc! pop! disj! use class type num float double short byte boolean bigint biginteger bigdec print-method print-dup throw-if printf format load compile get-in update-in pr pr-on newline flush read slurp read-line subvec with-open memfn time re-find re-groups rand-int rand mod locking assert-valid-fdecl alias resolve ref deref refset swap! reset! set-validator! compare-and-set! alter-meta! reset-meta! commute get-validator alter ref-set ref-history-count ref-min-history ref-max-history ensure sync io! new next conj set! to-array future future-call into-array aset gen-class reduce map filter find empty hash-map hash-set sorted-map sorted-map-by sorted-set sorted-set-by vec vector seq flatten reverse assoc dissoc list disj get union difference intersection extend extend-type extend-protocol int nth delay count concat chunk chunk-buffer chunk-append chunk-first chunk-rest max min dec unchecked-inc-int unchecked-inc unchecked-dec-inc unchecked-dec unchecked-negate unchecked-add-int unchecked-add unchecked-subtract-int unchecked-subtract chunk-next chunk-cons chunked-seq? prn vary-meta lazy-seq spread list* str find-keyword keyword symbol gensym force rationalize"},r="a-zA-Z_\\-!.?+*=<>&#'",n="["+r+"]["+r+"0-9/;:]*",a="[-+]?\\d+(\\.\\d+)?",o={b:n,r:0},s={cN:"number",b:a,r:0},i=e.inherit(e.QSM,{i:null}),c=e.C(";","$",{r:0}),d={cN:"literal",b:/\b(true|false|nil)\b/},l={b:"[\\[\\{]",e:"[\\]\\}]"},m={cN:"comment",b:"\\^"+n},p=e.C("\\^\\{","\\}"),u={cN:"symbol",b:"[:]{1,2}"+n},f={b:"\\(",e:"\\)"},h={eW:!0,r:0},y={k:t,l:n,cN:"name",b:n,starts:h},b=[f,i,m,p,c,u,l,s,d,o];return f.c=[e.C("comment",""),y,h],h.c=b,l.c=b,{aliases:["clj"],i:/\S/,c:[f,i,m,p,c,u,l,s,d]}});
     hljs.initHighlightingOnLoad();
   </script>
-  </html>
+</html>

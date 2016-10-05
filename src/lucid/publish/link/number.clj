@@ -11,13 +11,7 @@
    :citation 0})
 
 (defn increment
-  "increments a string for alphanumerics and numbers
-   (increment \"1\")
-   => \"2\"
-   
-   (increment \"A\")
-   => \"B\""
-  {:added "0.1"}
+  ""
   [count]
   (if (number? count)
     "A"
@@ -27,8 +21,7 @@
          int inc char str)))
 
 (defn link-numbers-loop
-  "main loop logic for generation of numbers"
-  {:added "0.1"}
+  ""
   ([elements auto-number]
    (link-numbers-loop elements auto-number new-counter []))
   ([[{:keys [type origin] :as ele} & more :as elements]
@@ -100,14 +93,7 @@
        (recur more auto-number counter (conj output ele))))))
 
 (defn link-numbers
-  "creates numbers for main sections, images, code and equations
-   (link-numbers {:articles {\"example\" {:elements [{:type :chapter :title \"hello\"}
-                                                   {:type :section :title \"world\"}]}}}
-                 \"example\")
-   {:articles {\"example\"
-               {:elements [{:type :chapter, :title \"hello\", :number \"1\"}
-                          {:type :section, :title \"world\", :number \"1.1\"}]}}}"
-  {:added "0.1"}
+  ""
   [interim name]
   (update-in interim [:articles name :elements]
              (fn [elements]

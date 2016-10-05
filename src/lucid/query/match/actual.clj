@@ -3,7 +3,8 @@
 
 (defrecord ActualPattern [expression])
 
-(defn actual-pattern [expression]
+(defn actual-pattern
+  "" [expression]
   (case expression
     '_  (ActualPattern. '(symbol "_"))
     (ActualPattern. expression)))

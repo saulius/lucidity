@@ -1,7 +1,3 @@
-^{:title "publish"
-  :subtitle "source code of lucid.publish"
-  :author "Chris Zheng"
-  :email "z@caudate.me"}
 (ns lucid.publish
   (:require [hara.io
              [project :as project]
@@ -14,12 +10,16 @@
 
 (def ^:dynamic *output* "docs")
 
-(defn output-path [project]
+(defn output-path
+  "TODO"
+  {:added "1.2"} [project]
   (let [output-dir (or (-> project :publish :output)
                          *output*)]
     (fs/path (:root project) output-dir)))
 
 (defn copy-assets
+  "TODO"
+  {:added "1.2"}
   ([]
    (let [project (project/project)
          theme (-> project :publish :theme)
@@ -28,7 +28,9 @@
   ([settings project]
    (let [template-dir (theme/template-path settings project)
          output-dir (output-path project)]
+     (prn template-dir output-dir settings)
      (doseq [entry (:copy settings)]
+       (prn entry)
        (let [dir   (fs/path template-dir entry)
              files (->> (fs/select dir)
                         (filter fs/file?))]
@@ -37,7 +39,8 @@
              (fs/create-directory (fs/parent out))
              (fs/copy-single in out {:options [:replace-existing :copy-attributes]}))))))))
 
-(defn load-settings [opts project]
+(defn load-settings
+  "" [opts project]
   (let [theme (or (:theme opts)
                   (-> project :publish :theme))
         settings (merge (theme/load-settings theme)
@@ -47,18 +50,21 @@
        (copy-assets settings project))
      settings))
 
-(defn add-lookup [project]
+(defn add-lookup
+  "" [project]
   (if (:lookup project)
      project
     (assoc project :lookup (project/file-lookup project))))
 
 (defn publish
-  ([] (publish [*ns*] {}))
+  "TODO"
+  {:added "1.2"}
+  ([] (publish [*ns*] {} (project/project)))
   ([x] (cond (map? x)
-             (publish [*ns*] x)
+             (publish [*ns*] x (project/project))
 
              :else
-             (publish x {})))
+             (publish x {} (project/project))))
   ([inputs opts project]
    (let [project (add-lookup project)
          settings (load-settings opts project)
@@ -77,9 +83,11 @@
              (render/render interim name settings project))))))
 
 (defn publish-all
-  ([] (publish-all {}))
+  "TODO"
+  {:added "1.2"}
+  ([] (publish-all {} (project/project)))
   ([opts project]
-   (let [project (add-lookup project)
+   (let [project  (add-lookup project)
          settings (load-settings opts project)
          template (theme/template-path settings project)
          output   (output-path project)
@@ -87,7 +95,7 @@
      (publish files settings project))))
 
 (comment
-  (lucid.test/scaffold 'lucid.publish)
+  (lucid.unit/scaffold 'lucid.publish)
   (def settings (theme/load-settings "martell"))
   (def settings)
   

@@ -1,6 +1,7 @@
 (ns lucid.publish.link.chapter)
 
-(defn link-chapters [interim name]
+(defn link-chapters
+  "" [interim name]
   (let [apis (->> (get-in interim [:articles name :elements])
                   (filter #(-> % :type (= :api)))
                   (map (juxt :namespace :table))

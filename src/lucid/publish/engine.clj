@@ -3,11 +3,13 @@
             [hara.class.checks :as checks])
   (:import clojure.lang.MultiFn))
 
-(defn wrap-hidden [f]
+(defn wrap-hidden
+  "" [f]
   (fn [{:keys [hidden] :as elem}]
     (if-not hidden (f elem))))
 
-(defn engine [name]
+(defn engine
+  "" [name]
   (let [ns (cond (string? name)
                  (symbol (str "lucid.publish.engine." name))
                  

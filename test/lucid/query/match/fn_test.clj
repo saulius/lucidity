@@ -2,7 +2,7 @@
   (:use hara.test)
   (:require  [lucid.query.match [pattern :refer :all] fn]))
 
-^{:refer lucid.query.match.fn/pattern-fn :added "0.2"}
+^{:refer lucid.query.match.fn/pattern-fn :added "1.2"}
 (fact "make sure that functions are working properly"
   ((pattern-fn vector?) [])
   => throws

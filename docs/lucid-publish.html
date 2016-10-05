@@ -1,489 +1,90 @@
-<html>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
   <head>
-    <meta content=\"chrome=1\" http-equiv=\"X-UA-Compatible\" />
-    <meta charset=\"utf-8\" /><meta content=\"width=device-width, initial-scale=1, user-scalable=no\" name=\"viewport\" />
-    <link rel="icon" href="favicon.ico?v=2" type="image/x-icon" />
-    <title>publish - generate documentation from code</title>
-    <script src="js/highlight.min.js"></script>
-    <style>
-      body {
-  padding:50px;
-  font:14px/1.5 Helvetica, Arial, sans-serif;
-  color:#777;
-  font-weight:300;
-}
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-h1, h2, h3, h4, h5, h6 {
-  color:#222;
-  margin:0 0 20px;
-}
-
-p, ul, ol, table, pre, dl {
-  margin:0 0 20px;
-}
-
-h1, h2, h3 {
-  line-height:1.1;
-}
-
-h1 {
-  font-size:28px;
-}
-
-h2 {
-  color:#393939;
-}
-
-h4, h5, h6 {
-  color:#494949;
-  margin:0;
-}
-
-header h4{
-  margin: 10 0 0 0px;
-}
-
-a {
-  color:#3c3;
-  font-weight:400;
-  text-decoration:none;
-}
-
-a small {
-  font-size:11px;
-  color:#777;
-  margin-top:-0.6em;
-  display:block;
-}
-
-.wrapper {
-  width:860px;
-  margin:0 auto;
-}
-
-.figure div.img {
-  text-align: center;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  padding: 10px;
-}
-
-blockquote {
-  border-left:1px solid #e5e5e5;
-  margin:0;
-  padding:0 0 0 20px;
-  font-style:italic;
-}
-
-code, pre {
-  font-family:Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
-  color:#333;
-  font-size:12px;
-}
-
-pre {
-  padding:8px 15px;
-  background: #fff;  
-  border-radius:5px;
-  border:1px solid #e5e5e5;
-  overflow-x: auto;
-}
-
-table {
-  width:100%;
-  border-collapse:collapse;
-}
-
-th, td {
-  text-align:left;
-  padding:5px 10px;
-  border-bottom:1px solid #e5e5e5;
-}
-
-dt {
-  color:#444;
-  font-weight:700;
-}
-
-th {
-  color:#444;
-}
-
-img {
-  max-width:100%;
-}
-
-header {
-  width:250px;
-  float:left;
-}
-
-header ul {
-  list-style:none;
-  height:40px;
-  padding:0;
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <link rel="shortcut icon" href="favicon.ico">
+  <title>lucid.publish - generate documentation from code</title>
+  <script src="js/highlight.min.js"></script>
+  <script src="js/gumshoe.min.js"></script>
+  <script src="js/smooth-scroll.min.js"></script>
   
-  background: #eee;
-  background: -moz-linear-gradient(top, #f8f8f8 0%, #dddddd 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#dddddd));
-  background: -webkit-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: -o-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: -ms-linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
-  background: linear-gradient(top, #f8f8f8 0%,#dddddd 100%);
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/poole.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="css/lanyon.css">
+  <link rel="stylesheet" href="css/stark.css">
+  <link rel="stylesheet" href="css/stark-api.css">
+  <link rel="stylesheet" href="css/stark-highlight.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
   
-  border-radius:5px;
-  border:1px solid #d2d2d2;
-  box-shadow:inset #fff 0 1px 0, inset rgba(0,0,0,0.03) 0 -1px 0;
-}
+</head>
 
-header li {
-  width:89px;
-  float:left;
-  border-right:1px solid #d2d2d2;
-  height:40px;
-}
+  <body class="theme-base-0b">
+    <span id="page-top"></span>
 
-header ul a {
-  line-height:1;
-  font-size:11px;
-  color:#999;
-  display:block;
-  text-align:center;
-  padding-top:6px;
-  height:40px;
-}
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
 
-header.top {
-  position: fixed;
-  top: -2px;
-  right:5%;
-  width:auto;
-}
-
-strong {
-  font-weight:700;
-}
-
-header ul li + li {
-  width:88px;
-  border-left:1px solid #fff;
-}
-
-header ul li + li + li {
-  border-right:none;
-  width:89px;
-}
-
-header ul a strong {
-  font-size:14px;
-  display:block;
-  color:#222;
-}
-
-section {
-  margin-left:250px;
-  padding-bottom:50px;
-}
-
-small {
-  font-size:11px;
-}
-
-hr {
-  border:0;
-  background:#e5e5e5;
-  height:1px;
-  margin:0 0 20px;
-}
-
-footer {
-  width:250px;
-  float:left;
-  position:fixed;
-  bottom:50px;
-}
-
-header div.heading {
-  display:none;
-}
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <nav class="sidebar-nav">
+    <span>&nbsp;</span>
+    <a class="sidebar-nav-item header" href="index.html"><img src="img/logo-white.png" style="width:100%; padding-left:1em"/></a>
+    <span>&nbsp;</span>
+    <a class="sidebar-nav-item" href="lucid-core.html">core</a><a class="sidebar-nav-item" href="lucid-mind.html">mind</a><a class="sidebar-nav-item active" href="lucid-publish.html">publish</a><a class="sidebar-nav-item" href="lucid-query.html">query</a><a class="sidebar-nav-item" href="lucid-space.html">space</a><a class="sidebar-nav-item" href="lucid-unit.html">unit</a>
+    <span class="sidebar-nav-item">&nbsp;</span>
+    <span class="sidebar-nav-item">&nbsp;</span>
+  </nav>
+</div>
 
 
-@media print, screen and (max-width: 960px) {
-  
-  div.wrapper {
-    width:auto;
-    margin:0;
-  }
-  
-  header, section, footer {
-    float:none;
-    position:static;
-    width:auto;
-  }
-  
-  header div.heading {
-    display:block;
-  }
-    
-  section div.heading {
-    display:none;
-  }
-  
-  section {
-    border:1px solid #e5e5e5;
-    border-width:1px 0;
-    padding:20px 0;
-    margin:0 0 20px;
-  }
-  
-  header a small {
-    display:inline;
-  }
-  
-  header ul {
-    position:absolute;
-    right:0px;
-    top:0px;
-    height: auto;
-  }
-}
-
-@media print, screen and (max-width: 720px) {
-  body {
-    word-wrap:break-word;
-  }
-  
-  header {
-    padding:0;
-  }
-  
-  header ul, header p.view {
-    height: auto;
-  }
-  
-  header.top{
-    position: absolute;
-  }
-  
-  pre, code {
-    word-wrap:normal;
-  }
-}
-
-@media print, screen and (max-width: 480px) {
-  body {
-    padding:15px;
-  }
-  
-  header ul {
-    display:none;
-  }
-}
-
-@media print {
-  body {
-    padding:0.4in;
-    font-size:12pt;
-    color:#444;
-  }
-}
-
-      .highlight  { background: #ffffff; }
-.highlight .c { color: #999988; font-style: italic } /* Comment */
-.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
-.highlight .k { font-weight: bold } /* Keyword */
-.highlight .o { font-weight: bold } /* Operator */
-.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
-.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
-.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
-.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
-.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
-.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
-.highlight .ge { font-style: italic } /* Generic.Emph */
-.highlight .gr { color: #aa0000 } /* Generic.Error */
-.highlight .gh { color: #999999 } /* Generic.Heading */
-.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
-.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
-.highlight .go { color: #888888 } /* Generic.Output */
-.highlight .gp { color: #555555 } /* Generic.Prompt */
-.highlight .gs { font-weight: bold } /* Generic.Strong */
-.highlight .gu { color: #800080; font-weight: bold; } /* Generic.Subheading */
-.highlight .gt { color: #aa0000 } /* Generic.Traceback */
-.highlight .kc { font-weight: bold } /* Keyword.Constant */
-.highlight .kd { font-weight: bold } /* Keyword.Declaration */
-.highlight .kn { font-weight: bold } /* Keyword.Namespace */
-.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
-.highlight .kr { font-weight: bold } /* Keyword.Reserved */
-.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
-.highlight .m { color: #009999 } /* Literal.Number */
-.highlight .s { color: #d14 } /* Literal.String */
-.highlight .na { color: #008080 } /* Name.Attribute */
-.highlight .nb { color: #0086B3 } /* Name.Builtin */
-.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
-.highlight .no { color: #008080 } /* Name.Constant */
-.highlight .ni { color: #800080 } /* Name.Entity */
-.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
-.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
-.highlight .nn { color: #555555 } /* Name.Namespace */
-.highlight .nt { color: #000080 } /* Name.Tag */
-.highlight .nv { color: #008080 } /* Name.Variable */
-.highlight .ow { font-weight: bold } /* Operator.Word */
-.highlight .w { color: #bbbbbb } /* Text.Whitespace */
-.highlight .mf { color: #009999 } /* Literal.Number.Float */
-.highlight .mh { color: #009999 } /* Literal.Number.Hex */
-.highlight .mi { color: #009999 } /* Literal.Number.Integer */
-.highlight .mo { color: #009999 } /* Literal.Number.Oct */
-.highlight .sb { color: #d14 } /* Literal.String.Backtick */
-.highlight .sc { color: #d14 } /* Literal.String.Char */
-.highlight .sd { color: #d14 } /* Literal.String.Doc */
-.highlight .s2 { color: #d14 } /* Literal.String.Double */
-.highlight .se { color: #d14 } /* Literal.String.Escape */
-.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
-.highlight .si { color: #d14 } /* Literal.String.Interpol */
-.highlight .sx { color: #d14 } /* Literal.String.Other */
-.highlight .sr { color: #009926 } /* Literal.String.Regex */
-.highlight .s1 { color: #d14 } /* Literal.String.Single */
-.highlight .ss { color: #990073 } /* Literal.String.Symbol */
-.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
-.highlight .vc { color: #008080 } /* Name.Variable.Class */
-.highlight .vg { color: #008080 } /* Name.Variable.Global */
-.highlight .vi { color: #008080 } /* Name.Variable.Instance */
-.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
-
-.type-csharp .highlight .k { color: #0000FF }
-.type-csharp .highlight .kt { color: #0000FF }
-.type-csharp .highlight .nf { color: #000000; font-weight: normal }
-.type-csharp .highlight .nc { color: #2B91AF }
-.type-csharp .highlight .nn { color: #000000 }
-.type-csharp .highlight .s { color: #A31515 }
-.type-csharp .highlight .sc { color: #A31515 }
-
-      /*
-
-Qt Creator light color scheme
-
-*/
-
-
-.hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 0.5em;
-  background: #ffffff;
-}
-
-.hljs,
-.hljs-subst,
-.hljs-tag,
-.hljs-title {
-  color: #000000;
-}
-
-.hljs-strong,
-.hljs-emphasis {
-  color: #000000;
-}
-
-.hljs-bullet,
-.hljs-quote,
-.hljs-number,
-.hljs-regexp,
-.hljs-literal {
-  color: #000080;
-}
-
-.hljs-code
-.hljs-selector-class {
-  color: #800080;
-}
-
-.hljs-emphasis,
-.hljs-stronge,
-.hljs-type {
-  font-style: italic;
-}
-
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-function,
-.hljs-section,
-.hljs-symbol,
-.hljs-name {
-  color: #808000;
-}
-
-.hljs-attribute {
-  color: #800000;
-}
-
-.hljs-variable,
-.hljs-params,
-.hljs-class .hljs-title {
-  color: #0055AF;
-}
-
-.hljs-string,
-.hljs-selector-id,
-.hljs-selector-attr,
-.hljs-selector-pseudo,
-.hljs-type,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-template-tag,
-.hljs-template-variable,
-.hljs-addition,
-.hljs-link {
-  color: #008000;
-}
-
-.hljs-comment,
-.hljs-meta,
-.hljs-deletion {
-  color: #008000;
-}
-    </style>
-  </head>
-    
-  <body>
-
-    <header class="top">
-      <ul><li><a href="index.html">home</a></li><li><a href="lucid-core.html">core</a></li><li><a href="lucid-mind.html">mind</a></li><li><a href="lucid-outline.html">outline</a></li><li><a href="lucid-publish.html">publish</a></li><li><a href="lucid-query.html">query</a></li><li><a href="lucid-space.html">space</a></li><li><a href="lucid-test.html">test</a></li></ul>
-    </header>
-    <header>      
-      <div class="heading">
-        <h1>publish</h1>
-        <h3>generate documentation from code</h3>
-        <hr/>
-        <div class=\"info\">
-          <h5>Author: Chris Zheng<b>&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></b></h5>
-          <h5>Date: 29 September 2016</h5>
-          <h5>Repository: <a href="https://www.github.com/tahto/lucidity">https://www.github.com/tahto/lucidity</a></h5>
-          <h5>Version: 1.2.0</h5>
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <span>lucid.publish</span>
+            <small>generate documentation from code</small>
+          </h3>
         </div>
-        <br/>
-        <hr/>
       </div>
-      <h4><a href="#introduction">1 &nbsp; Introduction</a></h4><h5>&nbsp;&nbsp;<i><a href="#installation">1.1 &nbsp; Installation</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#motivation">1.2 &nbsp; Motivation</a></i></h5><h4><a href="#basics">2 &nbsp; Basics</a></h4><h4><a href="#design-driven-development">3 &nbsp; Design Driven Development</a></h4><h4><a href="#api-reference">4 &nbsp; API Reference</a></h4><h5>&nbsp;&nbsp;<i><a href="#the-basics">4.1 &nbsp; The Basics</a></i></h5><h5>&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="#elements">4.1.1 &nbsp; elements</a></i></h5><h5>&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="#attributes">4.1.2 &nbsp; attributes</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#sectioning-elements">4.2 &nbsp; Sectioning Elements</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#content-elements">4.3 &nbsp; Content Elements</a></i></h5><h5>&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="#paragraph">4.3.1 &nbsp; :paragraph</a></i></h5><h5>&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="#image">4.3.2 &nbsp; :image</a></i></h5><h5>&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="#file">4.3.3 &nbsp; :file</a></i></h5><h5>&nbsp;&nbsp;<i><a href="#code-elements">4.4 &nbsp; Code Elements</a></i></h5><h5>&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="#normal-s-expressions">4.4.1 &nbsp; normal s-expressions</a></i></h5><h5>&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="#test-forms">4.4.2 &nbsp; test forms</a></i></h5><h5>&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="#fact-form">4.4.3 &nbsp; fact form</a></i></h5><h5>&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="#comments">4.4.4 &nbsp; comments</a></i></h5><h5>&nbsp;&nbsp;&nbsp;&nbsp;<i><a href="#code">4.4.5 &nbsp; code</a></i></h5>
-      <br/>
-      <br/>
-    </header>
-    
-    <div class="content">
-      <section>
-        <div class="heading">
-          <h1>publish</h1>
-          <h3>generate documentation from code</h3>
+
+      <div class="container content">
+        <div class="page">
+          <div class="heading">
+            <div>
+              <h5>Author: Chris Zheng&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></h5>
+              <h5>Date: 05 October 2016</h5>
+              <h5>Repository: <a href="https://www.github.com/zcaudate/lucidity">https://www.github.com/zcaudate/lucidity</a></h5>
+              <h5>Version: 1.2.0</h5></div></div>
           <hr/>
-          <div class=\"info\">
-            <h5>Author: Chris Zheng<b>&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></b></h5>
-            <h5>Date: 29 September 2016</h5>
-            <h5>Repository: <a href="https://www.github.com/tahto/lucidity">https://www.github.com/tahto/lucidity</a></h5>
-            <h5>Version: 1.2.0</h5>
+          <div class="outline">
+            <div class="toc">
+              <nav data-gumshoe-header>
+                <ul data-gumshoe>
+                  <a data-scroll class="top" href="#page-top">TOP</a>
+                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a><a class="section" data-scroll="" href="#installation"><h5><i>1.1 &nbsp; Installation</i></h5></a><a class="section" data-scroll="" href="#motivation"><h5><i>1.2 &nbsp; Motivation</i></h5></a><a class="section" data-scroll="" href="#walkthrough"><h5><i>1.3 &nbsp; Walkthrough</i></h5></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>2 &nbsp; API</h4></a><a class="section" data-scroll="" href="#entry__lucid_publish__copy_assets"><h5><i>copy-assets</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_publish__load_settings"><h5><i>load-settings</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_publish__publish"><h5><i>publish</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_publish__publish_all"><h5><i>publish-all</i></h5></a></li><li><a class="chapter" data-scroll="" href="#syntax"><h4>3 &nbsp; Syntax</h4></a><a class="section" data-scroll="" href="#notation"><h5><i>3.1 &nbsp; Notation</i></h5></a><a class="section" data-scroll="" href="#attributes"><h5><i>3.2 &nbsp; Attributes</i></h5></a><a class="section" data-scroll="" href="#sections"><h5><i>3.3 &nbsp; Sections</i></h5></a></li><li><a class="chapter" data-scroll="" href="#content"><h4>4 &nbsp; Content</h4></a><a class="section" data-scroll="" href="#paragraph"><h5><i>4.1 &nbsp; :paragraph</i></h5></a><a class="section" data-scroll="" href="#image"><h5><i>4.2 &nbsp; :image</i></h5></a><a class="section" data-scroll="" href="#file"><h5><i>4.3 &nbsp; :file</i></h5></a></li><li><a class="chapter" data-scroll="" href="#code"><h4>5 &nbsp; Code</h4></a><a class="section" data-scroll="" href="#normal-s-expressions"><h5><i>5.1 &nbsp; normal s-expressions</i></h5></a><a class="section" data-scroll="" href="#tests"><h5><i>5.2 &nbsp; Tests</i></h5></a><a class="section" data-scroll="" href="#fact--facts"><h5><i>5.3 &nbsp; fact/facts</i></h5></a><a class="section" data-scroll="" href="#comments"><h5><i>5.4 &nbsp; Comments</i></h5></a><a class="section" data-scroll="" href="#languages"><h5><i>5.5 &nbsp; Languages</i></h5></a></li><li><a class="chapter" data-scroll="" href="#project-level"><h4>6 &nbsp; Project Level</h4></a></li><li><a class="chapter" data-scroll="" href="#api-reference"><h4>7 &nbsp; API Reference</h4></a></li>
+                </ul>
+              </nav>
+            </div>
           </div>
-          <br/>
-          <hr/>
-        </div>
-        <div><a name="introduction"></a><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.publish</code> facilitates the creation of 'documentation that we can run', the tool allows for a design-orientated workflow for the programming process, blurring the boundaries between design, development, testing and documentation. This library was originally developed as <a href='https://www.github.com/zcaudate/lein-midje-doc'>lein-midje-doc</a>, and then <a href='https://www.github.com/helpshift/hydrox'>hydrox</a>.</p></div><div><a name="installation"></a><h3>1.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div><pre><code class="clojure">[tahto/lucid.publish &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.publish</code> namespace:</p></div><div><pre><code class="clojure">(use 'lucid.publish)</code></pre></div><div><a name="motivation"></a><h3>1.2 &nbsp;&nbsp; Motivation</h3></div><div><p>Documentation is the programmers' means of communicating how to use a library. There are various tools for documentation like <code>latex</code>, <code>wiki</code> and <code>markdown</code>, however <code>lucid.publish</code> should be thought of as an in-built html renderer for clojure code. It's features are:</p><ol><li>To generate <code>.html</code> documentation from a <code>.clj</code> test file.</li><li>Render code and test cases as examples</li><li>Latex-like numbering and linking facilities</li><li>To promote code as communication</li></ol></div><div><a name="basics"></a><h2><b>2 &nbsp;&nbsp; Basics</b></h2></div><div><p>Any clojure file can be made into a <code>.html</code> page. Let's give it a go. Create a file</p></div><h1>HELLO THERE</h1><div><pre><code class="clojure">^{:title &quot;hello world&quot;
+
+          <div class="toc">
+              <nav>
+                <ul>
+                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a><a class="section" data-scroll="" href="#installation"><h5><i>1.1 &nbsp; Installation</i></h5></a><a class="section" data-scroll="" href="#motivation"><h5><i>1.2 &nbsp; Motivation</i></h5></a><a class="section" data-scroll="" href="#walkthrough"><h5><i>1.3 &nbsp; Walkthrough</i></h5></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>2 &nbsp; API</h4></a><a class="section" data-scroll="" href="#entry__lucid_publish__copy_assets"><h5><i>copy-assets</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_publish__load_settings"><h5><i>load-settings</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_publish__publish"><h5><i>publish</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_publish__publish_all"><h5><i>publish-all</i></h5></a></li><li><a class="chapter" data-scroll="" href="#syntax"><h4>3 &nbsp; Syntax</h4></a><a class="section" data-scroll="" href="#notation"><h5><i>3.1 &nbsp; Notation</i></h5></a><a class="section" data-scroll="" href="#attributes"><h5><i>3.2 &nbsp; Attributes</i></h5></a><a class="section" data-scroll="" href="#sections"><h5><i>3.3 &nbsp; Sections</i></h5></a></li><li><a class="chapter" data-scroll="" href="#content"><h4>4 &nbsp; Content</h4></a><a class="section" data-scroll="" href="#paragraph"><h5><i>4.1 &nbsp; :paragraph</i></h5></a><a class="section" data-scroll="" href="#image"><h5><i>4.2 &nbsp; :image</i></h5></a><a class="section" data-scroll="" href="#file"><h5><i>4.3 &nbsp; :file</i></h5></a></li><li><a class="chapter" data-scroll="" href="#code"><h4>5 &nbsp; Code</h4></a><a class="section" data-scroll="" href="#normal-s-expressions"><h5><i>5.1 &nbsp; normal s-expressions</i></h5></a><a class="section" data-scroll="" href="#tests"><h5><i>5.2 &nbsp; Tests</i></h5></a><a class="section" data-scroll="" href="#fact--facts"><h5><i>5.3 &nbsp; fact/facts</i></h5></a><a class="section" data-scroll="" href="#comments"><h5><i>5.4 &nbsp; Comments</i></h5></a><a class="section" data-scroll="" href="#languages"><h5><i>5.5 &nbsp; Languages</i></h5></a></li><li><a class="chapter" data-scroll="" href="#project-level"><h4>6 &nbsp; Project Level</h4></a></li><li><a class="chapter" data-scroll="" href="#api-reference"><h4>7 &nbsp; API Reference</h4></a></li>
+                </ul>
+              </nav>
+          </div>
+          <div><span id="introduction"></span><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.publish</code> facilitates the creation of 'documentation that we can run', the tool allows for a design-orientated workflow for the programming process, blurring the boundaries between design, development, testing and documentation. This library was originally developed as <a href='https://www.github.com/zcaudate/lein-midje-doc'>lein-midje-doc</a>, and then <a href='https://www.github.com/helpshift/hydrox'>hydrox</a>.</p></div><div><span id="installation"></span><h3>1.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><pre><code class="clojure">[tahto/lucid.publish &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.publish</code> namespace:</p></div><div class="code"><pre><code class="clojure">(use 'lucid.publish)</code></pre></div><div><span id="motivation"></span><h3>1.2 &nbsp;&nbsp; Motivation</h3></div><div><p>Documentation is the programmers' means of communicating how to use a library. There are various tools for documentation like <code>latex</code>, <code>wiki</code> and <code>markdown</code>, however <code>lucid.publish</code> should be thought of as an in-built html renderer for clojure code. It's features are:</p><ol><li>To generate <code>.html</code> documentation from a <code>.clj</code> test file.</li><li>Render code and test cases as examples</li><li>Latex-like numbering and linking facilities</li><li>To promote code as communication</li></ol></div><div><span id="walkthrough"></span><h3>1.3 &nbsp;&nbsp; Walkthrough</h3></div><div><p>Any clojure file can be made into a <code>.html</code> page. Let's give it a go. Create a file in <code>test/example/sample&#95;document.clj</code> and copy and paste the following:</p></div><div class="code"><pre><code class="clojure">^{:site &quot;hello&quot;
+  :title &quot;world&quot;
   :subtitle &quot;this is a sample document&quot;}
 (ns example.sample-document
   (:use hara.test)
@@ -520,7 +121,142 @@ Qt Creator light color scheme
 
 [[{:hidden true}]]
 (comment
-  (publish/publish))</code></pre></div><div><a name="design-driven-development"></a><h2><b>3 &nbsp;&nbsp; Design Driven Development</b></h2></div><div><p>Documentation at the design level requires more visual elements than documentation at the function level. <code>lucid.publish</code> can generates a <code>.html</code> output based on a <code>.clj</code> file. This requires some configuration and so the following is placed in the <code>project.clj</code> file:</p></div><div><pre><code class="clojure">(defproject ...
+  (publish/publish))</code></pre></div><div><p>Now either <code>C-x</code>-<code>C-e</code> on the <code>&#40;publish/publish&#41;</code> line or write in the repl:</p></div><div class="code"><pre><code class="clojure">(require '[lucid.publish :as publish])
+
+(publish/publish 'example.sample-document)</code></pre></div><div><p>The output will look something like <a href='example.sample-document.html' target='_blank'>this</a></p></div><div><span id="api"></span><h2><b>2 &nbsp;&nbsp; API</b></h2></div><div class="api"><span id="entry__lucid_publish__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_publish__copy_assets">copy-assets</a></li><li><a data-scroll="" href="#entry__lucid_publish__load_settings">load-settings</a></li><li><a data-scroll="" href="#entry__lucid_publish__publish">publish</a></li><li><a data-scroll="" href="#entry__lucid_publish__publish_all">publish-all</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_publish__copy_assets"></span><div class="entry-description"><h4><b>copy-assets&nbsp<a data-scroll="" href="#entry__lucid_publish__">^</a></b></h4><p><i>tODO</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/publish.clj#L20-L40" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_publish__copy_assets" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_publish__copy_assets"></label><pre class="source"><code class="clojure">(defn copy-assets
+  ([]
+   (let [project (project/project)
+         theme (-> project :publish :theme)
+         settings (theme/load-settings theme)]
+     (copy-assets settings project)))
+  ([settings project]
+   (let [template-dir (theme/template-path settings project)
+         output-dir (output-path project)]
+     (prn template-dir output-dir settings)
+     (doseq [entry (:copy settings)]
+       (prn entry)
+       (let [dir   (fs/path template-dir entry)
+             files (->> (fs/select dir)
+                        (filter fs/file?))]
+         (doseq [in files]
+           (let [out (fs/path output-dir (str (fs/relativize dir in)))]
+             (fs/create-directory (fs/parent out))
+             (fs/copy-single in out {:options [:replace-existing :copy-attributes]}))))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/publish_test.clj#L9-L9" target="_blank">link</a></i></h6><code class="clojure"></code></pre></div><div class="entry"><span id="entry__lucid_publish__load_settings"></span><div class="entry-description"><h4><b>load-settings&nbsp<a data-scroll="" href="#entry__lucid_publish__">^</a></b></h4><p><i></i></p></div><div class="entry-option"><h6><i class="error version">NONE</i></h6><div><input class="source-toggle" id="entry__pre_lucid_publish__load_settings" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_publish__load_settings"></label><pre class="source"><code class="clojure">(defn load-settings
+  [opts project]
+  (let [theme (or (:theme opts)
+                  (-> project :publish :theme))
+        settings (merge (theme/load-settings theme)
+                        opts)]
+     (when (:refresh settings)
+       (theme/deploy settings project)
+       (copy-assets settings project))
+     settings))</code></pre></div></div><pre class="error"><h6>example not found</h6><code></code></pre></div><div class="entry"><span id="entry__lucid_publish__publish"></span><div class="entry-description"><h4><b>publish&nbsp<a data-scroll="" href="#entry__lucid_publish__">^</a></b></h4><p><i>tODO</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/publish.clj#L59-L83" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_publish__publish" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_publish__publish"></label><pre class="source"><code class="clojure">(defn publish
+  ([] (publish [*ns*] {} (project/project)))
+  ([x] (cond (map? x)
+             (publish [*ns*] x (project/project))
+
+             :else
+             (publish x {} (project/project))))
+  ([inputs opts project]
+   (let [project (add-lookup project)
+         settings (load-settings opts project)
+         inputs (if (vector? inputs) inputs [inputs])
+         ns->symbol (fn [x] (if (instance? clojure.lang.Namespace x)
+                              (.getName x)
+                              x))
+         inputs (map ns->symbol inputs)
+         interim (prepare/prepare inputs project)
+         names (-> interim :articles keys)
+         out-dir (fs/path (-> project :root)
+                          (or (-> project :publish :output) *output*))]
+     (fs/create-directory out-dir)
+     (doseq [name names]
+       (spit (str (fs/path (str out-dir) (str name ".html")))
+             (render/render interim name settings project))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/publish_test.clj#L15-L15" target="_blank">link</a></i></h6><code class="clojure"></code></pre></div><div class="entry"><span id="entry__lucid_publish__publish_all"></span><div class="entry-description"><h4><b>publish-all&nbsp<a data-scroll="" href="#entry__lucid_publish__">^</a></b></h4><p><i>tODO</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/publish.clj#L85-L95" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_publish__publish_all" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_publish__publish_all"></label><pre class="source"><code class="clojure">(defn publish-all
+  ([] (publish-all {} (project/project)))
+  ([opts project]
+   (let [project  (add-lookup project)
+         settings (load-settings opts project)
+         template (theme/template-path settings project)
+         output   (output-path project)
+         files (-> project :publish :files keys vec)]
+     (publish files settings project))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/publish_test.clj#L18-L18" target="_blank">link</a></i></h6><code class="clojure"></code></pre></div></div></div></div><div><span id="syntax"></span><h2><b>3 &nbsp;&nbsp; Syntax</b></h2></div><div><p>Elements are constructed using a tag and a map contained within double square brackets. Elements tags have been inspired from latex:</p><ul><li><a href='#sectioning-elements'>Sectioning Elements</a></li><li><a href='#text-elements'>Text Elements</a></li><li><a href='#code-elements'>Code Elements</a></li><li><a href='#additional-elements'>Additional Elements</a></li></ul><p>Clojure strings are treated as paragraph elements whilst clojure forms are treated as code elements. <code>fact</code> and <code>comment</code> forms are also considered code elements. Elements will be described in detail in their respective sections.</p></div><div><span id="notation"></span><h3>3.1 &nbsp;&nbsp; Notation</h3></div><div class="code"><a id="elements-ex1"></a><h4><i>e.3.1  &nbsp;-&nbsp; Element Notation</i></h4><pre><code class="clojure">[[&lt;tag&gt; {&lt;key1&gt; &lt;value1&gt;, &lt;key2&gt; &lt;value2&gt;}]]</code></pre></div><div><p>for example:</p></div><div class="code"><pre><code class="clojure">[[:chapter {:title &quot;Hello World&quot; :tag &quot;hello&quot;}]]</code></pre></div><div><span id="attributes"></span><h3>3.2 &nbsp;&nbsp; Attributes</h3></div><div><p>Attribute add additional metadata to elements. They are written as a single hashmap within double square brackets. Attributes mean nothing by themselves. They change the properties of elements directly after them.</p></div><div class="code"><pre><code class="clojure">[[{:tag &quot;my-paragraph&quot;}]]
+[[:paragraph {:content &quot;This is a paragraph&quot;}]]</code></pre></div><div><p>is equivalent to:</p></div><div class="code"><pre><code class="clojure">[[:paragraph {:content &quot;This is a paragraph&quot;
+              :tag &quot;my-paragraph&quot;}]]</code></pre></div><div><p>Multiple attributes can be stacked to modify an element:</p></div><div class="code"><pre><code class="clojure">[[{:numbered false}]]
+[[{:lang &quot;shell&quot;}]]
+(comment
+  &gt; lein repl)</code></pre></div><div><p>displays the following:</p></div><div class="code"><pre><code class="shell">&gt; lein repl</code></pre></div><div><span id="sections"></span><h3>3.3 &nbsp;&nbsp; Sections</h3></div><div><p>Sectioning elements are taken from latex and allow the document to be organised into logical sections. From highest to lowest order of priority, they are: <code>:chapter</code>, <code>section</code>, <code>subsection</code> and <code>:subsubsection</code>, giving four levels of organisation.</p><p>The numbering for elements are generated in sequencial order: <code>&#40;1, 2, 3 ... etc&#41;</code> and a tag can be generated from the title or specified for creating links within the document. <code>:chapter</code>, <code>section</code> and <code>subsection</code> elements are list in the table of contents using tags.</p><p>For example, I wish to write a chapter about animals and have organised content into categories shown below.</p></div><div class="code"><pre><code class="clojure">Animals
+- Mammals
+- Birds
+- - Can Fly
+- - - Eagle
+- - - Hummingbird
+- - Flightless
+- - - Penguin</code></pre></div><div><p>It is very straight forward to turn this into sectioning elements which will then generate the sectioning numbers for different categories</p></div><div class="code"><pre><code class="clojure">[[:chapter {:title &quot;Animals&quot;}]]
+[[:section {:title &quot;Mammals&quot;}]]
+[[:section {:title &quot;Birds&quot;}]]
+[[:subsection {:title &quot;Can Fly&quot;}]]
+[[:subsubsection {:title &quot;Eagle&quot;}]]
+[[:subsubsection {:title &quot;Hummingbird&quot;}]]
+[[:subsection {:title &quot;Flightless&quot;}]]
+[[:subsubsection {:title &quot;Penguin&quot;}]]</code></pre></div><div><p>The sections will be automatically numbered as show below:</p></div><div class="code"><pre><code class="clojure">Animals             ; 1 
+- Mammals           ; 1.1
+- Birds             ; 1.2
+- - Can Fly         ; 1.2.1
+- - - Eagle         ; 1.2.1.1
+- - - Hummingbird   ; 1.2.1.2
+- - Flightless      ; 1.2.2
+- - - Penguin       ; 1.2.2.1</code></pre></div><div><span id="content"></span><h2><b>4 &nbsp;&nbsp; Content</b></h2></div><div><p>Content elements include <code>:paragraph</code>, <code>:image</code>, and <code>file</code> elements.</p></div><div><span id="paragraph"></span><h3>4.1 &nbsp;&nbsp; :paragraph</h3></div><div><p>Paragraph elements should make up the bulk of the documentation. They can be written as an element or in the usual case, as a string. The string is markdown with templating - so that chapter, section, code and image numbers can be referred to by their tags.</p></div><div class="code"><h4><i>e.4.1  &nbsp;-&nbsp; Paragraph Element</i></h4><pre><code class="clojure">[[:paragraph {:content &quot;Here is some content&quot;}]]</code></pre></div><div class="code"><h4><i>e.4.2  &nbsp;-&nbsp; Paragraph String</i></h4><pre><code class="clojure">&quot;Here is some content&quot;</code></pre></div><div class="code"><h4><i>e.4.3  &nbsp;-&nbsp; Markdown String</i></h4><pre><code class="clojure">[[:chapter {:title &quot;Chapter Heading&quot; :tag &quot;ch-heading&quot;}]]
+
+&quot;
+# Heading One
+Here is some text.
+Here is a tag reference to Chapter Heading - {{ch-heading}}
+
+- Here is a bullet point
+- Here is another one&quot;</code></pre></div><div><span id="image"></span><h3>4.2 &nbsp;&nbsp; :image</h3></div><div><p>The <code>:image</code> element embeds an image as a figure within the document. It is numbered and can be tagged for easy reference. The code example below:</p></div><div class="code"><pre><code class="clojure">[[:image {:tag &quot;clojure-logo&quot; :title &quot;Clojure Logo (source clojure.org)&quot;
+          :src &quot;http://clojure.org/images/clojure-logo-120b.png&quot;}]]</code></pre></div><div><p>produces the image below in Figure 1:</p></div><div class="figure"><a id="clojure-logo"></a><h4><i>fig.1  &nbsp;-&nbsp; Clojure Logo (source clojure.org)</i></h4><div class="img"><img line="{:row 229, :col 1, :end-row 230, :end-col 68}" src="http://clojure.org/images/clojure-logo-120b.png" title="Clojure Logo (source clojure.org)" /></div><p></p></div><div><span id="file"></span><h3>4.3 &nbsp;&nbsp; :file</h3></div><div><p>The <code>:file</code> element allows inclusion of other files into the document. It is useful for breaking up a document into managable chunks. A file element require that the <code>:src</code> attribute be specified. A high-level view of a document can thus be achieved, making the source more readable. This is similar to the <code>include</code> element in latex.</p></div><div class="code"><a id="file-element"></a><h4><i>e.4.4  &nbsp;-&nbsp; :file tag example</i></h4><pre><code class="clojure">[[:file {:src &quot;test/docs/first_section.clj&quot;}]]
+[[:file {:src &quot;test/docs/second_section.clj&quot;}]]
+[[:file {:src &quot;test/docs/third_section.clj&quot;}]]</code></pre></div><div><span id="code"></span><h2><b>5 &nbsp;&nbsp; Code</b></h2></div><div><p>Code displayed in documentation are of a few types:</p><ol><li>Code that needs to be run (normal clojure code)</li><li>Code that needs verification taking input and showing output. (midje fact)</li><li>Code that should not be run (namespace declaration examples)</li><li>Code that is part of the library's tests or source definition</li><li>Code in other languages</li></ol><p>The different types of code can be defined so that code examples render properly using a variety of methods</p></div><div><span id="normal-s-expressions"></span><h3>5.1 &nbsp;&nbsp; normal s-expressions</h3></div><div><p>Normal s-expressions are rendered as is. Attributes can be added for grouping purposes. The source code shown below</p></div><div class="code"><a id="c-add-src"></a><h4><i>e.5.1  &nbsp;-&nbsp; seperating code blocks through attributes</i></h4><pre><code class="clojure">[[{:title &quot;add-n definition&quot; :tag &quot;c-add-1&quot;}]]
+(defn add-n [n]
+  (fn [x] (+ x n)))
+
+[[{:title &quot;add-4 and add-5 definitions&quot; :tag &quot;c-add-2&quot;}]]
+(def add-4 (add-n 4))
+(def add-5 (add-n 5))</code></pre></div><div><p>renders the following outputs:</p></div><div class="code"><a id="c-add-1"></a><h4><i>e.5.2  &nbsp;-&nbsp; add-n definition</i></h4><pre><code class="clojure">(defn add-n [n]
+  (fn [x] (+ x n)))</code></pre></div><div class="code"><a id="c-add-2"></a><h4><i>e.5.3  &nbsp;-&nbsp; add-4 and add-5 definitions</i></h4><pre><code class="clojure">(def add-4 (add-n 4))
+(def add-5 (add-n 5))</code></pre></div><div><span id="tests"></span><h3>5.2 &nbsp;&nbsp; Tests</h3></div><div><p>Documentation examples put in <code>fact</code> forms allows the code to be verified for correctness using <code>hara.test</code> as well as <code>midje</code>. Document element notation still be rendered except before and after arrows (<strong>=></strong>). Consecutive code within a fact form will stacked as one common code block.</p></div><div><span id="fact--facts"></span><h3>5.3 &nbsp;&nbsp; fact/facts</h3></div><div><p>For an entire block to be embedded in code, use the <code>fact</code> form. The following code</p></div><div class="code"><a id="c-fact-src"></a><h4><i>e.5.4  &nbsp;-&nbsp; Fact Form Source</i></h4><pre><code class="clojure">[[{:tag &quot;fact-form-output&quot; :title &quot;Fact Form Output&quot;}]]
+(fact
+  (def a (atom 1))
+  (deref a) =&gt; 1
+
+  (swap! a inc 1)
+  (deref a) =&gt; 2)</code></pre></div><div><p>renders the this output:</p></div><div class="code"><pre><code class="clojure">(def a (atom 1))
+(deref a) =&gt; 1
+
+(swap! a inc)
+(deref a) =&gt; 2</code></pre></div><div><span id="comments"></span><h3>5.4 &nbsp;&nbsp; Comments</h3></div><div><p>Comments are clojure's built-in method of displaying non-running code and so this mechanisim is used in clojure for displaying code that should not be run, but still requires display. Code can still output without interferring with code or tests.</p></div><div class="code"><a id="c-com-src"></a><h4><i>e.5.5  &nbsp;-&nbsp; Switching to a new namespace</i></h4><pre><code class="clojure">[[{:title &quot;Switching to a new namespace&quot; :tag &quot;c-com-1&quot;}]]
+(comment
+  (in-ns 'hello.world)
+  (use 'clojure.string)
+  (split &quot;Hello World&quot; #&quot;&#92;s&quot;) ;=&gt; [&quot;Hello&quot; &quot;World&quot;]
+  )</code></pre></div><div class="code"><a id="c-com-1"></a><h4><i>e.5.6  &nbsp;-&nbsp; Switching to a new namespace</i></h4><pre><code class="clojure">(in-ns 'hello.world)
+(use 'clojure.string)
+(split &quot;Hello World&quot; #&quot;&#92;s&quot;) ;=&gt; [&quot;Hello&quot; &quot;World&quot;]</code></pre></div><div><span id="languages"></span><h3>5.5 &nbsp;&nbsp; Languages</h3></div><div><p>The most generic way of displaying code is with the <code>:code</code> tag. It is useful when code in other languages are required to be in the documentation.</p></div><div><span id="python-example"></span><h3><i>5.5.1 &nbsp;&nbsp; Python Example</i></h3></div><div><p>The source and outputs are listed below:</p></div><div class="code"><a id="c-py-src"></a><h4><i>e.5.7  &nbsp;-&nbsp; Python for Loop Source</i></h4><pre><code class="clojure">[[:code {:lang &quot;python&quot; :title &quot;Python for Loop&quot; :tag &quot;c-py-1&quot;}
+&quot;
+myList = [1,2,3,4]
+for index in range(len(myList)):
+  myList[index] += 1
+print myList&quot;]]</code></pre></div><div class="code"><a id="c-py-1"></a><h4><i>e.5.8  &nbsp;-&nbsp; Python for Loop</i></h4><pre><code class="python">myList = [1,2,3,4]
+for index in range(len(myList)):
+  myList[index] += 1
+print myList</code></pre></div><div><span id="ruby-example"></span><h3><i>5.5.2 &nbsp;&nbsp; Ruby Example</i></h3></div><div><p>The source and outputs are listed below:</p></div><div class="code"><a id="c-rb-src"></a><h4><i>e.5.9  &nbsp;-&nbsp; Ruby for Loop Source</i></h4><pre><code class="clojure">[[:code {:lang &quot;ruby&quot; :title &quot;Ruby for Loop&quot; :tag &quot;c-rb-2&quot;}
+&quot;
+array.each_with_index do |element,index|
+  element.do_stuff(index)
+end&quot;]]</code></pre></div><div class="code"><a id="c-rb-2"></a><h4><i>e.5.10  &nbsp;-&nbsp; Ruby for Loop</i></h4><pre><code class="ruby">array.each_with_index do |element,index|
+    element.do_stuff(index)
+end</code></pre></div><div><span id="project-level"></span><h2><b>6 &nbsp;&nbsp; Project Level</b></h2></div><div><p>Documentation at the design level requires more visual elements than documentation at the function level. <code>lucid.publish</code> can generates a <code>.html</code> output based on a <code>.clj</code> file. This requires some configuration and so the following is placed in the <code>project.clj</code> file:</p></div><div class="code"><pre><code class="clojure">(defproject ...
   ...
   :publish {:site   &quot;sample&quot;
             :output &quot;docs&quot;
@@ -529,153 +265,31 @@ Qt Creator light color scheme
                     {:input &quot;test/documentation/sample_document.clj&quot;
                      :title &quot;a sample document&quot;
                      :subtitle &quot;generating a document from code&quot;}}}
-  ...)</code></pre></div><div><p>The <code>:publish</code> key in <code>defproject</code> specifies which files to use as entry points to use for html generation. A sample can be seen below:</p></div><div><pre><code class="clojure">(ns documentation.sample.document
-  (:require [midje.sweet :refer :all]))
-  
-[[:chapter {:tag &quot;hello&quot; :title &quot;Hello Midje Doc&quot;}]]
-
-&quot;This is an introduction to writing with midje-doc.&quot;
-
-[[:section {:title &quot;Defining a function&quot;}]]
-
-&quot;We define function `add-5` below:&quot;
-
-[[{:numbered false}]]
-(defn add-5 [x]
-  (+ x 5))
-
-[[:section {:title &quot;Testing a function&quot;}]]
-
-&quot;`add-5` outputs the following results:&quot;
-
-(facts
-  [[{:tag &quot;add-5-1&quot; :title &quot;1 add 5 = 6&quot;}]]
-  (add-5 1) =&gt; 6
-
-  [[{:tag &quot;add-5-10&quot; :title &quot;10 add 5 = 15&quot;}]]
-  (add-5 10) =&gt; 15)</code></pre></div><div><p>A pretty looking html document can be generated by running <code>publish</code>:</p></div><div><pre><code class="clojure">(publish &quot;sample-document&quot;)</code></pre></div><div><p>The <code>:output</code> entry specifies the directory that files are rendered to.</p></div><div><a name="api-reference"></a><h2><b>4 &nbsp;&nbsp; API Reference</b></h2></div><div><a name="the-basics"></a><h3>4.1 &nbsp;&nbsp; The Basics</h3></div><div><a name="elements"></a><h3><i>4.1.1 &nbsp;&nbsp; elements</i></h3></div><div><p>Elements are constructed using a tag and a map contained within double square brackets. Elements tags have been inspired from latex:</p><ul><li><a href='#sectioning-elements'>Sectioning Elements</a></li><li><a href='#text-elements'>Text Elements</a></li><li><a href='#code-elements'>Code Elements</a></li><li><a href='#additional-elements'>Additional Elements</a></li></ul><p>Clojure strings are treated as paragraph elements whilst clojure forms are treated as code elements. <code>fact</code> and <code>comment</code> forms are also considered code elements. Elements will be described in detail in their respective sections.</p></div><div><a name="elements-ex1"></a><h4><i>e.4.1  &nbsp;-&nbsp; Element Notation</i></h4><pre><code class="clojure">[[&lt;tag&gt; {&lt;key1&gt; &lt;value1&gt;, &lt;key2&gt; &lt;value2&gt;}]]
-
-for example
-
-[[:chapter {:title &quot;Hello World&quot; :tag &quot;hello&quot;}]]</code></pre></div><div><a name="attributes"></a><h3><i>4.1.2 &nbsp;&nbsp; attributes</i></h3></div><div><p>Attribute add additional metadata to elements. They are written as a single hashmap within double square brackets. Attributes mean nothing by themselves. They change the properties of elements directly after them.</p></div><div><pre><code class="clojure">[[{:tag &quot;my-paragraph&quot;}]]
-[[:paragraph {:content &quot;This is a paragraph&quot;}]]
-
-is equivalent to
-
-[[:paragraph {:content &quot;This is a paragraph&quot;
-              :tag &quot;my-paragraph&quot;}]]</code></pre></div><div><p>Multiple attributes can be stacked to modify an element:</p></div><div><pre><code class="clojure">[[{:numbered false}]]
-[[{:lang &quot;shell&quot;}]]
-(comment
-  &gt; lein repl)</code></pre></div><div><p>produces the following shell code:</p></div><div><pre><code class="shell">&gt; lein repl</code></pre></div><div><a name="sectioning-elements"></a><h3>4.2 &nbsp;&nbsp; Sectioning Elements</h3></div><div><p>Sectioning elements are taken from latex and allow the document to be organised into logical sections. From highest to lowest order of priority, they are: <code>:chapter</code>, <code>section</code>, <code>subsection</code> and <code>:subsubsection</code>, giving four levels of organisation.</p><p>The numbering for elements are generated in sequencial order: <code>&#40;1, 2, 3 ... etc&#41;</code> and a tag can be generated from the title or specified for creating links within the document. <code>:chapter</code>, <code>section</code> and <code>subsection</code> elements are list in the table of contents using tags.</p><p>For example, I wish to write a chapter about animals and have organised content into categories shown below.</p></div><div><pre><code class="clojure">Animals
-- Mammals
-- Birds
-*- Can Fly
-**- Eagle
-**- Hummingbird
-*- Flightless
-**- Penguin</code></pre></div><div><p>It is very straight forward to turn this into sectioning elements which will then generate the sectioning numbers for different categories</p></div><div><pre><code class="clojure">[[:chapter {:title &quot;Animals&quot;}]]
-[[:section {:title &quot;Mammals&quot;}]]
-[[:section {:title &quot;Birds&quot;}]]
-[[:subsection {:title &quot;Can Fly&quot;}]]
-[[:subsubsection {:title &quot;Eagle&quot;}]]
-[[:subsubsection {:title &quot;Hummingbird&quot;}]]
-[[:subsection {:title &quot;Flightless&quot;}]]
-[[:subsubsection {:title &quot;Penguin&quot;}]]</code></pre></div><div><p>The sections will be automatically numbered as show below:</p></div><div><pre><code class="clojure">*1 Animals                ;; animals
-*1.1 Mammals              ;; mammals
-*1.2 Birds                ;; birds
-  *1.2.1 Can Fly          ;; can-fly
-    *1.2.1.1 Eagle        ;; eagle
-    *1.2.1.2 Hummingbird  ;; hummingbird
-  *1.2.2 Flightless       ;; flightless
-    *1.2.2.1 Penguin      ;; penguin</code></pre></div><div><a name="content-elements"></a><h3>4.3 &nbsp;&nbsp; Content Elements</h3></div><div><p>Content elements include <code>:paragraph</code>, <code>:image</code>, and <code>file</code> elements.</p></div><div><a name="paragraph"></a><h3><i>4.3.1 &nbsp;&nbsp; :paragraph</i></h3></div><div><p>Paragraph elements should make up the bulk of the documentation. They can be written as an element or in the usual case, as a string. The string is markdown with templating - so that chapter, section, code and image numbers can be referred to by their tags.</p></div><div><h4><i>e.4.2  &nbsp;-&nbsp; Paragraph Element</i></h4><pre><code class="clojure">[[:paragraph {:content &quot;Here is some content&quot;}]]</code></pre></div><div><h4><i>e.4.3  &nbsp;-&nbsp; Paragraph String</i></h4><pre><code class="clojure">&quot;Here is some content&quot;</code></pre></div><div><h4><i>e.4.4  &nbsp;-&nbsp; Markdown String</i></h4><pre><code class="clojure">[[:chapter {:title &quot;Chapter Heading&quot; :tag &quot;ch-heading&quot;}]]
-
-&quot;
-# Heading One
-Here is some text.
-Here is a tag reference to Chapter Heading - {{ch-heading}}
-
-- Here is a bullet point
-- Here is another one&quot;</code></pre></div><div><a name="image"></a><h3><i>4.3.2 &nbsp;&nbsp; :image</i></h3></div><div><p>The <code>:image</code> element embeds an image as a figure within the document. It is numbered and can be tagged for easy reference. The code example produces the image seen in Figure 1:</p></div><div><pre><code class="clojure">[[:image {:tag &quot;clojure-logo&quot; :title &quot;Clojure Logo (source clojure.org)&quot;
-          :src &quot;http://clojure.org/images/clojure-logo-120b.png&quot;}]]</code></pre></div><div class="figure"><a name="clojure-logo"></a><h4><i>fig.1  &nbsp;-&nbsp; Clojure Logo (source clojure.org)</i></h4><div class="img"><img number="1" src="http://clojure.org/images/clojure-logo-120b.png" title="Clojure Logo (source clojure.org)" /></div><p></p></div><div><a name="file"></a><h3><i>4.3.3 &nbsp;&nbsp; :file</i></h3></div><div><p>The <code>:file</code> element allows inclusion of other files into the document. It is useful for breaking up a document into managable chunks. A file element require that the <code>:src</code> attribute be specified. A high-level view of a document can thus be achieved, making the source more readable. This is similar to the <code>include</code> element in latex.</p></div><div><a name="file-element"></a><h4><i>e.4.5  &nbsp;-&nbsp; :file tag example</i></h4><pre><code class="clojure">[[:file {:src &quot;test/docs/first_section.clj&quot;}]]
-[[:file {:src &quot;test/docs/second_section.clj&quot;}]]
-[[:file {:src &quot;test/docs/third_section.clj&quot;}]]</code></pre></div><div><a name="code-elements"></a><h3>4.4 &nbsp;&nbsp; Code Elements</h3></div><div><p>Code displayed in documentation are of a few types:</p><ol><li>Code that needs to be run (normal clojure code)</li><li>Code that needs verification taking input and showing output. (midje fact)</li><li>Code that should not be run (namespace declaration examples)</li><li>Code that is part of the library's tests or source definition</li><li>Code in other languages</li></ol><p>The different types of code can be defined so that code examples render properly using a variety of methods</p></div><div><a name="normal-s-expressions"></a><h3><i>4.4.1 &nbsp;&nbsp; normal s-expressions</i></h3></div><div><p>Normal s-expressions are rendered as is. Attributes can be added for grouping purposes. The source code shown below</p></div><div><a name="c-add-src"></a><h4><i>e.4.6  &nbsp;-&nbsp; seperating code blocks through attributes</i></h4><pre><code class="clojure">[[{:title &quot;add-n definition&quot; :tag &quot;c-add-1&quot;}]]
-(defn add-n [n]
-  (fn [x] (+ x n)))
-
-[[{:title &quot;add-4 and add-5 definitions&quot; :tag &quot;c-add-2&quot;}]]
-(def add-4 (add-n 4))
-(def add-5 (add-n 5))</code></pre></div><div><p>renders the following outputs:</p></div><div><a name="c-add-1"></a><h4><i>e.4.7  &nbsp;-&nbsp; add-n definition</i></h4><pre><code class="clojure">(defn add-n [n]
-  (fn [x] (+ x n)))</code></pre></div><div><a name="c-add-2"></a><h4><i>e.4.8  &nbsp;-&nbsp; add-4 and add-5 definitions</i></h4><pre><code class="clojure">(def add-4 (add-n 4))
-(def add-5 (add-n 5))</code></pre></div><div><a name="test-forms"></a><h3><i>4.4.2 &nbsp;&nbsp; test forms</i></h3></div><div><p>Documentation examples put in <code>facts</code> forms allows the code to be verified for correctness using <code>lein midje</code>. Document element notation still be rendered except before and after the midje arrows (<strong>=></strong>). Consecutive code within a fact form will stacked as one common code block.</p></div><div><p>The source form:</p></div><div><a name="c-facts-src"></a><h4><i>e.4.9  &nbsp;-&nbsp; Facts Form Source</i></h4><pre><code class="clojure">[[{:tag &quot;facts-form-output&quot; :title &quot;Facts Form Output&quot;}]]
-(facts
-  [[{:title &quot;Definining an atom&quot; :tag &quot;c-facts-1&quot;}]]
-  (def a (atom 1))
-  (deref a) =&gt; 1
-
-  [[{:title &quot;Updating the atom&quot; :tag &quot;c-facts-2&quot;}]]
-  (swap! a inc)
-  (deref a) =&gt; 2)</code></pre></div><div><p>Renders the following output:</p></div><div><pre><code class="clojure">s
-[[{:title &quot;Definining an atom&quot; :tag &quot;c-facts-1&quot;}]]
-(def a (atom 1))
-(deref a) =&gt; 1
-
-[[{:title &quot;Updating the atom&quot; :tag &quot;c-factss-2&quot;}]]
-(swap! a inc)
-(deref a) =&gt; 2</code></pre></div><div><a name="fact-form"></a><h3><i>4.4.3 &nbsp;&nbsp; fact form</i></h3></div><div><p>For an entire block to be embedded in code, use the <code>fact</code> form. The source form:</p></div><div><a name="c-fact-src"></a><h4><i>e.4.10  &nbsp;-&nbsp; Fact Form Source</i></h4><pre><code class="clojure">[[{:tag &quot;fact-form-output&quot; :title &quot;Fact Form Output&quot;}]]
-(fact
-  (def a (atom 1))
-  (deref a) =&gt; 1
-
-  (swap! a inc 1)
-  (deref a) =&gt; 2)</code></pre></div><div><p>Renders the following output:</p></div><div><pre><code class="clojure">(def a (atom 1))
-(deref a) =&gt; 1
-
-(swap! a inc)
-(deref a) =&gt; 2</code></pre></div><div><a name="comments"></a><h3><i>4.4.4 &nbsp;&nbsp; comments</i></h3></div><div><p>Comments are clojure's built-in method of displaying non-running code and so this mechanisim is used in clojure for displaying code that should not be run, but still requires display. Code can still output without interferring with code or tests.</p></div><div><a name="c-com-src"></a><h4><i>e.4.11  &nbsp;-&nbsp; Switching to a new namespace</i></h4><pre><code class="clojure">[[{:title &quot;Switching to a new namespace&quot; :tag &quot;c-com-1&quot;}]]
-(comment
-  (in-ns 'hello.world)
-  (use 'clojure.string)
-  (split &quot;Hello World&quot; #&quot;&#92;s&quot;) ;=&gt; [&quot;Hello&quot; &quot;World&quot;]
-  )</code></pre></div><div><a name="c-com-1"></a><h4><i>e.4.12  &nbsp;-&nbsp; Switching to a new namespace</i></h4><pre><code class="clojure">(in-ns 'hello.world)
-(use 'clojure.string)
-(split &quot;Hello World&quot; #&quot;&#92;s&quot;) ;=&gt; [&quot;Hello&quot; &quot;World&quot;]</code></pre></div><div><a name="code"></a><h3><i>4.4.5 &nbsp;&nbsp; code</i></h3></div><div><p>The most generic way of displaying code is with the <code>:code</code> tag. It is useful when code in other languages are required to be in the documentation.</p></div><div><a name="python-example"></a><h3><i>4.4.5.1 &nbsp;&nbsp; Python Example</i></h3></div><div><p>The source and outputs are listed below:</p></div><div><a name="c-py-src"></a><h4><i>e.4.13  &nbsp;-&nbsp; Python for Loop Source</i></h4><pre><code class="clojure">[[:code {:lang &quot;python&quot; :title &quot;Python for Loop&quot; :tag &quot;c-py-1&quot;}
-&quot;
-myList = [1,2,3,4]
-for index in range(len(myList)):
-  myList[index] += 1
-print myList&quot;]]</code></pre></div><div><a name="c-py-1"></a><h4><i>e.4.14  &nbsp;-&nbsp; Python for Loop</i></h4><pre><code class="python">myList = [1,2,3,4]
-for index in range(len(myList)):
-  myList[index] += 1
-print myList</code></pre></div><div><a name="ruby-example"></a><h3><i>4.4.5.2 &nbsp;&nbsp; Ruby Example</i></h3></div><div><p>The source and outputs are listed below:</p></div><div><a name="c-rb-src"></a><h4><i>e.4.15  &nbsp;-&nbsp; Ruby for Loop Source</i></h4><pre><code class="clojure">[[:code {:lang &quot;ruby&quot; :title &quot;Ruby for Loop&quot; :tag &quot;c-rb-2&quot;}
-&quot;
-array.each_with_index do |element,index|
-  element.do_stuff(index)
-end&quot;]]</code></pre></div><div><a name="c-rb-2"></a><h4><i>e.4.16  &nbsp;-&nbsp; Ruby for Loop</i></h4><pre><code class="ruby">array.each_with_index do |element,index|
-    element.do_stuff(index)
-end</code></pre></div>
-      </section>
+  ...)</code></pre></div><div><p>The <code>:publish</code> key in <code>defproject</code> specifies which files to use as entry points to use for html generation. A sample can be seen below:</p></div><div><span id="api-reference"></span><h2><b>7 &nbsp;&nbsp; API Reference</b></h2></div>
+        </div>
+      </div>
     </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
   </body>
+
+  <script>
+  if (true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-31320512-2', 'caudate.me');
+    ga('send', 'pageview');
+  }
+  </script>
+  
   <script type="text/javascript">
-    var metas = document.getElementsByTagName('meta');
-var i;
-if (navigator.userAgent.match(/iPhone/i)) {
-  for (i=0; i<metas.length; i++) {
-    if (metas[i].name == "viewport") {
-      metas[i].content = "width=device-width, minimum-scale=1.0, maximum-scale=1.0";
-    }
-  }
-  document.addEventListener("gesturestart", gestureStart, false);
-}
-function gestureStart() {
-  for (i=0; i<metas.length; i++) {
-    if (metas[i].name == "viewport") {
-      metas[i].content = "width=device-width, minimum-scale=0.25, maximum-scale=1.6";
-    }
-  }
-}
-    
+    smoothScroll.init();
+    gumshoe.init({});
+  
     hljs.registerLanguage("clojure",function(e){var t={"builtin-name":"def defonce cond apply if-not if-let if not not= = < > <= >= == + / * - rem quot neg? pos? delay? symbol? keyword? true? false? integer? empty? coll? list? set? ifn? fn? associative? sequential? sorted? counted? reversible? number? decimal? class? distinct? isa? float? rational? reduced? ratio? odd? even? char? seq? vector? string? map? nil? contains? zero? instance? not-every? not-any? libspec? -> ->> .. . inc compare do dotimes mapcat take remove take-while drop letfn drop-last take-last drop-while while intern condp case reduced cycle split-at split-with repeat replicate iterate range merge zipmap declare line-seq sort comparator sort-by dorun doall nthnext nthrest partition eval doseq await await-for let agent atom send send-off release-pending-sends add-watch mapv filterv remove-watch agent-error restart-agent set-error-handler error-handler set-error-mode! error-mode shutdown-agents quote var fn loop recur throw try monitor-enter monitor-exit defmacro defn defn- macroexpand macroexpand-1 for dosync and or when when-not when-let comp juxt partial sequence memoize constantly complement identity assert peek pop doto proxy defstruct first rest cons defprotocol cast coll deftype defrecord last butlast sigs reify second ffirst fnext nfirst nnext defmulti defmethod meta with-meta ns in-ns create-ns import refer keys select-keys vals key val rseq name namespace promise into transient persistent! conj! assoc! dissoc! pop! disj! use class type num float double short byte boolean bigint biginteger bigdec print-method print-dup throw-if printf format load compile get-in update-in pr pr-on newline flush read slurp read-line subvec with-open memfn time re-find re-groups rand-int rand mod locking assert-valid-fdecl alias resolve ref deref refset swap! reset! set-validator! compare-and-set! alter-meta! reset-meta! commute get-validator alter ref-set ref-history-count ref-min-history ref-max-history ensure sync io! new next conj set! to-array future future-call into-array aset gen-class reduce map filter find empty hash-map hash-set sorted-map sorted-map-by sorted-set sorted-set-by vec vector seq flatten reverse assoc dissoc list disj get union difference intersection extend extend-type extend-protocol int nth delay count concat chunk chunk-buffer chunk-append chunk-first chunk-rest max min dec unchecked-inc-int unchecked-inc unchecked-dec-inc unchecked-dec unchecked-negate unchecked-add-int unchecked-add unchecked-subtract-int unchecked-subtract chunk-next chunk-cons chunked-seq? prn vary-meta lazy-seq spread list* str find-keyword keyword symbol gensym force rationalize"},r="a-zA-Z_\\-!.?+*=<>&#'",n="["+r+"]["+r+"0-9/;:]*",a="[-+]?\\d+(\\.\\d+)?",o={b:n,r:0},s={cN:"number",b:a,r:0},i=e.inherit(e.QSM,{i:null}),c=e.C(";","$",{r:0}),d={cN:"literal",b:/\b(true|false|nil)\b/},l={b:"[\\[\\{]",e:"[\\]\\}]"},m={cN:"comment",b:"\\^"+n},p=e.C("\\^\\{","\\}"),u={cN:"symbol",b:"[:]{1,2}"+n},f={b:"\\(",e:"\\)"},h={eW:!0,r:0},y={k:t,l:n,cN:"name",b:n,starts:h},b=[f,i,m,p,c,u,l,s,d,o];return f.c=[e.C("comment",""),y,h],h.c=b,l.c=b,{aliases:["clj"],i:/\S/,c:[f,i,m,p,c,u,l,s,d]}});
     hljs.initHighlightingOnLoad();
   </script>
-  </html>
+</html>

@@ -7,6 +7,32 @@
             [clojure.string :as string]))
 
 (defn analyse-file
+  "analyses a source or test file for information
+ 
+   (analyse-file \"src/lucid/core/code.clj\")
+   => (contains-in
+       {'lucid.core.code
+        {'analyse-file
+         {:source {:code string?,
+                   :line {:row number?
+                          :col number?
+                          :end-row number?
+                          :end-col number?},
+                   :path \"src/lucid/core/code.clj\"}}}})
+ 
+   (analyse-file \"test/lucid/core/code_test.clj\")
+   => (contains-in
+       {'lucid.core.code
+       {'analyse-file
+         {:test {:code vector?
+                 :line {:row number?
+                          :col number?
+                          :end-row number?
+                          :end-col number?}
+                 :path \"test/lucid/core/code_test.clj\"},
+          :meta {:added \"1.2\"},
+          :intro \"analyses a source or test file for information\"}}})"
+  {:added "1.2"}
   ([path]
    (cond (.endsWith (str path) "_test.clj")
          (test/analyse-test-file path)
@@ -19,15 +45,12 @@
      :test (test/analyse-test-file path))))
         
 (defn join-nodes
-  "treat test nodes specially when rendering code
+  "joins nodes together from a test
  
-   (->> (z/of-string \"(+ 1 1) => (+ 2 2)\")
-        (iterate z/right*)
-        (take-while identity)
-        (map z/node)
-        (process-doc-nodes))
-   => \"(+ 1 1) => (+ 2 2)\"
-   "
+   (-> (analyse-file \"test/lucid/core/code_test.clj\")
+       (get-in ['lucid.core.code 'analyse-file :test :code])
+       (join-nodes))
+   => string?"
   {:added "1.2"}
   [docs]
   (->> docs

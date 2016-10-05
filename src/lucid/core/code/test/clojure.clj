@@ -33,6 +33,7 @@
             (node/token-node true "true")]))))
 
 (defn gather-deftest-body
+  ""
   ([zloc]
    (gather-deftest-body zloc []))
   ([zloc output]

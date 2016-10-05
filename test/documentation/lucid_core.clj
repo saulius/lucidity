@@ -2,20 +2,18 @@
   (:use hara.test)
   (:require [lucid.core
              [aether :refer :all]
-             [classloader :refer :all]
+             [asm :refer :all]
              [debug :refer :all]
              [inject :refer :all :as inject]
              [namespace :refer :all]]))
 
-[[:chapter {:title "Introduction"}]]
-
 "`lucid.core` provides utilities that either support the rest of the `lucidity` suite or are useful standalone tools by themselves. Each one is installed individually and usually only provides one or two top level function for use:" 
 
-[[:chapter {:title "Aether"}]]
+[[:chapter {:title "core.aether"
+            :link "lucid.core.aether"
+            :only ["resolve-dependencies" "resolve-hierarchy"]}]]
 
-"This library is used to as an interface to manage dependencies. It is meant to replace [pomegranate](https://github.com/cemerick/pomegranate) for some tasks."
-
-[[:section {:title "Installation"}]]
+"`lucid.core.aether` is used to as an interface to manage dependencies. It is meant to replace [pomegranate](https://github.com/cemerick/pomegranate) for dependency resolution."
 
 "Add to `project.clj` dependencies:"
 
@@ -28,71 +26,17 @@
 (comment
   (use 'lucid.core.aether))
 
-[[:section {:title "resolve"}]]
+[[:api {:namespace "lucid.core.aether"
+        :only ["resolve-dependencies" "resolve-hierarchy"]
+        :title ""}]]
 
-"`resolve-dependencies` is a very important function as it is used to synchronise many tasks so that libraries are downloaded as needed from maven:"
 
-(fact
-  (resolve-dependencies '[prismatic/schema "1.1.3"])
-  => '[[prismatic/schema "1.1.3"]]
-  
-  (resolve-dependencies '[midje "1.6.3"])
-  => '[[utilize/utilize "0.2.3"]
-       [swiss-arrows/swiss-arrows "1.0.0"]
-       [slingshot/slingshot "0.10.3"]
-       [org.clojure/tools.namespace "0.2.4"]
-       [org.clojure/tools.macro "0.1.5"]
-       [org.clojure/math.combinatorics "0.0.7"]
-       [org.clojure/core.unify "0.5.2"]
-       [org.clojars.trptcolin/sjacket "0.1.3"]
-       [ordered/ordered "1.2.0"]
-       [net.cgrand/regex "1.1.0"]
-       [net.cgrand/parsley "0.9.1"]
-       [midje/midje "1.6.3"]
-       [joda-time/joda-time "2.2"]
-       [gui-diff/gui-diff "0.5.0"]
-       [dynapath/dynapath "0.2.0"]
-       [commons-codec/commons-codec "1.9"]
-       [colorize/colorize "0.1.1"]
-       [clj-time/clj-time "0.6.0"]])
+[[:chapter {:title "core.asm"
+            :link "lucid.core.asm"}]]
 
-[[:section {:title "hierarchy"}]]
+"`lucid.core.asm` allows exploration of classes on the filesystem, independent of the JVM classloader."
 
-"`resolve-hierarchy` shows the dependency hierachy instead of a flattened list:"
-
-(fact
-  (resolve-hierarchy '[midje "1.6.3"])
-  => '{[midje/midje "1.6.3"]
-       [{[ordered/ordered "1.2.0"] []}
-        {[org.clojure/math.combinatorics "0.0.7"] []}
-        {[org.clojure/core.unify "0.5.2"] []}
-        {[utilize/utilize "0.2.3"]
-         [{[org.clojure/tools.macro "0.1.1"] []}
-          {[joda-time/joda-time "2.0"] []}
-          {[ordered/ordered "1.0.0"] []}]}
-        {[colorize/colorize "0.1.1"] []}
-        {[org.clojure/tools.macro "0.1.5"] []}
-        {[dynapath/dynapath "0.2.0"] []}
-        {[swiss-arrows/swiss-arrows "1.0.0"] []}
-        {[org.clojure/tools.namespace "0.2.4"] []}
-        {[slingshot/slingshot "0.10.3"] []}
-        {[commons-codec/commons-codec "1.9"] []}
-        {[gui-diff/gui-diff "0.5.0"]
-         [{[org.clojars.trptcolin/sjacket "0.1.3"]
-           [{[net.cgrand/regex "1.1.0"] []}
-            {[net.cgrand/parsley "0.9.1"]
-             [{[net.cgrand/regex "1.1.0"] []}]}]}
-          {[ordered/ordered "1.2.0"] []}]}
-        {[clj-time/clj-time "0.6.0"]
-         [{[joda-time/joda-time "2.2"] []}]}]})
-
-[[:chapter {:title "Asm"}]]
-
-"This library allows exploration of classes on the filesystem, independent of a classloader. Warning, it may be very frustrating to use, however, the tool gives the user a lot of control."
-
-[[:section {:title "Installation"}]]
-
-"Add to `project.clj` dependencies:"
+"Add to `project.clj`:"
 
 [[{:stencil true}]]
 (comment
@@ -103,35 +47,38 @@
 (comment
   (use 'lucid.core.asm))
 
-[[:section {:title "load-class"}]]
-
-"Enables the loading of class files in the directory"
+"The library enables the loading of class files in the directory:"
 
 (comment
   (load-class "target/classes/test/Cat.class")
   => test.Cat)
 
-"Can load class files within a jar:"
+"Within a jar:"
 
 (comment
   (load-class "<.m2>/org/yaml/snakeyaml/1.5/snakeyaml-1.5.jar"
               "org/yaml/snakeyaml/Dumper.class")
   => org.yaml.snakeyaml.Dumper)
 
-"As well as with a coordinate:"
+"Within a coordinate:"
 
 (comment
   (load-class '[org.yaml/snakeyaml "1.5"]
               "org/yaml/snakeyaml/Dumper.class")
   => org.yaml.snakeyaml.Dumper)
 
-[[:chapter {:title "Code"}]]
 
-"Source and test code analysis"
+[[:api {:namespace "lucid.core.asm"
+        :title ""}]]
 
-[[:section {:title "Installation"}]]
 
-"Add to `project.clj` dependencies:"
+[[:chapter {:title "core.code"
+            :link "lucid.core.code"
+            :only ["analyse-file"]}]]
+
+"`lucid.core.code` is analyses source and test code and is used by `lucid.publish` and `lucid.unit` to build additional functionality."
+
+"Add to `project.clj`:"
 
 [[{:stencil true}]]
 (comment
@@ -141,17 +88,18 @@
 
 (comment
   (use 'lucid.core.code))
-  
 
+[[:api {:namespace "lucid.core.code"
+        :only ["analyse-file"]
+        :title ""}]]
 
+[[:chapter {:title "core.debug"
+            :link "lucid.core.debug"
+            :only ["dbg->" "dbg->>" "->doto" "->>doto" "->prn"]}]]
 
-[[:chapter {:title "Debug"}]]
+"`lucid.core.debug` contains macros and helpers for debugging"
 
-"Macros and helpers for debugging"
-
-[[:section {:title "Installation"}]]
-
-"Add to `project.clj` dependencies:"
+"Add to `project.clj`:"
 
 [[{:stencil true}]]
 (comment
@@ -162,55 +110,15 @@
 (comment
   (use 'lucid.core.debug))
 
-[[:section {:title "dbg->"}]]
+[[:api {:namespace "lucid.core.debug"
+        :title ""
+        :only ["dbg->" "dbg->>" "->doto" "->>doto" "->prn"]}]]
 
-"The function acts the same way as the `->` thrush macro but also prints out each step of the output:"
+[[:chapter {:title "core.inject"
+            :link "lucid.core.inject"
+            :only ["in" "inject"]}]]
 
-(comment
-  (dbg-> 1
-         inc
-         (+ 10 1 1))
-  => 14
-  ;; 1
-  ;; -> inc :: 2
-  ;; ->  (+ 10 1 1) :: 14
-  )
-
-"It works with all data:"
-
-(comment
-  (dbg-> {:a 1}
-         (update-in [:a] inc)
-         (merge {:c 3 :d 4})
-         (select-keys [:a :d]))
-  => {:a 2, :d 4}
-  ;; {:a 1}
-  ;; -> (update-in [:a] inc) :: {:a 2}
-  ;; -> (merge {:c 3, :d 4}) :: {:a 2, :c 3, :d 4}
-  ;; -> (select-keys [:a :d]) :: {:a 2, :d 4}
-)
-
-[[:section {:title "dbg->>"}]]
-
-"The function acts the same way as the `->>` thrush last macro but also prints out each step of the output:"
-
-(comment
-  (dbg->> [1 2 3 4 5]
-          (map inc)
-          (filter even?)
-          (concat ["a" "b" "c"]))
-  => ("a" "b" "c" 2 4 6)
-  ;; [1 2 3 4 5]
-  ;; ->> (map inc) :: (2 3 4 5 6)
-  ;; ->> (filter even?) :: (2 4 6)
-  ;; ->> (concat [a b c]) :: (a b c 2 4 6)
-)
-
-[[:chapter {:title "Inject"}]]
-
-"`inject`' has been quite popular due this [article](http://dev.solita.fi/2014/03/18/pimp-my-repl.html). It's main use is to create extra symbols in a particular namespace, namely `clojure.core`."
-
-[[:section {:title "Installation"}]]
+"`lucid.core.inject`' is used to create extra symbols in namespaces. It has been quite popular due this [article](http://dev.solita.fi/2014/03/18/pimp-my-repl.html)."
 
 "Add to `project.clj` dependencies:"
 
@@ -223,9 +131,11 @@
 (comment
   (use 'lucid.core.inject))
 
-[[:section {:title "inject"}]]
+[[:api {:namespace "lucid.core.inject"
+        :title ""
+        :only ["in" "inject"]}]]
 
-"This function is extremely useful when adding additional functionality that is needed which is not included in `clojure.core`. It can be used to import both macros and funcions into a given namespace:"
+"`inject` enables both macros and functions to be imported:"
 
 (comment
   (inject '[clojure.core [clojure.repl dir]])
@@ -247,9 +157,9 @@
   ;; thread-stopper
   )
 
-[[:section {:title "in"}]]
+"This function is extremely useful when adding additional functionality that is needed which is not included in `clojure.core`. It can be used to import both macros and funcions into a given namespace:"
 
-"A helper macro `inject/in` enables better support:"
+"The macro `inject/in` enables better support:"
 
 (comment
   ;; the default injected namespace is `.`
@@ -291,11 +201,9 @@
       #'>/pprint
       #'>/sh])
 
-[[:chapter {:title "Namespace"}]]
+[[:chapter {:title "core.namespace" :link "lucid.core.namespace"}]]
 
-"Better development experience by providing some additional namespace utilities."
-
-[[:section {:title "Installation"}]]
+"`lucid.core.namespace` provides additional namespace utilities."
 
 "Add to `project.clj` dependencies:"
 
@@ -308,45 +216,5 @@
 (comment
   (use 'lucid.core.namespace))
 
-[[:section {:title "clear-aliases"}]]
-
-"Manually gets rid of all namespace aliases in the current namespace"
-
-(comment
-
-  ;; require clojure.string
-  (require '[clojure.string :as string])
-  => nil
-
-  ;; error if a new namespace is set to the same alias
-  (require '[clojure.set :as string])
-  => (throws "Alias string already exists in namespace")
-
-  ;; clearing all aliases
-  (clear-aliases)
-  (ns-aliases *ns*)
-  => {}
-
-  ;; okay to require
-  (require '[clojure.set :as string])
-  => nil)
-
-[[:section {:title "clear-mappings"}]]
-
-"Manually gets rid of all interned symbols in the current namespace"
-
-(comment
-
-  ;; require `join`
-  (require '[clojure.string :refer [join]])
-
-  ;; check that it runs
-  (join ["a" "b" "c"])
-  => "abc"
-
-  ;; clear mappings
-  (clear-mappings)
-  
-  ;; the mapped symbol is gone
-  (join ["a" "b" "c"])
-  => (throws "Unable to resolve symbol: join in this context"))
+[[:api {:namespace "lucid.core.namespace"
+        :title ""}]]

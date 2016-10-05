@@ -12,11 +12,7 @@
              [theme :as theme]]))
 
 (defn find-includes
-  "finds elements with `@=` tags
-
-   (find-includes \"<@=hello> <@=world>\")
-   => #{:hello :world}"
-  {:added "0.1"}
+  ""
   [template]
   (->> template
        (re-seq #"<@=([^>^<]+)>")
@@ -25,6 +21,7 @@
        set))
 
 (defn theme-file
+  ""
   ([file]
    (load-file file (theme/load-settings)))
   ([file settings]
@@ -34,6 +31,7 @@
      (slurp (str (fs/path (:root project) dir (:theme settings) file))))))
 
 (defn render-init
+  ""
   ([interim name]
    (let [project (project/project)
          theme  (-> project :publish :template :theme)
@@ -52,6 +50,7 @@
      [template (select-keys opts includes)])))
 
 (defn render
+  ""
   ([interim name]
    (let [project (project/project)
          theme  (-> project :publish :template :theme)

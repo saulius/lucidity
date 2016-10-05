@@ -3,17 +3,19 @@
             [rewrite-clj.node :as node]
             [clojure.string :as string]))
 
-(defmulti frameworks (fn [sym] sym))
+(defmulti frameworks
+  "" (fn [sym] sym))
 (defmethod frameworks :default [_])
 
-(defmulti analyse-test (fn [type zloc opts] type))
+(defmulti analyse-test
+  "" (fn [type zloc opts] type))
 
 (defn gather-meta
   "gets the metadata for a particular form
-   (-> (z/of-string \"^{:refer clojure.core/+ :added \\\"0.1\\\"}\\n(fact ...)\")
+   (-> (z/of-string \"^{:refer clojure.core/+ :added \\\"1.1\\\"}\\n(fact ...)\")
        z/down z/right z/down
        gather-meta)
-   => '{:added \"0.1\", :ns clojure.core, :var +, :refer clojure.core/+}"
+   => '{:added \"1.1\", :ns clojure.core, :var +, :refer clojure.core/+}"
   {:added "1.1"}
   [zloc]
   (if (-> zloc source/up source/up source/tag (= :meta))
@@ -52,7 +54,8 @@
     (subs s 1 (dec (count s)))
     s))
 
-(defn join-nodes [nodes]
+(defn join-nodes
+  "" [nodes]
   (->> nodes
        (map node/string)
        (string/join)))

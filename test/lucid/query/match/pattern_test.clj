@@ -2,7 +2,7 @@
   (:use hara.test)
   (:require [lucid.query.match.pattern :refer :all]))
 
-^{:refer lucid.query.match.pattern/pattern-matches :added "0.2"}
+^{:refer lucid.query.match.pattern/pattern-matches :added "1.2"}
 (fact "pattern"
   ((pattern-matches ()) ())
   => '(())

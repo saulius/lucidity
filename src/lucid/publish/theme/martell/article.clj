@@ -6,7 +6,8 @@
             [clojure.string :as string]
             [rewrite-clj.node :as node]))
 
-(defmulti render (fn [element interim] (:type element)))
+(defmulti render
+  "" (fn [element interim] (:type element)))
 
 (defmethod render
   :html
@@ -110,7 +111,8 @@
   :namespace
   [{:keys [mode] :as element} interim])
 
-(defn render-api-index [namespace tag nsp]
+(defn render-api-index
+  "" [namespace tag nsp]
   (->> nsp
        (map first)
        (map (fn [sym]
@@ -119,7 +121,8 @@
        (apply vector :div [:a {:name tag}]
               [:h4 [:i "API"]])))
 
-(defn render-api-elements [namespace tag nsp]
+(defn render-api-elements
+  "" [namespace tag nsp]
   (->> nsp
        (mapv (fn [[func data]]
                [:div

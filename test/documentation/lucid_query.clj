@@ -24,6 +24,15 @@
 (comment
   (use 'lucid.query))
 
+
+[[:chapter {:title "API"
+            :link "lucid.query"
+            :only ["$" "match" "modify" "select" "traverse"]}]]
+
+[[:api {:title ""
+        :namespace "lucid.query"
+        :only ["$" "match" "modify" "select" "traverse"]}]]
+
 [[:chapter {:title "Usage"}]]
 
 "We first define a code fragment to query on. The library currently works with strings and files."

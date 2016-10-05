@@ -4,7 +4,6 @@
 
 (defn collect-apis
   ""
-  {:added "1.2"}
   [{:keys [articles project] :as interim} name]
   (let [all    (->> (get-in articles [name :elements])
                     (filter #(-> % :type (= :api))))

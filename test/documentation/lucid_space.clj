@@ -35,6 +35,13 @@
   - a list of maven coordinates
   - the entire maven local-repo."
 
+[[:chapter {:title "API"
+            :link "lucid.space"}]]
+
+[[:api {:title ""
+        :namespace "lucid.space"}]]
+
+
 [[:chapter {:title "Pull"}]]
 
 "This is one of the most useful functions for exploring any clojure library. How many times have you forgotten a library dependency for `project.clj` and then had to restart your nrepl? `pull` takes care of the dependencies for the project:"

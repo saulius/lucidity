@@ -1,6 +1,7 @@
 (ns lucid.publish.theme.martell.navigation)
 
-(defmulti render (fn [element interim] (:type element)))
+(defmulti render
+  "" (fn [element interim] (:type element)))
 
 (defmethod render
   :chapter

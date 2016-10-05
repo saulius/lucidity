@@ -15,10 +15,10 @@
   => "test.Dog")
 
 ^{:refer lucid.core.asm/dynamic-loader :added "1.1"}
-(fact "returns the clojure runtime classloader")
+(fact "returns the clojure runtime classloader"
+
+  (dynamic-loader)
+  => #(instance? clojure.lang.DynamicClassLoader %))
 
 ^{:refer lucid.core.asm/load-class :added "1.1"}
 (fact "loads class from an external source")
-
-^{:refer lucid.core.asm/unload-class :added "1.1"}
-(fact "unloads class from the clojure runtime cache")

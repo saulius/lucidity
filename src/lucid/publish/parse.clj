@@ -57,12 +57,7 @@
    :code (code-form zloc "fact")})
 
 (defn parse-facts-form
-  "convert a fact zipper into an element
- 
-   (-> (z/of-string \"(fact (+ 1 1) \\n => 2)\")
-       (parse-fact-form))
-   => {:type :block :indentation 2 :code \"(+ 1 1) \\n => 2\"}"
-  {:added "1.2"}
+  ""
   [zloc]
   {:type :test
    :indentation (+ *indentation* *spacing*)
@@ -81,6 +76,7 @@
    :code (code-form zloc "comment")})
 
 (defn is-code-form
+  ""
   [zloc]
   (let [zloc* (-> zloc source/down source/right)]
     (cond (query/match zloc* '(= _ _))
@@ -93,12 +89,14 @@
           :else
           (code-form zloc "is"))))
 
-(defn parse-is-form [zloc]
+(defn parse-is-form
+  "" [zloc]
   {:type :block
    :indentation (+ *indentation* *spacing*)
    :code (is-code-form zloc)})
 
-(defn parse-deftest-form [zloc]
+(defn parse-deftest-form
+  "" [zloc]
   {:type :test
    :source (meta (source/node zloc))})
 
@@ -197,8 +195,7 @@
       (f zloc))))
 
 (defn wrap-line-info
-  "if form is meta, then go down a level"
-  {:added "1.2"}
+  ""
   [f]
   (fn [zloc]
     (assoc (f zloc) :line (meta (source/node zloc)))))

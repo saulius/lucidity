@@ -11,7 +11,7 @@
 (defn jar-file
   "returns a path as a jar or nil if it does not exist
  
-   (jar-file *hara-test-path*)
+   (jar-file *match-path*)
    => java.util.jar.JarFile"
   {:added "1.1"}
   [path]
@@ -22,10 +22,10 @@
 (defn jar-entry
   "returns an entry of the jar or nil if it does not exist
  
-   (jar-entry *hara-test-path* \"hara/test.clj\")
+   (jar-entry *match-path* \"clojure/core/match.clj\")
    => java.util.jar.JarFile$JarFileEntry
  
-   (jar-entry *hara-test-path* \"NON-FILE\")
+   (jar-entry *match-path* \"NON-FILE\")
    => nil"
   {:added "1.1"}
   [path entry]
@@ -37,12 +37,13 @@
 (defn jar-stream
   "gets the input-stream of the entry for the jar
    
-   (-> (fs/file *hara-test-path*)
-       (jar-stream \"hara/test.clj\")
-       (fs/pushback)
+   (-> (java.io.File. *match-path*)
+       (jar-stream \"clojure/core/match.clj\")
+       (java.io.InputStreamReader.)
+       (java.io.PushbackReader.)
        (read)
        second)
-   => 'hara.test"
+   => 'clojure.core.match"
   {:added "1.1"}
   [path entry]
   (if-let [jar (jar-file path)]
@@ -53,9 +54,9 @@
 (defn jar-contents
   "lists the contents of a jar
    
-   (-> (fs/file *hara-test-path*)
+   (-> (java.io.File. *match-path*)
        (jar-contents))
-   => (contains [\"project.clj\" \"hara/test.clj\"] :in-any-order :gaps-ok)"
+   => (contains [\"clojure/core/match.clj\"] :in-any-order :gaps-ok)"
   {:added "1.1"}
   [path]
   (with-open [zip (java.util.zip.ZipInputStream.
@@ -68,8 +69,8 @@
 (defmulti resolve-jar
   "resolves the path of a jar for a given namespace, according to many options
    
-   (resolve-jar 'hara.test)
-   => [*hara-test-path* \"hara/test.clj\"]
+   (resolve-jar 'clojure.core.match)
+   => [*match-path* \"clojure/core/match.clj\"]
  
    "
   {:added "1.1"}
@@ -104,8 +105,8 @@
 
 (defn maven-file
   "returns the path of the local maven file
-   (maven-file ['im.chit/hara.test *hara-version*])
-   => *hara-test-path*"
+   (maven-file ['org.clojure/core.match *match-version*])
+   => *match-path*"
   {:added "1.1"}
   [[name version] & [suffix local-repo]]
   (let [[group artifact] (string/split (str name) #"/")
@@ -128,10 +129,10 @@
 
 (defn find-all-jars
   "returns all jars within a repo in a form of a map
-   (-> (find-all-jars (fs/path \"~/.m2/repository\"))
-       (get (fs/path \"~/.m2/repository/im/chit/hara.test\"))
-       (get *hara-version*))
-   => *hara-test-path*"
+   (-> (find-all-jars (str (fs/path \"~/.m2/repository\")))
+       (get (str (fs/path \"~/.m2/repository/org/clojure/core.match\")))
+       (get *match-version*))
+   => *match-path*"
   {:added "1.1"}
   [repo]
   (->> (file-seq (io/as-file repo))
@@ -143,10 +144,10 @@
 
 (defn find-latest-jars
   "returns the latest jars within a repo
-   (->> (find-latest-jars (fs/path \"~/.m2/repository\"))
-        (filter #(= % *hara-test-path*))
+   (->> (find-latest-jars (str (fs/path \"~/.m2/repository\")))
+        (filter #(= % *match-path*))
         first)
-   => *hara-test-path*"
+   => *match-path*"
   {:added "1.1"}
   [repo]
   (->> (find-all-jars repo)

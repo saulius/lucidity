@@ -3,13 +3,15 @@
             [hara.io.file :as fs]
             [hara.data.nested :as nested]))
 
-(defn find-import-namespaces [lookup ns]
+(defn find-import-namespaces
+  "" [lookup ns]
   (if-let [path (lookup ns)]
     (->> (fs/code path)
          (filter #(-> % first (= 'ns/import)))
          (mapcat #(->> % rest (take-nth 2))))))
 
-(defn reference-namespaces [references lookup namespaces]
+(defn reference-namespaces
+  "" [references lookup namespaces]
   (let [missing   (remove references namespaces)
         imported  (->> missing
                        (mapcat #(find-import-namespaces lookup %))
@@ -25,6 +27,7 @@
             (concat sources tests))))
 
 (defn collect-references
+  ""
   [{:keys [articles project] :as interim} name]
   (let [all    (->> (get-in articles [name :elements])
                     (filter #(-> % :type (= :reference))))

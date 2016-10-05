@@ -2,6 +2,7 @@
   (:require [rewrite-clj.zip :as z]))
 
 (defn matchwalk-base
+  ""
   [zloc [m & more :as matchers] f recur-fn]
   (let [nloc (if (m zloc)
                (cond (empty? more)
@@ -21,7 +22,8 @@
                 nloc)]
     nloc))
 
-(defn wrap-meta [walk-fn]
+(defn wrap-meta
+  "" [walk-fn]
   (fn [zloc matchers f recur-fn]
     (if (= :meta (z/tag zloc))
       (let [nloc (z/up (walk-fn (-> zloc z/down z/right) matchers f recur-fn))]
@@ -30,10 +32,12 @@
           nloc))
       (walk-fn zloc matchers f recur-fn))))
 
-(defn matchwalk [zloc matchers f]
+(defn matchwalk
+  "" [zloc matchers f]
   ((wrap-meta matchwalk-base) zloc matchers f (wrap-meta matchwalk-base)))
 
 (defn topwalk-base
+  ""
   [zloc [matcher] f recur-fn]
   (let [nloc  (if (matcher zloc)
                 (f zloc)
@@ -43,5 +47,6 @@
                 nloc)]
     nloc))
 
-(defn topwalk [zloc [matcher] f]
+(defn topwalk
+  "" [zloc [matcher] f]
   ((wrap-meta topwalk-base) zloc [matcher] f (wrap-meta topwalk-base)))

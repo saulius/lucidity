@@ -1,5 +1,6 @@
 (ns lucid.publish.theme.stark
-  (:require [lucid.publish.engine :as engine]
+  (:require [lucid.publish.engine.winterfell :as engine]
+            [lucid.publish.render.structure :as structure]
             [hiccup.compiler :as compiler]
             [hiccup.core :as html]
             [clojure.string :as string]))
@@ -9,25 +10,33 @@
    :resource  "theme/stark"
    :copy      ["assets"]
    :render    {:article       "render-article"
-               :navigation    "render-navigation"
+               :outline       "render-outline"
                :top-level     "render-top-level"}
-   :defaults  {:icon             "stark"
-               :template         "article.html"
-               :icon             "favicon"
-               :tracking-enabled "false"}
+   :defaults  {:site           "stark"
+               :icon           "favicon"
+               :tracking-enabled "false"
+               :template       "article.html"
+               :theme-base     "theme-base-0b"
+               :logo-white     "img/logo-white.png"}
    :manifest  ["article.html"
+               "home.html"
                "assets/favicon.ico"
-               "assets/js/highlight.min.js"
                "assets/js/gumshoe.min.js"
+               "assets/js/highlight.min.js"
                "assets/js/smooth-scroll.min.js"
-               "assets/css/api.css"
-               "assets/css/code.css"
-               "assets/css/highlight.css"
-               "assets/css/page.css"]})
+               "assets/css/stark.css"
+               "assets/css/stark-api.css"
+               "assets/css/stark-highlight.css"
+               "assets/css/lanyon.css"
+               "assets/css/poole.css"
+               "assets/css/syntax.css"
+               "assets/img/logo.png"
+               "assets/img/logo-white.png"]})
 
-(def engine (engine/engine (:engine settings)))
+;;(def engine (engine/engine (:engine settings)))
 
-(defn render-top-level [interim name]
+(defn render-top-level
+  "" [interim name]
   (let [files (-> interim
                   :project
                   :publish
@@ -36,21 +45,26 @@
                   (sort))]
     (->> files
          (map (fn [[key {title :title}]]
-                [:li [:a {:href (str key ".html")} title]]))
-         (concat [:ul [:li [:a {:href "index.html"} "home"]]])
-         vec
-         html/html)))
+                (html/html [:a {:class (str "sidebar-nav-item"
+                                            (if (= name key)
+                                              " active"))
+                                :href (str key ".html")}
+                            title])))
+         (string/join))))
 
-(defn render-article [interim name]
+(defn render-article
+  "" [interim name]
   (->> (get-in interim [:articles name :elements])
-       (map (:page-element engine))
+       (map engine/page-element)
        (mapcat (fn [ele] (#'compiler/compile-seq [ele])))
        (string/join)))
 
-(defn render-navigation [interim name]
-  (let [elems (get-in interim [:articles name :elements])
-        telems (filter #(-> % :type #{:chapter :section :subsection}) elems)]
-    (->> telems
-         (map (:nav-element engine))
-         (mapcat (fn [ele] (#'compiler/compile-seq [ele])))
-         string/join)))
+(defn render-outline
+  "" [interim name]
+  (->> (get-in interim [:articles name :elements])
+       (filter #(-> % :type #{:chapter :section}))
+       structure/structure
+       :elements
+       (map engine/render-chapter)
+       (mapcat (fn [ele] (#'compiler/compile-seq [ele])))
+       string/join))

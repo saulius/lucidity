@@ -13,8 +13,8 @@
 (defn coordinate
   "creates a coordinate based on the path
  
-   (coordinate *hara-test-path*)
-   => ['im.chit/hara.test *hara-version*]"
+   (coordinate *match-path*)
+   => ['org.clojure/core.match *match-version*]"
   {:added "1.1"}
   [path & [suffix local-repo]]
   (if (and (.startsWith path (or local-repo jar/*local-repo*))
@@ -33,20 +33,8 @@
 (defn coordinate-dependencies
   "list dependencies for a coordinate
  
-   (coordinate-dependencies '[[im.chit/hara.test \"2.4.4\"]])
-   => (contains '[[im.chit/hara.test \"2.4.4\"]
-                  [im.chit/hara.namespace.import \"2.4.4\"]
-                  [im.chit/hara.event \"2.4.4\"]
-                  [im.chit/hara.common.primitives \"2.4.4\"]
-                  [im.chit/hara.data.seq \"2.4.4\"]
-                  [im.chit/hara.data.map \"2.4.4\"]
-                  [im.chit/hara.common.checks \"2.4.4\"]
-                  [im.chit/hara.common.primitives \"2.4.4\"]
-                  [im.chit/hara.common.error \"2.4.4\"]
-                  [im.chit/hara.common.checks \"2.4.4\"]
-                  [im.chit/hara.io.file \"2.4.4\"]
-                  [im.chit/hara.display.ansii \"2.4.4\"]]
-                :in-any-order)"
+   (coordinate-dependencies [['org.clojure/core.match *match-version*]])
+   => []"
   {:added "1.1"}
   [coordinates & [repos]]
   (->> coordinates
@@ -58,8 +46,8 @@
 (defn resolve-jar
   "resolves a jar according to context
  
-   (resolve-jar 'hara.test)
-   => [*hara-test-path* \"hara/test.clj\"]"
+   (resolve-jar 'clojure.core.match)
+   => [*match-path* \"clojure/core/match.clj\"]"
   {:added "1.1"}
   ([x] (jar/resolve-jar x nil))
   ([x context & args]
@@ -81,8 +69,8 @@
 (defn resolve-coordinates
   "resolves a set of coordinates
  
-   (resolve-coordinates 'hara.test)
-   => ['im.chit/hara.test *hara-version*]"
+   (resolve-coordinates 'clojure.core.match)
+   => ['org.clojure/core.match *match-version*]"
   {:added "1.1"}
   [x & more]
   (if-let [path (-> (apply resolve-jar x more)
@@ -92,9 +80,8 @@
 (defn resolve-with-dependencies
   "resolves the jar and path of a namespace
  
-   (resolve-with-deps 'hara.test)
-   => [*hara-test-path* \"hara/test.clj\"]
-   "
+   (resolve-with-dependencies 'clojure.core.match)
+   => [*match-path* \"clojure/core/match.clj\"]"
   {:added "1.1"}
   ([x] (resolve-with-dependencies x nil))
   ([x context & {:keys [repositories] :as options}]
@@ -123,20 +110,14 @@
 (defn pull
   "pulls down the necessary dependencies from maven and adds it to the project
  
-   (pull '[im.chit/hara.test \"2.4.4\"])
-   => (contains '[[im.chit/hara.test \"2.4.4\"]
-                  [im.chit/hara.namespace.import \"2.4.4\"]
-                  [im.chit/hara.event \"2.4.4\"]
-                  [im.chit/hara.common.primitives \"2.4.4\"]
-                  [im.chit/hara.data.seq \"2.4.4\"]
-                  [im.chit/hara.data.map \"2.4.4\"]
-                  [im.chit/hara.common.checks \"2.4.4\"]
-                  [im.chit/hara.common.primitives \"2.4.4\"]
-                  [im.chit/hara.common.error \"2.4.4\"]
-                  [im.chit/hara.common.checks \"2.4.4\"]
-                  [im.chit/hara.io.file \"2.4.4\"]
-                  [im.chit/hara.display.ansii \"2.4.4\"]]
-                :in-any-order)"
+   (pull ['org.clojure/core.match *match-version*])
+   => '[[org.ow2.asm/asm-all \"4.1\"]
+        [org.clojure/tools.analyzer.jvm \"0.1.0-beta12\"]
+        [org.clojure/tools.analyzer \"0.1.0-beta12\"]
+        [org.clojure/data.priority-map \"0.0.2\"]
+        [org.clojure/core.memoize \"0.5.6\"]
+       [org.clojure/core.match \"0.2.2\"]
+        [org.clojure/core.cache \"0.6.3\"]]"
   {:added "1.1"}
   [coord]
   (let [deps (aether/resolve-dependencies coord)]

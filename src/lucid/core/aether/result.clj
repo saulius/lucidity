@@ -5,6 +5,7 @@
            org.eclipse.aether.graph.DependencyNode))
 
 (defn dependency-graph
+  ""
   ([node]
    (dependency-graph node
                      (fn [ca]
@@ -19,7 +20,8 @@
          (artifact/artifact->vector)
          (hash-map (mapv dependency-graph children))))))
 
-(defmulti summary type)
+(defmulti summary
+  "" type)
 
 (defmethod summary DependencyResult
   [result]

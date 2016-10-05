@@ -4,6 +4,7 @@
             [clojure.string :as string]))
 
 (defn link-references
+  ""
   [{:keys [references] :as interim} name]
   (update-in interim [:articles name :elements]
              (fn [elements]

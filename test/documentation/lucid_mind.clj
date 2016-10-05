@@ -35,19 +35,9 @@ One OO *paradigm* - that of encapsulation - has been turned on it's head. In OO,
 - To make working with java fun and informative
 "
 
-[[:section {:title "Summary"}]]
+[[:chapter {:title "API" :link "lucid.mind"}]]
 
-"The api consists of the following macros:
-
-- [.&](#delegate) - for transparency into objects
-- [.>](#threading) - threading macro for reflective invocation of objects
-- [.%](#info) - for showing class properties
-- [.%>](#hierarchy) - for showing type hierarchy
-- [.?](#class) - for showing class elements
-- [.*](#instance) - for showing instance elements
-- [.>var](#import-var) - for importing elements into current namespace
-- [.>ns](#import-ns) - for importing object elements into a namespace
-"
+[[:api {:title "" :namespace "lucid.mind"}]]
 
 [[:chapter {:title "Fields"}]]
 

@@ -8,11 +8,7 @@
   #{:ns :reference :image :equation})
 
 (defn inc-candidate
-  "creates an incremental version of a name
-   
-   (inc-candidate \"hello\") => \"hello-0\"
-   (inc-candidate \"hello-1\") => \"hello-2\""
-  {:added "0.1"}
+  ""
   [candidate]
   (if-let [[_ counter] (re-find #"-(\d+)$" candidate)]
     (let [len (count counter)
@@ -21,11 +17,7 @@
     (str candidate "-0")))
 
 (defn tag-string
-  "creates a string that can be used as an anchor
-   
-   (tag-string \"hello.world/again\")
-   => \"hello-world--again\""
-  {:added "0.1"}
+  ""
   [s]
   (-> (case/spear-case s)
       (.replaceAll "\\." "-")
@@ -33,17 +25,7 @@
       (.replaceAll "[^\\d^\\w^-]" "")))
 
 (defn create-candidate
-  "creates a candidate tag from a variety of sources
- 
-   (create-candidate {:origin :ns :ns 'clojure.core})
-   => \"ns-clojure-core\"
- 
-   (create-candidate {:title \"hello again\"})
-   => \"hello-again\"
- 
-   (create-candidate {:type :image :src \"http://github.com/hello/gather.jpeg\"})
-   => \"img-http----github-com--hello--gather-jpeg\""
-  {:added "0.1"}
+  ""
   [{:keys [origin title type] :as element}]
   (cond origin
         (case origin
@@ -57,18 +39,7 @@
         (tag-string (str "img-" (:src element)))))
 
 (defn create-tag
-  "creates a tag from an element
- 
-   (let [tags (atom #{})
-         result (create-tag {:title \"hello\"} tags)]
-     [@tags result])
-   => [#{\"hello\"} {:title \"hello\", :tag \"hello\"}]
- 
-   (let [tags (atom #{\"hello\"})
-         result (create-tag {:title \"hello\"} tags)]
-     [@tags result])
-   => [#{\"hello\" \"hello-0\"} {:title \"hello\", :tag \"hello-0\"}]"
-  {:added "0.1"}
+  ""
   ([element tags]
    (create-tag element tags (create-candidate element)))
   ([element tags candidate]
@@ -83,17 +54,7 @@
              (assoc element :tag candidate)))))
 
 (defn link-tags
-  "creates a tag for elements within the article
-   (-> {:articles {\"example\" {:elements [{:type :chapter :title \"hello world\"}
-                                         {:type :chapter :title \"hello world\"}]}}}
-       (collect/collect-tags \"example\")
-       (link-tags \"example\"))
-   => {:articles
-       {\"example\"
-        {:elements [{:type :chapter, :title \"hello world\", :tag \"hello-world\"}
-                   {:type :chapter, :title \"hello world\", :tag \"hello-world-0\"}],
-         :tags #{}}}}"
-  {:added "0.1"}
+  ""
   [{:keys [articles] :as interim} name]
   (let [tags (atom (get-in articles [name :tags]))]
     (let [auto-tag (->> (list (get-in articles [name :link :auto-tag])

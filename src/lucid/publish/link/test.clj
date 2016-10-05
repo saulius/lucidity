@@ -4,7 +4,8 @@
 
 (def ^:dynamic *run-tests* nil)
 
-(defn failed-tests [facts]
+(defn failed-tests
+  "" [facts]
     (->> facts
          (keep (fn [{:keys [results meta] :as fact}]
                  (let [failures  (->> results
@@ -19,8 +20,7 @@
                      (assoc meta :output failures)))))))
 
 (defn link-tests
-  "collects all the tests and runs them"
-  {:added "1.2"}
+  ""
   [{:keys [project] :as interim} name]
   (if *run-tests*
     (let [path   (or (str (:root project) "/" (get-in project [:publish :files name :input]))

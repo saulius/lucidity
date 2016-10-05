@@ -69,19 +69,45 @@
          (println ~n)
          (->> ~n ~@wfncs))))
          
-(defmacro do-> [x & forms]
+(defmacro ->doto
+  "used to perform side-effects within a `->` macro
+ 
+   (-> {:a 1}
+       (->doto (update-in [:a] inc) print)
+       (assoc :b 2))
+   ;; {:a 2}
+   => {:a 1, :b 2}"
+  {:added "1.2"}
+  [x & forms]
   `(do (-> ~x ~@forms)
        ~x))
 
-(defmacro do->> [x & forms]
-  `(do (->> ~x ~@forms)
-       ~x))
-       
-(defmacro prn->
-    ([x] `(prn-> ~x nil))
+(defmacro ->>doto
+  "used to perform side effects within a `->>` macro
+ 
+   (->> [1 2 3]
+        (->>doto (map inc) print)
+        (cons 0))
+   ;; (2 3 4)
+   => [0 1 2 3]"
+  {:added "1.2"}
+  [& forms]
+  (let [[x forms] [(last forms) (butlast forms)]]
+    `(do (->> ~x ~@forms)
+         ~x)))
+
+(defmacro ->prn
+  "used to print within the macro
+ 
+   (-> [1 2 3]
+       (->prn)
+       (conj 4))
+   ;; [1 2 3]
+   => [1 2 3 4]"
+  {:added "1.2"}
+  ([x] `(->prn ~x nil))
     ([x tag]
      `(do (if ~tag
             (print (str ~tag " ")))
           (prn ~x)
           ~x)))
-  

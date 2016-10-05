@@ -4,11 +4,11 @@
             [clojure.zip :as zip]
             [lucid.query.traverse :refer :all]))
 
-^{:refer jai.traverse/traverse-basic :added "0.2"}
+^{:refer jai.traverse/traverse-basic :added "1.2"}
 (defn source [pos]
   (-> pos :source source/sexpr))
 
-^{:refer jai.traverse/traverse-basic :added "0.2"}
+^{:refer jai.traverse/traverse-basic :added "1.2"}
 (fact
   (source
    (traverse (source/of-string "^:a (+ () 2 3)")
@@ -46,7 +46,7 @@
              '((^:+ hello))))
   => '((hello)))
 
-^{:refer jai.traverse/traverse-advance :added "0.2"}
+^{:refer jai.traverse/traverse-advance :added "1.2"}
 (fact
   (source
    (traverse (source/of-string "(defn hello)")

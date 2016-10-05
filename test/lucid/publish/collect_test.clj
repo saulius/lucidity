@@ -54,4 +54,4 @@
   => {:articles {"example" {:elements [],
                             :citations [{:type :citation, :author "Chris"}]}}})
 
-;;(lucid.test/import)
+;;(lucid.unit/import)

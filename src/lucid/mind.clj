@@ -97,7 +97,7 @@
 
 (defmacro .>
   "Threads the first input into the rest of the functions. Same as `->` but
-   allows access to private fields using both `:keyword` and `.symbol` lookup:
+    allows access to private fields using both `:keyword` and `.symbol` lookup:
  
    (.> \"abcd\" :value String.) => \"abcd\"
  

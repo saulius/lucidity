@@ -9,7 +9,8 @@
            [org.eclipse.aether.util.artifact JavaScopes]
            [org.eclipse.aether.graph Dependency DependencyNode]))
 
-(defn collect-request [aether coords]
+(defn collect-request
+  "" [aether coords]
   (doto (CollectRequest.)
     (.setRoot (Dependency. (artifact/artifact coords) JavaScopes/COMPILE))
     ;;(.setRootArtifact (DefaultArtifact. coords))
@@ -19,7 +20,8 @@
       (-> (RemoteRepository$Builder.  "clojars" "default" "http://clojars.org/repo/")
           (.build))])))
 
-(defn artifact-request [aether coords]
+(defn artifact-request
+  "" [aether coords]
   (doto (ArtifactRequest.)
     (.setArtifact (DefaultArtifact. coords))
     (.setRepositories
@@ -28,6 +30,7 @@
       (-> (RemoteRepository$Builder.  "clojars" "default" "http://clojars.org/repo/")
           (.build))])))
 
-(defn dependency-request [aether coords]
+(defn dependency-request
+  "" [aether coords]
   (doto (DependencyRequest.)
     (.setCollectRequest (collect-request aether coords))))

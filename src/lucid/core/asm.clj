@@ -29,10 +29,16 @@
 (def class-0
   (reflect/query-class ClassLoader ["defineClass0" :#]))
 
-(defn dynamic-loader []
+(defn dynamic-loader
+  "returns the clojure runtime classloader
+ 
+   (dynamic-loader)
+   => #(instance? clojure.lang.DynamicClassLoader %)"
+  {:added "1.1"} []
   (clojure.lang.DynamicClassLoader. file/*clojure-loader*))
 
-(defn unload-class [name]
+(defn unload-class
+  "" [name]
   (clojure.lang.Util/clearCache *rq* *class-cache*)
   (.remove *class-cache* name))
 

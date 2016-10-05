@@ -2,16 +2,24 @@
   (:require [lucid.publish.render.util :as util]
             [clojure.string :as string]))
 
-(defn entry-tag [ns var]
-  (.replaceAll (munge (str "entry__" ns "__" var)) "\\." "_"))
+(defn entry-tag
+  ""
+  [ns var]
+  (-> (munge (str "entry__" ns "__" var))
+      (.replaceAll  "\\." "_")
+      (.replaceAll "\\$" "STAR")))
 
-(defn lower-first [s]
+(defn lower-first
+  ""
+  [s]
   (if (empty? s)
     ""
     (str (-> s (.charAt 0) str (.toLowerCase))
          (subs s 1))))
 
-(defn api-entry-example [entry project]
+(defn api-entry-example
+  ""
+  [entry project]
   (let [code (-> (-> entry :test :code)
                  (or "")
                  (util/adjust-indent 2)
@@ -30,7 +38,8 @@
        [:h6 "example not found"]
        [:code ""]])))
 
-(defn api-entry-source [entry project var namespace]
+(defn api-entry-source
+  "" [entry project var namespace]
   (if (nil? entry)
      [:pre {:class "error"} [:h6 "source not found"] [:code ""]]
      [:div {:class "entry-option"}
@@ -55,7 +64,8 @@
         [:code {:class "clojure"}
          (-> entry :source :code)]]]]))
 
-(defn api-entry [[var entry :as pair] {:keys [project namespace] :as elem}]
+(defn api-entry
+  "" [[var entry :as pair] {:keys [project namespace] :as elem}]
   [:div {:class "entry"}
    [:span {:id (entry-tag namespace var)}]
    [:div {:class "entry-description"}
@@ -67,6 +77,7 @@
    (api-entry-example entry project)])
 
 (defn api-element
+  ""
   [{:keys [table tag title namespace only exclude project] :as elem}]
   (let [entries (or (if only (map symbol only))
                     (->> (keys table)

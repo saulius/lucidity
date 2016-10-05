@@ -27,9 +27,10 @@
 
 (defn analyse-test-file
   "analyses a test file for docstring forms
+   
    (-> (analyse-test-file \"example/test/example/core_test.clj\" {})
        (update-in '[example.core foo :docs] common/join-nodes))
-   => '{example.core {foo {:docs \"1\\n  => 1\", :meta {:added \"0.1\"}}}}"
+   => {'example.core {'foo {:docs \"1\\n  => 1\", :meta {:added \"0.1\"}}}}"
   {:added "1.1"}
   [file]
   (let [zloc   (source/of-file file)

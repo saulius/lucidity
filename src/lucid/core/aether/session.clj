@@ -5,7 +5,8 @@
            [org.eclipse.aether.util.graph.manager DependencyManagerUtils]
            [org.eclipse.aether.repository LocalRepository]))
 
-(defn session [system {:keys [local-repo] :as opts}]
+(defn session
+  "" [system {:keys [local-repo] :as opts}]
   (let [session (doto (MavenRepositorySystemUtils/newSession)
                   (.setConfigProperty ConflictResolver/CONFIG_PROP_VERBOSE true)
                   (.setConfigProperty DependencyManagerUtils/CONFIG_PROP_VERBOSE true))

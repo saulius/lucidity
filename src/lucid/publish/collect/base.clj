@@ -2,17 +2,7 @@
   (:require [hara.data.nested :as nested]))
 
 (defn collect-namespaces
-  "combines `:ns-form` directives into a namespace map for easy referral
-   
-   (collect-namespaces
-    {:articles
-     {\"example\"
-      {:elements [{:type :ns-form
-                   :ns    'clojure.core}]}}}
-    \"example\")
-   => '{:articles {\"example\" {:elements ()}}
-        :namespaces {clojure.core {:type :ns-form :ns clojure.core}}}"
-  {:added "1.2"}
+  ""
   [{:keys [articles] :as interim} name]
   (let [all    (->> (get-in articles [name :elements])
                     (filter #(-> % :type (= :ns-form))))
@@ -27,15 +17,7 @@
                    (fn [elements] (filter #(-> % :type (not= :ns-form)) elements))))))
 
 (defn collect-article-metas
-  "shunts `:article` directives into a seperate `:meta` section
-   
-   (collect-article
-    {:articles {\"example\" {:elements [{:type :article
-                                       :options {:color :light}}]}}}
-    \"example\")
-   => '{:articles {\"example\" {:elements []
-                              :meta {:options {:color :light}}}}}"
-  {:added "1.2"}
+  ""
   [{:keys [articles] :as interim} name]
   (let [articles (->> (get-in articles [name :elements])
        (filter #(-> % :type (= :article)))
@@ -46,15 +28,7 @@
                    (fn [elements] (filter #(-> % :type (not= :article)) elements))))))
 
 (defn collect-global-metas
-  "shunts `:global` directives into a globally available `:meta` section
-   
-   (collect-global
-    {:articles {\"example\" {:elements [{:type :global
-                                       :options {:color :light}}]}}}
-    \"example\")
-   => {:articles {\"example\" {:elements ()}}
-       :meta {:options {:color :light}}}"
-  {:added "1.2"}
+  ""
   [{:keys [articles] :as interim} name]
   (let [global (->> (get-in articles [name :elements])
                     (filter #(-> % :type (= :global)))
@@ -65,16 +39,7 @@
                    (fn [elements] (filter #(-> % :type (not= :global)) elements))))))
 
 (defn collect-tags
-  "puts any element with `:tag` attribute into a seperate `:tag` set
-   
-   (collect-tags
-    {:articles {\"example\" {:elements [{:type :chapter :tag  \"hello\"}
-                                      {:type :chapter :tag  \"world\"}]}}}
-    \"example\")
-   => {:articles {\"example\" {:elements [{:type :chapter :tag \"hello\"}
-                                        {:type :chapter :tag \"world\"}]
-                             :tags #{\"hello\" \"world\"}}}}"
-  {:added "1.2"}
+  ""
   [{:keys [articles] :as interim} name]
   (->> (get-in articles [name :elements])
        (reduce (fn [m {:keys [tag] :as ele}]
@@ -87,14 +52,7 @@
        (assoc-in interim [:articles name :tags])))
 
 (defn collect-citations
-  "shunts `:citation` directives into a seperate `:citation` section
-   
-   (collect-citations
-    {:articles {\"example\" {:elements [{:type :citation :author \"Chris\"}]}}}
-    \"example\")
-   => {:articles {\"example\" {:elements [],
-                             :citations [{:type :citation, :author \"Chris\"}]}}}"
-  {:added "1.2"}
+  ""
   [{:keys [articles] :as interim} name]
   (let [citations (->> (get-in articles [name :elements])
                        (filter #(-> % :type (= :citation))))]

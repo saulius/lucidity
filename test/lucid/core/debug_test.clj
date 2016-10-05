@@ -44,3 +44,33 @@
       "(0 1 2 3 4)"
       "->> (map inc) :: (1 2 3 4 5)"
       "->> (take 2) :: (1 2)"])
+
+^{:refer lucid.core.debug/->doto :added "1.2"}
+(fact "used to perform side-effects within a `->` macro"
+
+  (-> {:a 1}
+      (->doto (update-in [:a] inc) print)
+      (assoc :b 2))
+  ;; {:a 2}
+  => {:a 1, :b 2})
+
+^{:refer lucid.core.debug/->>doto :added "1.2"}
+(fact "used to perform side effects within a `->>` macro"
+
+  (->> [1 2 3]
+       (->>doto (map inc) print)
+       (cons 0))
+  ;; (2 3 4)
+  => [0 1 2 3])
+
+^{:refer lucid.core.debug/->prn :added "1.2"}
+(fact "used to print within the macro"
+
+  (-> [1 2 3]
+      (->prn)
+      (conj 4))
+  ;; [1 2 3]
+  => [1 2 3 4])
+
+
+

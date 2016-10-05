@@ -3,7 +3,7 @@
   (:require [lucid.query :refer :all]
             [rewrite-clj.zip :as source]))
 
-^{:refer lucid.query/match :added "0.2"}
+^{:refer lucid.query/match :added "1.2"}
 (fact "matches the source code"
   (match (source/of-string "(+ 1 1)") '(symbol? _ _))
   => false
@@ -17,7 +17,7 @@
   (match (source/of-string "(+ 1 1)") '(^:%+ symbol? _ _))
   => false)
 
-^{:refer lucid.query/traverse :added "0.2"}
+^{:refer lucid.query/traverse :added "1.2"}
 (fact "uses a pattern to traverse as well as to edit the form"
   
   (source/sexpr
@@ -40,7 +40,7 @@
              '(defn ^:% symbol? ^:?%- string? ^:?%- map? ^:% vector? & _)))
   => '(defn hello []))
 
-^{:refer lucid.query/select :added "0.2"}
+^{:refer lucid.query/select :added "1.2"}
 (fact "selects all patterns from a starting point"
   (map source/sexpr
    (select (source/of-string "(defn hello [] (if (try))) (defn hello2 [] (if (try)))")
@@ -48,7 +48,7 @@
   => '((defn hello  [] (if (try)))
        (defn hello2 [] (if (try)))))
 
-^{:refer lucid.query/modify :added "0.2"}
+^{:refer lucid.query/modify :added "1.2"}
 (fact "modifies location given a function"
   (source/root-string
    (modify (source/of-string "^:a (defn hello3) (defn hello)") ['(defn | _)]
@@ -56,13 +56,15 @@
              (source/insert-left zloc :hello))))
   => "^:a (defn :hello hello3) (defn :hello hello)")
 
-^{:refer lucid.query/$ :added "0.2"}
+^{:refer lucid.query/$ :added "1.2"}
 (fact "select and manipulation of clojure source code"
   
-  ($ {:string "(defn hello1) (defn hello2)"} [(defn _ ^:%+ (keyword "oeuoeuoe"))])
+  ($ {:string "(defn hello1) (defn hello2)"}
+     [(defn _ ^:%+ (keyword "oeuoeuoe"))])
   => '[(defn hello1 :oeuoeuoe) (defn hello2 :oeuoeuoe)]
 
-  ($ {:string "(defn hello1) (defn hello2)"} [(defn _ | ^:%+ (keyword "oeuoeuoe") )])
+  ($ {:string "(defn hello1) (defn hello2)"}
+     [(defn _ | ^:%+ (keyword "oeuoeuoe") )])
   => '[:oeuoeuoe :oeuoeuoe]
 
   (->> ($ {:string "(defn hello1) (defn hello2)"}

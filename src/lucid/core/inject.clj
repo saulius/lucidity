@@ -50,32 +50,32 @@
      (clojure.pprint pprint)
  
      clojure.core
-     (lucid.mind    .> .? .* .% .%>)
+     (lucid.reflection    .> .? .* .% .%>)
  
     a
      (clojure.repl apropos source doc find-doc
                    dir pst root-cause)
-     (lucid.mind [>ns ns] [>var var])
+     (lucid.reflection [>ns ns] [>var var])
      (clojure.java.shell :refer [sh])
      (lucid.core.inject :exclude [inject-single])
-     (lucid.flight :all)
+     (lucid.space :all)
      (lucid.core.debug)])
    => '[{:ns clojure.core, :prefix >,
         :imports [{:ns clojure.pprint, :op :refer,
                    :arr (pprint)}]}
        {:ns clojure.core,
-        :imports [{:ns lucid.mind, :op :refer,
+        :imports [{:ns lucid.reflection, :op :refer,
                    :arr (.> .? .* .% .%>)}]}
        {:ns a,
         :imports [{:ns clojure.repl, :op :refer,
                    :arr (apropos source doc find-doc dir pst root-cause)}
-                  {:ns lucid.mind, :op :refer,
+                  {:ns lucid.reflection, :op :refer,
                    :arr ([>ns ns] [>var var])}
                   {:ns clojure.java.shell, :op :refer,
                    :arr [sh]}
                   {:ns lucid.core.inject, :op :exclude,
                    :arr [inject-single]}
-                  {:ns lucid.flight, :op :exclude, :arr ()}
+                  {:ns lucid.space, :op :exclude, :arr ()}
                   {:ns lucid.core.debug, :op :exclude, :arr ()}]}]"
   {:added "1.1"}
   [args]
