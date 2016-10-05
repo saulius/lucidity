@@ -16,6 +16,11 @@
 ^{:refer lucid.core.code.test/analyse-test-file :added "1.1"}
 (fact "analyses a test file for docstring forms"
   
-  (-> (analyse-test-file "example/test/example/core_test.clj" {})
-      (update-in '[example.core foo :docs] common/join-nodes))
-  => {'example.core {'foo {:docs "1\n  => 1", :meta {:added "0.1"}}}})
+  (-> (analyse-test-file "example/test/example/core_test.clj")
+      (update-in '[example.core foo :test :code] common/join-nodes))
+  => {'example.core
+      {'foo {:test {:code "1\n  => 1",
+                    :line {:row 6, :col 1, :end-row 7, :end-col 16},
+                    :path "example/test/example/core_test.clj"},
+             :meta {:added "0.1"},
+             :intro ""}}})

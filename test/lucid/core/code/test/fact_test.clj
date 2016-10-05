@@ -11,6 +11,6 @@
       (z/of-string)
       z/down z/right z/down z/right
       (gather-fact)
-      :docs
+      :test
       common/join-nodes)
-  => "\"Sample test program\"\n  (+ 1 1) => 2\n  (long? 3) => true")
+  => "\n  (+ 1 1) => 2\n  (long? 3) => true")

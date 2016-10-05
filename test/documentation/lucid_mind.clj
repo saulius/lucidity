@@ -105,7 +105,7 @@ One OO *paradigm* - that of encapsulation - has been turned on it's head. In OO,
 
 "This can also be used on a class instance itself:"
 
-(fact
+(comment
   (.% "abc")
   => {:name "java.lang.String",
       :hash 206835546,
@@ -199,13 +199,13 @@ One OO *paradigm* - that of encapsulation - has been turned on it's head. In OO,
 
 "The element can be captured to a variable."
 
-(def parse-long (second (.? 1 "parseLong")))
+(def parse-long (.? 1 "parseLong" :#))
 
 "Printing out the variable sees that it is a method that takes a string as input as returns a long."
 
 (fact
   (str parse-long)
-  => "#[parseLong :: (java.lang.String) -> long]")
+  => "#[parseLong :: ([java.lang.String int]), ([java.lang.String])]")
 
 "The variable can used like any other clojure method:"
 
@@ -215,7 +215,7 @@ One OO *paradigm* - that of encapsulation - has been turned on it's head. In OO,
 
 "Introspection of the element reveals that it indeed extends IFn and ILookup:"
 
-(fact
+(comment
   (.%> parse-long)
   => [hara.reflect.types.element.Element
       [java.lang.Object #{clojure.lang.IType
@@ -224,18 +224,18 @@ One OO *paradigm* - that of encapsulation - has been turned on it's head. In OO,
 
 "`parse-long` contains a lot more information that allows for it to behave like a typed function. The keyword `:all` accesses the data for the element:"
 
-(fact
+(comment 
   (:all parse-long)
-  => (contains {:origins [java.lang.Long]
-                :hash number?
-                :delegate java.lang.reflect.Method
-                :name "parseLong",
-                :static true,
-                :params [java.lang.String],
-                :type Long/TYPE
-                :modifiers #{:method :public :static},
-                :container java.lang.Long,
-                :tag :method}))
+  ;; {:tag :multi,
+  ;;  :name "parseLong",
+  ;;  :array [#[parseLong :: (java.lang.String, int) -> long]
+  ;;          #[parseLong :: (java.lang.String) -> long]],
+  ;;  :lookup {:method {2 {[java.lang.String int]
+  ;;                       #[parseLong :: (java.lang.String, int) -> long]},
+  ;;                    1 {[java.lang.String]
+  ;;                       #[parseLong :: (java.lang.String) -> long]}}},
+  ;;  :cache #atom[{} 0x24ae0bde]}
+  )
 
 "Individual attributes are accessible through keyword lookup:"
 
@@ -247,37 +247,41 @@ One OO *paradigm* - that of encapsulation - has been turned on it's head. In OO,
 
 "Queries can be made with specific attribues returned, instead of the entire element by specifying options:"
 
+
 (fact
   (.? 1 #"^parse" :name)
-  => ["parseLong" "parseUnsignedLong"]
+  => (contains
+      ["parseLong" "parseUnsignedLong"]
+      :in-any-order)
 
   (.? 1 #"^parse" :name :params)
-  => [{:name "parseLong", :params [java.lang.String Integer/TYPE]}
-      {:name "parseLong", :params [java.lang.String]}
-      {:name "parseUnsignedLong", :params [java.lang.String Integer/TYPE]}
-      {:name "parseUnsignedLong", :params [java.lang.String]}])
+  => (contains
+      [{:name "parseLong", :params [java.lang.String Integer/TYPE]}
+       {:name "parseLong", :params [java.lang.String]}
+       {:name "parseUnsignedLong", :params [java.lang.String Integer/TYPE]}
+       {:name "parseUnsignedLong", :params [java.lang.String]}]
+      :in-any-order))
 
 "The most useful keyword is `:name` as it provides a succinct way of listing the contents of a class:"
 
-(fact
+(comment
   (.? 1 :name)
-  => (contains
-      ["BYTES" "MAX_VALUE" "MIN_VALUE" "SIZE"
-       "TYPE" "bitCount" "byteValue" "compare"
-       "compareTo" "compareUnsigned" "decode"
-       "divideUnsigned" "doubleValue" "equals"
-       "floatValue" "formatUnsignedLong" "getChars"
-       "getLong" "hashCode" "highestOneBit"
-       "intValue" "longValue" "lowestOneBit"
-       "max" "min" "new" "numberOfLeadingZeros"
-       "numberOfTrailingZeros" "parseLong"
-       "parseUnsignedLong" "remainderUnsigned"
-       "reverse" "reverseBytes" "rotateLeft"
-       "rotateRight" "serialVersionUID" "shortValue"
-       "signum" "stringSize" "sum" "toBinaryString"
-       "toHexString" "toOctalString" "toString"
-       "toUnsignedBigInteger" "toUnsignedString"
-       "toUnsignedString0" "value" "valueOf"]))
+  => ["BYTES" "MAX_VALUE" "MIN_VALUE" "SIZE"
+      "TYPE" "bitCount" "byteValue" "compare"
+      "compareTo" "compareUnsigned" "decode"
+      "divideUnsigned" "doubleValue" "equals"
+      "floatValue" "formatUnsignedLong" "getChars"
+      "getLong" "hashCode" "highestOneBit"
+      "intValue" "longValue" "lowestOneBit"
+      "max" "min" "new" "numberOfLeadingZeros"
+      "numberOfTrailingZeros" "parseLong"
+      "parseUnsignedLong" "remainderUnsigned"
+      "reverse" "reverseBytes" "rotateLeft"
+      "rotateRight" "serialVersionUID" "shortValue"
+      "signum" "stringSize" "sum" "toBinaryString"
+      "toHexString" "toOctalString" "toString"
+      "toUnsignedBigInteger" "toUnsignedString"
+      "toUnsignedString0" "value" "valueOf"])
 
 [[:section {:title "filter on modifiers"}]]
 

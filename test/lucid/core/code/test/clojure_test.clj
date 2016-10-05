@@ -19,6 +19,6 @@
       (z/of-string)
       z/down z/right z/down z/right z/right
       (gather-deftest)
-      :docs
+      :test
       common/join-nodes)
   => "\"Sample test program\"\n  1\n  => 1\n  (identical? 2 4)\n  => true")

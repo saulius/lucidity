@@ -9,7 +9,7 @@ tools for code clarity - see the world not as it is but as it should be.
 
 <img src="http://docs.caudate.me/lucidity/img/logo.png" width="150"></img>
 
-### What is It?
+### What is it?
 
 [lucidity](https://github.com/zcaudate/lucidity) is a set of libraries that assist in making clojure's already awesome **in-repl** development experience even more awesome. It provides:
 

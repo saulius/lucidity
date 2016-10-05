@@ -275,14 +275,10 @@ The different types of code can be defined so that code examples render properly
 (def add-5 (add-n 5))
 
 
-[[:section {:title "Tests"}]]
-
-"
-Documentation examples put in `fact` forms allows the code to be verified for correctness using `hara.test` as well as `midje`. Document element notation still be rendered except before and after arrows (**=>**). Consecutive code within a fact form will stacked as one common code block."
-
 [[:section {:title "fact/facts"}]]
 
-"For an entire block to be embedded in code, use the `fact` form. The following code"
+"
+Documentation examples put in `fact` forms allows the code to be verified for correctness using `hara.test` as well as `midje`."
 
 [[{:tag "c-fact-src" :title "Fact Form Source"}]]
 (comment
@@ -304,7 +300,7 @@ Documentation examples put in `fact` forms allows the code to be verified for co
   (swap! a inc)
   (deref a) => 2)
 
-[[:section {:title "Comments"}]]
+[[:section {:title "comment"}]]
 
 "Comments are clojure's built-in method of displaying non-running code and so this mechanisim is used in clojure for displaying code that should not be run, but still requires display. Code can still output without interferring with code or tests."
 

@@ -16,7 +16,7 @@
   (clear-mappings)
   
   (clojure.core/refer-clojure)
-  (use 'hara.tes)
+  (use 'hara.test)
   (require '[lucid.core.namespace :refer :all])
     
   ;; the mapped symbol is gone
