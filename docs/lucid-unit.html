@@ -103,7 +103,14 @@
                         (code/analyse-file :test test-file)
                         {})]
            (if src-file
-             (zipper/walk-file src-file nil refers import-fn))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/unit_test.clj#L10-L10" target="_blank">link</a></i></h6><code class="clojure"></code></pre></div><div class="entry"><span id="entry__lucid_unit__missing"></span><div class="entry-description"><h4><b>missing&nbsp<a data-scroll="" href="#entry__lucid_unit__">^</a></b></h4><p><i>lists the functions that are missing unit tests</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/unit.clj#L68-L82" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_unit__missing" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_unit__missing"></label><pre class="source"><code class="clojure">(defn missing
+             (zipper/walk-file src-file nil refers import-fn))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/unit_test.clj#L16-L26" target="_blank">link</a></i></h6><code class="clojure">(import)
+;; import docstrings for the current namespace
+
+(import 'lucid.unit)
+;; import docstrings for a given namespace
+
+(import :all)
+;; import docstrings for the entire project</code></pre></div><div class="entry"><span id="entry__lucid_unit__missing"></span><div class="entry-description"><h4><b>missing&nbsp<a data-scroll="" href="#entry__lucid_unit__">^</a></b></h4><p><i>checks functions that are missing in a given namespace</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/unit.clj#L68-L82" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_unit__missing" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_unit__missing"></label><pre class="source"><code class="clojure">(defn missing
   ([] (missing *ns*))
   ([ns] (missing ns (project/project)))
   ([ns project] (missing ns (project/file-lookup project) project))
@@ -115,7 +122,11 @@
                (code/analyse-file :source src-file))
          test (if test-file
                 (code/analyse-file :test test-file))]
-     (keys (apply dissoc (get src ns) (keys (get test ns)))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/unit_test.clj#L16-L16" target="_blank">link</a></i></h6><code class="clojure"></code></pre></div><div class="entry"><span id="entry__lucid_unit__purge"></span><div class="entry-description"><h4><b>purge&nbsp<a data-scroll="" href="#entry__lucid_unit__">^</a></b></h4><p><i>purge docstrings and meta from file</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/unit.clj#L50-L66" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_unit__purge" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_unit__purge"></label><pre class="source"><code class="clojure">(defn purge
+     (keys (apply dissoc (get src ns) (keys (get test ns)))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/unit_test.clj#L42-L49" target="_blank">link</a></i></h6><code class="clojure">(missing)
+;; lists missing functions for current namespace
+  
+(missing 'lucid.unit)
+;; lists missing functions for specific namespace</code></pre></div><div class="entry"><span id="entry__lucid_unit__purge"></span><div class="entry-description"><h4><b>purge&nbsp<a data-scroll="" href="#entry__lucid_unit__">^</a></b></h4><p><i>purge docstrings and meta from file</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/unit.clj#L50-L66" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_unit__purge" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_unit__purge"></label><pre class="source"><code class="clojure">(defn purge
   ([] (purge *ns*))
   ([ns] (purge ns (project/project)))
   ([ns project] (purge ns (project/file-lookup project) project))
@@ -129,7 +140,14 @@
                src-file (lookup ns)
                purge-fn (fn [nsp references] identity)]
            (if src-file
-             (zipper/walk-file src-file nil nil purge-fn))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/unit_test.clj#L13-L13" target="_blank">link</a></i></h6><code class="clojure"></code></pre></div><div class="entry"><span id="entry__lucid_unit__scaffold"></span><div class="entry-description"><h4><b>scaffold&nbsp<a data-scroll="" href="#entry__lucid_unit__">^</a></b></h4><p><i>builds the unit test scaffolding for the source</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/unit.clj#L84-L121" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_unit__scaffold" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_unit__scaffold"></label><pre class="source"><code class="clojure">(defn scaffold
+             (zipper/walk-file src-file nil nil purge-fn))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/unit_test.clj#L29-L39" target="_blank">link</a></i></h6><code class="clojure">(purge)
+;; removes docstrings for the current namespace
+
+(purge 'lucid.unit)
+;; removes docstrings for a given namespace
+
+(purge :all)
+;; removes docstrings for the entire project</code></pre></div><div class="entry"><span id="entry__lucid_unit__scaffold"></span><div class="entry-description"><h4><b>scaffold&nbsp<a data-scroll="" href="#entry__lucid_unit__">^</a></b></h4><p><i>builds the unit test scaffolding for the source</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/unit.clj#L84-L121" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_unit__scaffold" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_unit__scaffold"></label><pre class="source"><code class="clojure">(defn scaffold
   ([] (scaffold *ns*))
   ([ns] (scaffold ns (project/project)))
   ([ns project] (scaffold ns (project/file-lookup project) project))
@@ -164,7 +182,11 @@
          (->> (map #(fact-form ns % version) vars)
               (cons (ns-form ns))
               (string/join "nn")
-              (spit test-file)))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/unit_test.clj#L19-L19" target="_blank">link</a></i></h6><code class="clojure"></code></pre></div><div class="entry"><span id="entry__lucid_unit__source_namespace"></span><div class="entry-description"><h4><b>source-namespace&nbsp<a data-scroll="" href="#entry__lucid_unit__">^</a></b></h4><p><i>look up the source file, corresponding to the namespace</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/unit.clj#L14-L24" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_unit__source_namespace" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_unit__source_namespace"></label><pre class="source"><code class="clojure">(defn source-namespace
+              (spit test-file)))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/unit_test.clj#L52-L59" target="_blank">link</a></i></h6><code class="clojure">(scaffold)
+;; generates test scaffolding for current namespace
+  
+(scaffold 'lucid.unit)
+;; generates test scaffolding for specific namespace</code></pre></div><div class="entry"><span id="entry__lucid_unit__source_namespace"></span><div class="entry-description"><h4><b>source-namespace&nbsp<a data-scroll="" href="#entry__lucid_unit__">^</a></b></h4><p><i>look up the source file, corresponding to the namespace</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/unit.clj#L14-L24" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_unit__source_namespace" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_unit__source_namespace"></label><pre class="source"><code class="clojure">(defn source-namespace
   [ns]
   (let [sns (if (instance? clojure.lang.Namespace ns)
               (str (.getName ns))
@@ -172,7 +194,11 @@
         sns (if (.endsWith (str sns) "-test")
               (subs sns 0 (- (count sns) 5))    
               sns)]
-    (symbol sns)))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/unit_test.clj#L7-L7" target="_blank">link</a></i></h6><code class="clojure"></code></pre></div></div></div></div>
+    (symbol sns)))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/unit_test.clj#L7-L13" target="_blank">link</a></i></h6><code class="clojure">(source-namespace 'lucid.unit)
+=> 'lucid.unit
+  
+(source-namespace 'lucid.unit-test)
+=> 'lucid.unit</code></pre></div></div></div></div>
         </div>
       </div>
     </div>

@@ -171,7 +171,7 @@ Here is a tag reference to Chapter Heading - {{ch-heading}}
 - Here is another one")
 
 
-[[:section {:title "Sections"}]]
+[[:section {:title "sections"}]]
 
 "Sectioning elements are taken from latex and allow the document to be organised into logical sections. From highest to lowest order of priority, they are: `:chapter`, `section`, `subsection` and `:subsubsection`, giving four levels of organisation.
 
@@ -320,11 +320,69 @@ Documentation examples put in `fact` forms allows the code to be verified for co
   (split "Hello World" #"\s") ;=> ["Hello" "World"]
   )
 
-[[:section {:title "Languages"}]]
+[[:section {:title ":reference"}]]
+
+"Code in the repository can be directly referenced:"
+
+(comment
+  [[:reference {:refer "lucid.publish.theme/deploy"}]]
+  )
+
+"Gives this output:"
+
+[[:reference {:refer "lucid.publish.theme/deploy" :title "Source Output" :tag "source-1"}]]
+
+
+"Tests can be referred to by adding `:mode :test` to "
+
+(comment
+  [[:reference {:refer "lucid.publish.theme/deploy" :mode :test}]]
+  )
+
+[[:reference {:refer "lucid.publish.theme/deploy" :mode :test}  :title "Test Output" :tag "source-1"]]
+
+[[:section {:title ":api"}]]
+
+"An API table can be constructed using:"
+
+(comment
+  [[:api {:namespace "lucid.publish.theme"}]]
+  )
+
+"The above output will construct a table as shown below:"
+
+[[:api {:namespace "lucid.publish.theme" :title "OUTPUT - lucid.publish.theme"}]]
+
+"The table can be customised with `:title`, `:only` and `:exclude` keys. The following generates a table with only an entry for deploy:"
+
+(comment
+  [[:api {:namespace "lucid.publish.theme"
+          :title ""
+          :only ["deploy"]}]])
+
+"This example generates a table with "
+
+(comment
+  [[:api {:namespace "lucid.publish.theme"
+          :title ""
+          :exclude ["template-path" "apply-settings"]}]])
+
+"To make links to a `:chapter`, use `:link` to create navigation links for the api"
+
+(comment
+  [[:chapter {:namespace "Theme API"
+              :link "lucid.publish.theme"
+              :exclude ["template-path" "apply-settings"]}]]
+  
+  [[:api {:namespace "lucid.publish.theme"
+          :title ""
+          :exclude ["template-path" "apply-settings"]}]])
+
+[[:section {:title "other languages"}]]
 
 "The most generic way of displaying code is with the `:code` tag. It is useful when code in other languages are required to be in the documentation."
 
-[[:subsection {:title "Python Example"}]]
+[[:subsection {:title "python"}]]
 
 "The source and outputs are listed below:"
 
@@ -345,7 +403,7 @@ for index in range(len(myList)):
 print myList
 "]]
 
-[[:subsection {:title "Ruby Example"}]]
+[[:subsection {:title "ruby"}]]
 
 "The source and outputs are listed below:"
 
@@ -382,12 +440,11 @@ end"]]
                        :subtitle "generating a document from code"}}}
     ...))
 
-"This is the simplest example - more options can be added as needed."
-
+"This is the simplest example - more options can be added as needed. See examples for [hara](https://github.com/zcaudate/hara/blob/master/project.clj#L23-L31) and [lucidity](https://github.com/zcaudate/lucidity/blob/master/project.clj#L46-L55)"
 
 [[:section {:title "Templates and Themes"}]]
 
-"Templates can be set up to customise the site:"
+"Templates can be set up to customise the site to look however fancy it needs to be."
 
 [[:code {:lang "html" :title "Template"}
 "
@@ -404,3 +461,36 @@ end"]]
 
 </html>
 "]]
+
+"The `<@=KEY>` values can be found with `lucid.publish.theme/load-settings`:"
+
+(comment
+  (lucid.publish/load-settings)
+  ;; {:email "z@caudate.me",
+  ;;  :date "06 October 2016",
+  ;;  :copy ["assets"],
+  ;;  :tracking-enabled "true",
+  ;;  :site "lucid",
+  ;;  :time "08 12",
+  ;;  :manifest [... files ...],
+  ;;  :icon "favicon",
+  ;;  :defaults {:site "stark",
+  ;;             :icon "favicon",
+  ;;             :tracking-enabled "false",
+  ;;             :template "article.html",
+  ;;             :theme-base "theme-base-0b",
+  ;;             :logo-white "img/logo-white.png",
+  ;;             :article [...],
+  ;;             :outline [...],
+  ;;             :top-level [...]},
+  ;;  :theme "stark",
+  ;;  :author "Chris Zheng",
+  ;;  :render {:article "render-article",
+  ;;           :outline "render-outline",
+  ;;           :top-level "render-top-level"},
+  ;;  :tracking "UA-31320512-2",
+  ;;  :resource "theme/stark",
+  ;;  :engine "winterfell"}
+  )
+
+"And more values can be added to the `[:publish :template]` or `[:publish :template :defaults]` entry in `project.clj`. Please reference the [stark](https://github.com/zcaudate/lucidity/blob/master/resources/theme/stark) and [bolton](https://github.com/zcaudate/lucidity/blob/master/resources/theme/bolton) themes to see how to change a template to suit your needs."

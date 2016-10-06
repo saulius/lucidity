@@ -1,8 +1,8 @@
-(ns lucid.publish.collect-test
+(ns lucid.publish.collect.base-test
   (:use hara.test)
-  (:require [lucid.publish.collect :refer :all]))
+  (:require [lucid.publish.collect.base :refer :all]))
 
-^{:refer lucid.publish.collect/collect-namespaces :added "1.2"}
+^{:refer lucid.publish.collect.base/collect-namespaces :added "1.2"}
 (fact "combines `:ns-form` directives into a namespace map for easy referral"
   
   (collect-namespaces
@@ -14,7 +14,7 @@
   => '{:articles {"example" {:elements ()}}
        :namespaces {clojure.core {:type :ns-form :ns clojure.core}}})
 
-^{:refer lucid.publish.collect/collect-article :added "1.2"}
+^{:refer lucid.publish.collect.base/collect-article :added "1.2"}
 (fact "shunts `:article` directives into a seperate `:meta` section"
   
   (collect-article
@@ -24,7 +24,7 @@
   => '{:articles {"example" {:elements []
                              :meta {:options {:color :light}}}}})
 
-^{:refer lucid.publish.collect/collect-global :added "1.2"}
+^{:refer lucid.publish.collect.base/collect-global :added "1.2"}
 (fact "shunts `:global` directives into a globally available `:meta` section"
   
   (collect-global
@@ -34,7 +34,7 @@
   => {:articles {"example" {:elements ()}}
       :meta {:options {:color :light}}})
 
-^{:refer lucid.publish.collect/collect-tags :added "1.2"}
+^{:refer lucid.publish.collect.base/collect-tags :added "1.2"}
 (fact "puts any element with `:tag` attribute into a seperate `:tag` set"
   
   (collect-tags
@@ -45,7 +45,7 @@
                                        {:type :chapter :tag "world"}]
                             :tags #{"hello" "world"}}}})
 
-^{:refer lucid.publish.collect/collect-citations :added "1.2"}
+^{:refer lucid.publish.collect.base/collect-citations :added "1.2"}
 (fact "shunts `:citation` directives into a seperate `:citation` section"
   
   (collect-citations

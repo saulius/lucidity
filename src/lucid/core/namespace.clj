@@ -1,5 +1,14 @@
 (ns lucid.core.namespace)
 
+(defmacro run
+  [func & args]
+  (let [f (when-let [nsp (namespace func)]
+            (require (symbol nsp))
+            (resolve func))]
+    (if f
+      `(~func ~@args)
+      :function-not-loaded)))
+
 (defn clear-aliases
   "removes all namespace aliases
  

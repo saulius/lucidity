@@ -1,9 +1,18 @@
 (ns lucid.core.namespace-test
   (:use hara.test)
-  (:require [lucid.core.namespace :refer :all]))
+  (:require [lucid.core.namespace :refer :all :exclude [run] :as ns]))
+
+^{:refer lucid.core.namespace/run :added "1.2"}
+(fact "runs a function, automatically loading it if not loaded"
+  
+  (ns/run clojure.core/apply + 1 [2 3 4])
+  => 10
+
+  (ns/run wrong-function + 1 [2 3 4])
+  => :function-not-loaded)
 
 ^{:refer lucid.core.namespace/clear-mappings :added "1.2"}
-(fact "removes all mapped vars in the namespace"
+(comment "removes all mapped vars in the namespace"
   
   ;; require `join`
   (require '[clojure.string :refer [join]])
@@ -15,21 +24,14 @@
   ;; clear mappings
   (clear-mappings)
   
-  (clojure.core/refer-clojure)
-  (use 'hara.test)
-  (require '[lucid.core.namespace :refer :all])
-    
   ;; the mapped symbol is gone
-
-  (eval '(join ["a" "b" "c"]))
+  (join ["a" "b" "c"])
   => (throws) ;; "Unable to resolve symbol: join in this context"
   )
 
 ^{:refer lucid.core.namespace/clear-aliases :added "1.2"}
-(fact "removes all namespace aliases"
+(comment "removes all namespace aliases"
 
-  (clear-aliases)
-  
   ;; require clojure.string
   (require '[clojure.string :as string])
   => nil
