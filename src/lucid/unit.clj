@@ -2,29 +2,28 @@
   (:require [lucid.core
              [code :as code]]
             [lucid.unit
-             [zipper :as zipper]]
+             [zipper :as zipper]
+             [scaffold :as scaffold]]
             [lucid.query :as query]
             [hara.io
              [file :as fs]
              [project :as project]]
             [clojure.string :as string]
+            [clojure.set :as set]
             [rewrite-clj.zip :as source])
   (:refer-clojure :exclude [import]))
 
-(defn source-namespace
-  "look up the source file, corresponding to the namespace"
-  {:added "1.2"}
-  [ns]
-  (let [sns (if (instance? clojure.lang.Namespace ns)
-              (str (.getName ns))
-              (str ns))
-        sns (if (.endsWith (str sns) "-test")
-              (subs sns 0 (- (count sns) 5))    
-              sns)]
-    (symbol sns)))
-
 (defn import
-  "imports unit tests as docstrings"
+  "imports unit tests as docstrings
+          
+   ;; import docstrings for the current namespace
+   (import)
+ 
+   ;; import docstrings for a given namespace
+   (import 'lucid.unit)
+ 
+   ;; import docstrings for the entire project
+   (import :all)"
   {:added "1.2"}
   ([] (import *ns*))
   ([ns] (import ns (project/project)))
@@ -35,7 +34,7 @@
            (import ns lookup project))
          
          :else
-         (let [ns (source-namespace ns)
+         (let [ns (code/source-namespace ns)
                src-file  (lookup ns)
                test-file (lookup (symbol (str ns "-test")))
                import-fn (fn [nsp refers]
@@ -48,7 +47,16 @@
              (zipper/walk-file src-file nil refers import-fn))))))
 
 (defn purge
-  "purge docstrings and meta from file"
+  "purge docstrings and meta from file
+          
+   ;; removes docstrings for the current namespace  
+   (purge)
+ 
+   ;; removes docstrings for a given namespace
+   (purge 'lucid.unit)
+ 
+   ;; removes docstrings for the entire project
+   (purge :all)"
   {:added "1.2"}
   ([] (purge *ns*))
   ([ns] (purge ns (project/project)))
@@ -59,67 +67,87 @@
            (purge ns lookup project))
 
          :else
-         (let [ns (source-namespace ns)
+         (let [ns (code/source-namespace ns)
                src-file (lookup ns)
                purge-fn (fn [nsp references] identity)]
            (if src-file
              (zipper/walk-file src-file nil nil purge-fn))))))
 
 (defn missing
-  "lists the functions that are missing unit tests"
+  "checks functions that are missing in a given namespace
+ 
+   ;; lists missing tests for current namespace
+   (missing)
+   
+   ;; lists missing tests for specific namespace
+   (missing 'lucid.unit)"
   {:added "1.2"}
   ([] (missing *ns*))
   ([ns] (missing ns (project/project)))
   ([ns project] (missing ns (project/file-lookup project) project))
   ([ns lookup project]
-   (let [ns (source-namespace ns)
+   (let [ns (code/source-namespace ns)
          src-file (lookup ns)
          test-file (lookup (symbol (str ns "-test")))
-         src (if src-file
-               (code/analyse-file :source src-file))
-         test (if test-file
-                (code/analyse-file :test test-file))]
-     (keys (apply dissoc (get src ns) (keys (get test ns)))))))
+         src-vars (if src-file (code/all-source-vars src-file))
+         test-vars (if test-file (code/all-test-vars test-file))]
+     {ns (set/difference (set src-vars) (set test-vars))})))
+
+(defn orphaned
+  "finds all unit tests that do not have functions
+   
+   ;; lists orphaned tests for current namespace
+   (orphaned)
+   
+   ;; lists orphaned tests for specific namespace
+   (orphaned 'lucid.unit)"
+  {:added "1.2"}
+  ([] (orphaned *ns*))
+  ([ns] (orphaned ns (project/project)))
+  ([ns project] (orphaned ns (project/file-lookup project) project))
+  ([ns lookup project]
+   (let [ns (code/source-namespace ns)
+         src-file (lookup ns)
+         test-file (lookup (symbol (str ns "-test")))
+         src-vars (if src-file (code/all-source-vars src-file))
+         test-vars (if test-file (code/all-test-vars test-file))]
+     {ns (set/difference (set test-vars) (set src-vars))})))
 
 (defn scaffold
-  "builds the unit test scaffolding for the source"
+  "builds the unit test scaffolding for the source
+ 
+   ;; generates test scaffolding for current namespace
+   (scaffold)
+   
+   ;; generates test scaffolding for specific namespace
+   (scaffold 'lucid.unit)"
   {:added "1.2"}
   ([] (scaffold *ns*))
   ([ns] (scaffold ns (project/project)))
-  ([ns project] (scaffold ns (project/file-lookup project) project))
-  ([ns lookup project]
-   (let [ns (source-namespace ns)
-         test-ns   (symbol (str ns "-test"))
-         src-file  (lookup ns)
-         test-file (lookup test-ns)
-         ns-form   (fn [ns]
-                     (format "(ns %s\n  (:use hara.test)\n  (:require [%s :refer :all]))"
-                             (str ns "-test")
-                             ns))
-         fact-form (fn [ns var version]
-                     (->> [(format "^{:refer %s/%s :added \"%s\"}"
-                                   ns var version)
-                           (format "(fact \"TODO\")")]
-                          (string/join "\n")))
-         vars (if src-file
-                (query/$ (source/of-file src-file)
-                         [(#{defn defmacro defmulti} | _ ^:%?- string? ^:%?- map? & _)]
-                         {:walk :top :return :sexpr}))
-         version (->> (string/split (:version project) #"\.")
-                      (take 2)
-                      (string/join "."))]
-     (if (and vars (or (not test-file)
-                       (not (fs/exists? test-file))))
-       (let [test-file (format "%s/%s/%s"
-                               (:root project)
-                               (first (:test-paths project))
-                               (->  test-ns str munge (.replaceAll "\\." "/") (str ".clj")))]
-         (fs/create-directory (fs/parent test-file))
-         (->> (map #(fact-form ns % version) vars)
-              (cons (ns-form ns))
-              (string/join "\n\n")
-              (spit test-file)))))))
+  ([ns project] (scaffold/scaffold ns (project/file-lookup project) project)))
 
-(comment
-  (import)
-  )
+(defn in-order?
+  "checks vars in the test file is in correct order
+   
+   ;; checks ordering for current namespace
+   (in-order?)
+   
+   ;; checks ordering for specific namespace
+   (in-order? 'lucid.unit)"
+  {:added "1.2"}
+  ([] (in-order? *ns*))
+  ([ns] (in-order? ns (project/project)))
+  ([ns project] (scaffold/in-order? ns (project/file-lookup project) project)))
+
+(defn arrange
+  "arranges tests so that vars are in correct order
+   
+   ;; arranges tests for current namespace
+   (re-order?)
+   
+   ;; arranges tests for specific namespace
+   (re-order? 'lucid.unit)"
+  {:added "1.2"}
+  ([] (arrange *ns*))
+  ([ns] (arrange ns (project/project)))
+  ([ns project] (scaffold/arrange ns (project/file-lookup project) project)))

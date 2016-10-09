@@ -4,7 +4,8 @@
              [source :as source]]
             [rewrite-clj.node :as node]
             [hara.string.prose :as prose]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [hara.io.file :as fs]))
 
 (defn analyse-file
   "analyses a source or test file for information
@@ -63,3 +64,49 @@
 
                       :else res))))
        (string/join)))
+
+(defn source-namespace
+  "look up the source file, corresponding to the namespace
+ 
+   (source-namespace 'lucid.unit)
+   => 'lucid.unit
+   
+   (source-namespace 'lucid.unit-test)
+   => 'lucid.unit"
+  {:added "1.2"}
+  [ns]
+  (let [sns (if (instance? clojure.lang.Namespace ns)
+              (str (.getName ns))
+              (str ns))
+        sns (if (.endsWith (str sns) "-test")
+              (subs sns 0 (- (count sns) 5))    
+              sns)]
+    (symbol sns)))
+
+(defn all-source-vars
+  "Finds all the `defn`, `defmulti` and `defmacro` forms in code
+ 
+   (all-source-vars \"src/lucid/core/code.clj\")
+   => '[analyse-file join-nodes
+        source-namespace
+        all-source-vars all-test-vars]"
+  {:added "1.2"}
+  [file]
+  (->> (fs/code file)
+       (filter (fn [form] ('#{defn defmacro defmulti} (first form))))
+       (map second)))
+
+(defn all-test-vars
+  "Finds all `comment`, `fact` and `facts` forms in code
+ 
+   (all-test-vars \"test/lucid/core/code_test.clj\")
+   => '[analyse-file join-nodes
+        source-namespace
+        all-source-vars all-test-vars]"
+  {:added "1.2"}
+  [file]
+  (->> (fs/code file)
+       (filter (fn [form] ('#{fact facts comment} (first form))))
+       (keep (comp :refer meta))
+       (map (comp symbol name))))
+

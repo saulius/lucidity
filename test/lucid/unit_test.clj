@@ -1,58 +1,73 @@
 (ns lucid.unit-test
   (:use hara.test)
-  (:require [lucid.unit :refer :all]))
-
-^{:refer lucid.unit/source-namespace :added "1.2"}
-(fact "look up the source file, corresponding to the namespace"
-
-  (source-namespace 'lucid.unit)
-  => 'lucid.unit
-  
-  (source-namespace 'lucid.unit-test)
-  => 'lucid.unit)
+  (:require [lucid.unit :refer :all])
+  (:refer-clojure :exclude [import]))
 
 ^{:refer lucid.unit/import :added "1.2"}
 (comment "imports unit tests as docstrings"
-
-  (import)
+         
   ;; import docstrings for the current namespace
+  (import)
 
-  (import 'lucid.unit)
   ;; import docstrings for a given namespace
+  (import 'lucid.unit)
 
-  (import :all)
   ;; import docstrings for the entire project
-  )
+  (import :all))
 
 ^{:refer lucid.unit/purge :added "1.2"}
 (comment "purge docstrings and meta from file"
-  
+         
+  ;; removes docstrings for the current namespace  
   (purge)
-  ;; removes docstrings for the current namespace
 
-  (purge 'lucid.unit)
   ;; removes docstrings for a given namespace
+  (purge 'lucid.unit)
 
-  (purge :all)
   ;; removes docstrings for the entire project
-)
+  (purge :all))
 
 ^{:refer lucid.unit/missing :added "1.2"}
 (comment "checks functions that are missing in a given namespace"
 
+  ;; lists missing tests for current namespace
   (missing)
-  ;; lists missing functions for current namespace
   
-  (missing 'lucid.unit)
-  ;; lists missing functions for specific namespace
-  )
+  ;; lists missing tests for specific namespace
+  (missing 'lucid.unit))
+
+^{:refer lucid.unit/orphaned :added "1.2"}
+(comment "finds all unit tests that do not have functions"
+  
+  ;; lists orphaned tests for current namespace
+  (orphaned)
+  
+  ;; lists orphaned tests for specific namespace
+  (orphaned 'lucid.unit))
 
 ^{:refer lucid.unit/scaffold :added "1.2"}
-(fact "builds the unit test scaffolding for the source"
+(comment "builds the unit test scaffolding for the source"
 
-  (scaffold)
   ;; generates test scaffolding for current namespace
+  (scaffold)
   
-  (scaffold 'lucid.unit)
   ;; generates test scaffolding for specific namespace
-  )
+  (scaffold 'lucid.unit))
+
+^{:refer lucid.unit/in-order? :added "1.2"}
+(comment "checks vars in the test file is in correct order"
+  
+  ;; checks ordering for current namespace
+  (in-order?)
+  
+  ;; checks ordering for specific namespace
+  (in-order? 'lucid.unit))
+
+^{:refer lucid.unit/arrange :added "1.2"}
+(comment "arranges tests so that vars are in correct order"
+  
+  ;; arranges tests for current namespace
+  (re-order?)
+  
+  ;; arranges tests for specific namespace
+  (re-order? 'lucid.unit))

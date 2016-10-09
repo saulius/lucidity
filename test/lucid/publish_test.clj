@@ -7,43 +7,38 @@
 
 ^{:refer lucid.publish/copy-assets :added "1.2"}
 (comment "copies all theme assets into the output directory"
-         
-  (copy-assets)
+
   ;; copies theme using the `:copy` key into an output directory
-)
+  (copy-assets))
 
 ^{:refer lucid.publish/load-settings :added "1.2"}
 (comment "copies all theme assets into the output directory"
 
-  (load-settings)
   ;; {:email "z@caudate.me", :date "06 October 2016" ...}
-)
+  (load-settings))
 
 ^{:refer lucid.publish/add-lookup :added "1.2"}
 (fact "adds a namespace to file lookup table if not existing")
 
-^{:refer lucid.publish/apply-with-options :added "1.2"}
-(fact "applies a method with options, settings and project")
-
 ^{:refer lucid.publish/publish :added "1.2"}
 (comment "publishes a document as an html"
-  
-  (publish "index")
-  ;; publishes the `index` entry in `project.clj`
 
+  ;; publishes the `index` entry in `project.clj`
+  (publish "index")
+
+
+  ;; publishes `index` in a specific project with additional options
   (publish "index"
            {:refresh true :theme "bolton"}
-           (project/project <PATH>))
-  ;; publishes `index` in a specific project with additional options
-)
+           (project/project <PATH>)))
 
 ^{:refer lucid.publish/publish-all :added "1.2"}
 (comment "publishes all documents as html"
 
+  ;; publishes all the entries in `:publish :files`
   (publish-all)
-  ;; publishes all the documents
 
+
+  ;; publishes all entries in a specific project
   (publish-all {:refresh true :theme "bolton"}
-               (project/project <PATH>))
-  ;; publishes a specific project with additional options
-  )
+               (project/project <PATH>)))

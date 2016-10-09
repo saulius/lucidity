@@ -11,13 +11,13 @@
      {:elements [{:type :ns-form
                   :ns    'clojure.core}]}}}
    "example")
-  => '{:articles {"example" {:elements ()}}
+  => '{:articles {"example" {:elements () :meta {}}}
        :namespaces {clojure.core {:type :ns-form :ns clojure.core}}})
 
 ^{:refer lucid.publish.collect.base/collect-article :added "1.2"}
 (fact "shunts `:article` directives into a seperate `:meta` section"
-  
-  (collect-article
+
+  (collect-article-metas
    {:articles {"example" {:elements [{:type :article
                                       :options {:color :light}}]}}}
    "example")
@@ -27,12 +27,12 @@
 ^{:refer lucid.publish.collect.base/collect-global :added "1.2"}
 (fact "shunts `:global` directives into a globally available `:meta` section"
   
-  (collect-global
+  (collect-global-metas
    {:articles {"example" {:elements [{:type :global
                                       :options {:color :light}}]}}}
    "example")
   => {:articles {"example" {:elements ()}}
-      :meta {:options {:color :light}}})
+      :global {:options {:color :light}}})
 
 ^{:refer lucid.publish.collect.base/collect-tags :added "1.2"}
 (fact "puts any element with `:tag` attribute into a seperate `:tag` set"

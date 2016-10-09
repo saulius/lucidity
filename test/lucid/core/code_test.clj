@@ -36,3 +36,28 @@
       (get-in ['lucid.core.code 'analyse-file :test :code])
       (join-nodes))
   => string?)
+
+^{:refer lucid.core.code/source-namespace :added "1.2"}
+(fact "look up the source file, corresponding to the namespace"
+
+  (source-namespace 'lucid.unit)
+  => 'lucid.unit
+  
+  (source-namespace 'lucid.unit-test)
+  => 'lucid.unit)
+
+^{:refer lucid.core.code/all-source-vars :added "1.2"}
+(fact "Finds all the `defn`, `defmulti` and `defmacro` forms in code"
+
+  (all-source-vars "src/lucid/core/code.clj")
+  => '[analyse-file join-nodes
+       source-namespace
+       all-source-vars all-test-vars])
+
+^{:refer lucid.core.code/all-test-vars :added "1.2"}
+(fact "Finds all `comment`, `fact` and `facts` forms in code"
+
+  (all-test-vars "test/lucid/core/code_test.clj")
+  => '[analyse-file join-nodes
+       source-namespace
+       all-source-vars all-test-vars])

@@ -37,9 +37,8 @@
 
 ^{:refer lucid.publish.theme/deploy :added "1.2"}
 (comment "deploys theme into template directory"
-  
-  (deploy (load-settings "stark" (project/project))
-          (project/project))
+
   ;; deploys the stark theme to the template/stark directory
   ;; overwriting any content in the directory
-  )
+  (deploy (load-settings "stark" (project/project))
+          (project/project)))

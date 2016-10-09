@@ -1,25 +1,27 @@
 (ns lucid.publish.prepare-test
   (:use hara.test)
-  (:require [lucid.publish.prepare :refer :all]))
+  (:require [lucid.publish.prepare :refer :all]
+            [lucid.publish :as publish]
+            [hara.io.project :as project]))
 
 ^{:refer lucid.publish.prepare/lookup-meta :added "1.2"}
 (fact "takes a key and looks up the associated meta information"
-  (lookup-meta "index")
-  => {:template "home.html",
-      :title "lucidity",
-      :subtitle "tools for clarity",
-      :name "index"}
-
-  (lookup-meta 'documentation.lucid-mind)
-  => {:input "test/documentation/lucid_mind.clj",
-      :title "mind",
-      :subtitle "simple, contemplative reflection",
-      :name "lucid-mind"})
+  (lookup-meta "index"
+               (publish/add-lookup (project/project))
+               (project/project))
+  => {:template "home.html"
+      :input "test/documentation/home_lucidity.clj"
+      :title "lucidity"
+      :subtitle "tools for code clarity"
+      :name "index"})
 
 ^{:refer lucid.publish.prepare/prepare-single :added "1.2"}
 (fact "processes a single meta to generate an interim structure"
 
-  (prepare-single (lookup-meta "index"))
+  (prepare-single (lookup-meta "index"
+                               (publish/add-lookup (project/project))
+                               (project/project)))
+  
   => (contains-in {:articles {"index" map?},
                    :global map?
                    :namespaces map?

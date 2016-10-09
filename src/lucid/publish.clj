@@ -50,7 +50,7 @@
   ([opts project]
    (let [theme (or (:theme opts)
                    (-> project :publish :theme))
-         settings (merge (theme/load-settings theme)
+         settings (merge (theme/load-settings theme project)
                          opts)]
      (when (:refresh settings)
        (theme/deploy settings project)

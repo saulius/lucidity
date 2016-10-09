@@ -8,10 +8,11 @@
 
   (-> (z/of-string "(ns example.core)")
       (parse-ns-form))
-  => '{:type :ns-form
-       :indentation 0
-       :ns example.core
-       :code "(ns example.core)"})
+  => {:type :ns-form
+      :indentation 0
+      :meta {}
+      :ns 'example.core
+      :code "(ns example.core)"})
 
 ^{:refer lucid.publish.parse/code-form :added "1.2"}
 (fact "converts a form zipper into a code string"
@@ -25,7 +26,7 @@
 
   (-> (z/of-string "(fact (+ 1 1) \n => 2)")
       (parse-fact-form))
-  => {:type :block :indentation 2 :code "(+ 1 1) \n => 2"})
+  => {:type :test :indentation 2 :code "(+ 1 1) \n => 2"})
 
 ^{:refer lucid.publish.parse/parse-comment-form :added "1.2"}
 (fact "convert a comment zipper into an element"
