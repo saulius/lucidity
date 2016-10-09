@@ -61,7 +61,7 @@
           <div class="heading">
             <div>
               <h5>Author: Chris Zheng&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></h5>
-              <h5>Date: 06 October 2016</h5>
+              <h5>Date: 09 October 2016</h5>
               <h5>Repository: <a href="https://www.github.com/zcaudate/lucidity">https://www.github.com/zcaudate/lucidity</a></h5>
               <h5>Version: 1.2.0</h5></div></div>
           <hr/>
@@ -225,48 +225,46 @@ a =&gt; &quot;world&quot;</code></pre></div><div><span id="threading"></span><h3
 ;;  #[compareTo :: (java.lang.Long, java.lang.Long) -&gt; int]
 ;;  #[compareUnsigned :: (long, long) -&gt; int])</code></pre></div><div><span id="elements"></span><h3>5.3 &nbsp;&nbsp; elements</h3></div><div><p>The query returns a list of elements. Each single element can be further explored. A query looking for methods named <code>parselong</code> yields two methods:</p></div><div class="code"><pre><code class="clojure">(.? 1 &quot;parseLong&quot;)
 ;; (#[parseLong :: (java.lang.String, int) -&gt; long]
-;;  #[parseLong :: (java.lang.String) -&gt; long])</code></pre></div><div><p>The element can be captured to a variable.</p></div><div class="code"><pre><code class="clojure">(def parse-long (second (.? 1 &quot;parseLong&quot;)))</code></pre></div><div><p>Printing out the variable sees that it is a method that takes a string as input as returns a long.</p></div><div class="code"><pre><code class="clojure">(str parse-long)
-=&gt; &quot;#[parseLong :: (java.lang.String) -&gt; long]&quot;</code></pre></div><div><p>The variable can used like any other clojure method:</p></div><div class="code"><pre><code class="clojure">(parse-long &quot;202&quot;)
+;;  #[parseLong :: (java.lang.String) -&gt; long])</code></pre></div><div><p>The element can be captured to a variable.</p></div><div class="code"><pre><code class="clojure">(def parse-long (.? 1 &quot;parseLong&quot; :#))</code></pre></div><div><p>Printing out the variable sees that it is a method that takes a string as input as returns a long.</p></div><div class="code"><pre><code class="clojure">(str parse-long)
+=&gt; &quot;#[parseLong :: ([java.lang.String int]), ([java.lang.String])]&quot;</code></pre></div><div><p>The variable can used like any other clojure method:</p></div><div class="code"><pre><code class="clojure">(parse-long &quot;202&quot;)
 =&gt; 202</code></pre></div><div><p>Introspection of the element reveals that it indeed extends IFn and ILookup:</p></div><div class="code"><pre><code class="clojure">(.%&gt; parse-long)
 =&gt; [hara.reflect.types.element.Element
     [java.lang.Object #{clojure.lang.IType
                         clojure.lang.IFn
                         clojure.lang.ILookup}]]</code></pre></div><div><p><code>parse-long</code> contains a lot more information that allows for it to behave like a typed function. The keyword <code>:all</code> accesses the data for the element:</p></div><div class="code"><pre><code class="clojure">(:all parse-long)
-=&gt; (contains {:origins [java.lang.Long]
-              :hash number?
-              :delegate java.lang.reflect.Method
-              :name &quot;parseLong&quot;,
-              :static true,
-              :params [java.lang.String],
-              :type Long/TYPE
-              :modifiers #{:method :public :static},
-              :container java.lang.Long,
-              :tag :method})</code></pre></div><div><p>Individual attributes are accessible through keyword lookup:</p></div><div class="code"><pre><code class="clojure">(:name parse-long)
+;; {:tag :multi,
+;;  :name &quot;parseLong&quot;,
+;;  :array [#[parseLong :: (java.lang.String, int) -&gt; long]
+;;          #[parseLong :: (java.lang.String) -&gt; long]],
+;;  :lookup {:method {2 {[java.lang.String int]
+;;                       #[parseLong :: (java.lang.String, int) -&gt; long]},
+;;                    1 {[java.lang.String]
+;;                       #[parseLong :: (java.lang.String) -&gt; long]}}},
+;;  :cache #atom[{} 0x24ae0bde]}</code></pre></div><div><p>Individual attributes are accessible through keyword lookup:</p></div><div class="code"><pre><code class="clojure">(:name parse-long)
 =&gt; &quot;parseLong&quot;</code></pre></div><div><span id="selection"></span><h3>5.4 &nbsp;&nbsp; selection</h3></div><div><p>Queries can be made with specific attribues returned, instead of the entire element by specifying options:</p></div><div class="code"><pre><code class="clojure">(.? 1 #&quot;^parse&quot; :name)
-=&gt; [&quot;parseLong&quot; &quot;parseUnsignedLong&quot;]
+=&gt; (&quot;parseLong&quot; &quot;parseUnsignedLong&quot;)
 
 (.? 1 #&quot;^parse&quot; :name :params)
-=&gt; [{:name &quot;parseLong&quot;, :params [java.lang.String Integer/TYPE]}
+=&gt; ({:name &quot;parseLong&quot;, :params [java.lang.String int]}
     {:name &quot;parseLong&quot;, :params [java.lang.String]}
-    {:name &quot;parseUnsignedLong&quot;, :params [java.lang.String Integer/TYPE]}
-    {:name &quot;parseUnsignedLong&quot;, :params [java.lang.String]}]</code></pre></div><div><p>The most useful keyword is <code>:name</code> as it provides a succinct way of listing the contents of a class:</p></div><div class="code"><pre><code class="clojure">(.? 1 :name)
-=&gt; (contains
-    [&quot;BYTES&quot; &quot;MAX_VALUE&quot; &quot;MIN_VALUE&quot; &quot;SIZE&quot;
-     &quot;TYPE&quot; &quot;bitCount&quot; &quot;byteValue&quot; &quot;compare&quot;
-     &quot;compareTo&quot; &quot;compareUnsigned&quot; &quot;decode&quot;
-     &quot;divideUnsigned&quot; &quot;doubleValue&quot; &quot;equals&quot;
-     &quot;floatValue&quot; &quot;formatUnsignedLong&quot; &quot;getChars&quot;
-     &quot;getLong&quot; &quot;hashCode&quot; &quot;highestOneBit&quot;
-     &quot;intValue&quot; &quot;longValue&quot; &quot;lowestOneBit&quot;
-     &quot;max&quot; &quot;min&quot; &quot;new&quot; &quot;numberOfLeadingZeros&quot;
-     &quot;numberOfTrailingZeros&quot; &quot;parseLong&quot;
-     &quot;parseUnsignedLong&quot; &quot;remainderUnsigned&quot;
-     &quot;reverse&quot; &quot;reverseBytes&quot; &quot;rotateLeft&quot;
-     &quot;rotateRight&quot; &quot;serialVersionUID&quot; &quot;shortValue&quot;
-     &quot;signum&quot; &quot;stringSize&quot; &quot;sum&quot; &quot;toBinaryString&quot;
-     &quot;toHexString&quot; &quot;toOctalString&quot; &quot;toString&quot;
-     &quot;toUnsignedBigInteger&quot; &quot;toUnsignedString&quot;
-     &quot;toUnsignedString0&quot; &quot;value&quot; &quot;valueOf&quot;])</code></pre></div><div><span id="filter-on-modifiers"></span><h3>5.5 &nbsp;&nbsp; filter on modifiers</h3></div><div><p>There are a list of modifiers that can be used for filtering:</p></div><div class="code"><pre><code class="clojure">(def flags
+    {:name &quot;parseUnsignedLong&quot;, :params [java.lang.String int]}
+    {:name &quot;parseUnsignedLong&quot;, :params [java.lang.String]})</code></pre></div><div><p>The most useful keyword is <code>:name</code> as it provides a succinct way of listing the contents of a class:</p></div><div class="code"><pre><code class="clojure">(.? 1 :name)
+=&gt; [&quot;BYTES&quot; &quot;MAX_VALUE&quot; &quot;MIN_VALUE&quot; &quot;SIZE&quot;
+    &quot;TYPE&quot; &quot;bitCount&quot; &quot;byteValue&quot; &quot;compare&quot;
+    &quot;compareTo&quot; &quot;compareUnsigned&quot; &quot;decode&quot;
+    &quot;divideUnsigned&quot; &quot;doubleValue&quot; &quot;equals&quot;
+    &quot;floatValue&quot; &quot;formatUnsignedLong&quot; &quot;getChars&quot;
+    &quot;getLong&quot; &quot;hashCode&quot; &quot;highestOneBit&quot;
+    &quot;intValue&quot; &quot;longValue&quot; &quot;lowestOneBit&quot;
+    &quot;max&quot; &quot;min&quot; &quot;new&quot; &quot;numberOfLeadingZeros&quot;
+    &quot;numberOfTrailingZeros&quot; &quot;parseLong&quot;
+    &quot;parseUnsignedLong&quot; &quot;remainderUnsigned&quot;
+    &quot;reverse&quot; &quot;reverseBytes&quot; &quot;rotateLeft&quot;
+    &quot;rotateRight&quot; &quot;serialVersionUID&quot; &quot;shortValue&quot;
+    &quot;signum&quot; &quot;stringSize&quot; &quot;sum&quot; &quot;toBinaryString&quot;
+    &quot;toHexString&quot; &quot;toOctalString&quot; &quot;toString&quot;
+    &quot;toUnsignedBigInteger&quot; &quot;toUnsignedString&quot;
+    &quot;toUnsignedString0&quot; &quot;value&quot; &quot;valueOf&quot;]</code></pre></div><div><span id="filter-on-modifiers"></span><h3>5.5 &nbsp;&nbsp; filter on modifiers</h3></div><div><p>There are a list of modifiers that can be used for filtering:</p></div><div class="code"><pre><code class="clojure">(def flags
   
   [;; Element Type
    :field

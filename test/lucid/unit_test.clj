@@ -67,7 +67,7 @@
 (comment "arranges tests so that vars are in correct order"
   
   ;; arranges tests for current namespace
-  (re-order?)
+  (arrange)
   
   ;; arranges tests for specific namespace
-  (re-order? 'lucid.unit))
+  (arrange 'lucid.unit))

@@ -61,7 +61,7 @@
           <div class="heading">
             <div>
               <h5>Author: Chris Zheng&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></h5>
-              <h5>Date: 06 October 2016</h5>
+              <h5>Date: 09 October 2016</h5>
               <h5>Repository: <a href="https://www.github.com/zcaudate/lucidity">https://www.github.com/zcaudate/lucidity</a></h5>
               <h5>Version: 1.2.0</h5></div></div>
           <hr/>
@@ -141,19 +141,19 @@
          (doseq [in files]
            (let [out (fs/path output-dir (str (fs/relativize dir in)))]
              (fs/create-directory (fs/parent out))
-             (fs/copy-single in out {:options [:replace-existing :copy-attributes]}))))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/publish_test.clj#L9-L13" target="_blank">link</a></i></h6><code class="clojure">(copy-assets)
-;; copies theme using the `:copy` key into an output directory</code></pre></div><div class="entry"><span id="entry__lucid_publish__load_settings"></span><div class="entry-description"><h4><b>load-settings&nbsp<a data-scroll="" href="#entry__lucid_publish__">^</a></b></h4><p><i>copies all theme assets into the output directory</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/publish.clj#L46-L58" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_publish__load_settings" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_publish__load_settings"></label><pre class="source"><code class="clojure">(defn load-settings
+             (fs/copy-single in out {:options [:replace-existing :copy-attributes]}))))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/publish_test.clj#L9-L12" target="_blank">link</a></i></h6><code class="clojure">;; copies theme using the `:copy` key into an output directory
+(copy-assets)</code></pre></div><div class="entry"><span id="entry__lucid_publish__load_settings"></span><div class="entry-description"><h4><b>load-settings&nbsp<a data-scroll="" href="#entry__lucid_publish__">^</a></b></h4><p><i>copies all theme assets into the output directory</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/publish.clj#L46-L58" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_publish__load_settings" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_publish__load_settings"></label><pre class="source"><code class="clojure">(defn load-settings
   ([] (load-settings {} (project/project)))
   ([opts project]
    (let [theme (or (:theme opts)
                    (-> project :publish :theme))
-         settings (merge (theme/load-settings theme)
+         settings (merge (theme/load-settings theme project)
                          opts)]
      (when (:refresh settings)
        (theme/deploy settings project)
        (copy-assets settings project))
-     settings)))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/publish_test.clj#L16-L20" target="_blank">link</a></i></h6><code class="clojure">(load-settings)
-;; {:email "z@caudate.me", :date "06 October 2016" ...}</code></pre></div><div class="entry"><span id="entry__lucid_publish__publish"></span><div class="entry-description"><h4><b>publish&nbsp<a data-scroll="" href="#entry__lucid_publish__">^</a></b></h4><p><i>publishes a document as an html</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/publish.clj#L68-L100" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_publish__publish" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_publish__publish"></label><pre class="source"><code class="clojure">(defn publish
+     settings)))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/publish_test.clj#L15-L18" target="_blank">link</a></i></h6><code class="clojure">;; {:email "z@caudate.me", :date "06 October 2016" ...}
+(load-settings)</code></pre></div><div class="entry"><span id="entry__lucid_publish__publish"></span><div class="entry-description"><h4><b>publish&nbsp<a data-scroll="" href="#entry__lucid_publish__">^</a></b></h4><p><i>publishes a document as an html</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/publish.clj#L68-L100" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_publish__publish" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_publish__publish"></label><pre class="source"><code class="clojure">(defn publish
   ([] (publish [*ns*] {} (project/project)))
   ([x] (cond (map? x)
              (publish [*ns*] x (project/project))
@@ -175,13 +175,14 @@
      (fs/create-directory out-dir)
      (doseq [name names]
        (spit (str (fs/path (str out-dir) (str name ".html")))
-             (render/render interim name settings project))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/publish_test.clj#L29-L38" target="_blank">link</a></i></h6><code class="clojure">(publish "index")
-;; publishes the `index` entry in `project.clj`
+             (render/render interim name settings project))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/publish_test.clj#L24-L33" target="_blank">link</a></i></h6><code class="clojure">;; publishes the `index` entry in `project.clj`
+(publish "index")
 
+
+;; publishes `index` in a specific project with additional options
 (publish "index"
          {:refresh true :theme "bolton"}
-         (project/project <PATH>))
-;; publishes `index` in a specific project with additional options</code></pre></div><div class="entry"><span id="entry__lucid_publish__publish_all"></span><div class="entry-description"><h4><b>publish-all&nbsp<a data-scroll="" href="#entry__lucid_publish__">^</a></b></h4><p><i>publishes all documents as html</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/publish.clj#L102-L120" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_publish__publish_all" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_publish__publish_all"></label><pre class="source"><code class="clojure">(defn publish-all
+         (project/project <PATH>))</code></pre></div><div class="entry"><span id="entry__lucid_publish__publish_all"></span><div class="entry-description"><h4><b>publish-all&nbsp<a data-scroll="" href="#entry__lucid_publish__">^</a></b></h4><p><i>publishes all documents as html</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/publish.clj#L102-L120" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_publish__publish_all" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_publish__publish_all"></label><pre class="source"><code class="clojure">(defn publish-all
   ([] (publish-all {} (project/project)))
   ([opts project]
    (let [project  (add-lookup project)
@@ -189,12 +190,13 @@
          template (theme/template-path settings project)
          output   (output-path project)
          files (-> project :publish :files keys vec)]
-     (publish files settings project))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/publish_test.clj#L41-L49" target="_blank">link</a></i></h6><code class="clojure">(publish-all)
-;; publishes all the documents
+     (publish files settings project))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/publish_test.clj#L36-L44" target="_blank">link</a></i></h6><code class="clojure">;; publishes all the entries in `:publish :files`
+(publish-all)
 
+
+;; publishes all entries in a specific project
 (publish-all {:refresh true :theme "bolton"}
-             (project/project <PATH>))
-;; publishes a specific project with additional options</code></pre></div></div></div></div><div><span id="syntax"></span><h2><b>3 &nbsp;&nbsp; Syntax</b></h2></div><div><p>Elements are constructed using a tag and a map contained within double square brackets. Elements tags have been inspired from latex:</p><ul><li><a href='#content'>Content Elements</a></li><li><a href='#sections'>Sectioning Elements</a></li><li><a href='#code'>Code Elements</a></li></ul><p>Clojure strings are treated as paragraph elements whilst clojure forms are treated as code elements. <code>fact</code> and <code>comment</code> forms are also considered code elements. Elements will be described in detail in their respective sections.</p></div><div><span id="notation"></span><h3>3.1 &nbsp;&nbsp; Notation</h3></div><div class="code"><a id="elements-ex1"></a><h4><i>e.3.1  &nbsp;-&nbsp; Element Notation</i></h4><pre><code class="clojure">[[&lt;tag&gt; {&lt;key1&gt; &lt;value1&gt;, &lt;key2&gt; &lt;value2&gt;}]]</code></pre></div><div><p>for example:</p></div><div class="code"><pre><code class="clojure">[[:chapter {:title &quot;Hello World&quot; :tag &quot;hello&quot;}]]</code></pre></div><div><span id="attributes"></span><h3>3.2 &nbsp;&nbsp; Attributes</h3></div><div><p>Attribute add additional metadata to elements. They are written as a single hashmap within double square brackets. Attributes mean nothing by themselves. They change the properties of elements directly after them.</p></div><div class="code"><pre><code class="clojure">[[{:tag &quot;my-paragraph&quot;}]]
+             (project/project <PATH>))</code></pre></div></div></div></div><div><span id="syntax"></span><h2><b>3 &nbsp;&nbsp; Syntax</b></h2></div><div><p>Elements are constructed using a tag and a map contained within double square brackets. Elements tags have been inspired from latex:</p><ul><li><a href='#content'>Content Elements</a></li><li><a href='#sections'>Sectioning Elements</a></li><li><a href='#code'>Code Elements</a></li></ul><p>Clojure strings are treated as paragraph elements whilst clojure forms are treated as code elements. <code>fact</code> and <code>comment</code> forms are also considered code elements. Elements will be described in detail in their respective sections.</p></div><div><span id="notation"></span><h3>3.1 &nbsp;&nbsp; Notation</h3></div><div class="code"><a id="elements-ex1"></a><h4><i>e.3.1  &nbsp;-&nbsp; Element Notation</i></h4><pre><code class="clojure">[[&lt;tag&gt; {&lt;key1&gt; &lt;value1&gt;, &lt;key2&gt; &lt;value2&gt;}]]</code></pre></div><div><p>for example:</p></div><div class="code"><pre><code class="clojure">[[:chapter {:title &quot;Hello World&quot; :tag &quot;hello&quot;}]]</code></pre></div><div><span id="attributes"></span><h3>3.2 &nbsp;&nbsp; Attributes</h3></div><div><p>Attribute add additional metadata to elements. They are written as a single hashmap within double square brackets. Attributes mean nothing by themselves. They change the properties of elements directly after them.</p></div><div class="code"><pre><code class="clojure">[[{:tag &quot;my-paragraph&quot;}]]
 [[:paragraph {:content &quot;This is a paragraph&quot;}]]</code></pre></div><div><p>is equivalent to:</p></div><div class="code"><pre><code class="clojure">[[:paragraph {:content &quot;This is a paragraph&quot;
               :tag &quot;my-paragraph&quot;}]]</code></pre></div><div><p>Multiple attributes can be stacked to modify an element:</p></div><div class="code"><pre><code class="clojure">[[{:numbered false}]]
 [[{:lang &quot;shell&quot;}]]
@@ -301,10 +303,10 @@ Here is a tag reference to Chapter Heading - {{ch-heading}}
          (catch Exception e
            (print "Cannot Deploy Filename:" filename)
            ;;(throw e)
-           ))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/publish/theme_test.clj#L39-L45" target="_blank">link</a></i></h6><code class="clojure">(deploy (load-settings "stark" (project/project))
-        (project/project))
-;; deploys the stark theme to the template/stark directory
-;; overwriting any content in the directory</code></pre></div><div class="entry"><span id="entry__lucid_publish_theme__deployed_QMARK_"></span><div class="entry-description"><h4><b>deployed?&nbsp<a data-scroll="" href="#entry__lucid_publish_theme__">^</a></b></h4><p><i>checks if a theme has been deployed</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/publish/theme.clj#L68-L74" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_publish_theme__deployed_QMARK_" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_publish_theme__deployed_QMARK_"></label><pre class="source"><code class="clojure">(defn deployed?
+           ))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/publish/theme_test.clj#L39-L44" target="_blank">link</a></i></h6><code class="clojure">;; deploys the stark theme to the template/stark directory
+;; overwriting any content in the directory
+(deploy (load-settings "stark" (project/project))
+        (project/project))</code></pre></div><div class="entry"><span id="entry__lucid_publish_theme__deployed_QMARK_"></span><div class="entry-description"><h4><b>deployed?&nbsp<a data-scroll="" href="#entry__lucid_publish_theme__">^</a></b></h4><p><i>checks if a theme has been deployed</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/publish/theme.clj#L68-L74" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_publish_theme__deployed_QMARK_" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_publish_theme__deployed_QMARK_"></label><pre class="source"><code class="clojure">(defn deployed?
   ([]
    (apply-settings deployed?))
   ([settings project]

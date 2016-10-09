@@ -61,7 +61,7 @@
           <div class="heading">
             <div>
               <h5>Author: Chris Zheng&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></h5>
-              <h5>Date: 06 October 2016</h5>
+              <h5>Date: 09 October 2016</h5>
               <h5>Repository: <a href="https://www.github.com/zcaudate/lucidity">https://www.github.com/zcaudate/lucidity</a></h5>
               <h5>Version: 1.2.0</h5></div></div>
           <hr/>
@@ -103,8 +103,14 @@
        (map (fn [coord]
               (aether/resolve-dependencies coord)))
        (apply set/union)
-       vec))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L13-L16" target="_blank">link</a></i></h6><code class="clojure">(coordinate-dependencies [['org.clojure/core.match *match-version*]])
-=> []</code></pre></div><div class="entry"><span id="entry__lucid_space__jar_entry"></span><div class="entry-description"><h4><b>jar-entry&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>returns an entry of the jar or nil if it does not exist</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space/jar.clj#L22-L35" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__jar_entry" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__jar_entry"></label><pre class="source"><code class="clojure">(defn jar-entry
+       vec))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L13-L22" target="_blank">link</a></i></h6><code class="clojure">(coordinate-dependencies [['org.clojure/core.match *match-version*]])
+=> '[[org.ow2.asm/asm-all "4.1"]
+     [org.clojure/tools.analyzer.jvm "0.1.0-beta12"]
+     [org.clojure/tools.analyzer "0.1.0-beta12"]
+     [org.clojure/data.priority-map "0.0.2"]
+     [org.clojure/core.memoize "0.5.6"]
+     [org.clojure/core.match "0.2.2"]
+     [org.clojure/core.cache "0.6.3"]]</code></pre></div><div class="entry"><span id="entry__lucid_space__jar_entry"></span><div class="entry-description"><h4><b>jar-entry&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>returns an entry of the jar or nil if it does not exist</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space/jar.clj#L22-L35" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__jar_entry" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__jar_entry"></label><pre class="source"><code class="clojure">(defn jar-entry
   [path entry]
   (if-let [jar (jar-file path)]
     (let [resource-name (file/resource-path entry)
@@ -127,7 +133,7 @@
     (doseq [dep deps]
       (add-url (.getClassLoader clojure.lang.RT)
                (java.net.URL. (str "file:" (jar/maven-file dep)))))
-    deps))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L37-L46" target="_blank">link</a></i></h6><code class="clojure">(pull ['org.clojure/core.match *match-version*])
+    deps))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L43-L52" target="_blank">link</a></i></h6><code class="clojure">(pull ['org.clojure/core.match *match-version*])
 => '[[org.ow2.asm/asm-all "4.1"]
      [org.clojure/tools.analyzer.jvm "0.1.0-beta12"]
      [org.clojure/tools.analyzer "0.1.0-beta12"]
@@ -138,7 +144,7 @@
   [x & more]
   (if-let [path (-> (apply resolve-jar x more)
                     (first))]
-    (coordinate path)))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L25-L28" target="_blank">link</a></i></h6><code class="clojure">(resolve-coordinates 'clojure.core.match)
+    (coordinate path)))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L31-L34" target="_blank">link</a></i></h6><code class="clojure">(resolve-coordinates 'clojure.core.match)
 => ['org.clojure/core.match *match-version*]</code></pre></div><div class="entry"><span id="entry__lucid_space__resolve_jar"></span><div class="entry-description"><h4><b>resolve-jar&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>resolves a jar according to context</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L46-L67" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__resolve_jar" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__resolve_jar"></label><pre class="source"><code class="clojure">(defn resolve-jar
   ([x] (jar/resolve-jar x nil))
   ([x context & args]
@@ -155,7 +161,7 @@
          (condp = (type (first context))
            String (jar/resolve-jar x :jar-paths context)
            Symbol (jar/resolve-jar x :coordinate context)
-           PersistentVector (jar/resolve-jar x :coordinates context)))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L19-L22" target="_blank">link</a></i></h6><code class="clojure">(resolve-jar 'clojure.core.match)
+           PersistentVector (jar/resolve-jar x :coordinates context)))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L25-L28" target="_blank">link</a></i></h6><code class="clojure">(resolve-jar 'clojure.core.match)
 => [*match-path* "clojure/core/match.clj"]</code></pre></div><div class="entry"><span id="entry__lucid_space__resolve_with_dependencies"></span><div class="entry-description"><h4><b>resolve-with-dependencies&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>resolves the jar and path of a namespace</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L80-L105" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__resolve_with_dependencies" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__resolve_with_dependencies"></label><pre class="source"><code class="clojure">(defn resolve-with-dependencies
   ([x] (resolve-with-dependencies x nil))
   ([x context & {:keys [repositories] :as options}]
@@ -176,7 +182,7 @@
             (jar/resolve-jar x :coordinates
                              (coordinate-dependencies context repositories)))
 
-         :else (do (throw (Exception. (str x ":" context)))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L31-L34" target="_blank">link</a></i></h6><code class="clojure">(resolve-with-dependencies 'clojure.core.match)
+         :else (do (throw (Exception. (str x ":" context)))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L37-L40" target="_blank">link</a></i></h6><code class="clojure">(resolve-with-dependencies 'clojure.core.match)
 => [*match-path* "clojure/core/match.clj"]</code></pre></div></div></div></div><div><span id="pull"></span><h2><b>3 &nbsp;&nbsp; Pull</b></h2></div><div><p>This is one of the most useful functions for exploring any clojure library. How many times have you forgotten a library dependency for <code>project.clj</code> and then had to restart your nrepl? <code>pull</code> takes care of the dependencies for the project:</p></div><div class="code"><pre><code class="clojure">(require 'schema.core)
 ;; java.io.FileNotFoundException: Could not locate hiccup/core__init.class or hiccup/core.clj on classpath:
   
