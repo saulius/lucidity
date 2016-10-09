@@ -83,10 +83,10 @@
   :repack [{:type :clojure
             :levels 2
             :path "src"
-            :standalone #{"deploy" "flow" "mind" "publish" "query" "space" "test"}}
+            :standalone #{"deploy" "flow" "mind" "publish" "query" "space" "test" "unit"}}
            {:subpackage "resources"
             :path "resources"
-            :distribute {"publish" #{"publish"}}}]
+            :distribute {"publish" #{"theme"}}}]
 
   :java-source-paths ["example/java"]
   :jar-exclusions [#"^test\..+\.class"])

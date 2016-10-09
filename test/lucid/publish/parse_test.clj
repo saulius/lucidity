@@ -103,13 +103,18 @@
                     (+ 1 1) 
                     (+ 2 2)")
       (parse-loop {}))
-  => [{:type :ns-form, :indentation 0, :ns 'example.core, :code "(ns example.core)"}
-      {:type :chapter, :title "hello"}
-      {:type :code, :indentation 0, :code ["(+ 1 1)"
-                                           " "
-                                           "\n"
-                                           "                    "
-                                           "(+ 2 2)"]}])
+  
+  => (contains-in
+      [{:type :ns-form,
+        :indentation 0,
+        :ns 'example.core,
+        :code "(ns example.core)"}
+       {:type :chapter, :title "hello"}
+       {:type :code, :indentation 0, :code ["(+ 1 1)"
+                                            " "
+                                            "\n"
+                                            "                    "
+                                            "(+ 2 2)"]}]))
                                            
 ^{:refer lucid.publish.parse/parse-file :added "1.2"}
 (fact "parse the entire file")

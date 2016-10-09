@@ -29,7 +29,7 @@
   => false)
 
 ^{:refer lucid.publish.theme/deployed? :added "1.2"}
-(fact "checks if a theme has been deployed"
+(comment "checks if a theme has been deployed"
 
   (deployed? (load-settings "stark" (project/project))
              (project/project))

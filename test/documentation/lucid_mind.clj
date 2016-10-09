@@ -203,7 +203,7 @@ One OO *paradigm* - that of encapsulation - has been turned on it's head. In OO,
 
 "Printing out the variable sees that it is a method that takes a string as input as returns a long."
 
-(fact
+(comment
   (str parse-long)
   => "#[parseLong :: ([java.lang.String int]), ([java.lang.String])]")
 
@@ -247,20 +247,15 @@ One OO *paradigm* - that of encapsulation - has been turned on it's head. In OO,
 
 "Queries can be made with specific attribues returned, instead of the entire element by specifying options:"
 
-
-(fact
+(comment
   (.? 1 #"^parse" :name)
-  => (contains
-      ["parseLong" "parseUnsignedLong"]
-      :in-any-order)
+  => ("parseLong" "parseUnsignedLong")
 
   (.? 1 #"^parse" :name :params)
-  => (contains
-      [{:name "parseLong", :params [java.lang.String Integer/TYPE]}
-       {:name "parseLong", :params [java.lang.String]}
-       {:name "parseUnsignedLong", :params [java.lang.String Integer/TYPE]}
-       {:name "parseUnsignedLong", :params [java.lang.String]}]
-      :in-any-order))
+  => ({:name "parseLong", :params [java.lang.String int]}
+      {:name "parseLong", :params [java.lang.String]}
+      {:name "parseUnsignedLong", :params [java.lang.String int]}
+      {:name "parseUnsignedLong", :params [java.lang.String]}))
 
 "The most useful keyword is `:name` as it provides a succinct way of listing the contents of a class:"
 
