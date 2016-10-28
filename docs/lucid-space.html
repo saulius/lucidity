@@ -61,16 +61,16 @@
           <div class="heading">
             <div>
               <h5>Author: Chris Zheng&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></h5>
-              <h5>Date: 09 October 2016</h5>
+              <h5>Date: 26 October 2016</h5>
               <h5>Repository: <a href="https://www.github.com/zcaudate/lucidity">https://www.github.com/zcaudate/lucidity</a></h5>
-              <h5>Version: 1.2.0</h5></div></div>
+              <h5>Version: 1.2.7</h5></div></div>
           <hr/>
           <div class="outline">
             <div class="toc">
               <nav data-gumshoe-header>
                 <ul data-gumshoe>
                   <a data-scroll class="top" href="#page-top">TOP</a>
-                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a><a class="section" data-scroll="" href="#installation"><h5><i>1.1 &nbsp; Installation</i></h5></a><a class="section" data-scroll="" href="#motivation"><h5><i>1.2 &nbsp; Motivation</i></h5></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>2 &nbsp; API</h4></a><a class="section" data-scroll="" href="#entry__lucid_space__coordinate"><h5><i>coordinate</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__coordinate_dependencies"><h5><i>coordinate-dependencies</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__jar_entry"><h5><i>jar-entry</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__maven_file"><h5><i>maven-file</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__pull"><h5><i>pull</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__resolve_coordinates"><h5><i>resolve-coordinates</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__resolve_jar"><h5><i>resolve-jar</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__resolve_with_dependencies"><h5><i>resolve-with-dependencies</i></h5></a></li><li><a class="chapter" data-scroll="" href="#pull"><h4>3 &nbsp; Pull</h4></a></li><li><a class="chapter" data-scroll="" href="#jar-file"><h4>4 &nbsp; Jar File</h4></a><a class="section" data-scroll="" href="#maven-file"><h5><i>4.1 &nbsp; maven-file</i></h5></a><a class="section" data-scroll="" href="#coordinate"><h5><i>4.2 &nbsp; coordinate</i></h5></a><a class="section" data-scroll="" href="#jar-entry"><h5><i>4.3 &nbsp; jar-entry</i></h5></a><a class="section" data-scroll="" href="#coordinate-dependencies"><h5><i>4.4 &nbsp; coordinate-dependencies</i></h5></a></li><li><a class="chapter" data-scroll="" href="#resolution"><h4>5 &nbsp; Resolution</h4></a><a class="section" data-scroll="" href="#resolve-jar"><h5><i>5.1 &nbsp; resolve-jar</i></h5></a><a class="section" data-scroll="" href="#contexts"><h5><i>5.2 &nbsp; contexts</i></h5></a><a class="section" data-scroll="" href="#resolve-coordinates"><h5><i>5.3 &nbsp; resolve-coordinates</i></h5></a><a class="section" data-scroll="" href="#resolve-with-deps"><h5><i>5.4 &nbsp; resolve-with-deps</i></h5></a></li>
+                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a><a class="section" data-scroll="" href="#installation"><h5><i>1.1 &nbsp; Installation</i></h5></a></li><li><a class="chapter" data-scroll="" href="#index"><h4>2 &nbsp; Index</h4></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>3 &nbsp; API</h4></a><a class="section" data-scroll="" href="#pull"><h5><i>3.1 &nbsp; Pull</i></h5></a><a class="section" data-scroll="" href="#search"><h5><i>3.2 &nbsp; Search</i></h5></a><a class="section" data-scroll="" href="#jars"><h5><i>3.3 &nbsp; Jars</i></h5></a><a class="section" data-scroll="" href="#resolution"><h5><i>3.4 &nbsp; Resolution</i></h5></a><a class="section" data-scroll="" href="#contexts"><h5><i>3.5 &nbsp; Contexts</i></h5></a></li>
                 </ul>
               </nav>
             </div>
@@ -79,11 +79,74 @@
           <div class="toc">
               <nav>
                 <ul>
-                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a><a class="section" data-scroll="" href="#installation"><h5><i>1.1 &nbsp; Installation</i></h5></a><a class="section" data-scroll="" href="#motivation"><h5><i>1.2 &nbsp; Motivation</i></h5></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>2 &nbsp; API</h4></a><a class="section" data-scroll="" href="#entry__lucid_space__coordinate"><h5><i>coordinate</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__coordinate_dependencies"><h5><i>coordinate-dependencies</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__jar_entry"><h5><i>jar-entry</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__maven_file"><h5><i>maven-file</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__pull"><h5><i>pull</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__resolve_coordinates"><h5><i>resolve-coordinates</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__resolve_jar"><h5><i>resolve-jar</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_space__resolve_with_dependencies"><h5><i>resolve-with-dependencies</i></h5></a></li><li><a class="chapter" data-scroll="" href="#pull"><h4>3 &nbsp; Pull</h4></a></li><li><a class="chapter" data-scroll="" href="#jar-file"><h4>4 &nbsp; Jar File</h4></a><a class="section" data-scroll="" href="#maven-file"><h5><i>4.1 &nbsp; maven-file</i></h5></a><a class="section" data-scroll="" href="#coordinate"><h5><i>4.2 &nbsp; coordinate</i></h5></a><a class="section" data-scroll="" href="#jar-entry"><h5><i>4.3 &nbsp; jar-entry</i></h5></a><a class="section" data-scroll="" href="#coordinate-dependencies"><h5><i>4.4 &nbsp; coordinate-dependencies</i></h5></a></li><li><a class="chapter" data-scroll="" href="#resolution"><h4>5 &nbsp; Resolution</h4></a><a class="section" data-scroll="" href="#resolve-jar"><h5><i>5.1 &nbsp; resolve-jar</i></h5></a><a class="section" data-scroll="" href="#contexts"><h5><i>5.2 &nbsp; contexts</i></h5></a><a class="section" data-scroll="" href="#resolve-coordinates"><h5><i>5.3 &nbsp; resolve-coordinates</i></h5></a><a class="section" data-scroll="" href="#resolve-with-deps"><h5><i>5.4 &nbsp; resolve-with-deps</i></h5></a></li>
+                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a><a class="section" data-scroll="" href="#installation"><h5><i>1.1 &nbsp; Installation</i></h5></a></li><li><a class="chapter" data-scroll="" href="#index"><h4>2 &nbsp; Index</h4></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>3 &nbsp; API</h4></a><a class="section" data-scroll="" href="#pull"><h5><i>3.1 &nbsp; Pull</i></h5></a><a class="section" data-scroll="" href="#search"><h5><i>3.2 &nbsp; Search</i></h5></a><a class="section" data-scroll="" href="#jars"><h5><i>3.3 &nbsp; Jars</i></h5></a><a class="section" data-scroll="" href="#resolution"><h5><i>3.4 &nbsp; Resolution</i></h5></a><a class="section" data-scroll="" href="#contexts"><h5><i>3.5 &nbsp; Contexts</i></h5></a></li>
                 </ul>
               </nav>
           </div>
-          <div><span id="introduction"></span><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.space</code> allows for introspection of java libraries through maven. The library provides mappings for better understanding where a class, file or namespace is located on the filesystem. This library was originally <a href='https://github.com/zcaudate/hara/korra'>korra</a> and then <a href='https://github.com/zcaudate/maven'>vinyasa.maven</a>.</p></div><div><span id="installation"></span><h3>1.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><pre><code class="clojure">[tahto/lucid.space &quot;1.2.0&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.space</code> namespace:</p></div><div class="code"><pre><code class="clojure">(use 'lucid.space)</code></pre></div><div><span id="motivation"></span><h3>1.2 &nbsp;&nbsp; Motivation</h3></div><div><p>There is a reversible mapping between the maven jar file and the <code>:dependencies</code> for a library specified in <code>project.clj</code>. We can map between a maven coordinate and it's jar file though utility functions. We can also map a 'resource' and its related jar and jar entry under a given context.</p><ul><li>the resource can be:<ul><li>a symbol representing a clojure namespace</li><li>a path to a resource</li><li>a java class</li></ul></li><li>the context can be:<ul><li>the jvm classloader classpath</li><li>a single jar</li><li>a list of jars</li><li>a maven coordinate</li><li>a list of maven coordinates</li><li>the entire maven local-repo.</li></ul></li></ul></div><div><span id="api"></span><h2><b>2 &nbsp;&nbsp; API</b></h2></div><div class="api"><span id="entry__lucid_space__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_space__coordinate">coordinate</a></li><li><a data-scroll="" href="#entry__lucid_space__coordinate_dependencies">coordinate-dependencies</a></li><li><a data-scroll="" href="#entry__lucid_space__jar_entry">jar-entry</a></li><li><a data-scroll="" href="#entry__lucid_space__maven_file">maven-file</a></li><li><a data-scroll="" href="#entry__lucid_space__pull">pull</a></li><li><a data-scroll="" href="#entry__lucid_space__resolve_coordinates">resolve-coordinates</a></li><li><a data-scroll="" href="#entry__lucid_space__resolve_jar">resolve-jar</a></li><li><a data-scroll="" href="#entry__lucid_space__resolve_with_dependencies">resolve-with-dependencies</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_space__coordinate"></span><div class="entry-description"><h4><b>coordinate&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>creates a coordinate based on the path</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L13-L31" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__coordinate" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__coordinate"></label><pre class="source"><code class="clojure">(defn coordinate
+          <div><span id="introduction"></span><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.space</code> allows for introspection of java libraries through maven. The library provides mappings for better understanding where a class, file or namespace is located on the filesystem. This library was originally <a href='https://github.com/zcaudate/hara/korra'>korra</a> and then <a href='https://github.com/zcaudate/maven'>vinyasa.maven</a>.</p></div><div><span id="installation"></span><h3>1.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><pre><code class="clojure">[tahto/lucid.space &quot;1.2.7&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.space</code> namespace:</p></div><div class="code"><pre><code class="clojure">(use 'lucid.space)</code></pre></div><div><span id="index"></span><h2><b>2 &nbsp;&nbsp; Index</b></h2></div><div class="api"><span id="entry__lucid_space__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_space__all_jars">all-jars</a></li><li><a data-scroll="" href="#entry__lucid_space__coordinate">coordinate</a></li><li><a data-scroll="" href="#entry__lucid_space__coordinate_dependencies">coordinate-dependencies</a></li><li><a data-scroll="" href="#entry__lucid_space__jar_entry">jar-entry</a></li><li><a data-scroll="" href="#entry__lucid_space__maven_file">maven-file</a></li><li><a data-scroll="" href="#entry__lucid_space__pull">pull</a></li><li><a data-scroll="" href="#entry__lucid_space__resolve_coordinates">resolve-coordinates</a></li><li><a data-scroll="" href="#entry__lucid_space__resolve_jar">resolve-jar</a></li><li><a data-scroll="" href="#entry__lucid_space__resolve_with_dependencies">resolve-with-dependencies</a></li><li><a data-scroll="" href="#entry__lucid_space__search">search</a></li></ul></div></div><div><span id="api"></span><h2><b>3 &nbsp;&nbsp; API</b></h2></div><div><span id="pull"></span><h3>3.1 &nbsp;&nbsp; Pull</h3></div><div class="api"><span id="entry__lucid_space__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_space__pull">pull</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_space__pull"></span><div class="entry-description"><h4><b>pull&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>pulls down the necessary dependencies from maven and adds it to the project</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L112-L129" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__pull" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__pull"></label><pre class="source"><code class="clojure">(defn pull
+  [coord]
+  (let [deps (aether/resolve-dependencies coord)]
+    (doseq [dep deps]
+      (add-url (.getClassLoader clojure.lang.RT)
+               (java.net.URL. (str "file:" (jar/maven-file dep)))))
+    deps))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L43-L52" target="_blank">link</a></i></h6><code class="clojure">(pull ['org.clojure/core.match *match-version*])
+=> '[[org.ow2.asm/asm-all "4.1"]
+     [org.clojure/tools.analyzer.jvm "0.1.0-beta12"]
+     [org.clojure/tools.analyzer "0.1.0-beta12"]
+     [org.clojure/data.priority-map "0.0.2"]
+     [org.clojure/core.memoize "0.5.6"]
+     [org.clojure/core.match "0.2.2"]
+     [org.clojure/core.cache "0.6.3"]]</code></pre></div></div></div></div><div><p><code>pull</code> is one of the most useful functions for exploring any clojure library. How many times have you forgotten a library dependency for <code>project.clj</code> and then had to restart your nrepl? <code>pull</code> takes care of the dependencies for the project:</p></div><div class="code"><pre><code class="clojure">(require 'schema.core)
+;; java.io.FileNotFoundException: Could not locate hiccup/core__init.class or hiccup/core.clj on classpath:
+  
+(pull '[prismatic/schema &quot;1.1.3&quot;])
+=&gt; '[[prismatic/schema &quot;1.1.3&quot;]]
+  
+(use 'schema.core)
+  
+(validate Num 3)
+=&gt; 3
+  
+(validate Num &quot;hello&quot;)
+=&gt; (throws)</code></pre></div><div><span id="search"></span><h3>3.2 &nbsp;&nbsp; Search</h3></div><div class="api"><span id="entry__lucid_space__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_space__all_jars">all-jars</a></li><li><a data-scroll="" href="#entry__lucid_space__search">search</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_space__all_jars"></span><div class="entry-description"><h4><b>all-jars&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>gets all jars, either on the classloader or coordinate</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space/search.clj#L7-L30" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__all_jars" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__all_jars"></label><pre class="source"><code class="clojure">(defn all-jars
+  [& [x :as coords]]
+  (cond (nil? x)
+        (->> (cls/delegation cls/+rt+)
+             (mapcat #(.getURLs %))
+             (map #(.getFile %))
+             (filter #(.endsWith % ".jar")))
+
+        :else
+        (keep (fn [x]
+                (if (vector? x)
+                  (jar/maven-file x)
+                  x))
+              coords)))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space/space_test.clj#L7-L15" target="_blank">link</a></i></h6><code class="clojure">(-> (all-jars)
+    count)
+=> 150
+
+(-> (all-jars '[org.eclipse.aether/aether-api "1.1.0"])
+    count)
+=> 1</code></pre></div><div class="entry"><span id="entry__lucid_space__search"></span><div class="entry-description"><h4><b>search&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>searches a pattern for class names</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space/search.clj#L49-L71" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__search" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__search"></label><pre class="source"><code class="clojure">(defn search
+  [pattern & coords]
+  (->> (class-seq coords)
+       (filter #(re-find pattern %))
+       (map #(Class/forName %))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space/space_test.clj#L26-L43" target="_blank">link</a></i></h6><code class="clojure">(->> (.getURLs cls/+base+)
+     (map #(.getFile %))
+     (filter #(.endsWith % "jfxrt.jar"))
+     (apply search #"^javafx.*[^.]Builder$")
+     (remove #(.startsWith % "javafx.fxml."))
+     (take 10))
+=> (javafx.animation.AnimationBuilder
+    javafx.animation.FadeTransitionBuilder
+    javafx.animation.FillTransitionBuilder
+    javafx.animation.ParallelTransitionBuilder
+    javafx.animation.PathTransitionBuilder
+    javafx.animation.PauseTransitionBuilder
+    javafx.animation.RotateTransitionBuilder
+    javafx.animation.ScaleTransitionBuilder
+    javafx.animation.SequentialTransitionBuilder
+    javafx.animation.StrokeTransitionBuilder)</code></pre></div></div></div></div><div><span id="jars"></span><h3>3.3 &nbsp;&nbsp; Jars</h3></div><div class="api"><span id="entry__lucid_space__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_space__coordinate">coordinate</a></li><li><a data-scroll="" href="#entry__lucid_space__coordinate_dependencies">coordinate-dependencies</a></li><li><a data-scroll="" href="#entry__lucid_space__jar_entry">jar-entry</a></li><li><a data-scroll="" href="#entry__lucid_space__maven_file">maven-file</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_space__coordinate"></span><div class="entry-description"><h4><b>coordinate&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>creates a coordinate based on the path</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L15-L33" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__coordinate" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__coordinate"></label><pre class="source"><code class="clojure">(defn coordinate
   [path & [suffix local-repo]]
   (if (and (.startsWith path (or local-repo jar/*local-repo*))
            (.endsWith   path (or suffix ".jar")))
@@ -97,7 +160,7 @@
           symbol
           (vector version)))
     (throw (Exception. (str "The path " path " does not conform to a valid maven repo jar")))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L7-L10" target="_blank">link</a></i></h6><code class="clojure">(coordinate *match-path*)
-=> ['org.clojure/core.match *match-version*]</code></pre></div><div class="entry"><span id="entry__lucid_space__coordinate_dependencies"></span><div class="entry-description"><h4><b>coordinate-dependencies&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>list dependencies for a coordinate</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L33-L44" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__coordinate_dependencies" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__coordinate_dependencies"></label><pre class="source"><code class="clojure">(defn coordinate-dependencies
+=> ['org.clojure/core.match *match-version*]</code></pre></div><div class="entry"><span id="entry__lucid_space__coordinate_dependencies"></span><div class="entry-description"><h4><b>coordinate-dependencies&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>list dependencies for a coordinate</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L35-L46" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__coordinate_dependencies" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__coordinate_dependencies"></label><pre class="source"><code class="clojure">(defn coordinate-dependencies
   [coordinates & [repos]]
   (->> coordinates
        (map (fn [coord]
@@ -119,7 +182,7 @@
 => java.util.jar.JarFile$JarFileEntry
 
 (jar-entry *match-path* "NON-FILE")
-=> nil</code></pre></div><div class="entry"><span id="entry__lucid_space__maven_file"></span><div class="entry-description"><h4><b>maven-file&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>returns the path of the local maven file</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space/jar.clj#L106-L117" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__maven_file" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__maven_file"></label><pre class="source"><code class="clojure">(defn maven-file
+=> nil</code></pre></div><div class="entry"><span id="entry__lucid_space__maven_file"></span><div class="entry-description"><h4><b>maven-file&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>returns the path of the local maven file</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space/jar.clj#L105-L116" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__maven_file" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__maven_file"></label><pre class="source"><code class="clojure">(defn maven-file
   [[name version] & [suffix local-repo]]
   (let [[group artifact] (string/split (str name) #"/")
         artifact (or artifact
@@ -127,25 +190,12 @@
     (string/join file/*sep*
                  [(or local-repo *local-repo*) (.replaceAll group "\." file/*sep*)
                   artifact version (str artifact "-" version (or suffix ".jar"))])))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space/jar_test.clj#L52-L54" target="_blank">link</a></i></h6><code class="clojure">(maven-file ['org.clojure/core.match *match-version*])
-=> *match-path*</code></pre></div><div class="entry"><span id="entry__lucid_space__pull"></span><div class="entry-description"><h4><b>pull&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>pulls down the necessary dependencies from maven and adds it to the project</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L110-L127" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__pull" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__pull"></label><pre class="source"><code class="clojure">(defn pull
-  [coord]
-  (let [deps (aether/resolve-dependencies coord)]
-    (doseq [dep deps]
-      (add-url (.getClassLoader clojure.lang.RT)
-               (java.net.URL. (str "file:" (jar/maven-file dep)))))
-    deps))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L43-L52" target="_blank">link</a></i></h6><code class="clojure">(pull ['org.clojure/core.match *match-version*])
-=> '[[org.ow2.asm/asm-all "4.1"]
-     [org.clojure/tools.analyzer.jvm "0.1.0-beta12"]
-     [org.clojure/tools.analyzer "0.1.0-beta12"]
-     [org.clojure/data.priority-map "0.0.2"]
-     [org.clojure/core.memoize "0.5.6"]
-     [org.clojure/core.match "0.2.2"]
-     [org.clojure/core.cache "0.6.3"]]</code></pre></div><div class="entry"><span id="entry__lucid_space__resolve_coordinates"></span><div class="entry-description"><h4><b>resolve-coordinates&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>resolves a set of coordinates</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L69-L78" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__resolve_coordinates" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__resolve_coordinates"></label><pre class="source"><code class="clojure">(defn resolve-coordinates
+=> *match-path*</code></pre></div></div></div></div><div><span id="resolution"></span><h3>3.4 &nbsp;&nbsp; Resolution</h3></div><div class="api"><span id="entry__lucid_space__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_space__resolve_coordinates">resolve-coordinates</a></li><li><a data-scroll="" href="#entry__lucid_space__resolve_jar">resolve-jar</a></li><li><a data-scroll="" href="#entry__lucid_space__resolve_with_dependencies">resolve-with-dependencies</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_space__resolve_coordinates"></span><div class="entry-description"><h4><b>resolve-coordinates&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>resolves a set of coordinates</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L71-L80" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__resolve_coordinates" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__resolve_coordinates"></label><pre class="source"><code class="clojure">(defn resolve-coordinates
   [x & more]
   (if-let [path (-> (apply resolve-jar x more)
                     (first))]
     (coordinate path)))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L31-L34" target="_blank">link</a></i></h6><code class="clojure">(resolve-coordinates 'clojure.core.match)
-=> ['org.clojure/core.match *match-version*]</code></pre></div><div class="entry"><span id="entry__lucid_space__resolve_jar"></span><div class="entry-description"><h4><b>resolve-jar&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>resolves a jar according to context</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L46-L67" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__resolve_jar" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__resolve_jar"></label><pre class="source"><code class="clojure">(defn resolve-jar
+=> ['org.clojure/core.match *match-version*]</code></pre></div><div class="entry"><span id="entry__lucid_space__resolve_jar"></span><div class="entry-description"><h4><b>resolve-jar&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>resolves a jar according to context</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L48-L69" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__resolve_jar" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__resolve_jar"></label><pre class="source"><code class="clojure">(defn resolve-jar
   ([x] (jar/resolve-jar x nil))
   ([x context & args]
    (cond (keyword? context)
@@ -162,7 +212,7 @@
            String (jar/resolve-jar x :jar-paths context)
            Symbol (jar/resolve-jar x :coordinate context)
            PersistentVector (jar/resolve-jar x :coordinates context)))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L25-L28" target="_blank">link</a></i></h6><code class="clojure">(resolve-jar 'clojure.core.match)
-=> [*match-path* "clojure/core/match.clj"]</code></pre></div><div class="entry"><span id="entry__lucid_space__resolve_with_dependencies"></span><div class="entry-description"><h4><b>resolve-with-dependencies&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>resolves the jar and path of a namespace</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L80-L105" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__resolve_with_dependencies" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__resolve_with_dependencies"></label><pre class="source"><code class="clojure">(defn resolve-with-dependencies
+=> [*match-path* "clojure/core/match.clj"]</code></pre></div><div class="entry"><span id="entry__lucid_space__resolve_with_dependencies"></span><div class="entry-description"><h4><b>resolve-with-dependencies&nbsp<a data-scroll="" href="#entry__lucid_space__">^</a></b></h4><p><i>resolves the jar and path of a namespace</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/space.clj#L82-L107" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_space__resolve_with_dependencies" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_space__resolve_with_dependencies"></label><pre class="source"><code class="clojure">(defn resolve-with-dependencies
   ([x] (resolve-with-dependencies x nil))
   ([x context & {:keys [repositories] :as options}]
    (cond (nil? context)
@@ -183,48 +233,12 @@
                              (coordinate-dependencies context repositories)))
 
          :else (do (throw (Exception. (str x ":" context)))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/space_test.clj#L37-L40" target="_blank">link</a></i></h6><code class="clojure">(resolve-with-dependencies 'clojure.core.match)
-=> [*match-path* "clojure/core/match.clj"]</code></pre></div></div></div></div><div><span id="pull"></span><h2><b>3 &nbsp;&nbsp; Pull</b></h2></div><div><p>This is one of the most useful functions for exploring any clojure library. How many times have you forgotten a library dependency for <code>project.clj</code> and then had to restart your nrepl? <code>pull</code> takes care of the dependencies for the project:</p></div><div class="code"><pre><code class="clojure">(require 'schema.core)
-;; java.io.FileNotFoundException: Could not locate hiccup/core__init.class or hiccup/core.clj on classpath:
-  
-(pull '[prismatic/schema &quot;1.1.3&quot;])
-=&gt; '[[prismatic/schema &quot;1.1.3&quot;]]
-  
-(use 'schema.core)
-  
-(validate Num 3)
-=&gt; 3
-  
-(validate Num &quot;hello&quot;)
-=&gt; (throws)</code></pre></div><div><span id="jar-file"></span><h2><b>4 &nbsp;&nbsp; Jar File</b></h2></div><div><span id="maven-file"></span><h3>4.1 &nbsp;&nbsp; maven-file</h3></div><div><p>We use <code>maven-file</code> to convert a coordinate into a path to a file</p></div><div class="code"><pre><code class="clojure">(maven-file '[org.clojure/clojure &quot;1.6.0&quot;])
-=&gt; &quot;../org/clojure/clojure/1.6.0/clojure-1.6.0.jar&quot;</code></pre></div><div><span id="coordinate"></span><h3>4.2 &nbsp;&nbsp; coordinate</h3></div><div><p>We use <code>coordinate</code> to convert the path back into a coordinate</p></div><div class="code"><pre><code class="clojure">(coordinate &quot;../org/clojure/clojure/1.6.0/clojure-1.6.0.jar&quot;)
-=&gt; '[org.clojure/clojure &quot;1.6.0&quot;]</code></pre></div><div><span id="jar-entry"></span><h3>4.3 &nbsp;&nbsp; jar-entry</h3></div><div><p>There is also a mapping between a clojure namespace, a java class and the their location in a jar. This is accessible through <code>jar-entry</code>:</p></div><div class="code"><pre><code class="clojure">(jar-entry (maven-file '[org.clojure/clojure &quot;1.6.0&quot;])
-           'clojure.core)
-;;  #object[java.util.jar.JarFile$JarFileEntry 0x29a1bd87 &quot;clojure/core.clj&quot;]
-  
-(jar-entry (maven-file '[org.clojure/clojure &quot;1.6.0&quot;])
-           'clojure.core.match)
-=&gt; nil</code></pre></div><div><span id="coordinate-dependencies"></span><h3>4.4 &nbsp;&nbsp; coordinate-dependencies</h3></div><div><p>To find all coordinate dependencies associated with a given library use the aptly named <code>coordinate-dependencies</code>:</p></div><div class="code"><pre><code class="clojure">(coordinate-dependencies '[[im.chit/hara.event &quot;2.4.4&quot;]])
-=&gt; '[[im.chit/hara.data.seq &quot;2.4.4&quot;]
-     [im.chit/hara.common.checks &quot;2.4.4&quot;]
-     [im.chit/hara.event &quot;2.4.4&quot;]
-     [im.chit/hara.common.error &quot;2.4.4&quot;]
-     [im.chit/hara.data.map &quot;2.4.4&quot;]
-     [im.chit/hara.common.primitives &quot;2.4.4&quot;]]</code></pre></div><div class="code"><pre><code class="clojure">(coordinate-dependencies '[[org.clojure/clojure &quot;1.8.0&quot;]])
-=&gt; '[[org.clojure/clojure &quot;1.8.0&quot;]]</code></pre></div><div><span id="resolution"></span><h2><b>5 &nbsp;&nbsp; Resolution</b></h2></div><div><span id="resolve-jar"></span><h3>5.1 &nbsp;&nbsp; resolve-jar</h3></div><div><p>Understanding where a file or namespace comes from is really important because it allows understanding of the structure of the libraries and how they fit together. The main workhorse for file resolution is <code>resolve-jar</code>. It resolves a <code>resource</code> and a <code>context</code>. The default context is the current jvm classpath and can be omitted by default:</p></div><div class="code"><pre><code class="clojure">(resolve-jar 'clojure.core)
-=&gt; [&quot;../org/clojure/clojure/1.8.0/clojure-1.8.0.jar&quot;
-    &quot;clojure/core.clj&quot;]</code></pre></div><div><p>It will resolve classes:</p></div><div class="code"><pre><code class="clojure">(resolve-jar java.lang.Object)
-=&gt; [&quot;../jdk1.8.0_102.jdk/Contents/Home/jre/lib/rt.jar&quot;
-    &quot;java/lang/Object.class&quot;]</code></pre></div><div><p>It will also resolve paths to files:</p></div><div class="code"><pre><code class="clojure">(resolve-jar &quot;clojure/core.clj&quot;)
-=&gt; [&quot;../org/clojure/clojure/1.8.0/clojure-1.8.0.jar&quot;
-    &quot;clojure/core.clj&quot;]</code></pre></div><div><p>Symbols with the last section capitalized will default to java classes instead of clojure files:</p></div><div class="code"><pre><code class="clojure">(resolve-jar 'clojure.lang.IProxy)
-=&gt; [&quot;../org/clojure/clojure/1.8.0/clojure-1.8.0.jar&quot;
-    &quot;clojure/lang/IProxy.class&quot;]</code></pre></div><div><p>It will return nil if the resource cannot be found:</p></div><div class="code"><pre><code class="clojure">(resolve-jar 'does.not.exist)
-=&gt; nil</code></pre></div><div><span id="contexts"></span><h3>5.2 &nbsp;&nbsp; contexts</h3></div><div><p>Apart from searching via the current jvm classpath, other search contexts can be set, the most simple being a string representation of the jar path:</p></div><div class="code"><pre><code class="clojure">(resolve-jar 'clojure.core
+=> [*match-path* "clojure/core/match.clj"]</code></pre></div></div></div></div><div><span id="contexts"></span><h3>3.5 &nbsp;&nbsp; Contexts</h3></div><div><p>We can also associate a 'resource' and its related jar and jar entry under a given context:</p><ul><li>the resource can be:<ul><li>a symbol representing a clojure namespace</li><li>a path to a resource</li><li>a java class</li></ul></li><li>the context can be:<ul><li>the jvm classloader classpath</li><li>a single jar</li><li>a list of jars</li><li>a maven coordinate</li><li>a list of maven coordinates</li><li>the entire maven local-repo.</li></ul></li></ul><p>The default context is a search via the current jvm classpath. However, contexts can be set, the most simple being the jar path:</p></div><div class="code"><pre><code class="clojure">(resolve-jar 'clojure.core
              &quot;../org/clojure/clojure/1.6.0/clojure-1.6.0.jar&quot;)
 =&gt; [&quot;../org/clojure/clojure/1.6.0/clojure-1.6.0.jar&quot;
-    &quot;clojure/core.clj&quot;]</code></pre></div><div><p>If the entry cannot be found, nil will be returned. In this case, we know that <code>clojure.core</code> is not in the dynapath jar:</p></div><div class="code"><pre><code class="clojure">(resolve-jar 'clojure.core
+    &quot;clojure/core.clj&quot;]</code></pre></div><div><p>If the entry cannot be found, <code>nil</code> will be returned. In this case, we know that <code>clojure.core</code> is not in the dynapath jar:</p></div><div class="code"><pre><code class="clojure">(resolve-jar 'clojure.core
              &quot;../dynapath/dynapath/0.2.0/dynapath-0.2.0.jar&quot;)
-=&gt; nil</code></pre></div><div><p>In addition to the jar, one can use as the contexte a vector of jar-files:</p></div><div class="code"><pre><code class="clojure">(resolve-jar 'clojure.core
+=&gt; nil</code></pre></div><div><p>In addition to the jar, one can use a vector of jar-files:</p></div><div class="code"><pre><code class="clojure">(resolve-jar 'clojure.core
              [&quot;../org/clojure/clojure/1.6.0/clojure-1.6.0.jar&quot;
               &quot;../dynapath/dynapath/0.2.0/dynapath-0.2.0.jar&quot;])
 =&gt; [&quot;../org/clojure/clojure/1.6.0/clojure-1.6.0.jar&quot;
@@ -239,14 +253,7 @@
   
 (resolve-jar 'dynapath.util :repository)
 =&gt; [&quot;../org/tcrawley/dynapath/0.2.4/dynapath-0.2.4.jar&quot;
-    &quot;dynapath/util.clj&quot;]</code></pre></div><div><span id="resolve-coordinates"></span><h3>5.3 &nbsp;&nbsp; resolve-coordinates</h3></div><div><p><code>resolve-coordinates</code> works similarly to <code>resolve-jar</code> but will return the actual maven-style coordinates</p></div><div class="code"><pre><code class="clojure">(resolve-coordinates 'version-clj.core)
-=&gt; '[version-clj/version-clj &quot;0.1.2&quot;]
-  
-(resolve-coordinates 'clojure.core :repository)
-=&gt; '[org.clojure/clojure &quot;1.8.0&quot;]</code></pre></div><div><span id="resolve-with-deps"></span><h3>5.4 &nbsp;&nbsp; resolve-with-deps</h3></div><div><p><code>resolve-with-deps</code> will recursively search all child dependencies until it finds the file:</p></div><div class="code"><pre><code class="clojure">(resolve-with-deps 'hara.test
-                   '[[im.chit/hara &quot;2.4.4&quot;]])
-=&gt; [&quot;../im/chit/hara.test/2.4.4/hara.test-2.4.4.jar&quot;
-    &quot;hara/test.clj&quot;]</code></pre></div>
+    &quot;dynapath/util.clj&quot;]</code></pre></div>
         </div>
       </div>
     </div>

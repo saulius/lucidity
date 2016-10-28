@@ -7,6 +7,11 @@
   text-decoration: line-through;
 }
 
+.api h2{
+  font-style: italic;
+  font-size: 1.2rem;
+}
+
 .api .entry pre.error {
   background-color: #ac4142;
 }

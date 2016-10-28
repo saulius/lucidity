@@ -5,10 +5,12 @@
             [hara.reflect :as reflect]
             [lucid.space.jar :as jar]
             [lucid.space.file :as file]
+            [lucid.space.search :as search]
             [lucid.core.aether :as aether])
   (:import [clojure.lang Symbol PersistentVector]))
 
-(ns/import lucid.space.jar [maven-file jar-entry])
+(ns/import lucid.space.jar [maven-file jar-entry]
+           lucid.space.search [all-jars search])
 
 (defn coordinate
   "creates a coordinate based on the path

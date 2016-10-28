@@ -78,25 +78,32 @@
 
 (defn api-element
   ""
-  [{:keys [table tag title namespace only exclude project] :as elem}]
+  [{:keys [table tag title namespace only exclude project display]
+    :or {display #{:tags :entries}}
+    :as elem}]
   (let [entries (or (if only (map symbol only))
                     (->> (keys table)
                          (sort)
                          (remove (set (map symbol exclude)))))]
     [:div {:class "api"}
      [:span {:id (entry-tag namespace "")}]
-     (if (not= "" title) [:div [:h2 (or title namespace)]])
+     (if (not= "" title)
+       [:div [:h2 (or title namespace)]])
      [:hr]
      [:div
-      (apply vector
-             :ul
-             (map (fn [v]
-                    [:li [:a {:data-scroll ""
-                              :href (str "#" (entry-tag namespace v))} (str v)]])
-                  entries))
-      [:hr {:style "margin-bottom: 0"}]
-      (apply vector
-             :div
-             (->> entries
-                  (map (juxt identity table))
-                  (map #(api-entry % elem))))]]))
+      (if (display :tags)
+        (apply vector
+               :ul
+               (map (fn [v]
+                      [:li [:a {:data-scroll ""
+                                :href (str "#" (entry-tag namespace v))}
+                            (str v)]])
+                    entries)))
+      (if (= display #{:tags :entries})
+        [:hr {:style "margin-bottom: 0"}])
+      (if (display :entries)
+          (apply vector
+                 :div
+                 (->> entries
+                      (map (juxt identity table))
+                      (map #(api-entry % elem)))))]]))

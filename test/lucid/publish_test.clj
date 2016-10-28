@@ -42,3 +42,8 @@
   ;; publishes all entries in a specific project
   (publish-all {:refresh true :theme "bolton"}
                (project/project <PATH>)))
+
+
+(comment
+  (publish "lucid-unit")
+  )

@@ -3,7 +3,8 @@
             [hara.reflect :as reflect]
             [lucid.space
              [jar :as jar]
-             [file :as file]]))
+             [file :as file]])
+  (:import org.objectweb.asm.ClassReader))
 
 (defmulti to-bytes
   "opens `.class` file from an external source
@@ -66,7 +67,7 @@
 (defmethod load-class (Class/forName "[B") [bytes]
   (clojure.lang.Util/clearCache *rq* *class-cache*)
   (let [name (-> bytes
-                 (clojure.asm.ClassReader.)
+                 (ClassReader.)
                  (.getClassName)
                  (path->classname))
         cls (class-0

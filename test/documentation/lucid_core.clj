@@ -16,13 +16,11 @@
 
 "`lucid.core.aether` is used to as an interface to manage dependencies. It is meant to replace [pomegranate](https://github.com/cemerick/pomegranate) for dependency resolution."
 
-"Add to `project.clj` dependencies:"
+"Add to `project.clj` dependencies:
 
-[[{:stencil true}]]
-(comment
-  [tahto/lucid.core.aether "{{PROJECT.version}}"])
-  
-"All functionality is in the `lucid.core.aether` namespace:"
+    [tahto/lucid.core.aether \"{{PROJECT.version}}\"]
+
+All functionality is in the `lucid.core.aether` namespace:"
 
 (comment
   (use 'lucid.core.aether))
@@ -31,47 +29,30 @@
         :only ["resolve-dependencies" "resolve-hierarchy"]
         :title ""}]]
 
-
 [[:chapter {:title "core.asm"
-            :link "lucid.core.asm"}]]
+            :link "lucid.core.asm"
+            :only ["dynamic-loader"
+                   "load-class"
+                   "to-bytes"
+                   "unload-class"]}]]
 
 "`lucid.core.asm` allows exploration of classes on the filesystem, independent of the JVM classloader."
 
-"Add to `project.clj`:"
+"Add to `project.clj`:
 
-[[{:stencil true}]]
-(comment
-  [tahto/lucid.core.asm "{{PROJECT.version}}"])
-  
-"All functionality is in the `lucid.core.asm` namespace:"
+    [tahto/lucid.core.asm \"{{PROJECT.version}}\"]
+
+All functionality is in the `lucid.core.asm` namespace:"
 
 (comment
   (use 'lucid.core.asm))
 
-"The library enables the loading of class files in the directory:"
-
-(comment
-  (load-class "target/classes/test/Cat.class")
-  => test.Cat)
-
-"Within a jar:"
-
-(comment
-  (load-class "<.m2>/org/yaml/snakeyaml/1.5/snakeyaml-1.5.jar"
-              "org/yaml/snakeyaml/Dumper.class")
-  => org.yaml.snakeyaml.Dumper)
-
-"Within a coordinate:"
-
-(comment
-  (load-class '[org.yaml/snakeyaml "1.5"]
-              "org/yaml/snakeyaml/Dumper.class")
-  => org.yaml.snakeyaml.Dumper)
-
-
 [[:api {:namespace "lucid.core.asm"
-        :title ""}]]
-
+        :title ""
+        :only ["dynamic-loader"
+               "load-class"
+               "to-bytes"
+               "unload-class"]}]]
 
 [[:chapter {:title "core.code"
             :link "lucid.core.code"
@@ -79,13 +60,11 @@
 
 "`lucid.core.code` is analyses source and test code and is used by `lucid.publish` and `lucid.unit` to build additional functionality."
 
-"Add to `project.clj`:"
+"Add to `project.clj`:
 
-[[{:stencil true}]]
-(comment
-  [tahto/lucid.core.code "{{PROJECT.version}}"])
-  
-"All functionality is in the `lucid.core.code` namespace:"
+    [tahto/lucid.core.code \"{{PROJECT.version}}\"]
+
+All functionality is in the `lucid.core.code` namespace:"
 
 (comment
   (use 'lucid.core.code))
@@ -100,13 +79,11 @@
 
 "`lucid.core.debug` contains macros and helpers for debugging"
 
-"Add to `project.clj`:"
+"Add to `project.clj`:
 
-[[{:stencil true}]]
-(comment
-  [tahto/lucid.core.debug "{{PROJECT.version}}"])
-  
-"All functionality is in the `lucid.core.debug` namespace:"
+    [tahto/lucid.core.debug \"{{PROJECT.version}}\"]
+
+All functionality is in the `lucid.core.debug` namespace:"
 
 (comment
   (use 'lucid.core.debug))
@@ -121,13 +98,11 @@
 
 "`lucid.core.inject`' is used to create extra symbols in namespaces. It has been quite popular due this [article](http://dev.solita.fi/2014/03/18/pimp-my-repl.html)."
 
-"Add to `project.clj` dependencies:"
+"Add to `project.clj` dependencies:
 
-[[{:stencil true}]]
-(comment
-  [tahto/lucid.core.inject "{{PROJECT.version}}"])
-  
-"All functionality is in the `lucid.core.inject` namespace:"
+    [tahto/lucid.core.inject \"{{PROJECT.version}}\"]
+
+All functionality is in the `lucid.core.inject` namespace:"
 
 (comment
   (use 'lucid.core.inject))
@@ -202,17 +177,34 @@
       #'>/pprint
       #'>/sh])
 
+[[:chapter {:title "core.java"
+            :link "lucid.core.java"
+            :only ["java-sources" "javac" "reimport"]}]]
+
+"`lucid.core.java` is used to work with mixed java and clojure projects"
+
+"Add to `project.clj` dependencies:
+
+    [tahto/lucid.core.java \"{{PROJECT.version}}\"]
+
+All functionality is in the `lucid.core.java` namespace:"
+
+(comment
+  (use 'lucid.core.java))
+
+[[:api {:namespace "lucid.core.java"
+        :title ""
+        :only ["java-sources" "javac" "reimport"]}]]
+
 [[:chapter {:title "core.namespace" :link "lucid.core.namespace"}]]
 
 "`lucid.core.namespace` provides additional namespace utilities."
 
-"Add to `project.clj` dependencies:"
+"Add to `project.clj` dependencies:
 
-[[{:stencil true}]]
-(comment
-  [tahto/lucid.core.namespace "{{PROJECT.version}}"])
-  
-"All functionality is in the `lucid.core.namespace` namespace:"
+    [tahto/lucid.core.namespace \"{{PROJECT.version}}\"]
+
+All functionality is in the `lucid.core.namespace` namespace:"
 
 (comment
   (use 'lucid.core.namespace))

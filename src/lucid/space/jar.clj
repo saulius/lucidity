@@ -102,7 +102,6 @@
       res
       (recur x :jar-path more))))
 
-
 (defn maven-file
   "returns the path of the local maven file
    (maven-file ['org.clojure/core.match *match-version*])
