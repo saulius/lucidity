@@ -53,6 +53,10 @@
                     {:input "test/documentation/lucid_core.clj"
                      :title "core"
                      :subtitle "functions for the code environment"}
+                    "lucid-distribute"
+                    {:input "test/documentation/lucid_distribute.clj"
+                     :title "distribute"
+                     :subtitle "code repackaging and distribution"}
                     "lucid-mind"
                     {:input "test/documentation/lucid_mind.clj"
                      :title "mind"
@@ -79,7 +83,15 @@
                                   [clj-http "2.1.0"]
                                   [org.eclipse.jgit "4.0.1.201506240215-r"]]
                    :plugins [[lein-repack "0.2.10"]]}}
-                   
+  
+  :distribute [{:type :clojure
+                :levels 2
+                :path "src"
+                :standalone #{"deploy" "flow" "mind" "publish" "query" "space" "test" "unit"}}
+               {:subpackage "resources"
+                :path "resources"
+                :distribute {"publish" #{"theme"}}}]
+  
   :repack [{:type :clojure
             :levels 2
             :path "src"
