@@ -4,6 +4,15 @@
             [clojure.set :as set]
             [clojure.string :as string]))
 
+(defn is-clojure?
+  "checks if the coordinate is clojure
+ 
+   (is-clojure? '[org.clojure/clojure \"1.6.0\"])
+   => true"
+  {:added "1.2"}
+  [coordinate]
+  (= (first coordinate) 'org.clojure/clojure))
+
 (defn to-jar-entry
   "constructs a jar entry
  
@@ -15,7 +24,8 @@
  
    (to-jar-entry '[:clj version-clj.core])
    => \"version_clj/core.clj\""
-  {:added "1.2"} [[type sym]]
+  {:added "1.2"}
+  [[type sym]]
   (let [s (-> (str sym)
               (.replaceAll "\\." "/")
               (.replaceAll "-" "_"))]
@@ -23,11 +33,13 @@
 
 (defn resolve-with-ns
   "finds the maven coordinate for a given namespace
+   
    (resolve-with-ns '[:clj vinyasa.maven.file]
                     (:dependencies *project*)
                     *project*)
    => '[im.chit/vinyasa.maven \"0.3.1\"]"
-  {:added "1.2"} [x dependencies project]
+  {:added "1.2"}
+  [x dependencies project]
   (->> dependencies
        (keep (fn [context]
                (if (maven/resolve-with-dependencies
@@ -40,9 +52,11 @@
 
 (defn find-external-imports
   "finds external imports for a given submodule
+   
    (find-external-imports *filemap* *i-deps* \"core\")
    => '#{[:clj vinyasa.maven.file]}"
-  {:added "1.2"} [filemap i-deps pkg]
+  {:added "1.2"}
+  [filemap i-deps pkg]
   (let [imports     (->> (get filemap pkg)
                          (map :imports)
                          (apply set/union))
@@ -53,15 +67,20 @@
                                      (apply set/union)))))]
     (apply set/difference imports import-deps)))
 
-(defn is-clojure?
-  "" [coordinate]
-  (= (first coordinate) 'org.clojure/clojure))
 
 (defn find-all-external-imports
   "finds external imports for the filemap
+   
    (find-all-external-imports *filemap* *i-deps* *project*)
-   => {\"web\" #{}, \"util.data\" #{}, \"util.array\" #{}, \"jvm\" #{} \"core\" '#{[im.chit/vinyasa.maven \"0.3.1\"]}, \"common\" #{}, \"resources\" #{}}"
-  {:added "1.2"} [filemap i-deps project]
+   => {\"web\" #{},
+       \"util.data\" #{},
+       \"util.array\" #{},
+       \"jvm\" #{}
+       \"core\" '#{[im.chit/vinyasa.maven \"0.3.1\"]},
+       \"common\" #{},
+       \"resources\" #{}}"
+  {:added "1.2"}
+  [filemap i-deps project]
   (reduce-kv (fn [i k v]
                (assoc i k
                       (->> (find-external-imports filemap i-deps k)
