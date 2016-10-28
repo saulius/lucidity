@@ -1,4 +1,4 @@
-(ns lucid.outline
+(ns lucid.unit.outline
   (:require [hara.test :as test]
             [hara.io.file :as fs]
             [hara.namespace.eval :as eval]
@@ -139,7 +139,7 @@
            :else
            (recur (cons f2 (cons f3 more)) filename (conj output f1)))))
 
-(defn test
+(defn test-markdown
   "tests a markdown file"
   {:added "1.2"}
   [path]

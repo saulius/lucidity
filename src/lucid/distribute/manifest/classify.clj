@@ -1,18 +1,14 @@
 (ns lucid.distribute.manifest.classify
-  (:require [leiningen.core.project :as project]
-            [leiningen.pom :as pom]
+  (:require [hara.io.project :as project]
+            [hara.io.file :as fs]
             [clojure.java.io :as io]
             [clojure.string :as string]
-            [vinyasa.maven.file :refer :all]))
+            [lucid.space.file :as file :refer [*sep*]]))
 
 (defn name->path [name]
   (-> (str name)
-      (.replaceAll "\\." *sep*)
+      (.replaceAll "\\." file/*sep*)
       (.replaceAll "-" "_")))
-
-(defn list-clojure-files [dir]
-  (filter (fn [f] (re-find #"^[^\.].*\.cljs?$" (.getName f)))
-        (file-seq (io/file dir))))
 
 (defn submodule-file? [file root-dir base excludes]
   (let [base-path (name->path base)
@@ -31,7 +27,7 @@
 
 (defn classify-file [file root-path base level]
   (let [base-path (name->path base)
-        file-path (.getAbsolutePath file)]
+        file-path (str (fs/path file))]
     (-> (subs file-path (+ 2 (count root-path) (count base-path)))
         (->> (re-find #"^(.*)\.cljs?$"))
         (second)
@@ -79,7 +75,7 @@
         (or (:exclude opts) []))))
 
   ([root-dir base level excludes]
-      (let [all-files (->> (list-clojure-files root-dir)
+      (let [all-files (->> (fs/select root-dir {:include [".cljs?$"]})
                            (group-by #(submodule-file?
                                        % root-dir base excludes)))
             parent-files (vec (get all-files false))
@@ -101,7 +97,6 @@
                     :files (mapv (fn [x] (-> x :file (.getPath))) items)
                     :items (mapv (fn [item] (assoc item :file (-> item :file (.getPath)))) items)}])))
        (into {})))
-
 
 (comment
   (submodule-file?
