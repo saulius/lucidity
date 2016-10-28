@@ -1,10 +1,10 @@
 (ns lucid.distribute.graph.external-test
-  (:use midje.sweet)
+  (:use hara.test)
   (:require [clojure.set :as set]
             [lucid.distribute.graph
              [internal :as internal]
              [external :refer :all]]
-            [leiningen.core.project :as project]
+            [hara.io.project :as project]
             [lucid.distribute.manifest [common :refer [build-filemap]] source]))
 
 (def ^:dynamic *project*
@@ -50,3 +50,5 @@
 (fact  "finds external imports for the filemap"
   (find-all-external-imports *filemap* *i-deps* *project*)
   => {"web" #{}, "util.data" #{}, "util.array" #{}, "jvm" #{} "core" '#{[im.chit/vinyasa.maven "0.3.1"]}, "common" #{}, "resources" #{}})
+
+(./import)

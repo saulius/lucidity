@@ -1,5 +1,5 @@
 (ns lucid.distribute.analyser.clj-test
-  (:use midje.sweet)
+  (:use hara.test)
   (:require [lucid.distribute.analyser.clj :refer :all]
             [lucid.distribute.analyser :as analyser]
             [clojure.java.io :as io]))
@@ -30,7 +30,6 @@
   (get-imports '(:import [java.lang String Class]))
   => '(java.lang.String java.lang.Class))
 
-
 ^{:refer lucid.distribute.analyser.clj/get-genclass :added "1.2"}
 (fact "gets the gen-class of a clojure ns declaration"
 
@@ -46,13 +45,3 @@
   (get-defclass 'hello '[(deftype Record [])
                          (defrecord Database [])])
   => '(hello.Record hello.Database))
-
-
-^{:refer lucid.distribute.analyser.clj/file-info :added "1.2"}
-(fact "behavior of the clj analyser"
-  (analyser/file-info
-   (io/file "example/repack.advance/src/clj/repack/web/client.clj"))
-  => '{:exports #{[:clj repack.web.client]
-                  [:class repack.web.client.Main]
-                  [:class repack.web.client.Client]}
-       :imports #{[:clj repack.core]}})

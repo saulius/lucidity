@@ -5,9 +5,11 @@
 
 (defn get-class
   "grabs the symbol of the class in the java file
-   (get-class (io/file \"example/repack.advance/java/im/chit/repack/common/Hello.java\"))
+   (get-class
+    (io/file \"example/distribute.advance/java/im/chit/repack/common/Hello.java\"))
    => 'im.chit.repack.common.Hello"
-  {:added "1.2"} [file]
+  {:added "1.2"}
+  [file]
   (let [pkg (-> (->> (io/reader file)
                      (line-seq)
                      (filter #(.startsWith % "package") )
@@ -20,12 +22,15 @@
 
 (defn get-imports
   "grabs the symbol of the class in the java file
-   (get-imports (io/file \"example/repack.advance/java/im/chit/repack/common/Hello.java\"))
+   (get-imports
+    (io/file \"example/distribute.advance/java/im/chit/repack/common/Hello.java\"))
    => ()
  
-   (get-imports (io/file \"example/repack.advance/java/im/chit/repack/web/Client.java\"))
+   (get-imports
+    (io/file \"example/distribute.advance/java/im/chit/repack/web/Client.java\"))
    => '(im.chit.repack.common.Hello)"
-  {:added "1.2"} [file]
+  {:added "1.2"}
+  [file]
   (->> (io/reader file)
        (line-seq)
        (filter #(.startsWith % "import") )
