@@ -1,7 +1,8 @@
 (ns lucid.distribute.manifest.common
   (:require [hara.io.file :as fs]
+            [clojure.java.io :as io]
             [clojure.set :as set]
-            [lucid.distribute.analyser :as analyser]
+            [lucid.distribute.analyser.base :as analyser]
             [lucid.distribute.common :as common]))
 
 (defn section-vec
@@ -101,7 +102,7 @@
                   (let [grp (or k pnil)]
                     (->> v
                          (map (fn [ele]
-                                (let [fele   (fs/path root folder ele)
+                                (let [fele   (.toFile (fs/path root folder ele))
                                       finfo  (analyser/file-info fele)]
                                   (-> finfo
                                       (assoc :type (analyser/file-type fele)

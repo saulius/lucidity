@@ -15,10 +15,12 @@
   
   (file-info
    (io/file "example/distribute.advance/java/im/chit/repack/web/Client.java"))
-  => (contains '{:exports #{[:class im.chit.repack.web.Client]}
-                 :imports #{[:class im.chit.repack.common.Hello]}})
+  => (contains
+      '{:exports #{[:class im.chit.repack.web.Client]}
+        :imports #{[:class im.chit.repack.common.Hello]}})
   
   (file-info
    (io/file "example/distribute.advance/src/cljs/repack/web.cljs"))
-  => '{:exports #{[:cljs repack.web]}
-       :imports #{[:cljs repack.web.client] [:clj repack.core]}})
+  => (contains
+      '{:exports #{[:cljs repack.web]}
+        :imports #{[:cljs repack.web.client] [:clj repack.core]}}))

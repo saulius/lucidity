@@ -1,26 +1,36 @@
 (ns lucid.distribute.manifest-test
-  (:use midje.sweet)
+  (:use hara.test)
   (:require [lucid.distribute.manifest :refer :all]
             [lucid.distribute.graph.external :as external]
-            [leiningen.core.project :as project]))
+            [hara.io.project :as project]))
 
-(comment
-  (external/resolve-with-ns
-   'korra.common
-   (:dependencies
-   (-> (project/read "example/repack.advance/project.clj")
-       (project/unmerge-profiles [:default])))
-   (-> (project/read "example/repack.advance/project.clj")
-       (project/unmerge-profiles [:default])))
+^{:refer lucid.distribute.manifest/clj-version :added "1.2"}
+(fact "returns the clojure version of a project"
 
-  (-> (create
-       (-> (project/read "/Users/Chris/dev/chit/hara/project.clj")
-           (project/unmerge-profiles [:default])))
-      :branches
-      (get "class.reflect"))
+  (clj-version (project/project "example/distribute.advance/project.clj"))
+  => "1.6.0")
 
-  (-> (create
-       (-> (project/read "example/repack.advance/project.clj")
-           (project/unmerge-profiles [:default]))))
+^{:refer lucid.distribute.manifest/create-root-entry :added "1.2"}
+(fact "creates the root entry")
 
-  (clj-version (project/read "example/repack.advance/project.clj")))
+
+^{:refer lucid.distribute.manifest/create-branch-entry :added "1.2"}
+(fact "creates the individual branch entry")
+
+^{:refer lucid.distribute.manifest/create :added "1.2"}
+(fact "creates a manifest for further processing"
+  
+  (-> (project/project "example/distribute.advance/project.clj")
+      (create)
+      :root)
+  => '{:name blah,
+       :version "0.1.0-SNAPSHOT",
+       :dependencies [[org.clojure/clojure "1.6.0"]
+                      [blah/blah.common "0.1.0-SNAPSHOT"]
+                      [blah/blah.core "0.1.0-SNAPSHOT"]
+                      [blah/blah.util.array "0.1.0-SNAPSHOT"]
+                      [blah/blah.util.data "0.1.0-SNAPSHOT"]
+                      [blah/blah.web "0.1.0-SNAPSHOT"]
+                      [blah/blah.jvm "0.1.0-SNAPSHOT"]
+                      [blah/blah.resources "0.1.0-SNAPSHOT"]],
+       :files []})

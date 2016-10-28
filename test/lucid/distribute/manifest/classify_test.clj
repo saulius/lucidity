@@ -38,3 +38,12 @@
 
   (grab-classes '(:import (clojure.lang Atom Ref)))
   => '(clojure.lang.Atom clojure.lang.Ref))
+
+^{:refer lucid.distribute.manifest.classify/read-file-namespace :added "1.2"}
+(fact "reads dependency information for a file"
+
+  (read-file-namespace "src/lucid/distribute/manifest/classify.clj")
+  => '{:ns lucid.distribute.manifest.classify,
+      :file "src/lucid/distribute/manifest/classify.clj",
+      :dep-namespaces [hara.io.file lucid.space.file clojure.string],
+      :dep-classes []})

@@ -1,7 +1,7 @@
-(ns lucid.distribute.graph.external-test
+(ns lucid.distribute.manifest.graph.external-test
   (:use hara.test)
   (:require [clojure.set :as set]
-            [lucid.distribute.graph
+            [lucid.distribute.manifest.graph
              [internal :as internal]
              [external :refer :all]]
             [hara.io.project :as project]

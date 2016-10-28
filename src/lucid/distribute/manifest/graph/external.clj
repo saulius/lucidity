@@ -1,4 +1,4 @@
-(ns lucid.distribute.graph.external
+(ns lucid.distribute.manifest.graph.external
   (:require [lucid.space.file :refer [*sep*]]
             [lucid.space :as maven]
             [clojure.set :as set]
