@@ -1,0 +1,1 @@
+(ns lucid.distribute.maven.pom)

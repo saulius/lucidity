@@ -1,20 +1,5 @@
 (ns lucid.distribute.analyser.base
-  (:require [clojure.string :as string]))
-
-(defn file-type
-  "encodes the type of file as a keyword
- 
-   (file-type \"hello.clj\")
-   => :clj
- 
-   (file-type \"hello.java\")
-   => :java"
-  {:added "1.2"}
-  [file]
-  (-> (str file)
-      (string/split #"\.")
-      last
-      keyword))
+  (:require [hara.io.file :as fs]))
 
 (defmulti file-info
   "returns the file-info
@@ -27,7 +12,7 @@
                    [:clj clojure.string]
                   [:clj lucid.distribute.analyser.clj]}}"
   {:added "1.2"}
-  file-type)
+  fs/file-type)
 
 (defmethod file-info :default
   [file]

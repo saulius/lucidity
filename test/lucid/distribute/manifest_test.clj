@@ -1,7 +1,7 @@
 (ns lucid.distribute.manifest-test
   (:use hara.test)
   (:require [lucid.distribute.manifest :refer :all]
-            [lucid.distribute.graph.external :as external]
+            [lucid.distribute.manifest.graph.external :as external]
             [hara.io.project :as project]))
 
 ^{:refer lucid.distribute.manifest/clj-version :added "1.2"}
@@ -13,7 +13,6 @@
 ^{:refer lucid.distribute.manifest/create-root-entry :added "1.2"}
 (fact "creates the root entry")
 
-
 ^{:refer lucid.distribute.manifest/create-branch-entry :added "1.2"}
 (fact "creates the individual branch entry")
 
@@ -24,8 +23,10 @@
       (create)
       :root)
   => '{:name blah,
+       :group blah,
        :version "0.1.0-SNAPSHOT",
        :dependencies [[org.clojure/clojure "1.6.0"]
+                      [im.chit/lucid.space "1.2.1"]
                       [blah/blah.common "0.1.0-SNAPSHOT"]
                       [blah/blah.core "0.1.0-SNAPSHOT"]
                       [blah/blah.util.array "0.1.0-SNAPSHOT"]

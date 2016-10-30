@@ -38,9 +38,7 @@
   "creates the individual branch entry"
   {:added "1.2"}
   [project filemap i-deps ex-deps pkg]
-  (let [{:keys [version] full :name} project
-        base  (name full)
-        group (or (namespace full) base)
+  (let [{:keys [version group] base :name} project
         name (str group "/" base "." pkg)]
     {:coordinate [(symbol name) version]
      :files (mapv :path (get filemap pkg))
@@ -65,7 +63,7 @@
         :dependencies [[org.clojure/clojure \"1.6.0\"]
                        [blah/blah.common \"0.1.0-SNAPSHOT\"]
                        [blah/blah.core \"0.1.0-SNAPSHOT\"]
-                      [blah/blah.util.array \"0.1.0-SNAPSHOT\"]
+                       [blah/blah.util.array \"0.1.0-SNAPSHOT\"]
                        [blah/blah.util.data \"0.1.0-SNAPSHOT\"]
                        [blah/blah.web \"0.1.0-SNAPSHOT\"]
                        [blah/blah.jvm \"0.1.0-SNAPSHOT\"]

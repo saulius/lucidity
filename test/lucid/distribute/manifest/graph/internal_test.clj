@@ -31,9 +31,8 @@
    '{:imports #{[:clj repack.util.array]
                 [:cljs repack.web.client]
                 [:class im.chit.repack.common.Hello]
-                [:clj repack.core]},
+                [:clj repack.core]}
      :exports #{[:clj repack.web]
-                [:cljs nil]
                 [:class repack.web.client.Main]
                 [:class repack.web.client.Client]
                 [:clj repack.web.client]
