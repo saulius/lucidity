@@ -1,5 +1,5 @@
 (ns lucid.package.jar
-  (:require [lucid.space.pom :as pom]
+  (:require [lucid.package.pom :as pom]
             [hara.io
              [archive :as archive]
              [file :as fs]

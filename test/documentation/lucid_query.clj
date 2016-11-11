@@ -17,7 +17,7 @@
 
 [[{:stencil true}]]
 (comment
-  [tahto/lucid.query "{{PROJECT.version}}"])
+  [im.chit/lucid.query "{{PROJECT.version}}"])
   
 "All functionality is in the `lucid.query` namespace:"
 

@@ -20,7 +20,7 @@
 
 "Add to `project.clj`:
 
-    [tahto/lucid.core.asm \"{{PROJECT.version}}\"]
+    [im.chit/lucid.core.asm \"{{PROJECT.version}}\"]
 
 All functionality is in the `lucid.core.asm` namespace:"
 
@@ -42,7 +42,7 @@ All functionality is in the `lucid.core.asm` namespace:"
 
 "Add to `project.clj`:
 
-    [tahto/lucid.core.code \"{{PROJECT.version}}\"]
+    [im.chit/lucid.core.code \"{{PROJECT.version}}\"]
 
 All functionality is in the `lucid.core.code` namespace:"
 
@@ -61,7 +61,7 @@ All functionality is in the `lucid.core.code` namespace:"
 
 "Add to `project.clj`:
 
-    [tahto/lucid.core.debug \"{{PROJECT.version}}\"]
+    [im.chit/lucid.core.debug \"{{PROJECT.version}}\"]
 
 All functionality is in the `lucid.core.debug` namespace:"
 
@@ -80,7 +80,7 @@ All functionality is in the `lucid.core.debug` namespace:"
 
 "Add to `project.clj` dependencies:
 
-    [tahto/lucid.core.inject \"{{PROJECT.version}}\"]
+    [im.chit/lucid.core.inject \"{{PROJECT.version}}\"]
 
 All functionality is in the `lucid.core.inject` namespace:"
 
@@ -124,8 +124,8 @@ All functionality is in the `lucid.core.inject` namespace:"
    ;; note that `:refer, :all and :exclude can be used
    [lucid.core.inject :refer [inject [in inject-in]]]
    
-   ;; imports all functions from lucid.space
-   [lucid.space]
+   ;; imports all functions from lucid.package
+   [lucid.package]
    
    ;; inject into clojure.core
    clojure.core
@@ -165,7 +165,7 @@ All functionality is in the `lucid.core.inject` namespace:"
 
 "Add to `project.clj` dependencies:
 
-    [tahto/lucid.core.java \"{{PROJECT.version}}\"]
+    [im.chit/lucid.core.java \"{{PROJECT.version}}\"]
 
 All functionality is in the `lucid.core.java` namespace:"
 
@@ -182,7 +182,7 @@ All functionality is in the `lucid.core.java` namespace:"
 
 "Add to `project.clj` dependencies:
 
-    [tahto/lucid.core.namespace \"{{PROJECT.version}}\"]
+    [im.chit/lucid.core.namespace \"{{PROJECT.version}}\"]
 
 All functionality is in the `lucid.core.namespace` namespace:"
 

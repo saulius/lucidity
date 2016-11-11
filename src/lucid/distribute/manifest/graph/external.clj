@@ -1,6 +1,6 @@
 (ns lucid.distribute.manifest.graph.external
-  (:require [lucid.space.file :refer [*sep*]]
-            [lucid.space :as maven]
+  (:require [lucid.package.file :refer [*sep*]]
+            [lucid.package :as maven]
             [clojure.set :as set]
             [clojure.string :as string]))
 

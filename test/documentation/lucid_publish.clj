@@ -12,7 +12,7 @@
 
 [[{:stencil true}]]
 (comment
-  [tahto/lucid.publish "{{PROJECT.version}}"])
+  [im.chit/lucid.publish "{{PROJECT.version}}"])
 
 "All functionality is in the `lucid.publish` namespace:"
 

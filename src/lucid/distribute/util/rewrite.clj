@@ -1,6 +1,6 @@
 (ns lucid.distribute.util.rewrite
   (:require [rewrite-clj.zip :as z]
-            [lucid.space.file :refer [*sep*]]))
+            [lucid.package.file :refer [*sep*]]))
 
 (defn project-zip
   "returns the zipper for a project file"

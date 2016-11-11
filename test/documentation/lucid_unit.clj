@@ -10,7 +10,7 @@
 
 [[{:stencil true}]]
 (comment
-  [tahto/lucid.unit "{{PROJECT.version}}"])
+  [im.chit/lucid.unit "{{PROJECT.version}}"])
 
 "All functionality is in the `lucid.unit` namespace:"
 

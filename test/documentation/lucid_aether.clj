@@ -10,7 +10,7 @@
 
   "Add to `project.clj` dependencies:
 
-      [tahto/lucid.aether \"{{PROJECT.version}}\"]
+      [im.chit/lucid.aether \"{{PROJECT.version}}\"]
 
   All functionality is in the `lucid.aether` namespace:"
 

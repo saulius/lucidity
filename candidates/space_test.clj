@@ -1,15 +1,15 @@
-(ns lucid.space-test
+(ns lucid.package-test
   (:use hara.test)
-  (:require [lucid.space :refer :all]
-            [lucid.space.jar-test :refer [*match-path* *match-version*]]))
+  (:require [lucid.package :refer :all]
+            [lucid.package.jar-test :refer [*match-path* *match-version*]]))
 
-^{:refer lucid.space/coordinate :added "1.1"}
+^{:refer lucid.package/coordinate :added "1.1"}
 (fact "creates a coordinate based on the path"
 
   (coordinate *match-path*)
   => ['org.clojure/core.match *match-version*])
 
-^{:refer lucid.space/coordinate-dependencies :added "1.1"}
+^{:refer lucid.package/coordinate-dependencies :added "1.1"}
 (fact "list dependencies for a coordinate"
 
   (coordinate-dependencies [['org.clojure/core.match *match-version*]])
@@ -21,25 +21,25 @@
        [org.clojure/core.match "0.2.2"]
        [org.clojure/core.cache "0.6.3"]])
 
-^{:refer lucid.space/resolve-jar :added "1.1"}
+^{:refer lucid.package/resolve-jar :added "1.1"}
 (fact "resolves a jar according to context"
 
   (resolve-jar 'clojure.core.match)
   => [*match-path* "clojure/core/match.clj"])
 
-^{:refer lucid.space/resolve-coordinates :added "1.1"}
+^{:refer lucid.package/resolve-coordinates :added "1.1"}
 (fact "resolves a set of coordinates"
 
   (resolve-coordinates 'clojure.core.match)
   => ['org.clojure/core.match *match-version*])
 
-^{:refer lucid.space/resolve-with-dependencies :added "1.1"}
+^{:refer lucid.package/resolve-with-dependencies :added "1.1"}
 (fact "resolves the jar and path of a namespace"
 
   (resolve-with-dependencies 'clojure.core.match)
   => [*match-path* "clojure/core/match.clj"])
 
-^{:refer lucid.space/pull :added "1.1"}
+^{:refer lucid.package/pull :added "1.1"}
 (fact "pulls down the necessary dependencies from maven and adds it to the project"
 
   (pull ['org.clojure/core.match *match-version*])

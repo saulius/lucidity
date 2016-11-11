@@ -12,7 +12,7 @@
 
 [[{:stencil true}]]
 (comment
-  [tahto/lucid.mind "{{PROJECT.version}}"])
+  [im.chit/lucid.mind "{{PROJECT.version}}"])
 
 "All functionality is in the `lucid.mind` namespace:"
 

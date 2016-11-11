@@ -26,7 +26,7 @@
        :group blah,
        :version "0.1.0-SNAPSHOT",
        :dependencies [[org.clojure/clojure "1.6.0"]
-                      [im.chit/lucid.space "1.2.1"]
+                      [im.chit/lucid.package "1.2.1"]
                       [blah/blah.common "0.1.0-SNAPSHOT"]
                       [blah/blah.core "0.1.0-SNAPSHOT"]
                       [blah/blah.util.array "0.1.0-SNAPSHOT"]

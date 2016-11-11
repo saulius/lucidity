@@ -1,6 +1,6 @@
 # lucidity
 
-[![Build Status](https://travis-ci.org/zcaudate/lucidity.png?branch=master)](https://travis-ci.org/tahto/lucidity)
+[![Build Status](https://travis-ci.org/zcaudate/lucidity.png?branch=master)](https://travis-ci.org/im.chit/lucidity)
 [![Clojars](https://img.shields.io/clojars/v/zcaudate/lucid.svg)](https://clojars.org/zcaudate/lucid)
 
 tools for code clarity - see the world not as it is but as it should be.
@@ -28,7 +28,7 @@ List of current libraries:
 - [lucid.core](http://docs.caudate.me/lucidity/lucid-core.html) - functions for the code environment
 - [lucid.mind](http://docs.caudate.me/lucidity/lucid-mind.html) - contemplative reflection for the jvm
 - [lucid.publish](http://docs.caudate.me/lucidity/lucid-publish.html) - generate documentation from code
-- [lucid.space](http://docs.caudate.me/lucidity/lucid-space.html) - management of project externals
+- [lucid.package](http://docs.caudate.me/lucidity/lucid-space.html) - management of project externals
 - [lucid.unit](http://docs.caudate.me/lucidity/lucid-unit.html) - metadata through unit tests
 
 ## License

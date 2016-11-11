@@ -1,7 +1,7 @@
 (ns lucid.core.asm
   (:require [clojure.java.io :as io]
             [hara.reflect :as reflect]
-            [lucid.space
+            [lucid.package
              [jar :as jar]
              [file :as file]])
   (:import org.objectweb.asm.ClassReader))

@@ -1,7 +1,7 @@
 (ns lucid.distribute.split
   (:require [clojure.java.io :as io]
             [clojure.string :as string]
-            [lucid.space.file :refer [*sep*]]
+            [lucid.package.file :refer [*sep*]]
             [lucid.distribute.util
               [rewrite :as rewrite]
               [sort :as sort]]

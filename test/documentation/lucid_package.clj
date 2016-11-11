@@ -1,10 +1,10 @@
-(ns documentation.lucid-space
+(ns documentation.lucid-package
   (:use hara.test)
-  (:require [lucid.space :refer :all]))
+  (:require [lucid.package :refer :all]))
 
 [[:chapter {:title "Introduction"}]]
 
-"`lucid.space` allows for introspection of java libraries through maven. The library provides mappings for better understanding where a class, file or namespace is located on the filesystem. This library was originally [korra](https://github.com/zcaudate/hara/korra) and then [vinyasa.maven](https://github.com/zcaudate/maven)."
+"`lucid.package` allows for introspection of java libraries through maven. The library provides mappings for better understanding where a class, file or namespace is located on the filesystem. This library was originally [korra](https://github.com/zcaudate/hara/korra) and then [vinyasa.maven](https://github.com/zcaudate/maven)."
 
 [[:section {:title "Installation"}]]
 
@@ -12,17 +12,17 @@
 
 [[{:stencil true}]]
 (comment
-  [tahto/lucid.space "{{PROJECT.version}}"])
+  [im.chit/lucid.package "{{PROJECT.version}}"])
 
-"All functionality is in the `lucid.space` namespace:"
+"All functionality is in the `lucid.package` namespace:"
 
 (comment
-  (use 'lucid.space))
+  (use 'lucid.package))
   
 [[:chapter {:title "Index"}]]
 
 [[:api {:title ""
-        :namespace "lucid.space"
+        :namespace "lucid.package"
         :display #{:tags}}]]
 
 [[:chapter {:title "API"}]]
@@ -30,7 +30,7 @@
 [[:section {:title "Pull"}]]
 
 [[:api {:title ""
-        :namespace "lucid.space"
+        :namespace "lucid.package"
         :only ["pull"]}]]
 
 "`pull` is one of the most useful functions for exploring any clojure library. How many times have you forgotten a library dependency for `project.clj` and then had to restart your nrepl? `pull` takes care of the dependencies for the project:"
@@ -53,20 +53,20 @@
 [[:section {:title "Search"}]]
 
 [[:api {:title ""
-        :namespace "lucid.space"
+        :namespace "lucid.package"
         :only ["all-jars" "search"]}]]
 
 [[:section {:title "Jars"}]]
 
 [[:api {:title ""
-        :namespace "lucid.space"
+        :namespace "lucid.package"
         :only ["coordinate" "coordinate-dependencies"
                "jar-entry" "maven-file"]}]]
 
 [[:section {:title "Resolution"}]]
 
 [[:api {:title ""
-        :namespace "lucid.space"
+        :namespace "lucid.package"
         :only ["resolve-coordinates"
                "resolve-jar"
                "resolve-with-dependencies"]}]]

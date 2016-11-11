@@ -15,7 +15,7 @@
                  [im.chit/hara.io.classpath   "2.4.8"]
                  [im.chit/hara.io.file        "2.4.8"]
                  [im.chit/hara.io.project     "2.4.8"]
-                 [im.chit/hara.namespace      "2.4.8"]q
+                 [im.chit/hara.namespace      "2.4.8"]
                  [im.chit/hara.object         "2.4.8"]
                  [im.chit/hara.reflect        "2.4.8"]
                  [im.chit/hara.security       "2.4.8"]

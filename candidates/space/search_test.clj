@@ -1,9 +1,9 @@
-(ns lucid.space.search-test
+(ns lucid.package.search-test
   (:use hara.test)
-  (:require [lucid.space.search :refer :all]
+  (:require [lucid.package.search :refer :all]
             [hara.io.classloader :as cls]))
 
-^{:refer lucid.space.search/all-jars :added "1.2"}
+^{:refer lucid.package.search/all-jars :added "1.2"}
 (comment  "gets all jars, either on the classloader or coordinate"
 
   (-> (all-jars)
@@ -14,7 +14,7 @@
       count)
   => 1)
 
-^{:refer lucid.space.search/class-seq :added "1.2"}
+^{:refer lucid.package.search/class-seq :added "1.2"}
 (fact "creates a sequence of class names"
 
   (-> (all-jars '[org.eclipse.aether/aether-api "1.1.0"])
@@ -22,7 +22,7 @@
       (count))
   => 128)
 
-^{:refer lucid.space.search/search :added "1.2"}
+^{:refer lucid.package.search/search :added "1.2"}
 (comment "searches a pattern for class names"
 
   (->> (.getURLs cls/+base+)
