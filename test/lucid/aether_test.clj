@@ -1,14 +1,14 @@
-(ns lucid.core.aether-test
+(ns lucid.aether-test
   (:use hara.test)
-  (:require [lucid.core.aether :refer :all]))
+  (:require [lucid.aether :refer :all]))
 
-^{:refer lucid.core.aether/aether :added "1.1"}
+^{:refer lucid.aether/aether :added "1.1"}
 (fact "creates an `Aether` object"
 
   (into {} (aether))
   => +defaults+)
 
-^{:refer lucid.core.aether/resolve-dependencies :added "1.1"}
+^{:refer lucid.aether/resolve-dependencies :added "1.1"}
 (fact "resolves maven dependencies for a set of coordinates"
 
   (resolve-dependencies '[prismatic/schema "1.1.3"])
@@ -34,7 +34,7 @@
        [colorize/colorize "0.1.1"]
        [clj-time/clj-time "0.6.0"]])
 
-^{:refer lucid.core.aether/resolve-hierarchy :added "1.1"}
+^{:refer lucid.aether/resolve-hierarchy :added "1.1"}
 (fact " shows the dependency hierachy for all packages"
   
   (resolve-hierarchy '[midje "1.6.3"])

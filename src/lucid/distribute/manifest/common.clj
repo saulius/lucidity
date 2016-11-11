@@ -105,7 +105,7 @@
                                 (let [fele   (.toFile (fs/path root folder ele))
                                       finfo  (analyser/file-info fele)]
                                   (-> finfo
-                                      (assoc :type (analyser/file-type fele)
+                                      (assoc :type (fs/file-type fele)
                                              :path (str (fs/relativize root fele)))
                                       (common/map->FileInfo)))))
                          (set)

@@ -2,7 +2,7 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as string]
             [lucid.space.file :refer [*sep*]]
-            [lucid.distribute.maven
+            [lucid.distribute.util
               [rewrite :as rewrite]
               [sort :as sort]]
             [lucid.distribute
@@ -39,7 +39,9 @@
   {:added "1.2"}
   [project manifest]
   (let [interim (common/interim-path project)]
-    (copy-files (-> manifest :root :files) (:root project) interim "/root")
+    (copy-files (-> manifest :root :files)
+                (:root project)
+                (str interim "/root"))
     (doseq [branch (-> manifest :branches keys)]
       (copy-files (-> manifest :branches (get branch) :files)
                   (:root project)
@@ -61,8 +63,10 @@
    (clean (project/project))
    ;;=> deletes the `target/interim` directory"
   {:added "1.2"}
-  [project]
-  (fs/delete (common/interim-path project)))
+  ([]
+   (clean (project/project)))
+  ([project]
+   (fs/delete (common/interim-path project))))
 
 (defn split
   "splits up current project to put in the interim directory
@@ -71,14 +75,18 @@
    ;;=> look in `target/interim` for changes
    "
   {:added "1.2"}
-  [project]
-  (let [manifest (manifest/create project)]
-    (clean)
-    (split-scaffold project manifest)
-    (split-all-files project manifest)
-    (split-project-files project manifest)
-    (println "\nAll Submodules:")
-    (println (->> manifest sort/topsort-branch-deps
-                  flatten
-                  distinct
-                  (map :id)))))
+  ([]
+   (split (project/project)))
+  ([project]
+   (split project (manifest/manifest project)))
+  ([project manifest]
+   (clean project)
+   (let [packages (->> manifest sort/topsort-branch-deps
+                       flatten
+                       distinct
+                       (map :id))]
+     (println "\nAll Packages:" packages)
+     (split-scaffold project manifest)
+     (split-all-files project manifest)
+     (split-project-files project manifest)
+     packages)))

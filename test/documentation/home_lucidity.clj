@@ -14,15 +14,25 @@
 
 ### Why was it made?
 
-[lucidity](https://github.com/zcaudate/lucidity) has been steadily built around the workflow of it's [author](https://github.com/zcaudate) to automate repetitive tasks when coding. It is the merging of three libraries: [lein-midje-doc](https://github.com/zcaudate/lein-midje-doc), [vinyasa](https://github.com/zcaudate/lucidity/tree/vinyasaa) and [jai](https://github.com/zcaudate/jai) and is used extensively in the management of quality assurance, deployment and publication of the [hara](https://github.com/zcaudate/hara) suite of libraries.
+[lucidity](https://github.com/zcaudate/lucidity) has been steadily built around the automation of repetitive coding tasks. It merges the five following libraries into a single codebase: 
+
+- [jai](https://github.com/zcaudate/jai)
+- [lein-midje-doc](https://github.com/zcaudate/lein-midje-doc)
+- [lein-repack](https://github.com/zcaudate/lein-repack)
+- [vinyasa](https://github.com/zcaudate/lucidity/tree/vinyasa)
+- [wu.kong](https://github.com/zcaudate/wu.kong) 
+
+[lucidity](https://github.com/zcaudate/lucidity) is used extensively in the management of quality assurance, deployment and publication of it's own codebase as well as the codebase of [hara](https://github.com/zcaudate/hara).
 
 ### Okay, lets go!
 
 List of current libraries:
 
+- [lucid.aether](http://docs.caudate.me/lucidity/lucid-aether.html) - wrapper for `org.eclipse.aether`
 - [lucid.core](http://docs.caudate.me/lucidity/lucid-core.html) - functions for the code environment
+- [lucid.distribute](http://docs.caudate.me/lucidity/lucid-distribute.html) - code repackaging and distribution
 - [lucid.mind](http://docs.caudate.me/lucidity/lucid-mind.html) - contemplative reflection for the jvm
+- [lucid.package](http://docs.caudate.me/lucidity/lucid-package.html) - project packaging and dependencies
 - [lucid.publish](http://docs.caudate.me/lucidity/lucid-publish.html) - generate documentation from code
-- [lucid.space](http://docs.caudate.me/lucidity/lucid-space.html) - management of project externals
 - [lucid.unit](http://docs.caudate.me/lucidity/lucid-unit.html) - metadata through unit tests
 "

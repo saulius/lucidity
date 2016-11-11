@@ -5,29 +5,9 @@
              [asm :refer :all]
              [debug :refer :all]
              [inject :refer :all :as inject]
-             ;;[namespace :refer :all]
-             ]))
+             [namespace :refer :all]]))
 
 "`lucid.core` provides utilities that either support the rest of the `lucidity` suite or are useful standalone tools by themselves. Each one is installed individually and usually only provides one or two top level function for use:" 
-
-[[:chapter {:title "core.aether"
-            :link "lucid.core.aether"
-            :only ["resolve-dependencies" "resolve-hierarchy"]}]]
-
-"`lucid.core.aether` is used to as an interface to manage dependencies. It is meant to replace [pomegranate](https://github.com/cemerick/pomegranate) for dependency resolution."
-
-"Add to `project.clj` dependencies:
-
-    [tahto/lucid.core.aether \"{{PROJECT.version}}\"]
-
-All functionality is in the `lucid.core.aether` namespace:"
-
-(comment
-  (use 'lucid.core.aether))
-
-[[:api {:namespace "lucid.core.aether"
-        :only ["resolve-dependencies" "resolve-hierarchy"]
-        :title ""}]]
 
 [[:chapter {:title "core.asm"
             :link "lucid.core.asm"

@@ -1,12 +1,18 @@
-(ns lucid.distribute.maven.rewrite
+(ns lucid.distribute.util.rewrite
   (:require [rewrite-clj.zip :as z]
             [lucid.space.file :refer [*sep*]]))
 
-(defn project-zip [project]
+(defn project-zip
+  "returns the zipper for a project file"
+  {:added "1.2"}
+  [project]
   (-> (z/of-file (str (:root project) *sep* "project.clj"))
       (z/find-value z/next 'defproject)))
 
-(defn replace-project-value [zipper key value]
+(defn replace-project-value
+  "replaces the value in a project for a particular keys"
+  {:added "1.2"}
+  [zipper key value]
   (if-let [pos (-> zipper
                    (z/find-value key))]
     (-> pos
@@ -16,7 +22,9 @@
         (z/find-value z/next 'defproject))
     zipper))
 
-(defn update-project-value [zipper key f]
+(defn update-project-value
+  ""
+  [zipper key f]
   (if-let [pos (-> zipper
                    (z/find-value key))]
     (let [pos (z/right pos)
@@ -27,7 +35,10 @@
           (z/find-value z/next 'defproject)))
     zipper))
 
-(defn remove-project-key [zipper key]
+(defn remove-project-key
+  "replaces the value in a project for a particular keys"
+  {:added "1.2"}
+  [zipper key]
   (if-let [pos (-> zipper
                    (z/find-value key))]
     (-> pos
@@ -38,7 +49,10 @@
         (z/find-value z/next 'defproject))
     zipper))
 
-(defn add-project-key [zipper key value]
+(defn add-project-key
+  "replaces the value in a project for a particular keys"
+  {:added "1.2"}
+  [zipper key value]
   (if-let [pos (-> zipper
                    (z/find-value key))]
     (-> pos
@@ -55,7 +69,10 @@
         (z/up)
         (z/find-value z/next 'defproject))))
 
-(defn root-project-string [project manifest]
+(defn root-project-string
+  "generates the `project.clj` for the root project"
+  {:added "1.2"}
+  [project manifest]
   (-> (project-zip project)
       (update-project-value :dependencies
                             (fn [x] (->> manifest :root :dependencies (vec))))
@@ -65,7 +82,10 @@
       z/print-root
       with-out-str))
 
-(defn branch-project-string [project manifest name]
+(defn branch-project-string
+  "generates `project.clj` for the branch projects"
+  {:added "1.2"}
+  [project manifest name]
   (-> (project-zip project)
       (update-project-value 'defproject
                             (fn [x] (symbol (str (:group project) "/"

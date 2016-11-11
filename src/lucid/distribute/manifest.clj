@@ -52,7 +52,7 @@
      :name name
      :group group}))
 
-(defn create
+(defn manifest
   "creates a manifest for further processing
    
    (-> (project/project \"example/distribute.advance/project.clj\")
@@ -70,18 +70,19 @@
                        [blah/blah.resources \"0.1.0-SNAPSHOT\"]],
         :files []}"
   {:added "1.2"}
-  [project]
-  (let [cfgs (or (:distribute project) *default-config*)
-        cfgs (if (vector? cfgs) cfgs [cfgs])
-        filemap   (->> cfgs
-                       (map #(build-filemap (:root project)
-                                            (merge (select-keys project [:jar-exclusions]) %)))
-                       (apply merge-with set/union))
-        i-deps (merge-with set/union
-                           (internal/resource-dependencies cfgs)
-                           (internal/find-all-module-dependencies filemap))
-        ex-deps  (external/find-all-external-imports filemap i-deps project)
-        ks       (keys filemap)
-        branches (mapv #(create-branch-entry project filemap i-deps ex-deps %) ks)]
-    {:root (create-root-entry project branches)
-     :branches (zipmap ks branches)}))
+  ([] (manifest (project/project)))
+  ([project]
+   (let [cfgs (or (:distribute project) *default-config*)
+         cfgs (if (vector? cfgs) cfgs [cfgs])
+         filemap   (->> cfgs
+                        (map #(build-filemap (:root project)
+                                             (merge (select-keys project [:jar-exclusions]) %)))
+                        (apply merge-with set/union))
+         i-deps (merge-with set/union
+                            (internal/resource-dependencies cfgs)
+                            (internal/find-all-module-dependencies filemap))
+         ex-deps  (external/find-all-external-imports filemap i-deps project)
+         ks       (keys filemap)
+         branches (mapv #(create-branch-entry project filemap i-deps ex-deps %) ks)]
+     {:root (create-root-entry project branches)
+      :branches (zipmap ks branches)})))

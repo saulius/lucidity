@@ -1,4 +1,4 @@
-(ns lucid.core.aether.system
+(ns lucid.aether.system
   (:import [org.apache.maven.repository.internal MavenRepositorySystemUtils]
            [org.eclipse.aether.connector.basic BasicRepositoryConnectorFactory]
            [org.eclipse.aether.spi.connector RepositoryConnectorFactory]
@@ -8,7 +8,12 @@
            [org.eclipse.aether RepositorySystem]))
 
 (defn repository-system
-  "" []
+  "creates a repository system for interfacting with maven
+ 
+   (repository-system)
+   => org.eclipse.aether.RepositorySystem"
+  {:added "1.2"}
+  []
   (-> (doto (MavenRepositorySystemUtils/newServiceLocator)
         (.addService RepositoryConnectorFactory BasicRepositoryConnectorFactory)
         (.addService TransporterFactory FileTransporterFactory)

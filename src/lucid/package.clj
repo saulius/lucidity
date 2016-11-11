@@ -1,36 +1,17 @@
-(ns lucid.space
+(ns lucid.package
   (:require [clojure.string :as string]
             [clojure.set :as set]
+            [hara.io.classpath :as classpath]
             [hara.namespace.import :as ns]
             [hara.reflect :as reflect]
-            [lucid.space.jar :as jar]
-            [lucid.space.file :as file]
-            [lucid.space.search :as search]
-            [lucid.core.aether :as aether])
+            [lucid.package
+             [jar :as jar]
+             [pom :as pom]]
+            [lucid.aether :as aether])
   (:import [clojure.lang Symbol PersistentVector]))
 
-(ns/import lucid.space.jar [maven-file jar-entry]
-           lucid.space.search [all-jars search])
-
-(defn coordinate
-  "creates a coordinate based on the path
- 
-   (coordinate *match-path*)
-   => ['org.clojure/core.match *match-version*]"
-  {:added "1.1"}
-  [path & [suffix local-repo]]
-  (if (and (.startsWith path (or local-repo jar/*local-repo*))
-           (.endsWith   path (or suffix ".jar")))
-    (let [[_ version artifact & group]
-          (-> (subs path (count (or local-repo jar/*local-repo*)))
-              (clojure.string/split (re-pattern file/*sep*))
-              (->> (filter (comp not empty?)))
-              (reverse))]
-      (-> (clojure.string/join  "." (reverse group))
-          (str file/*sep* artifact)
-          symbol
-          (vector version)))
-    (throw (Exception. (str "The path " path " does not conform to a valid maven repo jar")))))
+(ns/import lucid.package.pom [generate-pom]
+           lucid.package.jar [generate-jar generate-manifest])
 
 (defn coordinate-dependencies
   "list dependencies for a coordinate
@@ -44,40 +25,6 @@
               (aether/resolve-dependencies coord)))
        (apply set/union)
        vec))
-
-(defn resolve-jar
-  "resolves a jar according to context
- 
-   (resolve-jar 'clojure.core.match)
-   => [*match-path* \"clojure/core/match.clj\"]"
-  {:added "1.1"}
-  ([x] (jar/resolve-jar x nil))
-  ([x context & args]
-   (cond (keyword? context)
-         (apply jar/resolve-jar x context args)
-
-         (string? context)
-         (jar/resolve-jar x :jar-path context)
-
-         (instance? ClassLoader context)
-         (jar/resolve-jar x :classloader context)
-
-         (vector? context)
-         (condp = (type (first context))
-           String (jar/resolve-jar x :jar-paths context)
-           Symbol (jar/resolve-jar x :coordinate context)
-           PersistentVector (jar/resolve-jar x :coordinates context)))))
-
-(defn resolve-coordinates
-  "resolves a set of coordinates
- 
-   (resolve-coordinates 'clojure.core.match)
-   => ['org.clojure/core.match *match-version*]"
-  {:added "1.1"}
-  [x & more]
-  (if-let [path (-> (apply resolve-jar x more)
-                    (first))]
-    (coordinate path)))
 
 (defn resolve-with-dependencies
   "resolves the jar and path of a namespace
@@ -122,7 +69,7 @@
         [org.clojure/core.cache \"0.6.3\"]]"
   {:added "1.1"}
   [coord]
-  (let [deps (aether/resolve-dependencies coord)]
+  (let [deps (aether/resolve-with-dependencies coord)]
     (doseq [dep deps]
       (add-url (.getClassLoader clojure.lang.RT)
                (java.net.URL. (str "file:" (jar/maven-file dep)))))
