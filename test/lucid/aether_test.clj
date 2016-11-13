@@ -56,14 +56,14 @@
        [colorize/colorize "0.1.1"]
        [clj-time/clj-time "0.6.0"]])
 
-^{:refer lucid.aether/populate-artifacts :added "1.2"}
+^{:refer lucid.aether/populate-artifact :added "1.2"}
 (fact "allows coordinate to fill rest of values"
 
-  (populate-artifacts '[midje "1.6.3"]
-                      {:artifacts [{:extension "pom"
-                                    :file "midje.pom"}
-                                   {:extension "jar"
-                                    :file "midje.jar"}]})
+  (populate-artifact '[midje "1.6.3"]
+                     {:artifacts [{:extension "pom"
+                                   :file "midje.pom"}
+                                  {:extension "jar"
+                                   :file "midje.jar"}]})
   => {:artifacts [{:extension "pom",
                    :file "midje.pom",
                    :artifact "midje",
@@ -75,28 +75,30 @@
                    :group "midje",
                    :version "1.6.3"}]})
 
-^{:refer lucid.aether/install :added "1.2"}
+^{:refer lucid.aether/install-artifact :added "1.2"}
 (comment "installs artifacts to the given coordinate"
 
-  (install '[im.chit/hara.io.classpath "2.4.8"]
-           {:artifacts [{:file "hara_io_classpath-2.4.8-jar"
-                         :extension "jar"}
-                        {:file "hara_io_classpath-2.4.8-pom"
-                         :extension "pom"}]}))
+  (install-artifact
+   '[im.chit/hara.io.classpath "2.4.8"]
+   {:artifacts [{:file "hara_io_classpath-2.4.8.jar"
+                 :extension "jar"}
+                {:file "hara_io_classpath-2.4.8.pom"
+                 :extension "pom"}]}))
 
-^{:refer lucid.aether/deploy :added "1.2"}
+^{:refer lucid.aether/deploy-artifact :added "1.2"}
 (comment "deploys artifacts to the given coordinate"
 
-  (deploy '[im.chit/hara.io.classpath "2.4.8"]
-          {:artifacts [{:file "hara_io_classpath-2.4.8-jar"
-                        :extension "jar"}
-                       {:file "hara_io_classpath-2.4.8-pom"
-                        :extension "pom"}
-                        {:file "hara_io_classpath-2.4.8-pom.asc"
-                         :extension "pom.asc"}
-                       {:file "hara_io_classpath-2.4.8-jar.asc"
-                        :extension "jar.asc"}]
-           :repository {:id "clojars"
-                        :url "https://clojars.org/repo/"
-                        :authentication {:username "zcaudate"
-                                         :password "hello"}}}))
+  (deploy-artifact
+   '[im.chit/hara.io.classpath "2.4.8"]
+   {:artifacts [{:file "hara_io_classpath-2.4.8.jar"
+                 :extension "jar"}
+                {:file "hara_io_classpath-2.4.8.pom"
+                 :extension "pom"}
+                {:file "hara_io_classpath-2.4.8.pom.asc"
+                 :extension "pom.asc"}
+                {:file "hara_io_classpath-2.4.8.jar.asc"
+                 :extension "jar.asc"}]
+    :repository {:id "clojars"
+                 :url "https://clojars.org/repo/"
+                 :authentication {:username "zcaudate"
+                                  :password "hello"}}}))

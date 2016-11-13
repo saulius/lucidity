@@ -1,9 +1,9 @@
 (ns lucid.core.asm
   (:require [clojure.java.io :as io]
             [hara.reflect :as reflect]
-            [lucid.package
-             [jar :as jar]
-             [file :as file]])
+            [hara.io
+             [classloader :as classloader]
+             [classpath :as classpath]])
   (:import org.objectweb.asm.ClassReader))
 
 (defmulti to-bytes
@@ -36,7 +36,7 @@
    (dynamic-loader)
    => #(instance? clojure.lang.DynamicClassLoader %)"
   {:added "1.1"} []
-  (clojure.lang.DynamicClassLoader. file/*clojure-loader*))
+  (clojure.lang.DynamicClassLoader. classloader/+rt+))
 
 (defn unload-class
   "" [name]
@@ -52,7 +52,7 @@
   (let [path (if (.endsWith path".class")
                (subs path 0 (- (count path) 6))
                path)]
-    (.replaceAll path file/*sep* ".")))
+    (.replaceAll path "/" ".")))
 
 (defmulti load-class
   "loads class from an external source"
@@ -83,7 +83,7 @@
 
         (or (.endsWith path ".war")
             (.endsWith path ".jar"))
-        (let [resource-name (file/resource-path entry-path)
+        (let [resource-name (classpath/resource-entry entry-path)
               rt    (java.util.jar.JarFile. path)
               entry  (.getEntry rt resource-name)
               stream (.getInputStream rt entry)]
@@ -93,4 +93,4 @@
 
 (defmethod load-class clojure.lang.PersistentVector
   [coordinates entry-path]
-  (load-class (jar/maven-file coordinates) entry-path))
+  (load-class (classpath/artifact :path coordinates) entry-path))

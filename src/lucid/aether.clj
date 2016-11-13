@@ -1,5 +1,6 @@
 (ns lucid.aether
-  (:require [lucid.aether
+  (:require [hara.namespace.import :as ns]
+            [lucid.aether
              [artifact :as artifact]
              [base :as base]
              [request :as request]
@@ -8,6 +9,11 @@
   (:import (org.eclipse.aether.transfer TransferListener)
            (org.eclipse.aether.util.repository AuthenticationBuilder)
            (org.eclipse.aether.repository RemoteRepository$Builder)))
+
+(ns/import
+ 
+ lucid.aether.base
+ [aether])
 
 (defn resolve-hierarchy
   " shows the dependency hierachy for all packages
@@ -85,14 +91,14 @@
                     (conj out coord)))
                 []))))
 
-(defn populate-artifacts
+(defn populate-artifact
   "allows coordinate to fill rest of values
  
-   (populate-artifacts '[midje \"1.6.3\"]
-                       {:artifacts [{:extension \"pom\"
-                                     :file \"midje.pom\"}
-                                    {:extension \"jar\"
-                                     :file \"midje.jar\"}]})
+   (populate-artifact '[midje \"1.6.3\"]
+                      {:artifacts [{:extension \"pom\"
+                                    :file \"midje.pom\"}
+                                   {:extension \"jar\"
+                                    :file \"midje.jar\"}]})
    => {:artifacts [{:extension \"pom\",
                    :file \"midje.pom\",
                     :artifact \"midje\",
@@ -110,44 +116,46 @@
     opts (update-in opts [:artifacts]
                         (fn [arr] (mapv #(merge % root) arr)))))
 
-(defn install
+(defn install-artifact
   "installs artifacts to the given coordinate
  
-   (install '[im.chit/hara.io.classpath \"2.4.8\"]
-           {:artifacts [{:file \"hara_io_classpath-2.4.8-jar\"
-                          :extension \"jar\"}
-                         {:file \"hara_io_classpath-2.4.8-pom\"
-                          :extension \"pom\"}]})"
+   (install-artifact
+   '[im.chit/hara.io.classpath \"2.4.8\"]
+    {:artifacts [{:file \"hara_io_classpath-2.4.8.jar\"
+                  :extension \"jar\"}
+                 {:file \"hara_io_classpath-2.4.8.pom\"
+                  :extension \"pom\"}]})"
   {:added "1.2"}
   ([coord {:keys [artifacts] :as opts}]
-   (install (base/aether) coord opts))
+   (install-artifact (base/aether) coord opts))
   ([{:keys [system session]} coord {:keys [artifacts] :as opts}]
-   (let [opts (populate-artifacts coord opts)
+   (let [opts (populate-artifact coord opts)
          request (request/install-request opts)]
      (-> (.install system session request)
          (result/summary)))))
 
-(defn deploy
+(defn deploy-artifact
   "deploys artifacts to the given coordinate
  
-   (deploy '[im.chit/hara.io.classpath \"2.4.8\"]
-          {:artifacts [{:file \"hara_io_classpath-2.4.8-jar\"
-                         :extension \"jar\"}
-                        {:file \"hara_io_classpath-2.4.8-pom\"
-                         :extension \"pom\"}
-                         {:file \"hara_io_classpath-2.4.8-pom.asc\"
-                          :extension \"pom.asc\"}
-                        {:file \"hara_io_classpath-2.4.8-jar.asc\"
-                         :extension \"jar.asc\"}]
-            :repository {:id \"clojars\"
-                         :url \"https://clojars.org/repo/\"
-                         :authentication {:username \"zcaudate\"
-                                          :password \"hello\"}}})"
+   (deploy-artifact
+   '[im.chit/hara.io.classpath \"2.4.8\"]
+    {:artifacts [{:file \"hara_io_classpath-2.4.8.jar\"
+                  :extension \"jar\"}
+                 {:file \"hara_io_classpath-2.4.8.pom\"
+                  :extension \"pom\"}
+                 {:file \"hara_io_classpath-2.4.8.pom.asc\"
+                  :extension \"pom.asc\"}
+                 {:file \"hara_io_classpath-2.4.8.jar.asc\"
+                  :extension \"jar.asc\"}]
+     :repository {:id \"clojars\"
+                  :url \"https://clojars.org/repo/\"
+                  :authentication {:username \"zcaudate\"
+                                   :password \"hello\"}}})"
   {:added "1.2"}
   ([coord {:keys [artifacts repository] :as opts}]
-   (deploy (base/aether) coord opts))
+   (deploy-artifact (base/aether) coord opts))
   ([{:keys [system session]} coord {:keys [artifacts repository] :as opts}]
-   (let [opts (populate-artifacts coord opts)
+   (let [opts (populate-artifact coord opts)
          request (request/deploy-request opts)]
      (-> (.deploy system session request)
          (result/summary)))))

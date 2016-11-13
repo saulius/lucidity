@@ -8,13 +8,13 @@
 
 [lucidity](https://github.com/zcaudate/lucidity) is a set of libraries that assist in making clojure's already awesome **in-repl** development experience even more awesome. It provides:
 
-- a rich set of functions to enable better reasoning about the code.
-- tools for managing both the source and tests.
-- tools for publishing documentation for the library.
+- tools for reasoning about the coding environment.
+- tools for managing source and test code.
+- tools for documentation and docstrings.
 
 ### Why was it made?
 
-[lucidity](https://github.com/zcaudate/lucidity) has been steadily built around the automation of repetitive coding tasks. It merges the five following libraries into a single codebase: 
+[lucidity](https://github.com/zcaudate/lucidity) has been built around the automation and management of the coding experience. It merges five different tooling libraries into a single codebase: 
 
 - [jai](https://github.com/zcaudate/jai)
 - [lein-midje-doc](https://github.com/zcaudate/lein-midje-doc)
@@ -34,5 +34,6 @@ List of current libraries:
 - [lucid.mind](http://docs.caudate.me/lucidity/lucid-mind.html) - contemplative reflection for the jvm
 - [lucid.package](http://docs.caudate.me/lucidity/lucid-package.html) - project packaging and dependencies
 - [lucid.publish](http://docs.caudate.me/lucidity/lucid-publish.html) - generate documentation from code
+- [lucid.query](http://docs.caudate.me/lucidity/lucid-query.html) - intuitive search for code
 - [lucid.unit](http://docs.caudate.me/lucidity/lucid-unit.html) - metadata through unit tests
 "

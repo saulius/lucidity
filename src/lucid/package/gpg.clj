@@ -1,7 +1,8 @@
 (ns lucid.package.gpg
   (:require [hara.io.file :as fs]
             [hara.security :as security])
-  (:import org.bouncycastle.jce.provider.BouncyCastleProvider
+  (:import java.security.Security
+           org.bouncycastle.jce.provider.BouncyCastleProvider
            org.bouncycastle.openpgp.PGPSecretKeyRingCollection
            org.bouncycastle.openpgp.bc.BcPGPSecretKeyRingCollection))
 
@@ -15,7 +16,6 @@
 (defn save-keyring [keyring output]
   (->> (fs/output-stream output)
        (.encode keyring)))
-
 
 (comment
   (def keyring (load-keyring "/Users/chris/.gnupg/secring.gpg"))

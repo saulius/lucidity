@@ -18,6 +18,10 @@
         "http://maven.apache.org/xsd/maven-4.0.0.xsd")})
 
 (defn pom-properties
+  "creates a pom.properties file
+ 
+   (pom-properties (project/project))"
+  {:added "1.2"}
   [project]
   (str "# lucid.distribute\n"
        "# " (java.util.Date.) "\n"
@@ -26,6 +30,14 @@
        "artifactId=" (:artifact project)))
 
 (defn coordinate->dependency
+  "creates a hiccup dependency entry
+ 
+   (coordinate->dependency '[im.chit/hara \"0.1.1\"])
+   => [:dependency
+       [:groupId \"im.chit\"]
+       [:artifactId \"hara\"]
+       [:version \"0.1.1\"]]"
+  {:added "1.2"}
   [[full version]]
   (let [group (or (namespace full)
                   (str full))
@@ -36,6 +48,10 @@
      [:version version]]))
 
 (defn pom-xml
+  "creates a pom.properties file
+ 
+   (pom-xml (project/project))"
+  {:added "1.2"}
   [project]
   (str "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
        "\n"
@@ -67,7 +83,12 @@
          (apply vector :dependencies
                 (map coordinate->dependency (:dependencies project)))])))
 
-(defn generate-pom [project]
+(defn generate-pom
+  "generates all the pom information for the project
+ 
+   (pom-xml (project/project))"
+  {:added "1.2"}
+  [project]
   (let [root (:root project)
         output (str "target/classes/META-INF/maven/"
                     (:group project)
@@ -80,13 +101,6 @@
     (spit (str (fs/path root output "pom.properties")) (pom-properties project))
     (spit pom-path xml)
     pom-path))
-
-(comment
-  (spit "hello.pom.xml" (pom-xml (project/project)))
-  (generate-pom (project/project))
-  (:group (project/project))
-  (:name (project/project))
-  (:artifact (project/project)))
 
 
 
