@@ -1,15 +1,24 @@
 (ns lucid.aether.local-repo
-  (:require [clojure.java.io :as io]
+  (:require [hara.io.file :as fs]
             [hara.object :as object])
   (:import [org.eclipse.aether.repository LocalRepository]))
 
 (def +default-local-repo+
   (-> (System/getProperty "user.home")
-      (io/file ".m2" "repository")
-      (.getAbsolutePath)))
+      (fs/path ".m2" "repository")
+      (str)))
 
 (defn local-repo
-  ""
+  "creates a `LocalRepository` from a string:
+ 
+   (local-repo)
+   => LocalRepository ;; #local \"<.m2/repository>\"
+ 
+   ;; hooks into hara.object
+   (-> (local-repo \"/tmp\")
+       (object/to-data))
+   => \"/tmp\""
+  {:added "1.2"}
   ([]
    (local-repo +default-local-repo+))
   ([path]
@@ -21,5 +30,3 @@
  {:tag "local"
   :read (fn [repo] (str (.getBasedir repo)))
   :write local-repo})
-
-(local-repo)

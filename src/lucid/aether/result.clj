@@ -24,9 +24,9 @@
    (let [artifact (->> node
                        (.getArtifact)
                        (classpath/artifact :coord))
-         children (-> (.getChildren node)
-                      (filter (fn [child]
-                                (-> child (.getArtifact) pred))))]
+         children (->> (.getChildren node)
+                       (filter (fn [child]
+                                 (-> child (.getArtifact) pred))))]
      (hash-map artifact (mapv dependency-graph children)))))
 
 (defmulti summary

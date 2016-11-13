@@ -5,7 +5,7 @@
   (:import [org.eclipse.aether.repository LocalRepository]))
   
 ^{:refer lucid.aether.local-repo/local-repo :added "1.2"}
-(fact "creates a `LocalRepository` from a string:"
+(fact "creates a `LocalRepository` from a string"
 
   (local-repo)
   => LocalRepository ;; #local "<.m2/repository>"
@@ -14,3 +14,10 @@
   (-> (local-repo "/tmp")
       (object/to-data))
   => "/tmp")
+
+^{:refer lucid.aether.local-repo/local-repository :added "1.2"}
+(fact "creates a `LocalRepository` from a string"
+
+  (object/from-data "/tmp" LocalRepository)
+  ;;=> #local "/tmp"
+  )

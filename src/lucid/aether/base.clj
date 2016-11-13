@@ -5,11 +5,9 @@
 
 (defonce +defaults+
   {:repositories [{:id "clojars"
-                   :name "clojars"
                    :type "default"
                    :url "http://clojars.org/repo"}
                   {:id "central"
-                   :name "central"
                    :type "default"
                    :url "http://central.maven.org/maven2/"}]})
 
@@ -25,10 +23,12 @@
    (into {} (aether))
    => +defaults+"
   {:added "1.1"}
-  ([] (map->Aether +defaults+))
+  ([] (aether {}))
   ([config]
    (let [system  (system/repository-system)
-         session (->> (select-keys aether [:local-repo])
+         session (->> (select-keys config [:local-repo])
                       (session/session system))]
-     (map->Aether {:system system
-                   :session session}))))
+     (-> +defaults+
+         (merge {:system system
+                 :session session})
+         (map->Aether)))))
