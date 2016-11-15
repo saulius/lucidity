@@ -1,7 +1,6 @@
 (ns lucid.distribute.split
   (:require [clojure.java.io :as io]
             [clojure.string :as string]
-            [lucid.package.file :refer [*sep*]]
             [lucid.distribute.util
               [rewrite :as rewrite]
               [sort :as sort]]
@@ -10,7 +9,9 @@
              [manifest :as manifest]]
             [hara.io
               [project :as project]
-              [file :as fs]]))
+             [file :as fs]]))
+
+(def ^:dynamic *sep* (System/getProperty "file.separator"))
 
 (defn copy-files
   "copies a set of relative paths from one place to another"

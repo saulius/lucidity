@@ -1,6 +1,6 @@
 (ns lucid.distribute
   (:require [hara.namespace.import :as ns]
-            [lucid.core.package :as package]
+            [lucid.package :as package]
             [lucid.distribute
              [common :as common]
              [manifest :as manifest]
@@ -23,13 +23,13 @@
        (-> (common/interim-path project)
            (str "/branches/" id "/project.clj")
            (project/project)
-           (package/install)))
+           (package/install-project)))
      
      (println "\nInstalling Root")
      (-> (common/interim-path project)
          (str "/root/project.clj")
          (project/project)
-         (package/install)))))
+         (package/install-project)))))
 
 (defn deploy
   ([] (deploy (project/project)))
@@ -42,17 +42,23 @@
        (-> (common/interim-path project)
            (str "/branches/" id "/project.clj")
            (project/project)
-           (package/deploy)))
+           (package/deploy-project)))
      
      (println "\nDeploying Root")
      (-> (common/interim-path project)
          (str "/root/project.clj")
          (project/project)
-         (package/deploy)))))
+         (package/deploy-project)))))
 
 
 (comment
+  ;;(manifest)
   (def mani (manifest/manifest (project/project "../hara/project.clj")))
-  (split/split (project/project "../hara/project.clj"))
+  
+  (split/split (project/project "../hara/project.clj")
+               mani)
+  
+  (install (project/project "../hara/project.clj")
+           mani)
   
   )

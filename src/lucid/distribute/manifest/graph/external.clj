@@ -1,6 +1,5 @@
 (ns lucid.distribute.manifest.graph.external
-  (:require [lucid.package.file :refer [*sep*]]
-            [lucid.package :as maven]
+  (:require [lucid.package :as maven]
             [clojure.set :as set]
             [clojure.string :as string]))
 
@@ -45,8 +44,7 @@
                (if (maven/resolve-with-dependencies
                     (to-jar-entry x)
                     context
-                    :repositories
-                    (into {} (:repositories project)))
+                    (select-keys project [:repositories]))
                  context)))
        first))
 

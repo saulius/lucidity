@@ -1,6 +1,7 @@
 (ns lucid.distribute.util.rewrite
-  (:require [rewrite-clj.zip :as z]
-            [lucid.package.file :refer [*sep*]]))
+  (:require [rewrite-clj.zip :as z]))
+
+(def ^:dynamic *sep* (System/getProperty "file.separator"))
 
 (defn project-zip
   "returns the zipper for a project file"
@@ -89,7 +90,7 @@
   (-> (project-zip project)
       (update-project-value 'defproject
                             (fn [x] (symbol (str (:group project) "/"
-                                                 (:name project) "." name))))
+                                                 (:artifact project) "." name))))
       ;;(add-project-key :scm (:scm project))
       (update-project-value :description
                             (fn [x] (or (-> manifest :branches (get name) :description) x)))

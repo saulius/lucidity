@@ -30,7 +30,7 @@
   "creates the root entry"
   {:added "1.2"}
   [project branches]
-  (-> (select-keys project [:name :group :version :dependencies])
+  (-> (select-keys project [:name :artifact :group :version :dependencies])
       (update-in [:dependencies] #(apply conj (vec %) (map :coordinate branches)))
       (assoc :files [])))
 
@@ -38,13 +38,13 @@
   "creates the individual branch entry"
   {:added "1.2"}
   [project filemap i-deps ex-deps pkg]
-  (let [{:keys [version group] base :name} project
-        name (str group "/" base "." pkg)]
+  (let [{:keys [version group artifact]} project
+        name (str group "/" artifact "." pkg)]
     {:coordinate [(symbol name) version]
      :files (mapv :path (get filemap pkg))
      :dependencies (->> (get i-deps pkg)
                         (map (fn [k]
-                               [(symbol (str group "/" base "." k)) version]))
+                               [(symbol (str group "/" artifact "." k)) version]))
                         (concat [['org.clojure/clojure (clj-version project)]]
                                 (filter identity (get ex-deps pkg)))
                         vec)
@@ -81,7 +81,9 @@
          i-deps (merge-with set/union
                             (internal/resource-dependencies cfgs)
                             (internal/find-all-module-dependencies filemap))
+         _        (prn "INTERNAL: " i-deps)
          ex-deps  (external/find-all-external-imports filemap i-deps project)
+         _        (prn "EXTERNAL: " ex-deps)
          ks       (keys filemap)
          branches (mapv #(create-branch-entry project filemap i-deps ex-deps %) ks)]
      {:root (create-root-entry project branches)

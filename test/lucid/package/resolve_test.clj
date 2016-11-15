@@ -43,3 +43,6 @@
        [org.clojure/tools.analyzer "0.1.0-beta12"]
        [org.clojure/tools.analyzer.jvm "0.1.0-beta12"]
        [org.ow2.asm/asm-all "4.1"]])
+
+(comment
+  (./import))

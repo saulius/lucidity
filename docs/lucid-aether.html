@@ -61,7 +61,7 @@
           <div class="heading">
             <div>
               <h5>Author: Chris Zheng&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></h5>
-              <h5>Date: 13 November 2016</h5>
+              <h5>Date: 14 November 2016</h5>
               <h5>Repository: <a href="https://www.github.com/zcaudate/lucidity">https://www.github.com/zcaudate/lucidity</a></h5>
               <h5>Version: 1.2.8</h5></div></div>
           <hr/>
@@ -70,7 +70,7 @@
               <nav data-gumshoe-header>
                 <ul data-gumshoe>
                   <a data-scroll class="top" href="#page-top">TOP</a>
-                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>2 &nbsp; API</h4></a><a class="section" data-scroll="" href="#entry__lucid_aether__deploy"><h5><i>deploy</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__install"><h5><i>install</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__resolve_dependencies"><h5><i>resolve-dependencies</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__resolve_hierarchy"><h5><i>resolve-hierarchy</i></h5></a></li>
+                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>2 &nbsp; API</h4></a><a class="section" data-scroll="" href="#entry__lucid_aether__aether"><h5><i>aether</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__deploy_artifact"><h5><i>deploy-artifact</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__install_artifact"><h5><i>install-artifact</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__resolve_dependencies"><h5><i>resolve-dependencies</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__resolve_hierarchy"><h5><i>resolve-hierarchy</i></h5></a></li>
                 </ul>
               </nav>
             </div>
@@ -79,41 +79,61 @@
           <div class="toc">
               <nav>
                 <ul>
-                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>2 &nbsp; API</h4></a><a class="section" data-scroll="" href="#entry__lucid_aether__deploy"><h5><i>deploy</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__install"><h5><i>install</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__resolve_dependencies"><h5><i>resolve-dependencies</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__resolve_hierarchy"><h5><i>resolve-hierarchy</i></h5></a></li>
+                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>2 &nbsp; API</h4></a><a class="section" data-scroll="" href="#entry__lucid_aether__aether"><h5><i>aether</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__deploy_artifact"><h5><i>deploy-artifact</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__install_artifact"><h5><i>install-artifact</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__resolve_dependencies"><h5><i>resolve-dependencies</i></h5></a><a class="section" data-scroll="" href="#entry__lucid_aether__resolve_hierarchy"><h5><i>resolve-hierarchy</i></h5></a></li>
                 </ul>
               </nav>
           </div>
-          <div><span id="introduction"></span><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.aether</code> is used to as an interface to manage dependencies. It is meant to replace <a href='https://github.com/cemerick/pomegranate'>pomegranate</a> for package installation, dependency resolution and other tasks</p></div><div><p>Add to <code>project.clj</code> dependencies:</p><pre><code>&#91;im.chit/lucid.aether &quot;1.2.8&quot;&#93;</code></pre><p>All functionality is in the <code>lucid.aether</code> namespace:</p></div><div class="code"><pre><code class="clojure">(use 'lucid.aether)</code></pre></div><div><span id="api"></span><h2><b>2 &nbsp;&nbsp; API</b></h2></div><div class="api"><span id="entry__lucid_aether__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_aether__deploy">deploy</a></li><li><a data-scroll="" href="#entry__lucid_aether__install">install</a></li><li><a data-scroll="" href="#entry__lucid_aether__resolve_dependencies">resolve-dependencies</a></li><li><a data-scroll="" href="#entry__lucid_aether__resolve_hierarchy">resolve-hierarchy</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_aether__deploy"></span><div class="entry-description"><h4><b>deploy&nbsp<a data-scroll="" href="#entry__lucid_aether__">^</a></b></h4><p><i>deploys artifacts to the given coordinate</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/aether.clj#L130-L153" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_aether__deploy" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_aether__deploy"></label><pre class="source"><code class="clojure">(defn deploy
+          <div><span id="introduction"></span><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.aether</code> is used to as an interface to manage dependencies. It is meant to replace <a href='https://github.com/cemerick/pomegranate'>pomegranate</a> for package installation, dependency resolution and other tasks</p></div><div><p>Add to <code>project.clj</code> dependencies:</p><pre><code>&#91;im.chit/lucid.aether &quot;1.2.8&quot;&#93;</code></pre><p>All functionality is in the <code>lucid.aether</code> namespace:</p></div><div class="code"><pre><code class="clojure">(use 'lucid.aether)</code></pre></div><div><span id="api"></span><h2><b>2 &nbsp;&nbsp; API</b></h2></div><div class="api"><span id="entry__lucid_aether__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_aether__aether">aether</a></li><li><a data-scroll="" href="#entry__lucid_aether__deploy_artifact">deploy-artifact</a></li><li><a data-scroll="" href="#entry__lucid_aether__install_artifact">install-artifact</a></li><li><a data-scroll="" href="#entry__lucid_aether__resolve_dependencies">resolve-dependencies</a></li><li><a data-scroll="" href="#entry__lucid_aether__resolve_hierarchy">resolve-hierarchy</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_aether__aether"></span><div class="entry-description"><h4><b>aether&nbsp<a data-scroll="" href="#entry__lucid_aether__">^</a></b></h4><p><i>creates an `Aether` object</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/aether/base.clj#L20-L42" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_aether__aether" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_aether__aether"></label><pre class="source"><code class="clojure">(defn aether
+  ([] (aether {}))
+  ([config]
+   (let [system  (system/repository-system)
+         session (->> (select-keys config [:local-repo])
+                      (session/session system))]
+     (-> +defaults+
+         (merge {:system system
+                 :session session})
+         (map->Aether)))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/aether/base_test.clj#L6-L17" target="_blank">link</a></i></h6><code class="clojure">(aether)
+=> (contains
+    {:repositories [{:id "clojars",
+                     :type "default",
+                     :url "http://clojars.org/repo"}
+                    {:id "central",
+                     :type "default",
+                     :url "http://central.maven.org/maven2/"}],
+     :system org.eclipse.aether.RepositorySystem
+     :session org.eclipse.aether.RepositorySystemSession})</code></pre></div><div class="entry"><span id="entry__lucid_aether__deploy_artifact"></span><div class="entry-description"><h4><b>deploy-artifact&nbsp<a data-scroll="" href="#entry__lucid_aether__">^</a></b></h4><p><i>deploys artifacts to the given coordinate</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/aether.clj#L137-L161" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_aether__deploy_artifact" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_aether__deploy_artifact"></label><pre class="source"><code class="clojure">(defn deploy-artifact
   ([coord {:keys [artifacts repository] :as opts}]
-   (deploy (base/aether) coord opts))
+   (deploy-artifact (base/aether) coord opts))
   ([{:keys [system session]} coord {:keys [artifacts repository] :as opts}]
-   (let [opts (populate-artifacts coord opts)
+   (let [opts (populate-artifact coord opts)
          request (request/deploy-request opts)]
      (-> (.deploy system session request)
-         (result/summary)))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/aether_test.clj#L88-L102" target="_blank">link</a></i></h6><code class="clojure">(deploy '[im.chit/hara.io.classpath "2.4.8"]
-        {:artifacts [{:file "hara_io_classpath-2.4.8.jar"
-                      :extension "jar"}
-                     {:file "hara_io_classpath-2.4.8.pom"
-                      :extension "pom"}
-                      {:file "hara_io_classpath-2.4.8.pom.asc"
-                       :extension "pom.asc"}
-                     {:file "hara_io_classpath-2.4.8.jar.asc"
-                      :extension "jar.asc"}]
-         :repository {:id "clojars"
-                      :url "https://clojars.org/repo/"
-                      :authentication {:username "zcaudate"
-                                       :password "hello"}}})</code></pre></div><div class="entry"><span id="entry__lucid_aether__install"></span><div class="entry-description"><h4><b>install&nbsp<a data-scroll="" href="#entry__lucid_aether__">^</a></b></h4><p><i>installs artifacts to the given coordinate</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/aether.clj#L113-L128" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_aether__install" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_aether__install"></label><pre class="source"><code class="clojure">(defn install
+         (result/summary)))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/aether_test.clj#L89-L104" target="_blank">link</a></i></h6><code class="clojure">(deploy-artifact
+ '[im.chit/hara.io.classpath "2.4.8"]
+ {:artifacts [{:file "hara_io_classpath-2.4.8.jar"
+               :extension "jar"}
+              {:file "hara_io_classpath-2.4.8.pom"
+               :extension "pom"}
+              {:file "hara_io_classpath-2.4.8.pom.asc"
+               :extension "pom.asc"}
+              {:file "hara_io_classpath-2.4.8.jar.asc"
+               :extension "jar.asc"}]
+  :repository {:id "clojars"
+               :url "https://clojars.org/repo/"
+               :authentication {:username "zcaudate"
+                                :password "hello"}}})</code></pre></div><div class="entry"><span id="entry__lucid_aether__install_artifact"></span><div class="entry-description"><h4><b>install-artifact&nbsp<a data-scroll="" href="#entry__lucid_aether__">^</a></b></h4><p><i>installs artifacts to the given coordinate</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/aether.clj#L119-L135" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_aether__install_artifact" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_aether__install_artifact"></label><pre class="source"><code class="clojure">(defn install-artifact
   ([coord {:keys [artifacts] :as opts}]
-   (install (base/aether) coord opts))
+   (install-artifact (base/aether) coord opts))
   ([{:keys [system session]} coord {:keys [artifacts] :as opts}]
-   (let [opts (populate-artifacts coord opts)
+   (let [opts (populate-artifact coord opts)
          request (request/install-request opts)]
      (-> (.install system session request)
-         (result/summary)))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/aether_test.clj#L79-L85" target="_blank">link</a></i></h6><code class="clojure">(install '[im.chit/hara.io.classpath "2.4.8"]
-         {:artifacts [{:file "hara_io_classpath-2.4.8.jar"
-                       :extension "jar"}
-                      {:file "hara_io_classpath-2.4.8.pom"
-                       :extension "pom"}]})</code></pre></div><div class="entry"><span id="entry__lucid_aether__resolve_dependencies"></span><div class="entry-description"><h4><b>resolve-dependencies&nbsp<a data-scroll="" href="#entry__lucid_aether__">^</a></b></h4><p><i>resolves maven dependencies for a set of coordinates</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/aether.clj#L49-L86" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_aether__resolve_dependencies" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_aether__resolve_dependencies"></label><pre class="source"><code class="clojure">(defn resolve-dependencies
+         (result/summary)))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/aether_test.clj#L79-L86" target="_blank">link</a></i></h6><code class="clojure">(install-artifact
+ '[im.chit/hara.io.classpath "2.4.8"]
+ {:artifacts [{:file "hara_io_classpath-2.4.8.jar"
+               :extension "jar"}
+              {:file "hara_io_classpath-2.4.8.pom"
+               :extension "pom"}]})</code></pre></div><div class="entry"><span id="entry__lucid_aether__resolve_dependencies"></span><div class="entry-description"><h4><b>resolve-dependencies&nbsp<a data-scroll="" href="#entry__lucid_aether__">^</a></b></h4><p><i>resolves maven dependencies for a set of coordinates</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/aether.clj#L55-L92" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_aether__resolve_dependencies" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_aether__resolve_dependencies"></label><pre class="source"><code class="clojure">(defn resolve-dependencies
   ([coords]
    (resolve-dependencies (base/aether) coords))
   ([aether coords]
@@ -146,7 +166,7 @@
      [dynapath/dynapath "0.2.0"]
      [commons-codec/commons-codec "1.9"]
      [colorize/colorize "0.1.1"]
-     [clj-time/clj-time "0.6.0"]]</code></pre></div><div class="entry"><span id="entry__lucid_aether__resolve_hierarchy"></span><div class="entry-description"><h4><b>resolve-hierarchy&nbsp<a data-scroll="" href="#entry__lucid_aether__">^</a></b></h4><p><i> shows the dependency hierachy for all packages</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/aether.clj#L12-L47" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_aether__resolve_hierarchy" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_aether__resolve_hierarchy"></label><pre class="source"><code class="clojure">(defn resolve-hierarchy
+     [clj-time/clj-time "0.6.0"]]</code></pre></div><div class="entry"><span id="entry__lucid_aether__resolve_hierarchy"></span><div class="entry-description"><h4><b>resolve-hierarchy&nbsp<a data-scroll="" href="#entry__lucid_aether__">^</a></b></h4><p><i> shows the dependency hierachy for all packages</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/aether.clj#L18-L53" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_aether__resolve_hierarchy" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_aether__resolve_hierarchy"></label><pre class="source"><code class="clojure">(defn resolve-hierarchy
   ([coords]
    (resolve-hierarchy (base/aether) coords))
   ([{:keys [system session repositories]} coords]

@@ -16,8 +16,8 @@ All functionality is in the `lucid.aether` namespace:"
 
 [[:chapter {:title "API"
             :link "lucid.aether"
-            :exclude ["populate-artifacts"]}]]
+            :exclude ["populate-artifact"]}]]
 
 [[:api {:namespace "lucid.aether"
           :title ""
-          :exclude ["populate-artifacts"]}]]
+          :exclude ["populate-artifact"]}]]

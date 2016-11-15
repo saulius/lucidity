@@ -27,3 +27,6 @@
 (comment "generates all the pom information for the project"
 
   (pom-xml (project/project)))
+
+(comment
+  (./import))

@@ -92,9 +92,18 @@
   :profiles {:dev {:dependencies [[compojure "1.4.0"]
                                   [ring "1.4.0"]
                                   [clj-http "2.1.0"]
-                                  [org.eclipse.jgit "4.0.1.201506240215-r"]]}}
+                                  [org.eclipse.jgit "4.0.1.201506240215-r"]]
+                   :plugins [[lein-repack "0.2.10"]]}}
   
   :distribute [{:type :clojure
+                :levels 2
+                :path "src"
+                :standalone #{"aether" "distribute" "mind" "package" "publish" "query" "unit"}}
+               {:subpackage "resources"
+                :path "resources"
+                :distribute {"publish" #{"theme"}}}] 
+                 
+  :repack [{:type :clojure
                 :levels 2
                 :path "src"
                 :standalone #{"aether" "distribute" "mind" "package" "publish" "query" "unit"}}

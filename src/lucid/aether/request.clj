@@ -115,7 +115,7 @@
  {:tag "req.collect"
   :read :class
   :write {:methods (-> (object/write-setters CollectRequest)
-                       (merge root-artifact-map dependencies-map repositories-map))
+                       (merge collect-map repositories-map))
           :empty (fn [m] (CollectRequest.))}}
  
  DependencyRequest
