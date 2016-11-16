@@ -79,7 +79,7 @@
            [:id "clojars"]
            [:url "https://clojars.org/repo"]
            [:snapshots [:enabled "true"]]
-           [:releases [:enabled "false"]]]]
+           [:releases [:enabled "true"]]]]
          (apply vector :dependencies
                 (map coordinate->dependency (:dependencies project)))])))
 

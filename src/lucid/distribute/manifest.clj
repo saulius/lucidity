@@ -56,23 +56,26 @@
   "creates a manifest for further processing
    
    (-> (project/project \"example/distribute.advance/project.clj\")
-       (create)
+       (manifest)
        :root)
-   => '{:name blah,
-        :version \"0.1.0-SNAPSHOT\",
+   => '{:name blah
+        :artifact \"blah\"
+        :group \"blah\"
+        :version \"0.1.0-SNAPSHOT\"
         :dependencies [[org.clojure/clojure \"1.6.0\"]
+                      [im.chit/vinyasa.maven \"0.3.1\"]
                        [blah/blah.common \"0.1.0-SNAPSHOT\"]
                        [blah/blah.core \"0.1.0-SNAPSHOT\"]
                        [blah/blah.util.array \"0.1.0-SNAPSHOT\"]
                        [blah/blah.util.data \"0.1.0-SNAPSHOT\"]
                        [blah/blah.web \"0.1.0-SNAPSHOT\"]
                        [blah/blah.jvm \"0.1.0-SNAPSHOT\"]
-                       [blah/blah.resources \"0.1.0-SNAPSHOT\"]],
+                       [blah/blah.resources \"0.1.0-SNAPSHOT\"]]
         :files []}"
   {:added "1.2"}
   ([] (manifest (project/project)))
   ([project]
-   (let [cfgs (or (:distribute project) *default-config*)
+   (let [cfgs (or (-> project :distribute :files) *default-config*)
          cfgs (if (vector? cfgs) cfgs [cfgs])
          filemap   (->> cfgs
                         (map #(build-filemap (:root project)
@@ -81,9 +84,7 @@
          i-deps (merge-with set/union
                             (internal/resource-dependencies cfgs)
                             (internal/find-all-module-dependencies filemap))
-         _        (prn "INTERNAL: " i-deps)
          ex-deps  (external/find-all-external-imports filemap i-deps project)
-         _        (prn "EXTERNAL: " ex-deps)
          ks       (keys filemap)
          branches (mapv #(create-branch-entry project filemap i-deps ex-deps %) ks)]
      {:root (create-root-entry project branches)

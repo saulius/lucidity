@@ -18,12 +18,6 @@
 
 (comment
   (use 'lucid.distribute))
-  
-[[:chapter {:title "Index"}]]
-
-[[:api {:title ""
-        :namespace "lucid.distribute"
-        :display #{:tags}}]]
 
 [[:chapter {:title "API"}]]
 

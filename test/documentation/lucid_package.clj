@@ -23,9 +23,18 @@
 
 [[:api {:title ""
         :namespace "lucid.package"
-        :display #{:tags}}]]
+        :display #{:tags}
+        :exclude ["add-authentication"
+                  "sign-file"]}]]
 
 [[:chapter {:title "API"}]]
+
+[[:section {:title "Dependencies"}]]
+
+[[:api {:title ""
+        :namespace "lucid.package"
+        :only ["list-dependencies"
+               "resolve-with-dependencies"]}]]
 
 [[:section {:title "Pull"}]]
 
@@ -46,3 +55,13 @@
   
   (validate Num "hello")
   => (throws))
+
+[[:section {:title "Project"}]]
+
+[[:api {:title ""
+        :namespace "lucid.package"
+        :only ["compile-project"
+               "deploy-project"
+               "install-project"
+               "generate-jar"
+               "generate-pom"]}]]

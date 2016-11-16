@@ -229,7 +229,7 @@
                   :authentication {:username \"zcaudate\"
                                    :password \"hello\"}}})
    ;;=> #req.deploy{:artifacts [\"im.chit:hara.string:jar:2.4.8\"]
-  ;;               :repository {:id \"clojars\",
+   ;;               :repository {:id \"clojars\",
    ;;                            :authentication {:username \"zcaudate\", :password \"hello\"}
    ;;                            :url \"https://clojars.org/repo/\"}}
    "

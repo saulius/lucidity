@@ -61,7 +61,7 @@
           <div class="heading">
             <div>
               <h5>Author: Chris Zheng&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></h5>
-              <h5>Date: 14 November 2016</h5>
+              <h5>Date: 16 November 2016</h5>
               <h5>Repository: <a href="https://www.github.com/zcaudate/lucidity">https://www.github.com/zcaudate/lucidity</a></h5>
               <h5>Version: 1.2.8</h5></div></div>
           <hr/>
@@ -70,7 +70,7 @@
               <nav data-gumshoe-header>
                 <ul data-gumshoe>
                   <a data-scroll class="top" href="#page-top">TOP</a>
-                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a><a class="section" data-scroll="" href="#installation"><h5><i>1.1 &nbsp; Installation</i></h5></a></li><li><a class="chapter" data-scroll="" href="#index"><h4>2 &nbsp; Index</h4></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>3 &nbsp; API</h4></a><a class="section" data-scroll="" href="#pull"><h5><i>3.1 &nbsp; Pull</i></h5></a></li>
+                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a><a class="section" data-scroll="" href="#installation"><h5><i>1.1 &nbsp; Installation</i></h5></a></li><li><a class="chapter" data-scroll="" href="#index"><h4>2 &nbsp; Index</h4></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>3 &nbsp; API</h4></a><a class="section" data-scroll="" href="#dependencies"><h5><i>3.1 &nbsp; Dependencies</i></h5></a><a class="section" data-scroll="" href="#pull"><h5><i>3.2 &nbsp; Pull</i></h5></a><a class="section" data-scroll="" href="#project"><h5><i>3.3 &nbsp; Project</i></h5></a></li>
                 </ul>
               </nav>
             </div>
@@ -79,11 +79,60 @@
           <div class="toc">
               <nav>
                 <ul>
-                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a><a class="section" data-scroll="" href="#installation"><h5><i>1.1 &nbsp; Installation</i></h5></a></li><li><a class="chapter" data-scroll="" href="#index"><h4>2 &nbsp; Index</h4></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>3 &nbsp; API</h4></a><a class="section" data-scroll="" href="#pull"><h5><i>3.1 &nbsp; Pull</i></h5></a></li>
+                  <li><a class="chapter" data-scroll="" href="#introduction"><h4>1 &nbsp; Introduction</h4></a><a class="section" data-scroll="" href="#installation"><h5><i>1.1 &nbsp; Installation</i></h5></a></li><li><a class="chapter" data-scroll="" href="#index"><h4>2 &nbsp; Index</h4></a></li><li><a class="chapter" data-scroll="" href="#api"><h4>3 &nbsp; API</h4></a><a class="section" data-scroll="" href="#dependencies"><h5><i>3.1 &nbsp; Dependencies</i></h5></a><a class="section" data-scroll="" href="#pull"><h5><i>3.2 &nbsp; Pull</i></h5></a><a class="section" data-scroll="" href="#project"><h5><i>3.3 &nbsp; Project</i></h5></a></li>
                 </ul>
               </nav>
           </div>
-          <div><span id="introduction"></span><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.package</code> allows for  of the project, either through installlation, deployment or dependency management</p></div><div><span id="installation"></span><h3>1.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><pre><code class="clojure">[im.chit/lucid.package &quot;1.2.8&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.package</code> namespace:</p></div><div class="code"><pre><code class="clojure">(use 'lucid.package)</code></pre></div><div><span id="index"></span><h2><b>2 &nbsp;&nbsp; Index</b></h2></div><div class="api"><span id="entry__lucid_package__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_package__deploy_project">deploy-project</a></li><li><a data-scroll="" href="#entry__lucid_package__generate_jar">generate-jar</a></li><li><a data-scroll="" href="#entry__lucid_package__generate_pom">generate-pom</a></li><li><a data-scroll="" href="#entry__lucid_package__install_project">install-project</a></li><li><a data-scroll="" href="#entry__lucid_package__list_dependencies">list-dependencies</a></li><li><a data-scroll="" href="#entry__lucid_package__pull">pull</a></li><li><a data-scroll="" href="#entry__lucid_package__resolve_with_dependencies">resolve-with-dependencies</a></li></ul></div></div><div><span id="api"></span><h2><b>3 &nbsp;&nbsp; API</b></h2></div><div><span id="pull"></span><h3>3.1 &nbsp;&nbsp; Pull</h3></div><div class="api"><span id="entry__lucid_package__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_package__pull">pull</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_package__pull"></span><div class="entry-description"><h4><b>pull&nbsp<a data-scroll="" href="#entry__lucid_package__">^</a></b></h4><p><i>pulls down the necessary dependencies from maven and adds it to the project</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/package/resolve.clj#L73-L90" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_package__pull" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_package__pull"></label><pre class="source"><code class="clojure">(defn pull
+          <div><span id="introduction"></span><h2><b>1 &nbsp;&nbsp; Introduction</b></h2></div><div><p><code>lucid.package</code> allows for  of the project, either through installlation, deployment or dependency management</p></div><div><span id="installation"></span><h3>1.1 &nbsp;&nbsp; Installation</h3></div><div><p>Add to <code>project.clj</code> dependencies:</p></div><div class="code"><pre><code class="clojure">[im.chit/lucid.package &quot;1.2.8&quot;]</code></pre></div><div><p>All functionality is in the <code>lucid.package</code> namespace:</p></div><div class="code"><pre><code class="clojure">(use 'lucid.package)</code></pre></div><div><span id="index"></span><h2><b>2 &nbsp;&nbsp; Index</b></h2></div><div class="api"><span id="entry__lucid_package__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_package__compile_project">compile-project</a></li><li><a data-scroll="" href="#entry__lucid_package__deploy_project">deploy-project</a></li><li><a data-scroll="" href="#entry__lucid_package__generate_jar">generate-jar</a></li><li><a data-scroll="" href="#entry__lucid_package__generate_pom">generate-pom</a></li><li><a data-scroll="" href="#entry__lucid_package__install_project">install-project</a></li><li><a data-scroll="" href="#entry__lucid_package__list_dependencies">list-dependencies</a></li><li><a data-scroll="" href="#entry__lucid_package__pull">pull</a></li><li><a data-scroll="" href="#entry__lucid_package__resolve_with_dependencies">resolve-with-dependencies</a></li></ul></div></div><div><span id="api"></span><h2><b>3 &nbsp;&nbsp; API</b></h2></div><div><span id="dependencies"></span><h3>3.1 &nbsp;&nbsp; Dependencies</h3></div><div class="api"><span id="entry__lucid_package__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_package__list_dependencies">list-dependencies</a></li><li><a data-scroll="" href="#entry__lucid_package__resolve_with_dependencies">resolve-with-dependencies</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_package__list_dependencies"></span><div class="entry-description"><h4><b>list-dependencies&nbsp<a data-scroll="" href="#entry__lucid_package__">^</a></b></h4><p><i>list the dependencies for a particular coordinate</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/package/resolve.clj#L9-L39" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_package__list_dependencies" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_package__list_dependencies"></label><pre class="source"><code class="clojure">(defn list-dependencies
+  ([coordinates]
+   (list-dependencies coordinates {}))
+  ([coordinates {:keys [repositories] :as opts}]
+   (->> coordinates
+        (map (fn [coord]
+               (-> (aether/aether opts)
+                   (aether/resolve-dependencies coord))))
+        (apply set/union)
+        sort
+        vec)))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/package/resolve_test.clj#L6-L24" target="_blank">link</a></i></h6><code class="clojure">(list-dependencies '[[im.chit/hara.test "2.4.8"]])
+=> '[[im.chit/hara.class.enum "2.4.8"]
+     [im.chit/hara.class.inheritance "2.4.8"]
+     [im.chit/hara.common.checks "2.4.8"]
+     [im.chit/hara.common.error "2.4.8"]
+     [im.chit/hara.common.primitives "2.4.8"]
+     [im.chit/hara.common.string "2.4.8"]
+     [im.chit/hara.data.map "2.4.8"]
+     [im.chit/hara.data.seq "2.4.8"]
+     [im.chit/hara.event "2.4.8"]
+     [im.chit/hara.io.ansii "2.4.8"]
+     [im.chit/hara.io.file "2.4.8"]
+     [im.chit/hara.io.project "2.4.8"]
+     [im.chit/hara.namespace.import "2.4.8"]
+     [im.chit/hara.protocol.string "2.4.8"]
+     [im.chit/hara.string.case "2.4.8"]
+     [im.chit/hara.test "2.4.8"]]</code></pre></div><div class="entry"><span id="entry__lucid_package__resolve_with_dependencies"></span><div class="entry-description"><h4><b>resolve-with-dependencies&nbsp<a data-scroll="" href="#entry__lucid_package__">^</a></b></h4><p><i>resolves an entry with all artifact dependencies</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/package/resolve.clj#L41-L68" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_package__resolve_with_dependencies" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_package__resolve_with_dependencies"></label><pre class="source"><code class="clojure">(defn resolve-with-dependencies
+  ([x context] (resolve-with-dependencies x context {}))
+  ([x context {:keys [repositories] :as opts}]
+   (let [resolve-entry (fn [x context]
+                         (classpath/resolve-entry x context {:tag :coord}))]
+     (cond (string? context)
+           (->> (list-dependencies [context] opts)
+                (resolve-entry x))
+
+           (vector? context)
+           (let [n (first context)]
+             (cond (or (string? n)
+                       (instance? IPersistentVector n))
+                   (resolve-entry x context)
+
+                   (symbol? n)
+                   (->> (list-dependencies [context] repositories)
+                        (resolve-entry x))))
+
+           :else
+           (throw (Exception. (str "Not supported: " x " " context)))))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/package/resolve_test.clj#L27-L32" target="_blank">link</a></i></h6><code class="clojure">(resolve-with-dependencies 'hara.data.map
+                           '[im.chit/hara.test "2.4.8"])
+=> '[[im.chit/hara.data.map "2.4.8"]
+     "hara/data/map.clj"]</code></pre></div></div></div></div><div><span id="pull"></span><h3>3.2 &nbsp;&nbsp; Pull</h3></div><div class="api"><span id="entry__lucid_package__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_package__pull">pull</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_package__pull"></span><div class="entry-description"><h4><b>pull&nbsp<a data-scroll="" href="#entry__lucid_package__">^</a></b></h4><p><i>pulls down the necessary dependencies from maven and adds it to the project</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/package/resolve.clj#L73-L90" target="_blank">v&nbsp;1.1</a></h6><div><input class="source-toggle" id="entry__pre_lucid_package__pull" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_package__pull"></label><pre class="source"><code class="clojure">(defn pull
   [coord]
   (let [deps (list-dependencies [coord])]
     (doseq [dep deps]
@@ -105,7 +154,84 @@
 (use 'schema.core)
   
 (validate Num &quot;hello&quot;)
-=&gt; (throws)</code></pre></div>
+=&gt; (throws)</code></pre></div><div><span id="project"></span><h3>3.3 &nbsp;&nbsp; Project</h3></div><div class="api"><span id="entry__lucid_package__"></span><hr /><div><ul><li><a data-scroll="" href="#entry__lucid_package__compile_project">compile-project</a></li><li><a data-scroll="" href="#entry__lucid_package__deploy_project">deploy-project</a></li><li><a data-scroll="" href="#entry__lucid_package__install_project">install-project</a></li><li><a data-scroll="" href="#entry__lucid_package__generate_jar">generate-jar</a></li><li><a data-scroll="" href="#entry__lucid_package__generate_pom">generate-pom</a></li></ul><hr style="margin-bottom: 0" /><div><div class="entry"><span id="entry__lucid_package__compile_project"></span><div class="entry-description"><h4><b>compile-project&nbsp<a data-scroll="" href="#entry__lucid_package__">^</a></b></h4><p><i>creates the jar and pom files</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/package.clj#L26-L34" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_package__compile_project" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_package__compile_project"></label><pre class="source"><code class="clojure">(defn compile-project
+  [project]
+  (let [jar-file (jar/generate-jar project)
+        pom-file (pom/generate-pom project)]
+    [jar-file pom-file]))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/package_test.clj#L7-L9" target="_blank">link</a></i></h6><code class="clojure">(compile-project (project/project))</code></pre></div><div class="entry"><span id="entry__lucid_package__deploy_project"></span><div class="entry-description"><h4><b>deploy-project&nbsp<a data-scroll="" href="#entry__lucid_package__">^</a></b></h4><p><i>creates the jar and pom files and deploys to clojars</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/package.clj#L88-L117" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_package__deploy_project" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_package__deploy_project"></label><pre class="source"><code class="clojure">(defn deploy-project
+  ([project]
+   (deploy-project project {}))
+  ([project {:keys [id]
+             :or {id "clojars"}}]
+   (let [[jar-file pom-file] (compile-project project)
+         aether   (aether/aether)
+         repository (->> (:repositories aether)
+                         (filter #(-> % :id (= id)))
+                         first)
+         repository (add-authentication repository {})
+         artifacts  [{:file jar-file
+                      :extension "jar"}
+                     {:file pom-file
+                      :extension "pom"}]
+         signing  nil #_(-> user/LEIN-PROFILE
+                      slurp
+                      read-string
+                      (get-in [:user :signing :gpg-key]))
+         signed  (if signing
+                   (map #(sign-file % {:signing signing}) artifacts))]
+     (-> project
+         (select-keys [:group :artifact :version])
+         (->> (classpath/artifact :coord))
+         (aether/deploy-artifact {:artifacts (vec (concat artifacts signed))
+                                  :repository repository})))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/package_test.clj#L12-L14" target="_blank">link</a></i></h6><code class="clojure">(deploy-project (project/project))</code></pre></div><div class="entry"><span id="entry__lucid_package__install_project"></span><div class="entry-description"><h4><b>install-project&nbsp<a data-scroll="" href="#entry__lucid_package__">^</a></b></h4><p><i>creates the jar and pom files and installs to local-repo</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/package.clj#L36-L48" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_package__install_project" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_package__install_project"></label><pre class="source"><code class="clojure">(defn install-project
+  [project]
+  (let [[jar-file pom-file] (compile-project project)]
+    (-> project
+        (select-keys [:group :artifact :version])
+        (aether/install-artifact {:artifacts [{:file jar-file
+                                               :extension "jar"}
+                                              {:file pom-file
+                                               :extension "pom"}]}))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/package_test.clj#L17-L19" target="_blank">link</a></i></h6><code class="clojure">(install-project (project/project))</code></pre></div><div class="entry"><span id="entry__lucid_package__generate_jar"></span><div class="entry-description"><h4><b>generate-jar&nbsp<a data-scroll="" href="#entry__lucid_package__">^</a></b></h4><p><i>creates a jar file for the project</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/package/jar.clj#L22-L53" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_package__generate_jar" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_package__generate_jar"></label><pre class="source"><code class="clojure">(defn generate-jar
+  [project]
+  (let [jar-path (str (:root project)
+                      "/target/"
+                      (:artifact project)
+                      "-"
+                      (:version project) ".jar")
+        _   (generate-manifest project)
+        _   (fs/delete jar-path)
+        jar (archive/open jar-path)]
+    
+    (archive/archive jar
+                     (str (:root project) "/resources")
+                     (fs/select (str (:root project) "/resources")
+                                {:exclude [".DS_Store" fs/directory?]}))
+    (archive/archive jar
+                     (str (:root project) "/src")
+                     (fs/select (str (:root project) "/src")
+                                {:include [".clj$"]}))
+    (archive/archive jar
+                     (str (:root project) "/target/classes")
+                     (fs/select (str (:root project) "/target/classes")
+                                {:exclude [".DS_Store" fs/directory?]}))
+    (archive/insert jar
+                    "project.clj"
+                    (str (:root project) "/project.clj"))
+    (.close jar)
+    jar-path))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/package/jar_test.clj#L12-L14" target="_blank">link</a></i></h6><code class="clojure">(generate-jar (project/project))</code></pre></div><div class="entry"><span id="entry__lucid_package__generate_pom"></span><div class="entry-description"><h4><b>generate-pom&nbsp<a data-scroll="" href="#entry__lucid_package__">^</a></b></h4><p><i>generates all the pom information for the project</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/package/pom.clj#L86-L103" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_package__generate_pom" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_package__generate_pom"></label><pre class="source"><code class="clojure">(defn generate-pom
+  [project]
+  (let [root (:root project)
+        output (str "target/classes/META-INF/maven/"
+                    (:group project)
+                    "/"
+                    (:artifact project))
+        pom-path (str root "/target/" (:artifact project) "-" (:version project) ".pom.xml")
+        xml    (pom-xml project)]
+    (fs/create-directory (fs/path root output))
+    (spit (str (fs/path root output "pom.xml")) xml)
+    (spit (str (fs/path root output "pom.properties")) (pom-properties project))
+    (spit pom-path xml)
+    pom-path))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/package/pom_test.clj#L27-L29" target="_blank">link</a></i></h6><code class="clojure">(pom-xml (project/project))</code></pre></div></div></div></div>
         </div>
       </div>
     </div>

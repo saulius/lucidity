@@ -61,7 +61,7 @@
           <div class="heading">
             <div>
               <h5>Author: Chris Zheng&nbsp;&nbsp;<a href="mailto:z@caudate.me">(z@caudate.me)</a></h5>
-              <h5>Date: 14 November 2016</h5>
+              <h5>Date: 16 November 2016</h5>
               <h5>Repository: <a href="https://www.github.com/zcaudate/lucidity">https://www.github.com/zcaudate/lucidity</a></h5>
               <h5>Version: 1.2.8</h5></div></div>
           <hr/>
@@ -101,14 +101,13 @@
                      :type "default",
                      :url "http://central.maven.org/maven2/"}],
      :system org.eclipse.aether.RepositorySystem
-     :session org.eclipse.aether.RepositorySystemSession})</code></pre></div><div class="entry"><span id="entry__lucid_aether__deploy_artifact"></span><div class="entry-description"><h4><b>deploy-artifact&nbsp<a data-scroll="" href="#entry__lucid_aether__">^</a></b></h4><p><i>deploys artifacts to the given coordinate</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/aether.clj#L137-L161" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_aether__deploy_artifact" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_aether__deploy_artifact"></label><pre class="source"><code class="clojure">(defn deploy-artifact
+     :session org.eclipse.aether.RepositorySystemSession})</code></pre></div><div class="entry"><span id="entry__lucid_aether__deploy_artifact"></span><div class="entry-description"><h4><b>deploy-artifact&nbsp<a data-scroll="" href="#entry__lucid_aether__">^</a></b></h4><p><i>deploys artifacts to the given coordinate</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/aether.clj#L137-L160" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_aether__deploy_artifact" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_aether__deploy_artifact"></label><pre class="source"><code class="clojure">(defn deploy-artifact
   ([coord {:keys [artifacts repository] :as opts}]
    (deploy-artifact (base/aether) coord opts))
   ([{:keys [system session]} coord {:keys [artifacts repository] :as opts}]
    (let [opts (populate-artifact coord opts)
          request (request/deploy-request opts)]
-     (-> (.deploy system session request)
-         (result/summary)))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/aether_test.clj#L89-L104" target="_blank">link</a></i></h6><code class="clojure">(deploy-artifact
+     (.deploy system session request))))</code></pre></div></div><pre><h6><i><a href="https://www.github.com/zcaudate/lucidity/blob/master/test/lucid/aether_test.clj#L89-L104" target="_blank">link</a></i></h6><code class="clojure">(deploy-artifact
  '[im.chit/hara.io.classpath "2.4.8"]
  {:artifacts [{:file "hara_io_classpath-2.4.8.jar"
                :extension "jar"}

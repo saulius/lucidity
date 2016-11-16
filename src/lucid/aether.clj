@@ -157,5 +157,4 @@
   ([{:keys [system session]} coord {:keys [artifacts repository] :as opts}]
    (let [opts (populate-artifact coord opts)
          request (request/deploy-request opts)]
-     (-> (.deploy system session request)
-         (result/summary)))))
+     (.deploy system session request))))

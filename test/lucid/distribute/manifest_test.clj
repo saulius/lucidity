@@ -16,22 +16,23 @@
 ^{:refer lucid.distribute.manifest/create-branch-entry :added "1.2"}
 (fact "creates the individual branch entry")
 
-^{:refer lucid.distribute.manifest/create :added "1.2"}
+^{:refer lucid.distribute.manifest/manifest :added "1.2"}
 (fact "creates a manifest for further processing"
   
   (-> (project/project "example/distribute.advance/project.clj")
-      (create)
+      (manifest)
       :root)
-  => '{:name blah,
-       :group blah,
-       :version "0.1.0-SNAPSHOT",
+  => '{:name blah
+       :artifact "blah"
+       :group "blah"
+       :version "0.1.0-SNAPSHOT"
        :dependencies [[org.clojure/clojure "1.6.0"]
-                      [im.chit/lucid.package "1.2.1"]
+                      [im.chit/vinyasa.maven "0.3.1"]
                       [blah/blah.common "0.1.0-SNAPSHOT"]
                       [blah/blah.core "0.1.0-SNAPSHOT"]
                       [blah/blah.util.array "0.1.0-SNAPSHOT"]
                       [blah/blah.util.data "0.1.0-SNAPSHOT"]
                       [blah/blah.web "0.1.0-SNAPSHOT"]
                       [blah/blah.jvm "0.1.0-SNAPSHOT"]
-                      [blah/blah.resources "0.1.0-SNAPSHOT"]],
+                      [blah/blah.resources "0.1.0-SNAPSHOT"]]
        :files []})

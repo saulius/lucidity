@@ -13,6 +13,11 @@
            lucid.distribute.split [clean split])
 
 (defn install
+  "installs all subpackages according to `:distribute` key
+ 
+   (install (project/project))
+   "
+  {:added "1.2"}
   ([] (install (project/project)))
   ([project]
    (install project (manifest/manifest project)))
@@ -32,6 +37,11 @@
          (package/install-project)))))
 
 (defn deploy
+  "installs all subpackages according to `:distribute` key
+ 
+   (deploy (project/project))
+   "
+  {:added "1.2"}
   ([] (deploy (project/project)))
   ([project]
    (deploy project (manifest/manifest project)))
@@ -39,26 +49,16 @@
    (let [packages (split/split project manifest)]
      (doseq [id packages]
        (println "\nDeploying" id)
-       (-> (common/interim-path project)
-           (str "/branches/" id "/project.clj")
-           (project/project)
-           (package/deploy-project)))
+       (try (-> (common/interim-path project)
+                (str "/branches/" id "/project.clj")
+                (project/project)
+                (package/deploy-project))
+            (catch Throwable t
+              (println t)
+              (println "FAILED for " id))))
      
      (println "\nDeploying Root")
      (-> (common/interim-path project)
          (str "/root/project.clj")
          (project/project)
          (package/deploy-project)))))
-
-
-(comment
-  ;;(manifest)
-  (def mani (manifest/manifest (project/project "../hara/project.clj")))
-  
-  (split/split (project/project "../hara/project.clj")
-               mani)
-  
-  (install (project/project "../hara/project.clj")
-           mani)
-  
-  )

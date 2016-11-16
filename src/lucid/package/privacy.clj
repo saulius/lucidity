@@ -101,8 +101,7 @@
                           (.getDataStream))]
     (slurp clear-stream)))
 
-(defn sign
-  [input output keyring-file sig]
+(defn generate-signature [input keyring-file sig]
   (let [rcoll      (load-secret-keyring keyring-file)
         sec-key    (get-secret-key rcoll sig)
         prv-key    (-> (JcePBESecretKeyDecryptorBuilder.)
@@ -117,6 +116,11 @@
                            (.init PGPSignature/BINARY_DOCUMENT prv-key)
                          (.update (fs/read-all-bytes input)))
                        (.generate))]
+    signature))
+
+(defn sign
+  [input output keyring-file sig]
+  (let [signature  (generate-signature input keyring-file sig)]
     (->> (concat ["-----BEGIN PGP SIGNATURE-----"
                   "Version: GnuPG v2"
                   ""]
@@ -128,3 +132,14 @@
                   "-----END PGP SIGNATURE-----"])
          (string/join "\n")
          (spit output))))
+
+(comment
+
+  (.& (generate-signature "project.clj"
+                          lucid.package.user/GNUPG-SECRET
+                          "98B9A74D"))
+  
+  
+  )
+
+

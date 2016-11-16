@@ -1,5 +1,7 @@
 (ns lucid.distribute.manifest.graph.external
   (:require [lucid.package :as maven]
+            [hara.io.classpath :as classpath]
+            [hara.io.classloader :as classloader]
             [clojure.set :as set]
             [clojure.string :as string]))
 
@@ -30,23 +32,14 @@
               (.replaceAll "-" "_"))]
     (str s "." (name type))))
 
-(defn resolve-with-ns
-  "finds the maven coordinate for a given namespace
-   
-   (resolve-with-ns '[:clj vinyasa.maven.file]
-                    (:dependencies *project*)
-                    *project*)
-   => '[im.chit/vinyasa.maven \"0.3.1\"]"
-  {:added "1.2"}
-  [x dependencies project]
-  (->> dependencies
-       (keep (fn [context]
-               (if (maven/resolve-with-dependencies
-                    (to-jar-entry x)
-                    context
-                    (select-keys project [:repositories]))
-                 context)))
-       first))
+(defn resolve-classpath
+  ([x]
+   (resolve-classpath x (vec (classpath/all-jars))))
+  ([x dependencies]
+   (first (classpath/resolve-entry
+           (to-jar-entry x)
+           dependencies
+           {:tag :coord}))))
 
 (defn find-external-imports
   "finds external imports for a given submodule
@@ -82,7 +75,11 @@
   (reduce-kv (fn [i k v]
                (assoc i k
                       (->> (find-external-imports filemap i-deps k)
-                           (map #(resolve-with-ns % (:dependencies project) project))
+                           (map #(resolve-classpath
+                                  %
+                                  (if (-> project :distribute :jars (= :dependencies))
+                                    (:dependencies project)
+                                    (vec (classpath/all-jars)))))
                            (filter (comp not is-clojure?))
                            (set)
                            (#(disj % nil)))))
