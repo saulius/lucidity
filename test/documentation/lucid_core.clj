@@ -1,10 +1,5 @@
 (ns documentation.lucid-core
-  (:use hara.test)
-  (:require [lucid.core
-             [asm :refer :all]
-             [debug :refer :all]
-             [inject :refer :all :as inject]
-             [namespace :refer :all]]))
+  (:use hara.test))
 
 "`lucid.core` provides utilities that either support the rest of the `lucidity` suite or are useful standalone tools by themselves. Each one is installed individually and usually only provides one or two top level function for use:" 
 
