@@ -1,7 +1,6 @@
 (ns documentation.lucid-core
   (:use hara.test)
   (:require [lucid.core
-             [aether :refer :all]
              [asm :refer :all]
              [debug :refer :all]
              [inject :refer :all :as inject]
