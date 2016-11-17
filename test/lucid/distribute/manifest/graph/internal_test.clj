@@ -9,7 +9,8 @@
 
 (def ^:dynamic *config*
   (-> (project/project "example/distribute.advance/project.clj")
-      :distribute))
+      :distribute
+      :files))
 
 (def ^:dynamic *files*
   (->> *config*

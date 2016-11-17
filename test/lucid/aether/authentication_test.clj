@@ -33,7 +33,7 @@
   => {:username "chris" :password "hope"})
 
 ^{:refer lucid.aether.authentication/chained-authentication :added "1.2"}
-(fact "creates a `ChainedAuthentication` from a map"
+(comment "creates a `ChainedAuthentication` from a map"
 
   (object/from-data {:username "chris" :password "hope"}
                     ChainedAuthentication)
@@ -41,7 +41,7 @@
   )
 
 ^{:refer lucid.aether.authentication/authentication-builder :added "1.2"}
-(fact "creates a `ChainedAuthentication` from a map"
+(comment "creates a `ChainedAuthentication` from a map"
 
   (object/from-data {:username "chris" :password "hope"}
                     AuthenticationBuilder)

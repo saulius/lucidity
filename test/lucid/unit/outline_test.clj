@@ -47,7 +47,7 @@
 ^{:refer lucid.unit.outline/fact-form :added "1.2"}
 (fact "outputs a fact form"
   
-  (fact-form "some_test.clj" ^{:line 2} '(+ 1 2) 3 )
+  (fact-form "some_test.clj" ^{:line 2} '(+ 1 2)  '=> 3)
   => (contains
       ['fact string? '(+ 1 2) '=> '3]))
 

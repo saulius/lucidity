@@ -10,7 +10,8 @@
   (-> (io/file "example")
       (child-dirs)
       sort)
-  => ["distribute.advance"
+  => ["code.analysis"
+      "distribute.advance"
       "distribute.simple"])
 
 ^{:refer lucid.distribute.manifest.source/split-path :added "1.2"}

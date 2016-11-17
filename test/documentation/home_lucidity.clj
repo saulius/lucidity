@@ -1,4 +1,4 @@
-(ns documenation.home-lucidity)
+(ns documentation.home-lucidity)
 
 [[:image {:src "img/logo.png" :style "float: right" :width 100}]]
 

@@ -9,9 +9,9 @@
   => (contains
       {:repositories [{:id "clojars",
                        :type "default",
-                       :url "http://clojars.org/repo"}
+                       :url "https://clojars.org/repo"}
                       {:id "central",
                        :type "default",
-                       :url "http://central.maven.org/maven2/"}],
+                       :url "https://central.maven.org/maven2/"}],
        :system org.eclipse.aether.RepositorySystem
        :session org.eclipse.aether.RepositorySystemSession}))

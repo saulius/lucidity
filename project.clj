@@ -103,6 +103,6 @@
                         :path "resources"
                         :distribute {"publish" #{"theme"}}}]} 
   
-  :java-source-paths ["example/java"]
+  :java-source-paths ["java"]
   
   :jar-exclusions [#"^test\..+\.class"])
