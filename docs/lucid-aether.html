@@ -99,7 +99,7 @@
                      :url "http://clojars.org/repo"}
                     {:id "central",
                      :type "default",
-                     :url "http://central.maven.org/maven2/"}],
+                     :url "http://repo1.maven.org/maven2/"}],
      :system org.eclipse.aether.RepositorySystem
      :session org.eclipse.aether.RepositorySystemSession})</code></pre></div><div class="entry"><span id="entry__lucid_aether__deploy_artifact"></span><div class="entry-description"><h4><b>deploy-artifact&nbsp<a data-scroll="" href="#entry__lucid_aether__">^</a></b></h4><p><i>deploys artifacts to the given coordinate</i></p></div><div class="entry-option"><h6><a href="https://www.github.com/zcaudate/lucidity/blob/master/src/lucid/aether.clj#L137-L160" target="_blank">v&nbsp;1.2</a></h6><div><input class="source-toggle" id="entry__pre_lucid_aether__deploy_artifact" type="checkbox" /><label class="source-toggle" for="entry__pre_lucid_aether__deploy_artifact"></label><pre class="source"><code class="clojure">(defn deploy-artifact
   ([coord {:keys [artifacts repository] :as opts}]
